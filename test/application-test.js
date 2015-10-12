@@ -34,6 +34,6 @@ describe('application loading', function () {
       assert.equal(dimensions.y, 35)
       assert.equal(dimensions.width, 200)
       assert.equal(dimensions.height, 100)
-    }).then(done, done)
+    }).waitUntilContainsText('html', 'Hello').then(done, done)
   })
 })
