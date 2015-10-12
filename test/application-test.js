@@ -14,10 +14,7 @@ describe('application loading', function () {
 
   beforeEach(function (done) {
     app = new Application({
-      path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
-      args: [
-        path.join(__dirname, 'fixtures', 'app')
-      ]
+      path: path.join(__dirname, 'fixtures', 'app', 'app.js')
     })
     app.start(done)
   })
@@ -32,6 +29,11 @@ describe('application loading', function () {
   it('launches the application', function (done) {
     app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
+    }).getWindowDimensions().then(function (dimensions) {
+      assert.equal(dimensions.x, 25)
+      assert.equal(dimensions.y, 35)
+      assert.equal(dimensions.width, 200)
+      assert.equal(dimensions.height, 100)
     }).then(done, done)
   })
 })
