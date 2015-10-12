@@ -1,0 +1,25 @@
+{
+  "name": "spectron",
+  "version": "0.0.0",
+  "description": "Easy ChromeDriver tests for Electron apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinsawicki/spectron.git"
+  },
+  "keywords": [
+    "electron",
+    "chromedriver",
+    "webdriverio",
+    "selenium"
+  ],
+  "author": "Kevin Sawicki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinsawicki/spectron/issues"
+  },
+  "homepage": "https://github.com/kevinsawicki/spectron#readme"
+}
