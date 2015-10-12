@@ -3,12 +3,12 @@ var BrowserWindow = require('browser-window')
 
 var mainWindow = null
 
-app.on('ready', function() {
+app.on('ready', function () {
   mainWindow = new BrowserWindow({width: 800, height: 600})
   mainWindow.loadUrl('file://' + __dirname + '/index.html')
-  mainWindow.on('closed', function() { mainWindow = null })
+  mainWindow.on('closed', function () { mainWindow = null })
 })
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
   app.quit()
 })

@@ -2,6 +2,11 @@ var Application = require('../index').Application
 var assert = require('assert')
 var path = require('path')
 
+var describe = global.describe
+var it = global.it
+var beforeEach = global.beforeEach
+var afterEach = global.afterEach
+
 describe('application loading', function () {
   this.timeout(10000)
 
