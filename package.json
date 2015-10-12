@@ -27,6 +27,7 @@
     "webdriverio": "^3.2.5"
   },
   "devDependencies": {
+    "electron-prebuilt": "^0.33.7",
     "mocha": "^2.3.3"
   }
 }
