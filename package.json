@@ -25,5 +25,8 @@
   "dependencies": {
     "electron-chromedriver": "^0.33.4",
     "webdriverio": "^3.2.5"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
   }
 }
