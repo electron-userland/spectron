@@ -81,9 +81,9 @@ describe('window commands', function () {
     it('returns true when the window is maximized, false otherwise', function (done) {
       app.client.isWindowMaximized().then(function (maximized) {
         assert.equal(maximized, false)
-      }).maximizeWindow().isWindowMaximized().then(function (maximized) {
-        assert.equal(maximized, true)
-      }).then(done, done)
+      }).maximizeWindow().waitUntil(function () {
+        return this.isWindowMaximized()
+      }, 5000).then(function () { }).then(done, done)
     })
   })
 
@@ -91,9 +91,9 @@ describe('window commands', function () {
     it('returns true when the window is minimized, false otherwise', function (done) {
       app.client.isWindowMinimized().then(function (minimized) {
         assert.equal(minimized, false)
-      }).minimizeWindow().isWindowMinimized().then(function (minimized) {
-        assert.equal(minimized, true)
-      }).then(done, done)
+      }).minimizeWindow().waitUntil(function () {
+        return this.isWindowMinimized()
+      }, 5000).then(function () { }).then(done, done)
     })
   })
 })
