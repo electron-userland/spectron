@@ -39,9 +39,9 @@ describe('window commands', function () {
     })
   })
 
-  describe('isFocused()', function () {
+  describe('isWindowFocused()', function () {
     it('returns true when the current window is focused', function (done) {
-      app.client.isFocused().then(function (focused) {
+      app.client.isWindowFocused().then(function (focused) {
         assert.equal(focused, true)
       }).then(done, done)
     })
@@ -55,17 +55,17 @@ describe('window commands', function () {
     })
   })
 
-  describe('isDevToolsOpened()', function () {
+  describe('isWindowDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function (done) {
-      app.client.isDevToolsOpened().then(function (devToolsOpened) {
+      app.client.isWindowDevToolsOpened().then(function (devToolsOpened) {
         assert.equal(devToolsOpened, false)
       }).then(done, done)
     })
   })
 
-  describe('isFullScreen()', function () {
+  describe('isWindowFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function (done) {
-      app.client.isFullScreen().then(function (fullScreen) {
+      app.client.isWindowFullScreen().then(function (fullScreen) {
         assert.equal(fullScreen, false)
       }).then(done, done)
     })
@@ -73,7 +73,7 @@ describe('window commands', function () {
 
   describe('waitUntilWindowLoaded()', function () {
     it('waits until the current window is loaded', function (done) {
-      app.client.waitUntilLoaded().isWindowLoading().then(function (loading) {
+      app.client.waitUntilWindowLoaded().isWindowLoading().then(function (loading) {
         assert.equal(loading, false)
       }).then(done, done)
     })
