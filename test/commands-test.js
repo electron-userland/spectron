@@ -38,4 +38,12 @@ describe('window commands', function () {
       }).then(done, done)
     })
   })
+
+  describe('isFocused()', function () {
+    it('returns true when the current window is focused', function (done) {
+      app.client.isFocused().then(function (focused) {
+        assert.equal(focused, true)
+      }).then(done, done)
+    })
+  })
 })
