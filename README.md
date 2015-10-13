@@ -63,14 +63,16 @@ Create a new application with the following options:
 * `quitTimeout` - Number in milliseconds to wait for application quitting.
   Defaults to `1000` milliseconds.
 
-#### start(callback)
+#### start()
 
-Starts the application. The callback is invoked when the application is ready.
+Starts the application. Returns a `Promise` that will be resolved when the
+application is ready to use. You should always wait for start to complete
+before running any commands.
 
 #### stop(callback)
 
-Stops the application. The callback is invoked when the application has
-terminated.
+Stops the application. Returns a `Promise` that will be resolved once the
+application has stopped.
 
 ### Client Commands
 
