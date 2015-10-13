@@ -54,4 +54,12 @@ describe('window commands', function () {
       }).then(done, done)
     })
   })
+
+  describe('isFullScreen()', function () {
+    it('returns false when the window is not in full screen mode', function (done) {
+      app.client.isFullScreen().then(function (fullScreen) {
+        assert.equal(fullScreen, false)
+      }).then(done, done)
+    })
+  })
 })
