@@ -6,6 +6,9 @@
   "scripts": {
     "test": "standard && mocha"
   },
+  "engines" : {
+    "node" : ">=0.12.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kevinsawicki/spectron.git"
