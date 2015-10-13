@@ -73,7 +73,7 @@ application has stopped.
 
 ### Client Commands
 
-spectron uses [webdriverio](http://webdriver.io) and exposes the managed
+Spectron uses [webdriverio](http://webdriver.io) and exposes the managed
 `client` property on the created `Application` instances.
 
 The full `client` API provided by `webdriverio` can be found [here](http://webdriver.io/api.html).
