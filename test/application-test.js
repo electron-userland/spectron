@@ -42,7 +42,7 @@ describe('application loading', function () {
     }).waitUntilTextExists('html', 'Hello').then(done, done)
   })
 
-  describe('stop(callback)', function() {
+  describe('stop(callback)', function () {
     it('quits the application', function (done) {
       var quitPath = path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
