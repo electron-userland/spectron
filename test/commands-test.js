@@ -82,7 +82,7 @@ describe('window commands', function () {
       app.client.isWindowMaximized().then(function (maximized) {
         assert.equal(maximized, false)
       }).maximizeWindow().waitUntil(function () {
-        //FIXME window maximized state is never true on CI
+        // FIXME window maximized state is never true on CI
         if (process.env.CI) return Promise.resolve(true)
 
         return this.isWindowMaximized()
@@ -95,7 +95,7 @@ describe('window commands', function () {
       app.client.isWindowMinimized().then(function (minimized) {
         assert.equal(minimized, false)
       }).minimizeWindow().waitUntil(function () {
-        //FIXME window minimized state is never true on CI
+        // FIXME window minimized state is never true on CI
         if (process.env.CI) return Promise.resolve(true)
 
         return this.isWindowMinimized()
