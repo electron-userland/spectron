@@ -67,7 +67,7 @@ Starts the application. Returns a `Promise` that will be resolved when the
 application is ready to use. You should always wait for start to complete
 before running any commands.
 
-#### stop(callback)
+#### stop()
 
 Stops the application. Returns a `Promise` that will be resolved once the
 application has stopped.
