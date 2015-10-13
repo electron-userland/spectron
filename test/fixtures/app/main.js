@@ -1,5 +1,7 @@
 var app = require('app')
 var BrowserWindow = require('browser-window')
+var fs = require('fs')
+var path = require('path')
 
 var mainWindow = null
 
@@ -16,4 +18,8 @@ app.on('ready', function () {
 
 app.on('window-all-closed', function () {
   app.quit()
+})
+
+app.on('will-quit', function () {
+  fs.writeFileSync(path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt'), '')
 })

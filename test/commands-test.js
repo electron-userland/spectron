@@ -16,12 +16,14 @@ describe('window commands', function () {
     app = new Application({
       path: path.join(__dirname, 'fixtures', 'app', 'app.js')
     })
-    app.start(done)
+    app.start().then(done, done)
   })
 
   afterEach(function (done) {
     if (app) {
-      app.stop(done)
+      app.stop().then(done, done)
+    } else {
+      done()
     }
     app = null
   })

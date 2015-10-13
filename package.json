@@ -24,6 +24,7 @@
   "homepage": "https://github.com/kevinsawicki/spectron#readme",
   "dependencies": {
     "electron-chromedriver": "^0.33.4",
+    "temp": "^0.8.3",
     "webdriverio": "^3.2.5"
   },
   "devDependencies": {
