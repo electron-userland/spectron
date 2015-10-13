@@ -29,13 +29,11 @@ describe('application loading', function () {
     app = new Application({
       path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
     })
-    app.start(done)
+    app.start().then(done, done)
   })
 
   afterEach(function (done) {
-    if (app) {
-      app.stop(done)
-    }
+    app.stop().then(done, done)
     app = null
   })
 
