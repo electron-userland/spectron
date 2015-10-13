@@ -18,7 +18,6 @@ Spectron works with any testing framework but the following example uses
 ```js
 var Application = require('spectron').Application
 var assert = require('assert')
-var path = require('path')
 
 describe('application loading', function () {
   this.timeout(10000)
