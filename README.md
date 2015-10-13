@@ -46,3 +46,34 @@ describe('application loading', function () {
   })
 })
 ```
+
+### Commands
+
+spectron uses [webdriverio](http://webdriver.io) and exposes the managed
+`client` property on the create `Application` instances.
+
+The full client API provided by webdriverio can be found [here](http://webdriver.io/api.html)
+
+Several additional commands are provided specific to Electron.
+
+#### getWindowDimensions()
+
+Gets the window dimensions of the current window. Object returned has
+`x`, `y`, `width`, and `height` properties.
+
+```js
+app.client.getWindowDimensions().then(function (dimensions) {
+  assert.equal(dimensions.x, 25)
+  assert.equal(dimensions.y, 35)
+  assert.equal(dimensions.width, 200)
+  assert.equal(dimensions.height, 100)
+}).then(done, done)
+```
+
+#### setWindowDimensions(x, y, width, height)
+
+Sets the window position and size.
+
+```js
+app.client.setWindowDimensions(100, 200, 50, 75).then(done, done)
+```
