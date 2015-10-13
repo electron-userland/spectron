@@ -70,4 +70,12 @@ describe('window commands', function () {
       }).then(done, done)
     })
   })
+
+  describe('waitUntilWindowLoaded()', function () {
+    it('waits until the current window is loaded', function (done) {
+      app.client.waitUntilLoaded().isWindowLoading().then(function (loading) {
+        assert.equal(loading, false)
+      }).then(done, done)
+    })
+  })
 })
