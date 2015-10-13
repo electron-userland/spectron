@@ -46,4 +46,12 @@ describe('window commands', function () {
       }).then(done, done)
     })
   })
+
+  describe('isDevToolsOpened()', function () {
+    it('returns false when the dev tools are closed', function (done) {
+      app.client.isDevToolsOpened().then(function (devToolsOpened) {
+        assert.equal(devToolsOpened, false)
+      }).then(done, done)
+    })
+  })
 })
