@@ -83,7 +83,7 @@ describe('window commands', function () {
     it('returns true when the window is maximized, false otherwise', function (done) {
       app.client.isWindowMaximized().then(function (maximized) {
         assert.equal(maximized, false)
-      }).maximizWindow().isWindowMaximized().then(function (maximized) {
+      }).maximizeWindow().isWindowMaximized().then(function (maximized) {
         assert.equal(maximized, true)
       }).then(done, done)
     })
