@@ -47,10 +47,35 @@ describe('application loading', function () {
 })
 ```
 
-### Commands
+### Application
+
+#### new Application(options)
+
+Create a new application with the following options:
+
+* `path` - String path to the application executable to launch. **Required**
+* `args` - Chrome arguments to pass to the executable.
+  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for more details.
+* `host` - String host name of the launched `chromedriver` process.
+  Defaults to `'localhost'`.
+* `port` - Number port of the launched `chromedriver` process.
+  Defaults to `9515`.
+* `quitTimeout` - Number in milliseconds to wait for application quitting.
+  Defaults to `1000` milliseconds.
+
+#### start(callback)
+
+Starts the application. The callback is invoked when the application is ready.
+
+#### stop(callback)
+
+Stops the application. The callback is invoked when the application has
+terminated.
+
+### Client Commands
 
 spectron uses [webdriverio](http://webdriver.io) and exposes the managed
-`client` property on the create `Application` instances.
+`client` property on the created `Application` instances.
 
 The full client API provided by webdriverio can be found [here](http://webdriver.io/api.html)
 
