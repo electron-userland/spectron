@@ -1,13 +1,13 @@
 {
   "name": "spectron",
-  "version": "0.33.0",
+  "version": "0.33.1",
   "description": "Easy ChromeDriver tests for Electron apps",
   "main": "index.js",
   "scripts": {
     "test": "standard && mocha"
   },
-  "engines" : {
-    "node" : ">=0.12.4"
+  "engines": {
+    "node": ">=0.12.4"
   },
   "repository": {
     "type": "git",
