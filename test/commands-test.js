@@ -78,4 +78,20 @@ describe('window commands', function () {
       }).then(done, done)
     })
   })
+
+  describe('isWindowMaximized()', function () {
+    it('returns false when the window is not maximized', function (done) {
+      app.client.isWindowMaximized().then(function (maximized) {
+        assert.equal(maximized, false)
+      }).then(done, done)
+    })
+  })
+
+  describe('isWindowMinimized()', function () {
+    it('returns false when the window is not minimized', function (done) {
+      app.client.isWindowMinimized().then(function (minimized) {
+        assert.equal(minimized, false)
+      }).then(done, done)
+    })
+  })
 })
