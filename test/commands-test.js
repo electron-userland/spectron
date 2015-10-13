@@ -47,6 +47,14 @@ describe('window commands', function () {
     })
   })
 
+  describe('isWindowVisible()', function () {
+    it('returns true when the current window is visible', function (done) {
+      app.client.isWindowVisible().then(function (visible) {
+        assert.equal(visible, true)
+      }).then(done, done)
+    })
+  })
+
   describe('isDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function (done) {
       app.client.isDevToolsOpened().then(function (devToolsOpened) {
