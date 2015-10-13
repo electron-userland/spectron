@@ -20,11 +20,7 @@ describe('window commands', function () {
   })
 
   after(function (done) {
-    if (app) {
-      app.stop().then(done, done)
-    } else {
-      done()
-    }
+    app.stop().then(done, done)
     app = null
   })
 
