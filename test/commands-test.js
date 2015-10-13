@@ -48,8 +48,10 @@ describe('window commands', function () {
   })
 
   describe('isWindowVisible()', function () {
-    it('returns true when the current window is visible', function (done) {
-      app.client.isWindowVisible().then(function (visible) {
+    it('returns true when the window is visible, false otherwise', function (done) {
+      app.client.hideWindow().isWindowVisible().then(function (visible) {
+        assert.equal(visible, false)
+      }).showWindow().isWindowVisible().then(function (visible) {
         assert.equal(visible, true)
       }).then(done, done)
     })
