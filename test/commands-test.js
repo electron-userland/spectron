@@ -4,22 +4,22 @@ var path = require('path')
 
 var describe = global.describe
 var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+var before = global.before
+var after = global.after
 
 describe('window commands', function () {
   this.timeout(10000)
 
   var app = null
 
-  beforeEach(function (done) {
+  before(function (done) {
     app = new Application({
       path: path.join(__dirname, 'fixtures', 'app', 'app.js')
     })
     app.start().then(done, done)
   })
 
-  afterEach(function (done) {
+  after(function (done) {
     if (app) {
       app.stop().then(done, done)
     } else {
