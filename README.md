@@ -51,7 +51,7 @@ describe('application loading', function () {
 Create a new application with the following options:
 
 * `path` - String path to the application executable to launch. **Required**
-* `args` - Chrome arguments to pass to the executable.
+* `args` - Array of Chrome arguments to pass to the executable.
   See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for more details.
 * `host` - String host name of the launched `chromedriver` process.
   Defaults to `'localhost'`.
