@@ -16,12 +16,8 @@ app.on('ready', function () {
   mainWindow.on('closed', function () { mainWindow = null })
 })
 
-app.on('window-all-closed', function () {
-  app.quit()
-})
-
 app.on('will-quit', function () {
-  if (process.env.SPECTRON_TEMP_DIR) {
+  if (fs.existsSync(process.env.SPECTRON_TEMP_DIR)) {
     fs.writeFileSync(path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt'), '')
   }
 })
