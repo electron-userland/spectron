@@ -19,7 +19,9 @@ describe('application loading', function () {
     app = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: [
-        path.join(__dirname, 'fixtures', 'app')
+        path.join(__dirname, 'fixtures', 'app'),
+        '--foo',
+        '--bar=baz'
       ]
     })
     app.start().then(done)
@@ -43,6 +45,16 @@ describe('application loading', function () {
       assert.equal(dimensions.width, 200)
       assert.equal(dimensions.height, 100)
     }).waitUntilTextExists('html', 'Hello').then(done, done)
+  })
+
+  it('passes through args to the launched app', function (done) {
+    var getArgv = function () {
+      return require('remote').getGlobal('process').argv
+    }
+    app.client.execute(getArgv).then(function (response) {
+      assert.notEqual(response.value.indexOf('--foo'), -1)
+      assert.notEqual(response.value.indexOf('--bar=baz'), -1)
+    }).then(done, done)
   })
 
   describe('stop(callback)', function () {
