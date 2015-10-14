@@ -14,7 +14,10 @@ describe('window commands', function () {
 
   before(function (done) {
     app = new Application({
-      path: path.join(__dirname, 'fixtures', 'app', 'app.js')
+      path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      args: [
+        path.join(__dirname, 'fixtures', 'app')
+      ]
     })
     app.start().then(done, done)
   })

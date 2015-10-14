@@ -17,7 +17,10 @@ describe('application loading', function () {
   beforeEach(function (done) {
     process.env.SPECTRON_TEMP_DIR = temp.mkdirSync('spectron-temp-dir-')
     app = new Application({
-      path: path.join(__dirname, 'fixtures', 'app', 'app.js')
+      path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      args: [
+        path.join(__dirname, 'fixtures', 'app')
+      ]
     })
     app.start().then(done)
   })
