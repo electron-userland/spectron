@@ -1,10 +1,8 @@
 var Application = require('../index').Application
-var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
 var path = require('path')
 
 var describe = global.describe
-var expect = chai.expect
 var it = global.it
 var before = global.before
 var after = global.after

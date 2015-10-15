@@ -1,5 +1,6 @@
 var Application = require('../index').Application
 var assert = require('assert')
+var chaiAsPromised = require('chai-as-promised')
 var fs = require('fs')
 var path = require('path')
 var temp = require('temp').track()
@@ -27,6 +28,10 @@ describe('application loading', function () {
     return app.start()
   })
 
+  beforeEach(function () {
+    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+  })
+
   afterEach(function () {
     if (app) return app.stop()
   })
@@ -34,11 +39,11 @@ describe('application loading', function () {
   it('launches the application', function () {
     return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
-    }).getWindowDimensions().then(function (dimensions) {
-      assert.equal(dimensions.x, 25)
-      assert.equal(dimensions.y, 35)
-      assert.equal(dimensions.width, 200)
-      assert.equal(dimensions.height, 100)
+    }).getWindowDimensions().should.eventually.deep.equal({
+      x: 25,
+      y: 35,
+      width: 200,
+      height: 100
     }).waitUntilTextExists('html', 'Hello')
   })
 
