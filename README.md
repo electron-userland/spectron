@@ -24,22 +24,21 @@ describe('application loading', function () {
 
   var app = null
 
-  beforeEach(function (done) {
+  beforeEach(function () {
     app = new Application({
       path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
     })
-    app.start().then(done, done)
+    return app.start()
   })
 
-  afterEach(function (done) {
-    app.stop().then(done, done)
-    app = null
+  afterEach(function () {
+    return app.stop()
   })
 
-  it('launches the application and shows an initial window', function (done) {
-    app.client.windowHandles().then(function (response) {
+  it('launches the application and shows an initial window', function () {
+    return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
-    }).then(done, done)
+    })
   })
 })
 ```
