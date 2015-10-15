@@ -3,8 +3,9 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/kevinsawicki/spectron.svg?branch=master)](https://travis-ci.org/kevinsawicki/spectron)
 
-Easily test your [Electron](http://electron.atom.io) apps using [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
-and [webdriverio](http://webdriver.io).
+Easily test your [Electron](http://electron.atom.io) apps using
+[ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver) and
+[WebdriverIO](http://webdriver.io).
 
 ## Using
 
@@ -120,25 +121,123 @@ application has stopped.
 
 ### Client Commands
 
-Spectron uses [webdriverio](http://webdriver.io) and exposes the managed
+Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
 `client` property on the created `Application` instances.
 
-The full `client` API provided by `webdriverio` can be found [here](http://webdriver.io/api.html).
+The full `client` API provided by WebdriverIO can be found
+[here](http://webdriver.io/api.html).
 
 Several additional commands are provided specific to Electron.
 
+#### getWindowCount()
+
+Gets the number of open windows.
+
+```js
+app.client.getWindowCount().then(function (count) {
+  console.log(count)
+})
+```
+
 #### getWindowDimensions()
 
-Gets the window dimensions of the current window. Object returned has
+Gets the dimensions of the current window. Object returned has
 `x`, `y`, `width`, and `height` properties.
 
 ```js
 app.client.getWindowDimensions().then(function (dimensions) {
-  assert.equal(dimensions.x, 25)
-  assert.equal(dimensions.y, 35)
-  assert.equal(dimensions.width, 200)
-  assert.equal(dimensions.height, 100)
-}).then(done, done)
+  console.log(dimensions.x, dimensions.y, dimensions.width, dimensions.height)
+})
+```
+
+#### getWindowHeight()
+
+Get the height of the current window.
+
+```js
+app.client.getWindowHeight().then(function (height) {
+  console.log(height)
+})
+```
+
+#### getWindowWidth()
+
+Get the width of the current window.
+
+```js
+app.client.getWindowWidth().then(function (width) {
+  console.log(width)
+})
+```
+
+#### isWindowDevToolsOpened()
+
+Returns whether the current window's dev tools are opened.
+
+```js
+app.client.isWindowDevToolsOpened().then(function (devToolsOpened) {
+  console.log(devToolsOpened)
+})
+```
+
+#### isWindowFocused()
+
+Returns whether the current window has focus.
+
+```js
+app.client.isWindowFocused().then(function (focused) {
+  console.log(focused)
+})
+```
+
+#### isWindowFullScreen()
+
+Returns whether the current window is in full screen mode.
+
+```js
+app.client.isWindowFullScreen().then(function (fullScreen) {
+  console.log(fullScreen)
+})
+```
+
+#### isWindowLoading()
+
+Returns whether the current window is loading.
+
+```js
+app.client.isWindowLoading().then(function (loading) {
+  console.log(loading)
+})
+```
+
+#### isWindowMaximized()
+
+Returns whether the current window is maximized.
+
+```js
+app.client.isWindowMaximized().then(function (maximized) {
+  console.log(maximized)
+})
+```
+
+#### isWindowMinimized()
+
+Returns whether the current window is minimized.
+
+```js
+app.client.isWindowMinimized().then(function (minimized) {
+  console.log(minimized)
+})
+```
+
+#### isWindowVisible()
+
+Returns whether the current window is visible.
+
+```js
+app.client.isWindowVisible().then(function (visible) {
+  console.log(visible)
+})
 ```
 
 #### setWindowDimensions(x, y, width, height)
@@ -146,5 +245,14 @@ app.client.getWindowDimensions().then(function (dimensions) {
 Sets the window position and size.
 
 ```js
-app.client.setWindowDimensions(100, 200, 50, 75).then(done, done)
+app.client.setWindowDimensions(100, 200, 50, 75)
+```
+
+#### waitUntilWindowLoaded([timeout])
+
+Wait until the window is no longer loading. Takes an optional timeout
+in milliseconds that defaults to `5000`.
+
+```js
+app.client.waitUntilWindowLoaded(10000)
 ```
