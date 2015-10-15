@@ -254,6 +254,15 @@ Sets the window position and size.
 app.client.setWindowDimensions(100, 200, 50, 75)
 ```
 
+#### waitUntilTextExists(selector, text, [timeout])
+
+Waits until the element matching the given selector contains the given
+text. Takes an optional timeout in milliseconds that defaults to `5000`.
+
+```js
+app.client.waitUntilTextExists('#message', 'Success', 10000)
+```
+
 #### waitUntilWindowLoaded([timeout])
 
 Wait until the window is no longer loading. Takes an optional timeout
