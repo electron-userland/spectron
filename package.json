@@ -31,6 +31,8 @@
     "webdriverio": "^3.2.5"
   },
   "devDependencies": {
+    "chai": "^3.3.0",
+    "chai-as-promised": "^5.1.0",
     "electron-prebuilt": "^0.33.7",
     "mocha": "^2.3.3",
     "standard": "^5.3.1",

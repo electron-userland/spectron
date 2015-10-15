@@ -1,8 +1,10 @@
 var Application = require('../index').Application
-var assert = require('assert')
+var chai = require('chai')
+var chaiAsPromised = require('chai-as-promised')
 var path = require('path')
 
 var describe = global.describe
+var expect = chai.expect
 var it = global.it
 var before = global.before
 var after = global.after
@@ -22,86 +24,77 @@ describe('window commands', function () {
     return app.start()
   })
 
+  before(function () {
+    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+  })
+
   after(function () {
     return app.stop()
   })
 
   describe('setWindowDimensions', function () {
     it('sets the window dimensions', function () {
-      return app.client.setWindowDimensions(100, 200, 50, 75).getWindowDimensions().then(function (dimensions) {
-        assert.equal(dimensions.x, 100)
-        assert.equal(dimensions.y, 200)
-        assert.equal(dimensions.width, 50)
-        assert.equal(dimensions.height, 75)
+      return app.client.setWindowDimensions(100, 200, 50, 75).getWindowDimensions().should.eventually.deep.equal({
+        x: 100,
+        y: 200,
+        width: 50,
+        height: 75
       })
     })
   })
 
   describe('isWindowFocused()', function () {
     it('returns true when the current window is focused', function () {
-      return app.client.isWindowFocused().then(function (focused) {
-        assert.equal(focused, true)
-      })
+      return app.client.isWindowFocused().should.eventually.be.true
     })
   })
 
   describe('isWindowVisible()', function () {
     it('returns true when the window is visible, false otherwise', function () {
-      return app.client.hideWindow().isWindowVisible().then(function (visible) {
-        assert.equal(visible, false)
-      }).showWindow().isWindowVisible().then(function (visible) {
-        assert.equal(visible, true)
-      })
+      return app.client.hideWindow().isWindowVisible().should.eventually.be.false
+        .showWindow().isWindowVisible().should.eventually.be.true
     })
   })
 
   describe('isWindowDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function () {
-      return app.client.isWindowDevToolsOpened().then(function (devToolsOpened) {
-        assert.equal(devToolsOpened, false)
-      })
+      return app.client.isWindowDevToolsOpened().should.eventually.be.false
     })
   })
 
   describe('isWindowFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
-      return app.client.isWindowFullScreen().then(function (fullScreen) {
-        assert.equal(fullScreen, false)
-      })
+      return app.client.isWindowFullScreen().should.eventually.be.false
     })
   })
 
   describe('waitUntilWindowLoaded()', function () {
     it('waits until the current window is loaded', function () {
-      return app.client.waitUntilWindowLoaded().isWindowLoading().then(function (loading) {
-        assert.equal(loading, false)
-      })
+      return app.client.waitUntilWindowLoaded().isWindowLoading().should.eventually.be.false
     })
   })
 
   describe('isWindowMaximized()', function () {
     it('returns true when the window is maximized, false otherwise', function () {
-      return app.client.isWindowMaximized().then(function (maximized) {
-        assert.equal(maximized, false)
-      }).maximizeWindow().waitUntil(function () {
-        // FIXME window maximized state is never true on CI
-        if (process.env.CI) return Promise.resolve(true)
+      return app.client.isWindowMaximized().should.eventually.be.false
+        .maximizeWindow().waitUntil(function () {
+          // FIXME window maximized state is never true on CI
+          if (process.env.CI) return Promise.resolve(true)
 
-        return this.isWindowMaximized()
-      }, 5000).then(function () { })
+          return this.isWindowMaximized()
+        }, 5000).then(function () { })
     })
   })
 
   describe('isWindowMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', function () {
-      return app.client.isWindowMinimized().then(function (minimized) {
-        assert.equal(minimized, false)
-      }).minimizeWindow().waitUntil(function () {
-        // FIXME window minimized state is never true on CI
-        if (process.env.CI) return Promise.resolve(true)
+      return app.client.isWindowMinimized().should.eventually.be.false
+        .minimizeWindow().waitUntil(function () {
+          // FIXME window minimized state is never true on CI
+          if (process.env.CI) return Promise.resolve(true)
 
-        return this.isWindowMinimized()
-      }, 5000).then(function () { })
+          return this.isWindowMinimized()
+        }, 5000).then(function () { })
     })
   })
 })
