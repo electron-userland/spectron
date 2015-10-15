@@ -9,6 +9,8 @@ var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
 describe('application launch', function () {
+  this.timeout(10000)
+
   beforeEach(function () {
     this.app = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),

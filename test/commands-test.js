@@ -8,6 +8,8 @@ var before = global.before
 var after = global.after
 
 describe('window commands', function () {
+  this.timeout(10000)
+
   var app = null
 
   before(function () {
