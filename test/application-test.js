@@ -57,7 +57,7 @@ describe('application loading', function () {
     }).then(done, done)
   })
 
-  describe('stop(callback)', function () {
+  describe('stop()', function () {
     it('quits the application', function (done) {
       var quitPath = path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
