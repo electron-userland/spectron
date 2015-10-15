@@ -34,6 +34,29 @@ describe('window commands', function () {
     })
   })
 
+  describe('getWindowDimensions', function () {
+    it('gets the window dimensions', function () {
+      return app.client.getWindowDimensions().should.eventually.deep.equal({
+        x: 25,
+        y: 35,
+        width: 200,
+        height: 100
+      })
+    })
+  })
+
+  describe('getWindowWidth', function () {
+    it('gets the window width', function () {
+      return app.client.getWindowWidth().should.eventually.equal(200)
+    })
+  })
+
+  describe('getWindowHeight', function () {
+    it('gets the window height', function () {
+      return app.client.getWindowHeight().should.eventually.equal(100)
+    })
+  })
+
   describe('setWindowDimensions', function () {
     it('sets the window dimensions', function () {
       return app.client.setWindowDimensions(100, 200, 50, 75).getWindowDimensions().should.eventually.deep.equal({

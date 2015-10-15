@@ -13,32 +13,80 @@ npm --save-dev spectron
 ```
 
 Spectron works with any testing framework but the following example uses
-[mocha](https://mochajs.org).
+[mocha](https://mochajs.org):
 
 ```js
 var Application = require('spectron').Application
 var assert = require('assert')
 
-describe('application loading', function () {
+describe('application launch', function () {
   this.timeout(10000)
 
-  var app = null
-
   beforeEach(function () {
-    app = new Application({
+    this.app = new Application({
       path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
     })
-    return app.start()
+    return this.app.start()
   })
 
   afterEach(function () {
-    return app.stop()
+    return this.app.stop()
   })
 
-  it('launches the application and shows an initial window', function () {
-    return app.client.windowHandles().then(function (response) {
-      assert.equal(response.value.length, 1)
+  it('shows an initial window', function () {
+    return this.app.client.getWindowCount().then(function (count) {
+      assert.equal(count, 1)
     })
+  })
+})
+```
+
+### With Chai As Promised
+
+WebdriverIO is promise-based and so it pairs really well with the
+[Chai as Promised](https://github.com/domenic/chai-as-promised) library that
+builds on top of [Chai](http://chaijs.com).
+
+Using these together allows you to chain assertions together and have fewer
+callback blocks. See below for a simple example:
+
+```sh
+npm install --save-dev chai
+npm install --save-dev chai-as-promised
+```
+
+```js
+var Application = require('spectron').Application
+var chai = require('chai')
+var chaiAsPromised = require('chai-as-promised')
+var path = require('path')
+
+chai.should()
+chai.use(chaiAsPromised)
+
+describe('application launch', function () {
+  beforeEach(function () {
+    this.app = new Application({
+      path: path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+    })
+    return this.app.start()
+  })
+
+  beforeEach(function () {
+    chaiAsPromised.transferPromiseness = this.app.client.transferPromiseness
+  })
+
+  afterEach(function () {
+    return this.app.stop()
+  })
+
+  it('opens a window', function () {
+    return this.app.client.waitUntilWindowLoaded()
+      .getWindowCount().should.eventually.equal(1)
+      .isWindowVisible().should.eventually.be.true
+      .isWindowFocused().should.eventually.be.true
+      .getWindowWidth().should.eventually.be.above(0)
+      .getWindowHeight().should.eventually.be.above(0)
   })
 })
 ```
