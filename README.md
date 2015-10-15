@@ -107,6 +107,8 @@ Create a new application with the following options:
 * `path` - String path to the application executable to launch. **Required**
 * `args` - Array of Chrome arguments to pass to the executable.
   See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for more details.
+* `env` - Object of additional environment variables to set in the launched
+  application.
 * `host` - String host name of the launched `chromedriver` process.
   Defaults to `'localhost'`.
 * `port` - Number port of the launched `chromedriver` process.

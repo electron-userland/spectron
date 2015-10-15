@@ -23,7 +23,11 @@ describe('application loading', function () {
         path.join(__dirname, 'fixtures', 'app'),
         '--foo',
         '--bar=baz'
-      ]
+      ],
+      env: {
+        'FOO': 'BAR',
+        'HELLO': 'WORLD'
+      }
     })
     return app.start()
   })
@@ -54,6 +58,16 @@ describe('application loading', function () {
     return app.client.execute(getArgv).then(function (response) {
       assert.notEqual(response.value.indexOf('--foo'), -1)
       assert.notEqual(response.value.indexOf('--bar=baz'), -1)
+    })
+  })
+
+  it('passes through env to the launched app', function () {
+    var getEnv = function () {
+      return process.env
+    }
+    return app.client.execute(getEnv).then(function (response) {
+      assert.equal(response.value['FOO'], 'BAR')
+      assert.equal(response.value['HELLO'], 'WORLD')
     })
   })
 
