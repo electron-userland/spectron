@@ -12,6 +12,10 @@ Easily test your [Electron](http://electron.atom.io) apps using
 [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver) and
 [WebdriverIO](http://webdriver.io).
 
+This minor version of this library tracks the minor version of the Electron
+versions released. So if you are using Electron `0.33.x` you would want to use
+a `spectron` dependency of `^0.33` in your `package.json` file.
+
 ## Using
 
 ```sh
