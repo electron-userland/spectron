@@ -12,27 +12,22 @@ describe('multiple windows', function () {
 
   var app = null
 
-  beforeEach(function (done) {
+  beforeEach(function () {
     app = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: [
         path.join(__dirname, 'fixtures', 'multi-window')
       ]
     })
-    app.start().then(done)
+    return app.start()
   })
 
-  afterEach(function (done) {
-    if (app) {
-      app.stop().then(done)
-    } else {
-      done()
-    }
-    app = null
+  afterEach(function () {
+    return app.stop()
   })
 
-  it('launches the application', function (done) {
-    app.client.windowHandles().then(function (response) {
+  it('launches the application', function () {
+    return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 2)
 
       var bottomId = response.value[0]
@@ -53,6 +48,6 @@ describe('multiple windows', function () {
       }).getTitle().then(function (title) {
         assert.equal(title, 'Bottom')
       })
-    }).then(done, done)
+    })
   })
 })
