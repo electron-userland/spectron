@@ -1,5 +1,6 @@
 var Application = require('../index').Application
 var assert = require('assert')
+var chaiAsPromised = require('chai-as-promised')
 var path = require('path')
 
 var describe = global.describe
@@ -22,6 +23,10 @@ describe('multiple windows', function () {
     return app.start()
   })
 
+  beforeEach(function () {
+    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+  })
+
   afterEach(function () {
     return app.stop()
   })
@@ -33,21 +38,22 @@ describe('multiple windows', function () {
       var bottomId = response.value[0]
       var topId = response.value[1]
 
-      return this.window(topId).getWindowDimensions().then(function (dimensions) {
-        assert.equal(dimensions.x, 25)
-        assert.equal(dimensions.y, 35)
-        assert.equal(dimensions.width, 200)
-        assert.equal(dimensions.height, 100)
-      }).getTitle().then(function (title) {
-        assert.equal(title, 'Top')
-      }).window(bottomId).getWindowDimensions().then(function (dimensions) {
-        assert.equal(dimensions.x, 25)
-        assert.equal(dimensions.y, 135)
-        assert.equal(dimensions.width, 300)
-        assert.equal(dimensions.height, 50)
-      }).getTitle().then(function (title) {
-        assert.equal(title, 'Bottom')
-      })
+      return this.window(topId)
+        .getWindowDimensions().should.eventually.deep.equal({
+          x: 25,
+          y: 35,
+          width: 200,
+          height: 100
+        })
+        .getTitle().should.eventually.equal('Top')
+      .window(bottomId)
+        .getWindowDimensions().should.eventually.deep.equal({
+          x: 25,
+          y: 135,
+          width: 300,
+          height: 50
+        })
+        .getTitle().should.eventually.equal('Bottom')
     })
   })
 })
