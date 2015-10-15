@@ -9,8 +9,6 @@ var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
 describe('multiple windows', function () {
-  this.timeout(10000)
-
   var app = null
 
   beforeEach(function () {

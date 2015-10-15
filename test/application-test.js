@@ -11,8 +11,6 @@ var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
 describe('application loading', function () {
-  this.timeout(10000)
-
   var app = null
 
   beforeEach(function () {
