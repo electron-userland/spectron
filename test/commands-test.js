@@ -28,6 +28,12 @@ describe('window commands', function () {
     return app.stop()
   })
 
+  describe('getWindowCount', function () {
+    it('retrieves the window count', function () {
+      return app.client.getWindowCount().should.eventually.equal(1)
+    })
+  })
+
   describe('setWindowDimensions', function () {
     it('sets the window dimensions', function () {
       return app.client.setWindowDimensions(100, 200, 50, 75).getWindowDimensions().should.eventually.deep.equal({
