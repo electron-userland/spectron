@@ -14,7 +14,7 @@ describe('application loading', function () {
 
   var app = null
 
-  beforeEach(function (done) {
+  beforeEach(function () {
     process.env.SPECTRON_TEMP_DIR = temp.mkdirSync('spectron-temp-dir-')
     app = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
@@ -24,47 +24,42 @@ describe('application loading', function () {
         '--bar=baz'
       ]
     })
-    app.start().then(done)
+    return app.start()
   })
 
-  afterEach(function (done) {
-    if (app) {
-      app.stop().then(done)
-    } else {
-      done()
-    }
-    app = null
+  afterEach(function () {
+    if (app) return app.stop()
   })
 
-  it('launches the application', function (done) {
-    app.client.windowHandles().then(function (response) {
+  it('launches the application', function () {
+    return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
     }).getWindowDimensions().then(function (dimensions) {
       assert.equal(dimensions.x, 25)
       assert.equal(dimensions.y, 35)
       assert.equal(dimensions.width, 200)
       assert.equal(dimensions.height, 100)
-    }).waitUntilTextExists('html', 'Hello').then(done, done)
+    }).waitUntilTextExists('html', 'Hello')
   })
 
-  it('passes through args to the launched app', function (done) {
+  it('passes through args to the launched app', function () {
     var getArgv = function () {
       return require('remote').getGlobal('process').argv
     }
-    app.client.execute(getArgv).then(function (response) {
+    return app.client.execute(getArgv).then(function (response) {
       assert.notEqual(response.value.indexOf('--foo'), -1)
       assert.notEqual(response.value.indexOf('--bar=baz'), -1)
-    }).then(done, done)
+    })
   })
 
   describe('stop()', function () {
-    it('quits the application', function (done) {
+    it('quits the application', function () {
       var quitPath = path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
-      app.stop().then(function () {
+      return app.stop().then(function () {
         app = null
         assert.equal(fs.existsSync(quitPath), true)
-      }).then(done, done)
+      })
     })
   })
 })
