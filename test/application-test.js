@@ -25,8 +25,8 @@ describe('application loading', function () {
         '--bar=baz'
       ],
       env: {
-        'FOO': 'BAR',
-        'HELLO': 'WORLD'
+        FOO: 'BAR',
+        HELLO: 'WORLD'
       }
     })
     return app.start().then(function () {
