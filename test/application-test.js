@@ -87,7 +87,6 @@ describe('application loading', function () {
       var quitPath = path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
       return app.stop().then(function () {
-        app = null
         assert.equal(fs.existsSync(quitPath), true)
       })
     })
