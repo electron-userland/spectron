@@ -37,7 +37,7 @@ describe('application loading', function () {
   })
 
   afterEach(function () {
-    if (app) return app.stop()
+    if (app && app.isRunning()) return app.stop()
   })
 
   it('launches the application', function () {
@@ -78,6 +78,12 @@ describe('application loading', function () {
       return app.stop().then(function () {
         app = null
         assert.equal(fs.existsSync(quitPath), true)
+      })
+    })
+
+    it('rejects with an error if the application is not running', function () {
+      return app.stop().should.be.fulfilled.then(function () {
+        return app.stop().should.be.rejectedWith(Error)
       })
     })
   })
