@@ -29,7 +29,9 @@ describe('application loading', function () {
         'HELLO': 'WORLD'
       }
     })
-    return app.start()
+    return app.start().then(function () {
+      assert.equal(app.isRunning(), true)
+    })
   })
 
   beforeEach(function () {
@@ -37,7 +39,11 @@ describe('application loading', function () {
   })
 
   afterEach(function () {
-    if (app && app.isRunning()) return app.stop()
+    if (!app || !app.isRunning()) return
+
+    return app.stop().then(function () {
+      assert.equal(app.isRunning(), false)
+    })
   })
 
   it('launches the application', function () {
@@ -68,6 +74,17 @@ describe('application loading', function () {
     return app.client.execute(getEnv).then(function (response) {
       assert.equal(response.value['FOO'], 'BAR')
       assert.equal(response.value['HELLO'], 'WORLD')
+    })
+  })
+
+  describe('start()', function () {
+    beforeEach(function () {
+      return app.stop()
+    })
+
+    it('rejects with an error if the application does not exist', function () {
+      return new Application({path: path.join(__dirname, 'invalid')})
+        .start().should.be.rejectedWith(Error)
     })
   })
 
