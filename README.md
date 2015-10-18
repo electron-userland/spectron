@@ -102,6 +102,17 @@ describe('application launch', function () {
 })
 ```
 
+### On Travis CI
+
+You will want to add the following to your `.travis.yml` file:
+
+```yml
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+```
+
 ### Application
 
 #### new Application(options)
