@@ -1,4 +1,4 @@
-var Application = require('../index').Application
+var Application = require('..').Application
 var assert = require('assert')
 var chaiAsPromised = require('chai-as-promised')
 var path = require('path')
