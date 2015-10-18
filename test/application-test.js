@@ -7,7 +7,6 @@ var temp = require('temp').track()
 
 var describe = global.describe
 var it = global.it
-var before = global.before
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
@@ -77,8 +76,6 @@ describe('application loading', function () {
   })
 
   describe('start()', function () {
-    before(function () { return app.stop() })
-
     it('rejects with an error if the application does not exist', function () {
       return new Application({path: path.join(__dirname, 'invalid')})
         .start().should.be.rejectedWith(Error)
