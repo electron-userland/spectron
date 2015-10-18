@@ -7,6 +7,7 @@ var temp = require('temp').track()
 
 var describe = global.describe
 var it = global.it
+var before = global.before
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
