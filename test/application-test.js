@@ -68,19 +68,15 @@ describe('application loading', function () {
   })
 
   it('passes through env to the launched app', function () {
-    var getEnv = function () {
-      return process.env
-    }
+    var getEnv = function () { return process.env }
     return app.client.execute(getEnv).then(function (response) {
-      assert.equal(response.value['FOO'], 'BAR')
-      assert.equal(response.value['HELLO'], 'WORLD')
+      assert.equal(response.value.FOO, 'BAR')
+      assert.equal(response.value.HELLO, 'WORLD')
     })
   })
 
   describe('start()', function () {
-    beforeEach(function () {
-      return app.stop()
-    })
+    before(function () { return app.stop() })
 
     it('rejects with an error if the application does not exist', function () {
       return new Application({path: path.join(__dirname, 'invalid')})
