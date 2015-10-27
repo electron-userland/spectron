@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Example</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        -webkit-user-select: none;
+      }
+
+      .container {
+        padding-top: 15%;
+        text-align: center;
+      }
+
+      .btn {
+        margin: 5px;
+        padding: 0 30px 0 30px;
+        border: 3px solid;
+        border-radius: 8px;
+        font-size: 32px;
+        font-family: monospace;
+        font-weight: bold;
+        line-height: 32px;
+        cursor: default;
+        display: inline-block;
+        text-transform: uppercase;
+      }
+
+      .btn-make-bigger {
+        color: #080;
+        border-color: #080;
+      }
+
+      .btn-make-bigger:hover {
+        color: white;
+        background-color: #080;
+      }
+
+      .btn-make-smaller {
+        color: #800;
+        border-color: #800;
+      }
+
+      .btn-make-smaller:hover {
+        color: white;
+        background-color: #800;
+      }
+
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.btn-make-bigger').addEventListener('click', function () {
+          var remote = require('remote')
+          var currentWindow = remote.getCurrentWindow()
+          var size = currentWindow.getSize()
+          currentWindow.setSize(size[0] + 10, size[1] + 10)
+        })
+
+        document.querySelector('.btn-make-smaller').addEventListener('click', function () {
+          var remote = require('remote')
+          var currentWindow = remote.getCurrentWindow()
+          var size = currentWindow.getSize()
+          currentWindow.setSize(size[0] - 10, size[1] - 10)
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <span class="btn btn-make-bigger">make larger</span>
+      <br>
+      <span class="btn btn-make-smaller">make smaller</span>
+    </div>
+  </body>
+</html>

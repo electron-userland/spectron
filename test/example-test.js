@@ -8,14 +8,14 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe('application launch', function () {
+describe('example application launch', function () {
   this.timeout(10000)
 
   beforeEach(function () {
     this.app = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: [
-        path.join(__dirname, 'fixtures', 'app')
+        path.join(__dirname, 'fixtures', 'example')
       ]
     })
     return this.app.start()
@@ -37,5 +37,27 @@ describe('application launch', function () {
       .isWindowFocused().should.eventually.be.true
       .getWindowWidth().should.eventually.be.above(0)
       .getWindowHeight().should.eventually.be.above(0)
+  })
+
+  describe('when the make larger button is clicked', function () {
+    it('increases the window height and width by 10 pixels', function () {
+      return this.app.client.waitUntilWindowLoaded()
+        .getWindowHeight().should.eventually.equal(400)
+        .getWindowWidth().should.eventually.equal(800)
+        .click('.btn-make-bigger')
+        .getWindowHeight().should.eventually.equal(410)
+        .getWindowWidth().should.eventually.equal(810)
+    })
+  })
+
+  describe('when the make smaller button is clicked', function () {
+    it('decreases the window height and width by 10 pixels', function () {
+      return this.app.client.waitUntilWindowLoaded()
+        .getWindowHeight().should.eventually.equal(400)
+        .getWindowWidth().should.eventually.equal(800)
+        .click('.btn-make-smaller')
+        .getWindowHeight().should.eventually.equal(390)
+        .getWindowWidth().should.eventually.equal(790)
+    })
   })
 })
