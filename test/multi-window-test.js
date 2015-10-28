@@ -27,7 +27,7 @@ describe('multiple windows', function () {
   })
 
   afterEach(function () {
-    return app.stop()
+    if(app.isRunning()) return app.stop()
   })
 
   it('launches the application', function () {

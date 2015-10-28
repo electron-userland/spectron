@@ -28,7 +28,7 @@ describe('window commands', function () {
   })
 
   after(function () {
-    return app.stop()
+    if (app.isRunning()) return app.stop()
   })
 
   describe('getWindowCount', function () {
