@@ -71,8 +71,13 @@ describe('application loading', function () {
   it('passes through env to the launched app', function () {
     var getEnv = function () { return process.env }
     return app.client.execute(getEnv).then(function (response) {
-      assert.equal(response.value.FOO, 'BAR')
-      assert.equal(response.value.HELLO, 'WORLD')
+      if (process.platform === 'win32') {
+        assert.equal(response.value.foo, 'BAR')
+        assert.equal(response.value.hello, 'WORLD')
+      } else {
+        assert.equal(response.value.FOO, 'BAR')
+        assert.equal(response.value.HELLO, 'WORLD')
+      }
     })
   })
 
