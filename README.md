@@ -40,7 +40,9 @@ describe('application launch', function () {
   })
 
   afterEach(function () {
-    return this.app.stop()
+    if (this.app.isRunning()) {
+      return this.app.stop()
+    }
   })
 
   it('shows an initial window', function () {
