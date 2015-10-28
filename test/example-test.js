@@ -1,6 +1,7 @@
 // Test for examples included in README.md
 var Application = require('..').Application
 var chaiAsPromised = require('chai-as-promised')
+var helpers = require('./global-setup')
 var path = require('path')
 
 var describe = global.describe
@@ -13,7 +14,7 @@ describe('example application launch', function () {
 
   beforeEach(function () {
     this.app = new Application({
-      path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      path: helpers.getElectronPath(),
       args: [
         path.join(__dirname, 'fixtures', 'example')
       ]

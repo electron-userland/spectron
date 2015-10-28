@@ -2,6 +2,7 @@ var Application = require('..').Application
 var assert = require('assert')
 var chaiAsPromised = require('chai-as-promised')
 var fs = require('fs')
+var helpers = require('./global-setup')
 var path = require('path')
 var temp = require('temp').track()
 
@@ -18,7 +19,7 @@ describe('application loading', function () {
   beforeEach(function () {
     process.env.SPECTRON_TEMP_DIR = temp.mkdirSync('spectron-temp-dir-')
     app = new Application({
-      path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      path: helpers.getElectronPath(),
       args: [
         path.join(__dirname, 'fixtures', 'app'),
         '--foo',
