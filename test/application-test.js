@@ -1,6 +1,5 @@
 var Application = require('..').Application
 var assert = require('assert')
-var chaiAsPromised = require('chai-as-promised')
 var fs = require('fs')
 var helpers = require('./global-setup')
 var path = require('path')
@@ -15,11 +14,12 @@ describe('application loading', function () {
   helpers.setupTimeout(this)
 
   var app = null
+  var tempPath = null
 
   beforeEach(function () {
-    process.env.SPECTRON_TEMP_DIR = temp.mkdirSync('spectron-temp-dir-')
-    app = new Application({
-      path: helpers.getElectronPath(),
+    tempPath = temp.mkdirSync('spectron-temp-dir-')
+
+    return helpers.startApplication({
       args: [
         path.join(__dirname, 'fixtures', 'app'),
         '--foo',
@@ -27,24 +27,14 @@ describe('application loading', function () {
       ],
       env: {
         FOO: 'BAR',
-        HELLO: 'WORLD'
+        HELLO: 'WORLD',
+        SPECTRON_TEMP_DIR: tempPath
       }
-    })
-    return app.start().then(function () {
-      assert.equal(app.isRunning(), true)
-    })
-  })
-
-  beforeEach(function () {
-    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+    }).then(function (startedApp) { app = startedApp })
   })
 
   afterEach(function () {
-    if (!app || !app.isRunning()) return
-
-    return app.stop().then(function () {
-      assert.equal(app.isRunning(), false)
-    })
+    return helpers.stopApplication(app)
   })
 
   it('launches the application', function () {
@@ -90,7 +80,7 @@ describe('application loading', function () {
 
   describe('stop()', function () {
     it('quits the application', function () {
-      var quitPath = path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt')
+      var quitPath = path.join(tempPath, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
       return app.stop().then(function () {
         assert.equal(fs.existsSync(quitPath), true)

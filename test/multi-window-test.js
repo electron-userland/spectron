@@ -1,6 +1,4 @@
-var Application = require('..').Application
 var assert = require('assert')
-var chaiAsPromised = require('chai-as-promised')
 var helpers = require('./global-setup')
 var path = require('path')
 
@@ -15,21 +13,13 @@ describe('multiple windows', function () {
   var app = null
 
   beforeEach(function () {
-    app = new Application({
-      path: helpers.getElectronPath(),
-      args: [
-        path.join(__dirname, 'fixtures', 'multi-window')
-      ]
-    })
-    return app.start()
-  })
-
-  beforeEach(function () {
-    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+    return helpers.startApplication({
+      args: [path.join(__dirname, 'fixtures', 'multi-window')]
+    }).then(function (startedApp) { app = startedApp })
   })
 
   afterEach(function () {
-    if (app.isRunning()) return app.stop()
+    return helpers.stopApplication(app)
   })
 
   it('launches the application', function () {

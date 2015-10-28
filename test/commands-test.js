@@ -1,5 +1,3 @@
-var Application = require('..').Application
-var chaiAsPromised = require('chai-as-promised')
 var helpers = require('./global-setup')
 var path = require('path')
 
@@ -14,21 +12,13 @@ describe('window commands', function () {
   var app = null
 
   before(function () {
-    app = new Application({
-      path: helpers.getElectronPath(),
-      args: [
-        path.join(__dirname, 'fixtures', 'app')
-      ]
-    })
-    return app.start()
-  })
-
-  before(function () {
-    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+    return helpers.startApplication({
+      args: [path.join(__dirname, 'fixtures', 'app')]
+    }).then(function (startedApp) { app = startedApp })
   })
 
   after(function () {
-    if (app.isRunning()) return app.stop()
+    return helpers.stopApplication(app)
   })
 
   describe('getWindowCount', function () {

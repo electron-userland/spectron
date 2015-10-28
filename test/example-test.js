@@ -1,6 +1,4 @@
 // Test for examples included in README.md
-var Application = require('..').Application
-var chaiAsPromised = require('chai-as-promised')
 var helpers = require('./global-setup')
 var path = require('path')
 
@@ -12,26 +10,20 @@ var afterEach = global.afterEach
 describe('example application launch', function () {
   helpers.setupTimeout(this)
 
-  beforeEach(function () {
-    this.app = new Application({
-      path: helpers.getElectronPath(),
-      args: [
-        path.join(__dirname, 'fixtures', 'example')
-      ]
-    })
-    return this.app.start()
-  })
+  var app = null
 
   beforeEach(function () {
-    chaiAsPromised.transferPromiseness = this.app.client.transferPromiseness
+    return helpers.startApplication({
+      args: [path.join(__dirname, 'fixtures', 'example')]
+    }).then(function (startedApp) { app = startedApp })
   })
 
   afterEach(function () {
-    if (this.app.isRunning()) return this.app.stop()
+    return helpers.stopApplication(app)
   })
 
   it('opens a window', function () {
-    return this.app.client.waitUntilWindowLoaded()
+    return app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.equal(1)
       .isWindowMinimized().should.eventually.be.false
       .isWindowVisible().should.eventually.be.true
@@ -42,7 +34,7 @@ describe('example application launch', function () {
 
   describe('when the make larger button is clicked', function () {
     it('increases the window height and width by 10 pixels', function () {
-      return this.app.client.waitUntilWindowLoaded()
+      return app.client.waitUntilWindowLoaded()
         .getWindowHeight().should.eventually.equal(400)
         .getWindowWidth().should.eventually.equal(800)
         .click('.btn-make-bigger')
@@ -54,7 +46,7 @@ describe('example application launch', function () {
 
   describe('when the make smaller button is clicked', function () {
     it('decreases the window height and width by 10 pixels', function () {
-      return this.app.client.waitUntilWindowLoaded()
+      return app.client.waitUntilWindowLoaded()
         .getWindowHeight().should.eventually.equal(400)
         .getWindowWidth().should.eventually.equal(800)
         .click('.btn-make-smaller')
