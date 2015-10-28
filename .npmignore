@@ -1,3 +1,4 @@
 test
 .travis.yml
+appveyor.yml
 .npmignore
