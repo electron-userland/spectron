@@ -119,6 +119,14 @@ before_script:
   - sleep 3 # give xvfb some time to start
 ```
 
+### On AppVeyor
+
+You will want to add the following to your `appveyor.yml` file:
+
+```yml
+os: unstable
+```
+
 ### Application
 
 #### new Application(options)
