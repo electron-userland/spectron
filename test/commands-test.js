@@ -9,7 +9,7 @@ var before = global.before
 var after = global.after
 
 describe('window commands', function () {
-  this.timeout(10000)
+  helpers.setupTimeout(this)
 
   var app = null
 

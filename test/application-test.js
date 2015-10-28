@@ -12,7 +12,7 @@ var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
 describe('application loading', function () {
-  this.timeout(10000)
+  helpers.setupTimeout(this)
 
   var app = null
 

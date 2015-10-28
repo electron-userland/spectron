@@ -12,3 +12,11 @@ exports.getElectronPath = function () {
   if (process.platform === 'win32') electronPath += '.cmd'
   return electronPath
 }
+
+exports.setupTimeout = function (test) {
+  if (process.env.CI) {
+    test.timeout(30000)
+  } else {
+    test.timeout(10000)
+  }
+}

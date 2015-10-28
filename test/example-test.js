@@ -10,7 +10,7 @@ var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
 describe('example application launch', function () {
-  this.timeout(10000)
+  helpers.setupTimeout(this)
 
   beforeEach(function () {
     this.app = new Application({
