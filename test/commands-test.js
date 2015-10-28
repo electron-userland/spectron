@@ -62,12 +62,15 @@ describe('window commands', function () {
 
   describe('setWindowDimensions', function () {
     it('sets the window dimensions', function () {
-      return app.client.setWindowDimensions(100, 200, 50, 75).getWindowDimensions().should.eventually.deep.equal({
-        x: 100,
-        y: 200,
-        width: 50,
-        height: 75
-      })
+      return app.client
+        .setWindowDimensions(100, 200, 50, 75)
+        .pause(1000)
+        .getWindowDimensions().should.eventually.deep.equal({
+          x: 100,
+          y: 200,
+          width: 50,
+          height: 75
+        })
     })
   })
 
@@ -79,8 +82,11 @@ describe('window commands', function () {
 
   describe('isWindowVisible()', function () {
     it('returns true when the window is visible, false otherwise', function () {
-      return app.client.hideWindow().isWindowVisible().should.eventually.be.false
-        .showWindow().isWindowVisible().should.eventually.be.true
+      return app.client
+        .hideWindow()
+        .isWindowVisible().should.eventually.be.false
+        .showWindow()
+        .isWindowVisible().should.eventually.be.true
     })
   })
 
