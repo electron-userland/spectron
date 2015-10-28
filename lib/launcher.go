@@ -4,7 +4,8 @@ import "os"
 import "os/exec"
 
 func main() {
-  launcherCommand := exec.Command(os.Args[1], os.Args[2:]...)
+  launcherArgs := append([]string{os.Getenv("SPECTRON_LAUNCHER_PATH")}, os.Args[1:]...)
+  launcherCommand := exec.Command(os.Getenv("SPECTRON_NODE_PATH"), launcherArgs...)
   launcherCommand.Stdout = os.Stdout
   launcherCommand.Stderr = os.Stderr
 
