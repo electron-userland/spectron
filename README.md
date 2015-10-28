@@ -1,7 +1,9 @@
 # spectron
 
+[![Linux Build Status](https://travis-ci.org/kevinsawicki/spectron.svg?branch=master)](https://travis-ci.org/kevinsawicki/spectron)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/ppjnpi0ikqlhg6qw/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/spectron/branch/master)
+<br>
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
-[![Build Status](https://travis-ci.org/kevinsawicki/spectron.svg?branch=master)](https://travis-ci.org/kevinsawicki/spectron)
 [![devDependencies:?](https://img.shields.io/david/kevinsawicki/spectron.svg)](https://david-dm.org/kevinsawicki/spectron)
 <br>
 [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
