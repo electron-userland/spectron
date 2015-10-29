@@ -100,6 +100,7 @@ describe('application launch', function () {
     return this.app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.equal(1)
       .isWindowMinimized().should.eventually.be.false
+      .isWindowDevToolsOpened().should.eventually.be.false
       .isWindowVisible().should.eventually.be.true
       .isWindowFocused().should.eventually.be.true
       .getWindowWidth().should.eventually.be.above(0)
