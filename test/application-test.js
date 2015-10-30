@@ -46,6 +46,7 @@ describe('application loading', function () {
       width: 200,
       height: 100
     }).waitUntilTextExists('html', 'Hello')
+      .getTitle().should.eventually.equal('Test')
   })
 
   it('passes through args to the launched app', function () {
