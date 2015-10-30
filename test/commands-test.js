@@ -121,4 +121,11 @@ describe('window commands', function () {
         }, 5000).then(function () { })
     })
   })
+
+  describe('selectAll()', function () {
+    it('selects all the text on the page', function () {
+      return app.client.selectAll()
+        .getSelectedText().should.eventually.equal('Hello')
+    })
+  })
 })

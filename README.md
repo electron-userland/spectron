@@ -167,6 +167,16 @@ The full `client` API provided by WebdriverIO can be found
 
 Several additional commands are provided specific to Electron.
 
+#### getSelectedText()
+
+Get the selected text in the current window.
+
+```js
+app.client.getSelectedText().then(function (selectedText) {
+  console.log(selectedText)
+})
+```
+
 #### getWindowCount()
 
 Gets the number of open windows.
@@ -276,6 +286,14 @@ Returns whether the current window is visible.
 app.client.isWindowVisible().then(function (visible) {
   console.log(visible)
 })
+```
+
+#### selectAll()
+
+Select all the text in the current window.
+
+```js
+app.client.selectAll()
 ```
 
 #### setWindowDimensions(x, y, width, height)
