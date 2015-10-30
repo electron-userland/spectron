@@ -21,7 +21,7 @@ a `spectron` dependency of `^0.33` in your `package.json` file.
 ## Using
 
 ```sh
-npm --save-dev spectron
+npm install --save-dev spectron
 ```
 
 Spectron works with any testing framework but the following example uses
