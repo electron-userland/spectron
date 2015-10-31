@@ -167,6 +167,16 @@ The full `client` API provided by WebdriverIO can be found
 
 Several additional commands are provided specific to Electron.
 
+#### getArgv()
+
+Get the `argv` array from the main process.
+
+```js
+app.client.getArgv().then(function (argv) {
+  console.log(argv)
+})
+```
+
 #### getSelectedText()
 
 Get the selected text in the current window.

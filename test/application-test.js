@@ -50,13 +50,9 @@ describe('application loading', function () {
   })
 
   it('passes through args to the launched app', function () {
-    var getArgv = function () {
-      return require('remote').getGlobal('process').argv
-    }
-    return app.client.execute(getArgv).then(function (response) {
-      assert.notEqual(response.value.indexOf('--foo'), -1)
-      assert.notEqual(response.value.indexOf('--bar=baz'), -1)
-    })
+    return app.client.getArgv()
+      .should.eventually.contain('--foo')
+      .should.eventually.contain('--bar=baz')
   })
 
   it('passes through env to the launched app', function () {
