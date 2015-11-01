@@ -81,7 +81,7 @@ chai.use(chaiAsPromised)
 describe('application launch', function () {
   beforeEach(function () {
     this.app = new Application({
-      path: path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
     })
     return this.app.start()
   })
