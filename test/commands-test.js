@@ -125,7 +125,20 @@ describe('window commands', function () {
   describe('selectAll()', function () {
     it('selects all the text on the page', function () {
       return app.client.selectAll()
-        .getSelectedText().should.eventually.equal('Hello')
+        .getSelectedText().should.eventually.contain('Hello')
+    })
+  })
+
+  describe('paste()', function () {
+    it('pastes the text into the focused element', function () {
+      return app.client
+        .getText('textarea').should.eventually.equal('')
+        .setClipboardText('pasta')
+        .getClipboardText().should.eventually.equal('pasta')
+        .click('textarea')
+        .paste()
+        .waitForValue('textarea', 5000)
+        .getValue('textarea').should.eventually.equal('pasta')
     })
   })
 })

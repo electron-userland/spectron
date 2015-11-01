@@ -167,6 +167,8 @@ The full `client` API provided by WebdriverIO can be found
 
 Several additional commands are provided specific to Electron.
 
+All the commands returns a `Promise`.
+
 #### getArgv()
 
 Get the `argv` array from the main process.
@@ -174,6 +176,16 @@ Get the `argv` array from the main process.
 ```js
 app.client.getArgv().then(function (argv) {
   console.log(argv)
+})
+```
+
+#### getClipboardText()
+
+Gets the clipboard text.
+
+```js
+app.client.getClipboardText().then(function (clipboardText) {
+  console.log(clipboardText)
 })
 ```
 
@@ -298,12 +310,28 @@ app.client.isWindowVisible().then(function (visible) {
 })
 ```
 
+#### paste()
+
+Paste the text from the clipboard in the current window.
+
+```js
+app.client.paste()
+```
+
 #### selectAll()
 
 Select all the text in the current window.
 
 ```js
 app.client.selectAll()
+```
+
+#### setClipboardText(clipboardText)
+
+Sets the clipboard text.
+
+```js
+app.client.setClipboardText('pasta')
 ```
 
 #### setWindowDimensions(x, y, width, height)
