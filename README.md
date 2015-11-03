@@ -18,6 +18,8 @@ This minor version of this library tracks the minor version of the Electron
 versions released. So if you are using Electron `0.33.x` you would want to use
 a `spectron` dependency of `^0.33` in your `package.json` file.
 
+Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
+
 ## Using
 
 ```sh
@@ -120,6 +122,9 @@ before_script:
   - sleep 3 # give xvfb some time to start
 ```
 
+Check out Spectron's [.travis.yml](https://github.com/kevinsawicki/spectron/blob/master/.travis.yml)
+file for a production example.
+
 ### On AppVeyor
 
 You will want to add the following to your `appveyor.yml` file:
@@ -127,6 +132,9 @@ You will want to add the following to your `appveyor.yml` file:
 ```yml
 os: unstable
 ```
+
+Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
+file for a production example.
 
 ### Application
 
