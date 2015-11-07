@@ -218,14 +218,14 @@ app.client.getWindowCount().then(function (count) {
 })
 ```
 
-#### getWindowDimensions()
+#### getWindowBounds()
 
-Gets the dimensions of the current window. Object returned has
+Gets the bounds of the current window. Object returned has
 `x`, `y`, `width`, and `height` properties.
 
 ```js
-app.client.getWindowDimensions().then(function (dimensions) {
-  console.log(dimensions.x, dimensions.y, dimensions.width, dimensions.height)
+app.client.getWindowBounds().then(function (bounds) {
+  console.log(bounds.x, bounds.y, bounds.width, bounds.height)
 })
 ```
 
@@ -343,12 +343,13 @@ Sets the clipboard text.
 app.client.setClipboardText('pasta')
 ```
 
-#### setWindowDimensions(x, y, width, height)
+#### setWindowBounds(bounds)
 
-Sets the window position and size.
+Sets the window position and size. The bounds object should have `x`, `y`,
+`height`, and `width` keys.
 
 ```js
-app.client.setWindowDimensions(100, 200, 50, 75)
+app.client.setWindowBounds({x: 100, y: 200, width: 50, height: 75})
 ```
 
 #### waitUntilTextExists(selector, text, [timeout])

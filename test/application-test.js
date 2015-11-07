@@ -40,7 +40,7 @@ describe('application loading', function () {
   it('launches the application', function () {
     return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
-    }).getWindowDimensions().should.eventually.deep.equal({
+    }).getWindowBounds().should.eventually.deep.equal({
       x: 25,
       y: 35,
       width: 200,

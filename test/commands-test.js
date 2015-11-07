@@ -27,9 +27,9 @@ describe('window commands', function () {
     })
   })
 
-  describe('getWindowDimensions', function () {
-    it('gets the window dimensions', function () {
-      return app.client.getWindowDimensions().should.eventually.deep.equal({
+  describe('getWindowBounds', function () {
+    it('gets the window bounds', function () {
+      return app.client.getWindowBounds().should.eventually.deep.equal({
         x: 25,
         y: 35,
         width: 200,
@@ -50,12 +50,17 @@ describe('window commands', function () {
     })
   })
 
-  describe('setWindowDimensions', function () {
-    it('sets the window dimensions', function () {
+  describe('setWindowBounds', function () {
+    it('sets the window bounds', function () {
       return app.client
-        .setWindowDimensions(100, 200, 50, 75)
+        .setWindowBounds({
+          x: 100,
+          y: 200,
+          width: 50,
+          height: 75
+        })
         .pause(1000)
-        .getWindowDimensions().should.eventually.deep.equal({
+        .getWindowBounds().should.eventually.deep.equal({
           x: 100,
           y: 200,
           width: 50,
@@ -139,6 +144,22 @@ describe('window commands', function () {
         .paste()
         .waitForValue('textarea', 5000)
         .getValue('textarea').should.eventually.equal('pasta')
+    })
+  })
+
+  describe('deprecated APIs', function () {
+    describe('setWindowDimensions', function () {
+      it('sets the bounds of the window', function () {
+        return app.client
+          .setWindowDimensions(100, 200, 50, 75)
+          .pause(1000)
+          .getWindowDimensions().should.eventually.deep.equal({
+            x: 100,
+            y: 200,
+            width: 50,
+            height: 75
+          })
+      })
     })
   })
 })

@@ -30,7 +30,7 @@ describe('multiple windows', function () {
       var topId = response.value[1]
 
       return this.window(topId)
-        .getWindowDimensions().should.eventually.deep.equal({
+        .getWindowBounds().should.eventually.deep.equal({
           x: 25,
           y: 35,
           width: 200,
@@ -38,7 +38,7 @@ describe('multiple windows', function () {
         })
         .getTitle().should.eventually.equal('Top')
       .window(bottomId)
-        .getWindowDimensions().should.eventually.deep.equal({
+        .getWindowBounds().should.eventually.deep.equal({
           x: 25,
           y: 135,
           width: 300,
