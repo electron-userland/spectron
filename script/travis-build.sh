@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 git clone https://github.com/creationix/nvm.git /tmp/.nvm
 source /tmp/.nvm/nvm.sh
 nvm install "$NODE_VERSION"
