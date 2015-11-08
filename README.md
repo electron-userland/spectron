@@ -249,6 +249,17 @@ app.client.getWindowWidth().then(function (width) {
 })
 ```
 
+#### isDocumentEdited()
+
+Returns true if the document is edited, false otherwise. Only supported on
+Mac OS X.
+
+```js
+app.client.isDocumentEdited().then(function (edited) {
+  console.log(edited)
+})
+```
+
 #### isWindowDevToolsOpened()
 
 Returns whether the current window's dev tools are opened.
@@ -341,6 +352,14 @@ Sets the clipboard text.
 
 ```js
 app.client.setClipboardText('pasta')
+```
+
+#### setDocumentEdited(edited)
+
+Sets the document edited state.
+
+```js
+app.client.setDocumentEdited(true)
 ```
 
 #### setWindowBounds(bounds)

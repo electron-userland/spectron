@@ -147,6 +147,18 @@ describe('window commands', function () {
     })
   })
 
+  describe('isDocumentEdited', function () {
+    it('returns true when the document is edited', function () {
+      if (process.platform !== 'darwin') return
+
+      return app.client
+        .waitUntilWindowLoaded()
+        .isDocumentEdited().should.eventually.be.false
+        .setDocumentEdited(true)
+        .isDocumentEdited().should.eventually.be.true
+    })
+  })
+
   describe('deprecated APIs', function () {
     describe('setWindowDimensions', function () {
       it('sets the bounds of the window', function () {
