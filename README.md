@@ -198,6 +198,16 @@ app.client.getClipboardText().then(function (clipboardText) {
 })
 ```
 
+#### getRepresentedFilename()
+
+Gets the represented file name. Only supported on Mac OS X.
+
+```js
+app.client.getRepresentedFilename().then(function (filename) {
+  console.log(filename)
+})
+```
+
 #### getSelectedText()
 
 Get the selected text in the current window.
@@ -356,10 +366,18 @@ app.client.setClipboardText('pasta')
 
 #### setDocumentEdited(edited)
 
-Sets the document edited state.
+Sets the document edited state. Only supported on Mac OS X.
 
 ```js
 app.client.setDocumentEdited(true)
+```
+
+#### setRepresentedFilename(filename)
+
+Sets the represented file name. Only supported on Mac OS X.
+
+```js
+app.client.setRepresentedFilename('/foo.js')
 ```
 
 #### setWindowBounds(bounds)

@@ -152,10 +152,20 @@ describe('window commands', function () {
       if (process.platform !== 'darwin') return
 
       return app.client
-        .waitUntilWindowLoaded()
         .isDocumentEdited().should.eventually.be.false
         .setDocumentEdited(true)
         .isDocumentEdited().should.eventually.be.true
+    })
+  })
+
+  describe('getRepresentedFilename', function () {
+    it('returns the represented filename', function () {
+      if (process.platform !== 'darwin') return
+
+      return app.client
+        .getRepresentedFilename().should.eventually.equal('')
+        .setRepresentedFilename('/foo.js')
+        .getRepresentedFilename().should.eventually.equal('/foo.js')
     })
   })
 
