@@ -113,7 +113,8 @@ describe('application launch', function () {
 
 ### On Travis CI
 
-You will want to add the following to your `.travis.yml` file:
+You will want to add the following to your `.travis.yml` file when building on
+Linux:
 
 ```yml
 before_script:
@@ -176,7 +177,7 @@ The full `client` API provided by WebdriverIO can be found
 
 Several additional commands are provided specific to Electron.
 
-All the commands returns a `Promise`.
+All the commands return a `Promise`.
 
 #### getArgv()
 
