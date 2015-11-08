@@ -99,7 +99,8 @@ describe('window commands', function () {
 
   describe('waitUntilWindowLoaded()', function () {
     it('waits until the current window is loaded', function () {
-      return app.client.waitUntilWindowLoaded().isWindowLoading().should.eventually.be.false
+      return app.client.waitUntilWindowLoaded()
+        .isWindowLoading().should.eventually.be.false
     })
   })
 
