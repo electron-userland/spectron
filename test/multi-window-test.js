@@ -1,4 +1,3 @@
-var assert = require('assert')
 var helpers = require('./global-setup')
 var path = require('path')
 
