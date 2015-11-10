@@ -407,3 +407,11 @@ in milliseconds that defaults to `5000`.
 ```js
 app.client.waitUntilWindowLoaded(10000)
 ```
+
+#### windowByIndex(index)
+
+Focus a window using its index from the `windowHandles()` array.
+
+```js
+app.client.windowByIndex(1)
+```

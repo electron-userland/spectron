@@ -23,13 +23,9 @@ describe('multiple windows', function () {
   })
 
   it('launches the application', function () {
-    return app.client.windowHandles().then(function (response) {
-      assert.equal(response.value.length, 2)
-
-      var bottomId = response.value[0]
-      var topId = response.value[1]
-
-      return this.window(topId)
+    return app.client
+      .getWindowCount().should.eventually.equal(2)
+      .windowByIndex(1)
         .getWindowBounds().should.eventually.deep.equal({
           x: 25,
           y: 35,
@@ -37,7 +33,7 @@ describe('multiple windows', function () {
           height: 100
         })
         .getTitle().should.eventually.equal('Top')
-      .window(bottomId)
+      .windowByIndex(0)
         .getWindowBounds().should.eventually.deep.equal({
           x: 25,
           y: 135,
@@ -45,6 +41,5 @@ describe('multiple windows', function () {
           height: 50
         })
         .getTitle().should.eventually.equal('Bottom')
-    })
   })
 })
