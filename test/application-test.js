@@ -120,9 +120,9 @@ describe('application loading', function () {
     it('gets the main process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()
         .getMainProcessLogs().then(function (logs) {
-          expect(logs[1]).to.equal('main log')
-          expect(logs[2]).to.equal('main warn')
-          expect(logs[3]).to.equal('main error')
+          expect(logs).to.contain('main log')
+          expect(logs).to.contain('main warn')
+          expect(logs).to.contain('main error')
         })
         .getMainProcessLogs().then(function (logs) {
           expect(logs.length).to.equal(0)
