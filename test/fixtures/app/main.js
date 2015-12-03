@@ -6,6 +6,10 @@ var path = require('path')
 var mainWindow = null
 
 app.on('ready', function () {
+  console.log('main log')
+  console.warn('main warn')
+  console.error('main error')
+
   mainWindow = new BrowserWindow({
     x: 25,
     y: 35,

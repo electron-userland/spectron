@@ -93,24 +93,38 @@ describe('application loading', function () {
   })
 
   describe('getRenderProcessLogs', function () {
-    it('gets the console logs and clears them', function () {
+    it('gets the render process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()
         .getRenderProcessLogs().then(function (logs) {
           expect(logs.length).to.equal(3)
 
-          expect(logs[0].message).to.contain('7:15 log')
+          expect(logs[0].message).to.contain('7:15 render log')
           expect(logs[0].source).to.equal('console-api')
           expect(logs[0].level).to.equal('INFO')
 
-          expect(logs[1].message).to.contain('8:15 warn')
+          expect(logs[1].message).to.contain('8:15 render warn')
           expect(logs[1].source).to.equal('console-api')
           expect(logs[1].level).to.equal('WARNING')
 
-          expect(logs[2].message).to.contain('9:15 error')
+          expect(logs[2].message).to.contain('9:15 render error')
           expect(logs[2].source).to.equal('console-api')
           expect(logs[2].level).to.equal('SEVERE')
         })
         .getRenderProcessLogs().then(function (logs) {
+          expect(logs.length).to.equal(0)
+        })
+    })
+  })
+
+  describe('getMainProcessLogs', function () {
+    it('gets the main process console logs and clears them', function () {
+      return app.client.waitUntilWindowLoaded()
+        .getMainProcessLogs().then(function (logs) {
+          expect(logs[1]).to.equal('main log')
+          expect(logs[2]).to.equal('main warn')
+          expect(logs[3]).to.equal('main error')
+        })
+        .getMainProcessLogs().then(function (logs) {
           expect(logs.length).to.equal(0)
         })
     })
