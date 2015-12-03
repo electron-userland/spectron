@@ -11,7 +11,7 @@ app.on('ready', function () {
     width: 200,
     height: 100
   })
-  topWindow.loadUrl('file://' + __dirname + '/index-top.html')
+  topWindow.loadURL('file://' + __dirname + '/index-top.html')
   topWindow.on('closed', function () { topWindow = null })
 
   bottomWindow = new BrowserWindow({
@@ -20,6 +20,6 @@ app.on('ready', function () {
     width: 300,
     height: 50
   })
-  bottomWindow.loadUrl('file://' + __dirname + '/index-bottom.html')
+  bottomWindow.loadURL('file://' + __dirname + '/index-bottom.html')
   bottomWindow.on('closed', function () { bottomWindow = null })
 })

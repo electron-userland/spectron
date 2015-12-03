@@ -16,7 +16,7 @@ app.on('ready', function () {
     width: 200,
     height: 100
   })
-  mainWindow.loadUrl('file://' + __dirname + '/index.html')
+  mainWindow.loadURL('file://' + __dirname + '/index.html')
   mainWindow.on('closed', function () { mainWindow = null })
 })
 

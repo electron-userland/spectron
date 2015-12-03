@@ -128,5 +128,14 @@ describe('application loading', function () {
           expect(logs.length).to.equal(0)
         })
     })
+
+    it('does not include any deprecation warnings', function () {
+      return app.client.waitUntilWindowLoaded()
+        .getMainProcessLogs().then(function (logs) {
+          logs.forEach(function(log) {
+            expect(log).not.to.contain('(electron)')
+          })
+        })
+    })
   })
 })
