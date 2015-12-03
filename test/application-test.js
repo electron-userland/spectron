@@ -9,6 +9,7 @@ var describe = global.describe
 var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
+var expect = require('chai').expect
 
 describe('application loading', function () {
   helpers.setupTimeout(this)
@@ -88,6 +89,30 @@ describe('application loading', function () {
       return app.stop().should.be.fulfilled.then(function () {
         return app.stop().should.be.rejectedWith(Error)
       })
+    })
+  })
+
+  describe('getRenderProcessLogs', function () {
+    it('gets the console logs and clears them', function () {
+      return app.client.waitUntilWindowLoaded()
+        .getRenderProcessLogs().then(function (logs) {
+          expect(logs.length).to.equal(3)
+
+          expect(logs[0].message).to.contain('7:15 log')
+          expect(logs[0].source).to.equal('console-api')
+          expect(logs[0].level).to.equal('INFO')
+
+          expect(logs[1].message).to.contain('8:15 warn')
+          expect(logs[1].source).to.equal('console-api')
+          expect(logs[1].level).to.equal('WARNING')
+
+          expect(logs[2].message).to.contain('9:15 error')
+          expect(logs[2].source).to.equal('console-api')
+          expect(logs[2].level).to.equal('SEVERE')
+        })
+        .getRenderProcessLogs().then(function (logs) {
+          expect(logs.length).to.equal(0)
+        })
     })
   })
 })
