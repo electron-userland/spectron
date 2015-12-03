@@ -1,5 +1,6 @@
-var app = require('app')
-var BrowserWindow = require('browser-window')
+require('electron').hideInternalModules()
+var app = require('electron').app
+var BrowserWindow = require('electron').BrowserWindow
 var fs = require('fs')
 var path = require('path')
 
