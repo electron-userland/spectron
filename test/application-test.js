@@ -137,5 +137,11 @@ describe('application loading', function () {
           })
         })
     })
+
+    it('clears the logs when the application is stopped', function () {
+      return app.stop().then(function () {
+        expect(app.chromeDriver.getLogs().length).to.equal(0)
+      })
+    })
   })
 })
