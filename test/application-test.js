@@ -144,4 +144,11 @@ describe('application loading', function () {
       })
     })
   })
+
+  describe('getMainProcessGlobal', function () {
+    it('returns the requested global from the main process', function () {
+      return app.client
+        .getMainProcessGlobal('mainProcessGlobal').should.eventually.equal('foo')
+    })
+  })
 })

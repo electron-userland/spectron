@@ -11,6 +11,8 @@ app.on('ready', function () {
   console.warn('main warn')
   console.error('main error')
 
+  global.mainProcessGlobal = 'foo'
+
   mainWindow = new BrowserWindow({
     x: 25,
     y: 35,
