@@ -3,6 +3,10 @@
 * Added `getMainProcessGlobal` command helper to get a global from the main
   process.
 
+# 0.35.2
+
+* Remove use of deprecated Electron APIs.
+
 # 0.35.1
 
 * Added `getMainProcessLogs` command helpers to get main process logs.
