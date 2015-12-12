@@ -1,3 +1,8 @@
+# 0.35.1
+
+* Add `getMainProcessLogs` command helpers to get main process logs.
+* Add `getRenderProcessLogs` command helpers to get render process logs.
+
 # 0.34.1
 
 * Added a `waitTimeout` config option to `Application` that sets the default

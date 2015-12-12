@@ -203,6 +203,38 @@ app.client.getClipboardText().then(function (clipboardText) {
 })
 ```
 
+#### getMainProcessLogs()
+
+Gets the `console` log output from the main process. The logs are cleared
+after they are returned.
+
+Returns a `Promise` that resolves to an array of string log messages
+
+```js
+app.client.getMainProcessLogs().then(function (logs) {
+  logs.forEach(function (log) {
+    console.log(log)
+  })
+})
+```
+
+#### getRenderProcessLogs()
+
+Gets the `console` log output from the render process. The logs are cleared
+after they are returned.
+
+Returns a `Promise` that resolves to an array of log objects.
+
+```js
+app.client.getRenderProcessLogs().then(function (logs) {
+  logs.forEach(function (log) {
+    console.log(log.message)
+    console.log(log.source)
+    console.log(log.level)
+  })
+})
+```
+
 #### getRepresentedFilename()
 
 Gets the represented file name. Only supported on Mac OS X.
