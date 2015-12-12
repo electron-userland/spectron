@@ -1,7 +1,12 @@
+# 0.35.4
+
+* Added `getMainProcessGlobal` command helper to get a global from the main
+  process.
+
 # 0.35.1
 
-* Add `getMainProcessLogs` command helpers to get main process logs.
-* Add `getRenderProcessLogs` command helpers to get render process logs.
+* Added `getMainProcessLogs` command helpers to get main process logs.
+* Added `getRenderProcessLogs` command helpers to get render process logs.
 
 # 0.34.1
 

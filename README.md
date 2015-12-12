@@ -218,6 +218,16 @@ app.client.getMainProcessLogs().then(function (logs) {
 })
 ```
 
+#### getMainProcessGlobal(globalName)
+
+Gets a global from the main process by name.
+
+```js
+app.client.getMainProcessGlobal('aGlobal').then(function (globalValue) {
+  console.log(globalValue)
+})
+```
+
 #### getRenderProcessLogs()
 
 Gets the `console` log output from the render process. The logs are cleared
