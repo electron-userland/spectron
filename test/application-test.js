@@ -76,8 +76,8 @@ describe('application loading', function () {
     })
 
     it('rejects with an error if ChromeDriver does not start within the specified timeout', function () {
-      return new Application({path: helpers.getElectronPath(), host: 'bad.host', startTimeout: 1000})
-        .start().should.be.rejectedWith(Error, 'ChromeDriver did not start within 1000ms')
+      return new Application({path: helpers.getElectronPath(), host: 'bad.host', startTimeout: 150})
+        .start().should.be.rejectedWith(Error, 'ChromeDriver did not start within 150ms')
     })
   })
 
