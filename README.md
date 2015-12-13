@@ -155,6 +155,8 @@ Create a new application with the following options:
   Defaults to `9515`.
 * `quitTimeout` - Number in milliseconds to wait for application quitting.
   Defaults to `1000` milliseconds.
+* `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
+  Defaults to `10000` milliseconds.
 * `waitTimeout` - Number in milliseconds to wait for calls like
   `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
   Defaults to `5000` milliseconds.
