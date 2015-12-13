@@ -1,3 +1,9 @@
+# 0.35.5
+
+* Added a `startTimeout` config option to `Application` that sets the default
+  millisecond timeout to wait for ChromeDriver to start up. This option
+  defaults to 5 seconds.
+
 # 0.35.4
 
 * Added `getMainProcessGlobal` command helper to get a global from the main
@@ -16,7 +22,7 @@
 
 * Added a `waitTimeout` config option to `Application` that sets the default
   millisecond timeout for all wait-based command helpers like `waitUntil`,
-  `waitUntilWindowLoaded`, etc. This options defaults to 5 seconds.
+  `waitUntilWindowLoaded`, etc. This option defaults to 5 seconds.
 * Added a `windowByIndex(index)` command helper that focuses a window by
   index in the `windowHandles()` array order.
 * Added `setRepresentedFilename` and `getRepresentedFilename` command helpers.

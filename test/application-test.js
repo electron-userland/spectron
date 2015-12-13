@@ -74,6 +74,11 @@ describe('application loading', function () {
       return new Application({path: path.join(__dirname, 'invalid')})
         .start().should.be.rejectedWith(Error)
     })
+
+    it('rejects with an error if ChromeDriver does not start within the specified timeout', function () {
+      return new Application({path: helpers.getElectronPath(), host: 'bad.host', startTimeout: 150})
+        .start().should.be.rejectedWith(Error, 'ChromeDriver did not start within 150ms')
+    })
   })
 
   describe('stop()', function () {
