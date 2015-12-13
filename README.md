@@ -153,6 +153,8 @@ Create a new application with the following options:
   Defaults to `'localhost'`.
 * `port` - Number port of the launched `chromedriver` process.
   Defaults to `9515`.
+* `nodePath` - String path to a `node` executable to launch ChromeDriver with.
+  Defaults to `process.execPath`.
 * `quitTimeout` - Number in milliseconds to wait for application quitting.
   Defaults to `1000` milliseconds.
 * `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
