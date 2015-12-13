@@ -3,6 +3,9 @@
 * Added a `startTimeout` config option to `Application` that sets the default
   millisecond timeout to wait for ChromeDriver to start up. This option
   defaults to 5 seconds.
+* Added a `nodePath` config option to `Application` that sets the path to a
+  `node` executable that will be used to launch the ChromeDriver startup
+  script.
 
 # 0.35.4
 
