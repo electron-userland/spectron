@@ -23,7 +23,11 @@ describe('<webview> tags', function () {
 
   it('allows the web view to be accessed', function () {
     return app.client.waitUntilWindowLoaded()
-      .getWindowCount().should.eventually.equal(2)
+      .waitUntil(function () {
+        return this.getWindowCount().then(function (count) {
+          return count === 2
+        })
+      })
       .windowByIndex(1)
       .getText('body').should.eventually.equal('web view')
       .getTitle().should.eventually.equal('Web View')
