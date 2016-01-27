@@ -111,6 +111,69 @@ describe('application launch', function () {
 })
 ```
 
+### With AVA
+
+Spectron also works with [AVA](https://github.com/sindresorhus/ava) that allows you to write your test code in ES2015 without extra support.
+
+```js
+'use strict';
+
+import test from 'ava';
+import {Application} from 'spectron';
+import path from 'path';
+
+test.beforeEach(t => {
+  t.context.app = new Application({
+    args: [__dirname],
+    path: path.join(__dirname, '/Applications/MyApp.app/Contents/MacOS/MyApp')
+  });
+
+  return t.context.app.start();
+});
+
+test.afterEach(t => {
+  return t.context.app.stop();
+});
+
+test(t => {
+  const app = t.context.app;
+
+  return app.client.waitUntilWindowLoaded(10000)
+    .getWindowCount().then(count => {
+      t.is(count, 1);
+    }).isWindowMinimized().then(min => {
+      t.false(min);
+    }).isWindowDevToolsOpened().then(opened => {
+      t.false(opened);
+    }).isWindowVisible().then(visible => {
+      t.true(visible);
+    }).isWindowFocused().then(focused => {
+      t.true(focused);
+    }).getWindowWidth().then(width => {
+      t.ok(width > 0);
+    }).getWindowHeight().then(height => {
+      t.ok(height > 0);
+    });
+});
+```
+
+AVA supports ECMAScript advanced features not only promise but also async/await.
+
+```js
+test(async t => {
+  const app = t.context.app;
+
+  await app.client.waitUntilWindowLoaded(10000);
+  t.is(1, await app.client.getWindowCount());
+  t.false(await app.client.isWindowMinimized());
+  t.false(await app.client.isWindowDevToolsOpened());
+  t.true(await app.client.isWindowVisible());
+  t.true(await app.client.isWindowFocused());
+  t.ok(await app.client.getWindowWidth() > 0);
+  t.ok(await app.client.getWindowHeight() > 0);
+});
+```
+
 ### On Travis CI
 
 You will want to add the following to your `.travis.yml` file when building on
