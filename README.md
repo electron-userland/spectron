@@ -113,19 +113,18 @@ describe('application launch', function () {
 
 ### With AVA
 
-Spectron also works with [AVA](https://github.com/sindresorhus/ava) that allows you to write your test code in ES2015 without extra support.
+Spectron works with [AVA](https://github.com/sindresorhus/ava) which allows you
+to write your tests in ES2015 without extra support.
 
 ```js
 'use strict';
 
 import test from 'ava';
 import {Application} from 'spectron';
-import path from 'path';
 
 test.beforeEach(t => {
   t.context.app = new Application({
-    args: [__dirname],
-    path: path.join(__dirname, '/Applications/MyApp.app/Contents/MacOS/MyApp')
+    path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
   });
 
   return t.context.app.start();
@@ -136,9 +135,7 @@ test.afterEach(t => {
 });
 
 test(t => {
-  const app = t.context.app;
-
-  return app.client.waitUntilWindowLoaded(10000)
+  return t.context.app.client.waitUntilWindowLoaded()
     .getWindowCount().then(count => {
       t.is(count, 1);
     }).isWindowMinimized().then(min => {
@@ -161,9 +158,7 @@ AVA supports ECMAScript advanced features not only promise but also async/await.
 
 ```js
 test(async t => {
-  const app = t.context.app;
-
-  await app.client.waitUntilWindowLoaded(10000);
+  await t.context.app.client.waitUntilWindowLoaded();
   t.is(1, await app.client.getWindowCount());
   t.false(await app.client.isWindowMinimized());
   t.false(await app.client.isWindowDevToolsOpened());
