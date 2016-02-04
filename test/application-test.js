@@ -21,6 +21,7 @@ describe('application loading', function () {
     tempPath = temp.mkdirSync('spectron-temp-dir-')
 
     return helpers.startApplication({
+      cwd: path.join(__dirname, 'fixtures'),
       args: [
         path.join(__dirname, 'fixtures', 'app'),
         '--foo',
@@ -67,6 +68,10 @@ describe('application loading', function () {
         assert.equal(response.value.HELLO, 'WORLD')
       }
     })
+  })
+
+  it('passes through cwd to the launched app', function () {
+    return app.client.getCwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
   })
 
   describe('start()', function () {
