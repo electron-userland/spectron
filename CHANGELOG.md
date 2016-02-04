@@ -1,3 +1,9 @@
+# 0.36.1
+
+* Added a `cwd` config option to `Application` that sets the working
+  directory of the launched application. This option defaults to
+  `process.cwd()`.
+
 # 0.35.5
 
 * Added a `startTimeout` config option to `Application` that sets the default
