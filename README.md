@@ -205,6 +205,8 @@ Create a new application with the following options:
 * `args` - Array of arguments to pass to the executable.
   See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities)
   for details on the Chrome arguments.
+* `cwd`- String path to the working directory to use for the launched
+  application. Defaults to `process.cwd()`.
 * `env` - Object of additional environment variables to set in the launched
   application.
 * `host` - String host name of the launched `chromedriver` process.
