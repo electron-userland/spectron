@@ -267,6 +267,16 @@ app.client.getClipboardText().then(function (clipboardText) {
 })
 ```
 
+#### getCwd()
+
+Get the current working directory of the main process.
+
+```js
+app.client.getCwd().then(function (cwd) {
+  console.log(cwd)
+})
+```
+
 #### getMainProcessLogs()
 
 Gets the `console` log output from the main process. The logs are cleared
