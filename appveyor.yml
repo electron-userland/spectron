@@ -2,6 +2,10 @@ build: off
 
 os: unstable
 
+branches:
+  only:
+    - master
+
 skip_tags: true
 
 environment:
