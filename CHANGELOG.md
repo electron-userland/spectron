@@ -1,3 +1,11 @@
+# 0.36.2
+
+  * Upgraded to WebdriverIO 4.0.3
+  * Added a `connectionRetryCount` config option to `Application` that sets the
+    default number of connection retries to make to ChromeDriver.
+  * Added a `connectionRetryTimeout` config option to `Application` that sets
+    the default number of milliseconds to wait when connecting to ChromeDriver.
+
 # 0.36.1
 
 * Added a `cwd` config option to `Application` that sets the working
