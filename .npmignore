@@ -3,3 +3,4 @@ test
 appveyor.yml
 .npmignore
 script
+npm-debug.log
