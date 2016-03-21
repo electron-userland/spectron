@@ -30,12 +30,12 @@
     "electron-chromedriver": "^0.37.1",
     "request": "^2.65.0",
     "split": "^1.0.0",
-    "webdriverio": "^3.2.6"
+    "webdriverio": "^4.0.4"
   },
   "devDependencies": {
     "chai": "^3.3.0",
     "chai-as-promised": "^5.1.0",
-    "electron-prebuilt": "^0.36.0",
+    "electron-prebuilt": "^0.37.2",
     "mocha": "^2.3.3",
     "standard": "^5.3.1",
     "temp": "^0.8.3"

@@ -215,6 +215,10 @@ Create a new application with the following options:
   Defaults to `9515`.
 * `nodePath` - String path to a `node` executable to launch ChromeDriver with.
   Defaults to `process.execPath`.
+* `connectionRetryCount` - Number of retry attempts to make when connecting
+  to ChromeDriver. Defaults to `10` attempts.
+* `connectionRetryTimeout` - Number in milliseconds to wait for connections
+  to ChromeDriver to be made. Defaults to `30000` milliseconds.
 * `quitTimeout` - Number in milliseconds to wait for application quitting.
   Defaults to `1000` milliseconds.
 * `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
