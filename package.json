@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "0.37.0",
+  "version": "1.37.0",
   "description": "Easy ChromeDriver tests for Electron apps",
   "main": "index.js",
   "scripts": {
