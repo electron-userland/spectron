@@ -1,6 +1,6 @@
-# 0.36.2
+# 1.37.0
 
-  * Upgraded to WebdriverIO 4.0.3
+  * Upgraded to WebdriverIO 4.0.4
   * Added a `connectionRetryCount` config option to `Application` that sets the
     default number of connection retries to make to ChromeDriver.
   * Added a `connectionRetryTimeout` config option to `Application` that sets
