@@ -253,7 +253,7 @@ All the commands return a `Promise`.
 
 #### getAppPath(name)
 
-Get the path using `require('electron').app.getPath(name)` API.
+Get the path using the `require('electron').app.getPath(name)` API.
 
 ```js
 app.client.getAppPath('userData').then(function (userDataPath) {
