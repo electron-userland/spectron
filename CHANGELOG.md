@@ -1,3 +1,8 @@
+# 1.37.1
+
+  * Add the `getAppPath(name)` that maps to the
+    `require('electron').app.getPath(name)` API.
+
 # 1.37.0
 
   * Upgraded to WebdriverIO 4.0.4

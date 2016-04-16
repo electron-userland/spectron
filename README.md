@@ -251,6 +251,16 @@ Several additional commands are provided specific to Electron.
 
 All the commands return a `Promise`.
 
+#### getAppPath(name)
+
+Get the path using `require('electron').app.getPath(name)` API.
+
+```js
+app.client.getAppPath('userData').then(function (userDataPath) {
+  console.log(userDataPath)
+})
+```
+
 #### getArgv()
 
 Get the `argv` array from the main process.
