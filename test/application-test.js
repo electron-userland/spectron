@@ -161,4 +161,11 @@ describe('application loading', function () {
         .getMainProcessGlobal('mainProcessGlobal').should.eventually.equal('foo')
     })
   })
+
+  describe('getAppPath', function () {
+    it.only('returns the path for the given name', function () {
+      return app.client
+        .getAppPath('temp').should.eventually.equal(temp.dir + path.sep)
+    })
+  })
 })
