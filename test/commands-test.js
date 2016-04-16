@@ -1,5 +1,6 @@
 var helpers = require('./global-setup')
 var path = require('path')
+var temp = require('temp').track()
 
 var describe = global.describe
 var it = global.it
@@ -167,6 +168,14 @@ describe('window commands', function () {
         .getRepresentedFilename().should.eventually.equal('')
         .setRepresentedFilename('/foo.js')
         .getRepresentedFilename().should.eventually.equal('/foo.js')
+    })
+  })
+
+  describe('getAppPath', function () {
+    it('returns the path for the given name', function () {
+      return app.client.getAppPath('temp').then(function (tempPath) {
+        return path.resolve(tempPath)
+      }).should.eventually.equal(temp.dir)
     })
   })
 
