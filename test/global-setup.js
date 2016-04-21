@@ -29,7 +29,7 @@ exports.startApplication = function (options) {
   var app = new Application(options)
   return app.start().then(function () {
     assert.equal(app.isRunning(), true)
-    chaiAsPromised.transferPromiseness = app.client.transferPromiseness
+    chaiAsPromised.transferPromiseness = app.transferPromiseness
     return app
   })
 }
