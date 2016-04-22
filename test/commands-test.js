@@ -7,7 +7,7 @@ var it = global.it
 var before = global.before
 var after = global.after
 
-describe.only('window commands', function () {
+describe('window commands', function () {
   helpers.setupTimeout(this)
 
   var app = null
@@ -124,13 +124,13 @@ describe.only('window commands', function () {
   })
 
   describe('paste()', function () {
-    it('pastes the text into the focused element', function () {
+    it.only('pastes the text into the focused element', function () {
       return app.client
         .getText('textarea').should.eventually.equal('')
-        .setClipboardText('pasta')
-        .getClipboardText().should.eventually.equal('pasta')
+        .electron.clipboard.writeText('pasta')
+        .electron.clipboard.readText().should.eventually.equal('pasta')
         .click('textarea')
-        .paste()
+        .webContents.paste()
         .waitForValue('textarea', 5000)
         .getValue('textarea').should.eventually.equal('pasta')
     })
