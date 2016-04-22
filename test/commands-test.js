@@ -140,10 +140,9 @@ describe.only('window commands', function () {
     it('returns true when the document is edited', function () {
       if (process.platform !== 'darwin') return
 
-      return app.client
-        .isDocumentEdited().should.eventually.be.false
-        .setDocumentEdited(true)
-        .isDocumentEdited().should.eventually.be.true
+      return app.browserWindow.isDocumentEdited().should.eventually.be.false
+        .browserWindow.setDocumentEdited(true)
+        .browserWindow.isDocumentEdited().should.eventually.be.true
     })
   })
 
@@ -151,10 +150,9 @@ describe.only('window commands', function () {
     it('returns the represented filename', function () {
       if (process.platform !== 'darwin') return
 
-      return app.client
-        .getRepresentedFilename().should.eventually.equal('')
-        .setRepresentedFilename('/foo.js')
-        .getRepresentedFilename().should.eventually.equal('/foo.js')
+      return app.browserWindow.getRepresentedFilename().should.eventually.equal('')
+        .browserWindow.setRepresentedFilename('/foo.js')
+        .browserWindow.getRepresentedFilename().should.eventually.equal('/foo.js')
     })
   })
 
