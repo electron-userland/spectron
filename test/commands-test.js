@@ -30,7 +30,7 @@ describe('window commands', function () {
 
   describe('getWindowBounds', function () {
     it('gets the window bounds', function () {
-      return app.client.getWindowBounds().should.eventually.deep.equal({
+      return app.browserWindow.getBounds().should.eventually.deep.equal({
         x: 25,
         y: 35,
         width: 200,
@@ -39,29 +39,17 @@ describe('window commands', function () {
     })
   })
 
-  describe('getWindowWidth', function () {
-    it('gets the window width', function () {
-      return app.client.getWindowWidth().should.eventually.equal(200)
-    })
-  })
-
-  describe('getWindowHeight', function () {
-    it('gets the window height', function () {
-      return app.client.getWindowHeight().should.eventually.equal(100)
-    })
-  })
-
   describe('setWindowBounds', function () {
     it('sets the window bounds', function () {
-      return app.client
-        .setWindowBounds({
+      return app.browserWindow
+        .setBounds({
           x: 100,
           y: 200,
           width: 50,
           height: 75
         })
         .pause(1000)
-        .getWindowBounds().should.eventually.deep.equal({
+        .browserWindow.getBounds().should.eventually.deep.equal({
           x: 100,
           y: 200,
           width: 50,
@@ -77,12 +65,11 @@ describe('window commands', function () {
   })
 
   describe('isWindowVisible()', function () {
-    it('returns true when the window is visible, false otherwise', function () {
-      return app.client
-        .hideWindow()
-        .isWindowVisible().should.eventually.be.false
-        .showWindow()
-        .isWindowVisible().should.eventually.be.true
+    it.only('returns true when the window is visible, false otherwise', function () {
+      return app.browserWindow.hide()
+        .browserWindow.isVisible().should.eventually.be.false
+        .browserWindow.show()
+        .browserWindow.isVisible().should.eventually.be.true
     })
   })
 
