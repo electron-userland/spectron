@@ -7,7 +7,7 @@ var it = global.it
 var before = global.before
 var after = global.after
 
-describe('window commands', function () {
+describe.only('window commands', function () {
   helpers.setupTimeout(this)
 
   var app = null
@@ -65,7 +65,7 @@ describe('window commands', function () {
   })
 
   describe('isWindowVisible()', function () {
-    it.only('returns true when the window is visible, false otherwise', function () {
+    it('returns true when the window is visible, false otherwise', function () {
       return app.browserWindow.hide()
         .browserWindow.isVisible().should.eventually.be.false
         .browserWindow.show()
@@ -81,7 +81,7 @@ describe('window commands', function () {
 
   describe('isWindowFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
-      return app.client.isWindowFullScreen().should.eventually.be.false
+      return app.client.browserWindow.isFullScreen().should.eventually.be.false
     })
   })
 
@@ -94,24 +94,24 @@ describe('window commands', function () {
 
   describe('isWindowMaximized()', function () {
     it('returns true when the window is maximized, false otherwise', function () {
-      return app.client.isWindowMaximized().should.eventually.be.false
-        .maximizeWindow().waitUntil(function () {
+      return app.browserWindow.isMaximized().should.eventually.be.false
+        .browserWindow.maximize().waitUntil(function () {
           // FIXME window maximized state is never true on CI
           if (process.env.CI) return Promise.resolve(true)
 
-          return this.isWindowMaximized()
+          return this.browserWindow.isMaximized()
         }, 5000).then(function () { })
     })
   })
 
   describe('isWindowMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', function () {
-      return app.client.isWindowMinimized().should.eventually.be.false
-        .minimizeWindow().waitUntil(function () {
+      return app.browserWindow.isMinimized().should.eventually.be.false
+        .browserWindow.minimize().waitUntil(function () {
           // FIXME window minimized state is never true on CI
           if (process.env.CI) return Promise.resolve(true)
 
-          return this.isWindowMinimized()
+          return this.browserWindow.isMinimized()
         }, 5000).then(function () { })
     })
   })
