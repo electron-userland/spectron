@@ -159,7 +159,7 @@ describe('window commands', function () {
 
   describe('getAppPath', function () {
     it('returns the path for the given name', function () {
-      return app.client.getAppPath('temp').then(function (tempPath) {
+      return app.electron.remote.app.getPath('temp').then(function (tempPath) {
         return path.resolve(tempPath)
       }).should.eventually.equal(temp.dir)
     })
