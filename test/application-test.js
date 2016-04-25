@@ -52,7 +52,7 @@ describe('application loading', function () {
   })
 
   it('passes through args to the launched app', function () {
-    return app.client.getArgv()
+    return app.electron.remote.process.argv()
       .should.eventually.contain('--foo')
       .should.eventually.contain('--bar=baz')
   })
