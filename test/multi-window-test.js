@@ -6,7 +6,7 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe.only('multiple windows', function () {
+describe('multiple windows', function () {
   helpers.setupTimeout(this)
 
   var app = null
