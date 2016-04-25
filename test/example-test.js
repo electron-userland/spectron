@@ -22,7 +22,7 @@ describe('example application launch', function () {
     return helpers.stopApplication(app)
   })
 
-  it.only('opens a window', function () {
+  it('opens a window', function () {
     return app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.equal(1)
       .browserWindow.isMinimized().should.eventually.be.false
