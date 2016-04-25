@@ -1,3 +1,4 @@
+var fs = require('fs')
 var helpers = require('./global-setup')
 var path = require('path')
 var temp = require('temp').track()
@@ -159,9 +160,9 @@ describe('window commands', function () {
 
   describe('getAppPath', function () {
     it('returns the path for the given name', function () {
-      return app.electron.remote.app.getPath('temp').then(function (tempPath) {
-        return path.resolve(tempPath)
-      }).should.eventually.equal(temp.dir)
+      var tempDir = fs.realpathSync(temp.dir)
+      return app.electron.remote.app.setPath('music', tempDir)
+        .electron.remote.app.getPath('music').should.eventually.equal(tempDir)
     })
   })
 
