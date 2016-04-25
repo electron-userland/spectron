@@ -43,18 +43,18 @@ describe('window commands', function () {
   describe('setWindowBounds', function () {
     it('sets the window bounds', function () {
       return app.browserWindow.setBounds({
-          x: 100,
-          y: 200,
-          width: 50,
-          height: 75
-        })
-        .pause(1000)
-        .browserWindow.getBounds().should.eventually.deep.equal({
-          x: 100,
-          y: 200,
-          width: 50,
-          height: 75
-        })
+        x: 100,
+        y: 200,
+        width: 50,
+        height: 75
+      })
+      .pause(1000)
+      .browserWindow.getBounds().should.eventually.deep.equal({
+        x: 100,
+        y: 200,
+        width: 50,
+        height: 75
+      })
     })
   })
 
