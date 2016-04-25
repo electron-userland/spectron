@@ -71,7 +71,7 @@ describe('application loading', function () {
   })
 
   it('passes through cwd to the launched app', function () {
-    return app.client.getCwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
+    return app.electron.remote.process.cwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
   })
 
   describe('start()', function () {
