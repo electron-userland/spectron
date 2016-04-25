@@ -118,13 +118,14 @@ describe('window commands', function () {
 
   describe('selectAll()', function () {
     it('selects all the text on the page', function () {
-      return app.client.selectAll()
+      return app.client.getSelectedText().should.eventually.equal('')
+        .webContents.selectAll()
         .getSelectedText().should.eventually.contain('Hello')
     })
   })
 
   describe('paste()', function () {
-    it.only('pastes the text into the focused element', function () {
+    it('pastes the text into the focused element', function () {
       return app.client
         .getText('textarea').should.eventually.equal('')
         .electron.clipboard.writeText('pasta')
