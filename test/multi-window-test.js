@@ -6,7 +6,7 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe('multiple windows', function () {
+describe.only('multiple windows', function () {
   helpers.setupTimeout(this)
 
   var app = null
@@ -25,7 +25,7 @@ describe('multiple windows', function () {
     return app.client
       .getWindowCount().should.eventually.equal(2)
       .windowByIndex(1)
-        .getWindowBounds().should.eventually.deep.equal({
+        .browserWindow.getBounds().should.eventually.deep.equal({
           x: 25,
           y: 35,
           width: 200,
@@ -33,7 +33,7 @@ describe('multiple windows', function () {
         })
         .getTitle().should.eventually.equal('Top')
       .windowByIndex(0)
-        .getWindowBounds().should.eventually.deep.equal({
+        .browserWindow.getBounds().should.eventually.deep.equal({
           x: 25,
           y: 135,
           width: 300,
