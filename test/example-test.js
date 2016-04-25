@@ -36,24 +36,24 @@ describe('example application launch', function () {
   describe('when the make larger button is clicked', function () {
     it('increases the window height and width by 10 pixels', function () {
       return app.client.waitUntilWindowLoaded()
-        .getWindowHeight().should.eventually.equal(400)
-        .getWindowWidth().should.eventually.equal(800)
+        .browserWindow.getBounds().should.eventually.have.property('width', 800)
+        .browserWindow.getBounds().should.eventually.have.property('height', 400)
         .click('.btn-make-bigger')
         .pause(1000)
-        .getWindowHeight().should.eventually.equal(410)
-        .getWindowWidth().should.eventually.equal(810)
+        .browserWindow.getBounds().should.eventually.have.property('width', 810)
+        .browserWindow.getBounds().should.eventually.have.property('height', 410)
     })
   })
 
   describe('when the make smaller button is clicked', function () {
     it('decreases the window height and width by 10 pixels', function () {
       return app.client.waitUntilWindowLoaded()
-        .getWindowHeight().should.eventually.equal(400)
-        .getWindowWidth().should.eventually.equal(800)
+        .browserWindow.getBounds().should.eventually.have.property('width', 800)
+        .browserWindow.getBounds().should.eventually.have.property('height', 400)
         .click('.btn-make-smaller')
         .pause(1000)
-        .getWindowHeight().should.eventually.equal(390)
-        .getWindowWidth().should.eventually.equal(790)
+        .browserWindow.getBounds().should.eventually.have.property('width', 790)
+        .browserWindow.getBounds().should.eventually.have.property('height', 390)
     })
   })
 })
