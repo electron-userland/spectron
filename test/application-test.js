@@ -52,13 +52,13 @@ describe('application loading', function () {
   })
 
   it('passes through args to the launched app', function () {
-    return app.electron.remote.process.argv()
+    return app.mainProcess.argv()
       .should.eventually.contain('--foo')
       .should.eventually.contain('--bar=baz')
   })
 
   it('passes through env to the launched app', function () {
-    return app.process.env().then(function (env) {
+    return app.rendererProcess.env().then(function (env) {
       if (process.platform === 'win32') {
         assert.equal(env.foo, 'BAR')
         assert.equal(env.hello, 'WORLD')
