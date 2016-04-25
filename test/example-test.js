@@ -22,15 +22,15 @@ describe('example application launch', function () {
     return helpers.stopApplication(app)
   })
 
-  it('opens a window', function () {
+  it.only('opens a window', function () {
     return app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.equal(1)
-      .isWindowMinimized().should.eventually.be.false
-      .isWindowDevToolsOpened().should.eventually.be.false
-      .isWindowVisible().should.eventually.be.true
-      .isWindowFocused().should.eventually.be.true
-      .getWindowWidth().should.eventually.be.above(0)
-      .getWindowHeight().should.eventually.be.above(0)
+      .browserWindow.isMinimized().should.eventually.be.false
+      .browserWindow.isDevToolsOpened().should.eventually.be.false
+      .browserWindow.isVisible().should.eventually.be.true
+      .browserWindow.isFocused().should.eventually.be.true
+      .browserWindow.getBounds().should.eventually.have.property('width', 800)
+      .browserWindow.getBounds().should.eventually.have.property('height', 400)
   })
 
   describe('when the make larger button is clicked', function () {
