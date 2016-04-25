@@ -60,7 +60,7 @@ describe('window commands', function () {
 
   describe('isWindowFocused()', function () {
     it('returns true when the current window is focused', function () {
-      return app.client.isWindowFocused().should.eventually.be.true
+      return app.browserWindow.isFocused().should.eventually.be.true
     })
   })
 
@@ -75,7 +75,7 @@ describe('window commands', function () {
 
   describe('isWindowDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function () {
-      return app.client.isWindowDevToolsOpened().should.eventually.be.false
+      return app.browserWindow.isDevToolsOpened().should.eventually.be.false
     })
   })
 
@@ -88,7 +88,7 @@ describe('window commands', function () {
   describe('waitUntilWindowLoaded()', function () {
     it('waits until the current window is loaded', function () {
       return app.client.waitUntilWindowLoaded()
-        .isWindowLoading().should.eventually.be.false
+        .webContents.isLoading().should.eventually.be.false
     })
   })
 
