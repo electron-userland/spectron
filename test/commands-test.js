@@ -29,7 +29,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('getWindowBounds', function () {
+  describe('browserWindow.getBounds()', function () {
     it('gets the window bounds', function () {
       return app.browserWindow.getBounds().should.eventually.deep.equal({
         x: 25,
@@ -40,7 +40,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('setWindowBounds', function () {
+  describe('browserWindow.setBounds()', function () {
     it('sets the window bounds', function () {
       return app.browserWindow.setBounds({
         x: 100,
@@ -58,13 +58,13 @@ describe('window commands', function () {
     })
   })
 
-  describe('isWindowFocused()', function () {
+  describe('browserWindow.isFocused()', function () {
     it('returns true when the current window is focused', function () {
       return app.browserWindow.isFocused().should.eventually.be.true
     })
   })
 
-  describe('isWindowVisible()', function () {
+  describe('browserWindow.isVisible()', function () {
     it('returns true when the window is visible, false otherwise', function () {
       return app.browserWindow.hide()
         .browserWindow.isVisible().should.eventually.be.false
@@ -73,13 +73,13 @@ describe('window commands', function () {
     })
   })
 
-  describe('isWindowDevToolsOpened()', function () {
+  describe('browserWindow.isDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function () {
       return app.browserWindow.isDevToolsOpened().should.eventually.be.false
     })
   })
 
-  describe('isWindowFullScreen()', function () {
+  describe('browserWindow.isFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
       return app.client.browserWindow.isFullScreen().should.eventually.be.false
     })
@@ -92,7 +92,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('isWindowMaximized()', function () {
+  describe('browserWindow.isMaximized()', function () {
     it('returns true when the window is maximized, false otherwise', function () {
       return app.browserWindow.isMaximized().should.eventually.be.false
         .browserWindow.maximize().waitUntil(function () {
@@ -104,7 +104,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('isWindowMinimized()', function () {
+  describe('browserWindow.isMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', function () {
       return app.browserWindow.isMinimized().should.eventually.be.false
         .browserWindow.minimize().waitUntil(function () {
@@ -116,7 +116,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('selectAll()', function () {
+  describe('webContents.selectAll()', function () {
     it('selects all the text on the page', function () {
       return app.client.getSelectedText().should.eventually.equal('')
         .webContents.selectAll()
@@ -124,7 +124,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('paste()', function () {
+  describe('webContents.paste()', function () {
     it('pastes the text into the focused element', function () {
       return app.client
         .getText('textarea').should.eventually.equal('')
@@ -137,7 +137,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('isDocumentEdited', function () {
+  describe('browserWindow.isDocumentEdited()', function () {
     it('returns true when the document is edited', function () {
       if (process.platform !== 'darwin') return
 
@@ -147,7 +147,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('getRepresentedFilename', function () {
+  describe('browserWindow.getRepresentedFilename()', function () {
     it('returns the represented filename', function () {
       if (process.platform !== 'darwin') return
 
@@ -157,7 +157,7 @@ describe('window commands', function () {
     })
   })
 
-  describe('getAppPath', function () {
+  describe('electron.remote.app.getPath()', function () {
     it('returns the path for the given name', function () {
       var tempDir = fs.realpathSync(temp.dir)
       return app.electron.remote.app.setPath('music', tempDir)
