@@ -165,20 +165,4 @@ describe('window commands', function () {
         .electron.remote.app.getPath('music').should.eventually.equal(tempDir)
     })
   })
-
-  describe('deprecated APIs', function () {
-    describe('setWindowDimensions', function () {
-      it('sets the bounds of the window', function () {
-        return app.client
-          .setWindowDimensions(100, 200, 50, 75)
-          .pause(1000)
-          .getWindowDimensions().should.eventually.deep.equal({
-            x: 100,
-            y: 200,
-            width: 50,
-            height: 75
-          })
-      })
-    })
-  })
 })
