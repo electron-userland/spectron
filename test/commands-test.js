@@ -186,4 +186,11 @@ describe('window commands', function () {
       return app.electron.screen.getPrimaryDisplay().should.eventually.have.property('workArea').and.not.be.empty
     })
   })
+
+  describe('electron.webFrame.getZoomFactor()', function () {
+    it('returns information about the primary display', function () {
+      return app.electron.webFrame.setZoomFactor(4)
+        .electron.webFrame.getZoomFactor().should.eventually.equal(4)
+    })
+  })
 })
