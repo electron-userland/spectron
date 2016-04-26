@@ -168,4 +168,10 @@ describe('window commands', function () {
   it('exposes properties on constructor APIs', function () {
     return app.electron.remote.MenuItem.types().should.eventually.include('normal')
   })
+
+  describe('globalShortcut.isRegistered()', function () {
+    it('returns false if the shortcut is not registered', function () {
+      return app.electron.remote.globalShortcut.isRegistered('CommandOrControl+X').should.eventually.be.false
+    })
+  })
 })
