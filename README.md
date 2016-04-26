@@ -349,7 +349,7 @@ describe('application launch', function () {
   })
 
   beforeEach(function () {
-    chaiAsPromised.transferPromiseness = this.app.client.transferPromiseness
+    chaiAsPromised.transferPromiseness = this.app.transferPromiseness
   })
 
   afterEach(function () {
