@@ -42,7 +42,7 @@ describe('application loading', function () {
   it('launches the application', function () {
     return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
-    }).getWindowBounds().should.eventually.deep.equal({
+    }).browserWindow.getBounds().should.eventually.deep.equal({
       x: 25,
       y: 35,
       width: 200,
@@ -52,26 +52,25 @@ describe('application loading', function () {
   })
 
   it('passes through args to the launched app', function () {
-    return app.client.getArgv()
+    return app.mainProcess.argv()
       .should.eventually.contain('--foo')
       .should.eventually.contain('--bar=baz')
   })
 
   it('passes through env to the launched app', function () {
-    var getEnv = function () { return process.env }
-    return app.client.execute(getEnv).then(function (response) {
+    return app.rendererProcess.env().then(function (env) {
       if (process.platform === 'win32') {
-        assert.equal(response.value.foo, 'BAR')
-        assert.equal(response.value.hello, 'WORLD')
+        assert.equal(env.foo, 'BAR')
+        assert.equal(env.hello, 'WORLD')
       } else {
-        assert.equal(response.value.FOO, 'BAR')
-        assert.equal(response.value.HELLO, 'WORLD')
+        assert.equal(env.FOO, 'BAR')
+        assert.equal(env.HELLO, 'WORLD')
       }
     })
   })
 
   it('passes through cwd to the launched app', function () {
-    return app.client.getCwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
+    return app.mainProcess.cwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
   })
 
   describe('start()', function () {
@@ -90,14 +89,34 @@ describe('application loading', function () {
     it('quits the application', function () {
       var quitPath = path.join(tempPath, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
-      return app.stop().then(function () {
+      return app.stop().then(function (stoppedApp) {
+        assert.equal(stoppedApp, app)
         assert.equal(fs.existsSync(quitPath), true)
+        assert.equal(app.isRunning(), false)
       })
     })
 
     it('rejects with an error if the application is not running', function () {
       return app.stop().should.be.fulfilled.then(function () {
         return app.stop().should.be.rejectedWith(Error)
+      })
+    })
+  })
+
+  describe('restart()', function () {
+    it('restarts the application', function () {
+      var quitPath = path.join(tempPath, 'quit.txt')
+      assert.equal(fs.existsSync(quitPath), false)
+      return app.restart().then(function (restartedApp) {
+        assert.equal(restartedApp, app)
+        assert.equal(fs.existsSync(quitPath), true)
+        assert.equal(app.isRunning(), true)
+      })
+    })
+
+    it('rejects with an error if the application is not running', function () {
+      return app.stop().should.be.fulfilled.then(function () {
+        return app.restart().should.be.rejectedWith(Error)
       })
     })
   })
@@ -155,10 +174,9 @@ describe('application loading', function () {
     })
   })
 
-  describe('getMainProcessGlobal', function () {
+  describe('electron.remote.getGlobal', function () {
     it('returns the requested global from the main process', function () {
-      return app.client
-        .getMainProcessGlobal('mainProcessGlobal').should.eventually.equal('foo')
+      return app.electron.remote.getGlobal('mainProcessGlobal').should.eventually.equal('foo')
     })
   })
 })

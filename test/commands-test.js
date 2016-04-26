@@ -1,3 +1,4 @@
+var fs = require('fs')
 var helpers = require('./global-setup')
 var path = require('path')
 var temp = require('temp').track()
@@ -28,9 +29,9 @@ describe('window commands', function () {
     })
   })
 
-  describe('getWindowBounds', function () {
+  describe('browserWindow.getBounds()', function () {
     it('gets the window bounds', function () {
-      return app.client.getWindowBounds().should.eventually.deep.equal({
+      return app.browserWindow.getBounds().should.eventually.deep.equal({
         x: 25,
         y: 35,
         width: 200,
@@ -39,159 +40,157 @@ describe('window commands', function () {
     })
   })
 
-  describe('getWindowWidth', function () {
-    it('gets the window width', function () {
-      return app.client.getWindowWidth().should.eventually.equal(200)
-    })
-  })
-
-  describe('getWindowHeight', function () {
-    it('gets the window height', function () {
-      return app.client.getWindowHeight().should.eventually.equal(100)
-    })
-  })
-
-  describe('setWindowBounds', function () {
+  describe('browserWindow.setBounds()', function () {
     it('sets the window bounds', function () {
-      return app.client
-        .setWindowBounds({
-          x: 100,
-          y: 200,
-          width: 50,
-          height: 75
-        })
-        .pause(1000)
-        .getWindowBounds().should.eventually.deep.equal({
-          x: 100,
-          y: 200,
-          width: 50,
-          height: 75
-        })
+      return app.browserWindow.setBounds({
+        x: 100,
+        y: 200,
+        width: 50,
+        height: 75
+      })
+      .pause(1000)
+      .browserWindow.getBounds().should.eventually.deep.equal({
+        x: 100,
+        y: 200,
+        width: 50,
+        height: 75
+      })
     })
   })
 
-  describe('isWindowFocused()', function () {
+  describe('browserWindow.isFocused()', function () {
     it('returns true when the current window is focused', function () {
-      return app.client.isWindowFocused().should.eventually.be.true
+      return app.browserWindow.isFocused().should.eventually.be.true
     })
   })
 
-  describe('isWindowVisible()', function () {
+  describe('browserWindow.isVisible()', function () {
     it('returns true when the window is visible, false otherwise', function () {
-      return app.client
-        .hideWindow()
-        .isWindowVisible().should.eventually.be.false
-        .showWindow()
-        .isWindowVisible().should.eventually.be.true
+      return app.browserWindow.hide()
+        .browserWindow.isVisible().should.eventually.be.false
+        .browserWindow.show()
+        .browserWindow.isVisible().should.eventually.be.true
     })
   })
 
-  describe('isWindowDevToolsOpened()', function () {
+  describe('browserWindow.isDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function () {
-      return app.client.isWindowDevToolsOpened().should.eventually.be.false
+      return app.browserWindow.isDevToolsOpened().should.eventually.be.false
     })
   })
 
-  describe('isWindowFullScreen()', function () {
+  describe('browserWindow.isFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
-      return app.client.isWindowFullScreen().should.eventually.be.false
+      return app.client.browserWindow.isFullScreen().should.eventually.be.false
     })
   })
 
   describe('waitUntilWindowLoaded()', function () {
     it('waits until the current window is loaded', function () {
       return app.client.waitUntilWindowLoaded()
-        .isWindowLoading().should.eventually.be.false
+        .webContents.isLoading().should.eventually.be.false
     })
   })
 
-  describe('isWindowMaximized()', function () {
+  describe('browserWindow.isMaximized()', function () {
     it('returns true when the window is maximized, false otherwise', function () {
-      return app.client.isWindowMaximized().should.eventually.be.false
-        .maximizeWindow().waitUntil(function () {
+      return app.browserWindow.isMaximized().should.eventually.be.false
+        .browserWindow.maximize().waitUntil(function () {
           // FIXME window maximized state is never true on CI
           if (process.env.CI) return Promise.resolve(true)
 
-          return this.isWindowMaximized()
+          return this.browserWindow.isMaximized()
         }, 5000).then(function () { })
     })
   })
 
-  describe('isWindowMinimized()', function () {
+  describe('browserWindow.isMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', function () {
-      return app.client.isWindowMinimized().should.eventually.be.false
-        .minimizeWindow().waitUntil(function () {
+      return app.browserWindow.isMinimized().should.eventually.be.false
+        .browserWindow.minimize().waitUntil(function () {
           // FIXME window minimized state is never true on CI
           if (process.env.CI) return Promise.resolve(true)
 
-          return this.isWindowMinimized()
+          return this.browserWindow.isMinimized()
         }, 5000).then(function () { })
     })
   })
 
-  describe('selectAll()', function () {
+  describe('webContents.selectAll()', function () {
     it('selects all the text on the page', function () {
-      return app.client.selectAll()
+      return app.client.getSelectedText().should.eventually.equal('')
+        .webContents.selectAll()
         .getSelectedText().should.eventually.contain('Hello')
     })
   })
 
-  describe('paste()', function () {
+  describe('webContents.paste()', function () {
     it('pastes the text into the focused element', function () {
       return app.client
         .getText('textarea').should.eventually.equal('')
-        .setClipboardText('pasta')
-        .getClipboardText().should.eventually.equal('pasta')
+        .electron.clipboard.writeText('pasta')
+        .electron.clipboard.readText().should.eventually.equal('pasta')
         .click('textarea')
-        .paste()
+        .webContents.paste()
         .waitForValue('textarea', 5000)
         .getValue('textarea').should.eventually.equal('pasta')
     })
   })
 
-  describe('isDocumentEdited', function () {
+  describe('browserWindow.isDocumentEdited()', function () {
     it('returns true when the document is edited', function () {
       if (process.platform !== 'darwin') return
 
-      return app.client
-        .isDocumentEdited().should.eventually.be.false
-        .setDocumentEdited(true)
-        .isDocumentEdited().should.eventually.be.true
+      return app.browserWindow.isDocumentEdited().should.eventually.be.false
+        .browserWindow.setDocumentEdited(true)
+        .browserWindow.isDocumentEdited().should.eventually.be.true
     })
   })
 
-  describe('getRepresentedFilename', function () {
+  describe('browserWindow.getRepresentedFilename()', function () {
     it('returns the represented filename', function () {
       if (process.platform !== 'darwin') return
 
-      return app.client
-        .getRepresentedFilename().should.eventually.equal('')
-        .setRepresentedFilename('/foo.js')
-        .getRepresentedFilename().should.eventually.equal('/foo.js')
+      return app.browserWindow.getRepresentedFilename().should.eventually.equal('')
+        .browserWindow.setRepresentedFilename('/foo.js')
+        .browserWindow.getRepresentedFilename().should.eventually.equal('/foo.js')
     })
   })
 
-  describe('getAppPath', function () {
+  describe('electron.remote.app.getPath()', function () {
     it('returns the path for the given name', function () {
-      return app.client.getAppPath('temp').then(function (tempPath) {
-        return path.resolve(tempPath)
-      }).should.eventually.equal(temp.dir)
+      var tempDir = fs.realpathSync(temp.dir)
+      return app.electron.remote.app.setPath('music', tempDir)
+        .electron.remote.app.getPath('music').should.eventually.equal(tempDir)
     })
   })
 
-  describe('deprecated APIs', function () {
-    describe('setWindowDimensions', function () {
-      it('sets the bounds of the window', function () {
-        return app.client
-          .setWindowDimensions(100, 200, 50, 75)
-          .pause(1000)
-          .getWindowDimensions().should.eventually.deep.equal({
-            x: 100,
-            y: 200,
-            width: 50,
-            height: 75
-          })
-      })
+  it('exposes properties on constructor APIs', function () {
+    return app.electron.remote.MenuItem.types().should.eventually.include('normal')
+  })
+
+  describe('globalShortcut.isRegistered()', function () {
+    it('returns false if the shortcut is not registered', function () {
+      return app.electron.remote.globalShortcut.isRegistered('CommandOrControl+X').should.eventually.be.false
+    })
+  })
+
+  describe('rendererProcess.versions', function () {
+    it('includes the Electron version', function () {
+      return app.rendererProcess.versions().should.eventually.have.property('electron').and.not.be.empty
+    })
+  })
+
+  describe('electron.screen.getPrimaryDisplay()', function () {
+    it('returns information about the primary display', function () {
+      return app.electron.screen.getPrimaryDisplay().should.eventually.have.property('workArea').and.not.be.empty
+    })
+  })
+
+  describe('electron.webFrame.getZoomFactor()', function () {
+    it('returns information about the primary display', function () {
+      return app.electron.webFrame.setZoomFactor(4)
+        .electron.webFrame.getZoomFactor().should.eventually.equal(4)
     })
   })
 })

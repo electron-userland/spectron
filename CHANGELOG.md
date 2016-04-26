@@ -1,3 +1,16 @@
+# 2.37.0
+
+  * Added a `restart()` method to `Application`
+  * Added support for the full Electron API
+  * Many custom helpers have been removed in favor of accessing the Electron
+    APIs directly through the new properties on the `Application` object.
+      * `app.client.getWindowBounds()` should now be `app.browserWindow.getBounds()`
+      * `app.client.getClipboardText()` should now be `app.electron.clipboard.readText()`
+      * See the README or https://github.com/kevinsawicki/spectron/pull/18 for
+        more details.
+  * You should now use `app.transferPromiseness` instead of `app.client.transferPromiseness`
+    to ensure these new properties are correctly transferred to chained promises.
+
 # 1.37.1
 
   * Add the `getAppPath(name)` that maps to the

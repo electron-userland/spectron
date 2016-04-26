@@ -16,7 +16,7 @@ Easily test your [Electron](http://electron.atom.io) apps using
 
 This minor version of this library tracks the minor version of the Electron
 versions released. So if you are using Electron `0.37.x` you would want to use
-a `spectron` dependency of `~1.37` in your `package.json` file.
+a `spectron` dependency of `~2.37` in your `package.json` file.
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
@@ -57,6 +57,271 @@ describe('application launch', function () {
 })
 ```
 
+## Application API
+
+Spectron exports an `Application` class that when configured, can start and
+stop your Electron application.
+
+### new Application(options)
+
+Create a new application with the following options:
+
+* `path` - String path to the application executable to launch. **Required**
+* `args` - Array of arguments to pass to the executable.
+  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities)
+  for details on the Chrome arguments.
+* `cwd`- String path to the working directory to use for the launched
+  application. Defaults to `process.cwd()`.
+* `env` - Object of additional environment variables to set in the launched
+  application.
+* `host` - String host name of the launched `chromedriver` process.
+  Defaults to `'localhost'`.
+* `port` - Number port of the launched `chromedriver` process.
+  Defaults to `9515`.
+* `nodePath` - String path to a `node` executable to launch ChromeDriver with.
+  Defaults to `process.execPath`.
+* `connectionRetryCount` - Number of retry attempts to make when connecting
+  to ChromeDriver. Defaults to `10` attempts.
+* `connectionRetryTimeout` - Number in milliseconds to wait for connections
+  to ChromeDriver to be made. Defaults to `30000` milliseconds.
+* `quitTimeout` - Number in milliseconds to wait for application quitting.
+  Defaults to `1000` milliseconds.
+* `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
+  Defaults to `5000` milliseconds.
+* `waitTimeout` - Number in milliseconds to wait for calls like
+  `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
+  Defaults to `5000` milliseconds.
+
+### Properties
+
+#### client
+
+Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
+`client` property on the created `Application` instances.
+
+The full `client` API provided by WebdriverIO can be found
+[here](http://webdriver.io/api.html).
+
+Several additional commands are provided specific to Electron.
+
+All the commands return a `Promise`.
+
+#### electron
+
+The `electron` property is your gateway to accessing the full Electron API.
+
+Each Electron module is exposed as a property on the `electron` property
+so you can think of it as an alias for `require('electron')` from within your
+app.
+
+So if you wanted to access the [clipboard](http://electron.atom.io/docs/latest/api/clipboard)
+API in your tests you would do:
+
+```js
+app.electron.clipboard.writeText('pasta')
+   .electron.clipboard.readText().then(function (clipboardText) {
+     console.log('The clipboard text is ' + clipboardText)
+   })
+```
+
+#### browserWindow
+
+The `browserWindow` property is an alias for `require('electron').remote.getCurrentWindow()`.
+
+It provides you access to the current [BrowserWindow](http://electron.atom.io/docs/latest/api/browser-window/)
+and contains all the APIs.
+
+So if you wanted to check if the current window is visible in your tests you
+would do:
+
+```js
+app.browserWindow.isVisible().then(function (visible) {
+  console.log('window is visible? ' + visible)
+})
+```
+
+It is named `browserWindow` instead of `window` so that it doesn't collide
+with the WebDriver command of that name.
+
+#### webContents
+
+The `browserWindow` property is an alias for `require('electron').remote.getCurrentWebContents()`.
+
+It provides you access to the [WebContents](http://electron.atom.io/docs/latest/api/web-contents/)
+for the current window and contains all the APIs.
+
+So if you wanted to check if the current window is loading in your tests you
+would do:
+
+```js
+app.webContents.isLoading().then(function (visible) {
+  console.log('window is loading? ' + visible)
+})
+```
+
+#### mainProcess
+
+The `mainProcess` property is an alias for `require('electron').remote.process`.
+
+It provides you access to the main process's [process](https://nodejs.org/api/process.html)
+global.
+
+So if you wanted to get the `argv` for the main process in your tests you would
+do:
+
+```js
+app.mainProcess.argv().then(function (argv) {
+  console.log('main process args: ' + argv)
+})
+```
+
+Properties on the `process` are exposed as functions that return promises so
+make sure to call `mainProcess.env().then(...)` instead of
+`mainProcess.env.then(...)`.
+
+#### rendererProcess
+
+The `rendererProcess` property is an alias for `global.process`.
+
+It provides you access to the renderer process's [process](https://nodejs.org/api/process.html)
+global.
+
+So if you wanted to get the environment variables for the renderer process in
+your tests you would do:
+
+```js
+app.rendererProcess.env().then(function (env) {
+  console.log('main process args: ' + env)
+})
+```
+
+### Methods
+
+#### start()
+
+Starts the application. Returns a `Promise` that will be resolved when the
+application is ready to use. You should always wait for start to complete
+before running any commands.
+
+#### stop()
+
+Stops the application. Returns a `Promise` that will be resolved once the
+application has stopped.
+
+#### restart()
+
+Stops the application and then starts it. Returns a `Promise` that will be
+resolved once the application has started again.
+
+#### client.getMainProcessLogs()
+
+Gets the `console` log output from the main process. The logs are cleared
+after they are returned.
+
+Returns a `Promise` that resolves to an array of string log messages
+
+```js
+app.client.getMainProcessLogs().then(function (logs) {
+  logs.forEach(function (log) {
+    console.log(log)
+  })
+})
+```
+
+#### client.getRenderProcessLogs()
+
+Gets the `console` log output from the render process. The logs are cleared
+after they are returned.
+
+Returns a `Promise` that resolves to an array of log objects.
+
+```js
+app.client.getRenderProcessLogs().then(function (logs) {
+  logs.forEach(function (log) {
+    console.log(log.message)
+    console.log(log.source)
+    console.log(log.level)
+  })
+})
+```
+
+#### client.getSelectedText()
+
+Get the selected text in the current window.
+
+```js
+app.client.getSelectedText().then(function (selectedText) {
+  console.log(selectedText)
+})
+```
+
+#### client.getWindowCount()
+
+Gets the number of open windows.
+
+```js
+app.client.getWindowCount().then(function (count) {
+  console.log(count)
+})
+```
+
+#### client.waitUntilTextExists(selector, text, [timeout])
+
+Waits until the element matching the given selector contains the given
+text. Takes an optional timeout in milliseconds that defaults to `5000`.
+
+```js
+app.client.waitUntilTextExists('#message', 'Success', 10000)
+```
+
+#### client.waitUntilWindowLoaded([timeout])
+
+Wait until the window is no longer loading. Takes an optional timeout
+in milliseconds that defaults to `5000`.
+
+```js
+app.client.waitUntilWindowLoaded(10000)
+```
+
+#### client.windowByIndex(index)
+
+Focus a window using its index from the `windowHandles()` array.
+
+```js
+app.client.windowByIndex(1)
+```
+
+## Continuous Integration
+
+### On Travis CI
+
+You will want to add the following to your `.travis.yml` file when building on
+Linux:
+
+```yml
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+```
+
+Check out Spectron's [.travis.yml](https://github.com/kevinsawicki/spectron/blob/master/.travis.yml)
+file for a production example.
+
+### On AppVeyor
+
+You will want to add the following to your `appveyor.yml` file:
+
+```yml
+os: unstable
+```
+
+Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
+file for a production example.
+
+
+## Test Library Examples
+
 ### With Chai As Promised
 
 WebdriverIO is promise-based and so it pairs really well with the
@@ -89,7 +354,7 @@ describe('application launch', function () {
   })
 
   beforeEach(function () {
-    chaiAsPromised.transferPromiseness = this.app.client.transferPromiseness
+    chaiAsPromised.transferPromiseness = this.app.transferPromiseness
   })
 
   afterEach(function () {
@@ -101,12 +366,12 @@ describe('application launch', function () {
   it('opens a window', function () {
     return this.app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.equal(1)
-      .isWindowMinimized().should.eventually.be.false
-      .isWindowDevToolsOpened().should.eventually.be.false
-      .isWindowVisible().should.eventually.be.true
-      .isWindowFocused().should.eventually.be.true
-      .getWindowWidth().should.eventually.be.above(0)
-      .getWindowHeight().should.eventually.be.above(0)
+      .browserWindow.isMinimized().should.eventually.be.false
+      .browserWindow.isDevToolsOpened().should.eventually.be.false
+      .browserWindow.isVisible().should.eventually.be.true
+      .browserWindow.isFocused().should.eventually.be.true
+      .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
+      .browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0)
   })
 })
 ```
@@ -138,18 +403,17 @@ test(t => {
   return t.context.app.client.waitUntilWindowLoaded()
     .getWindowCount().then(count => {
       t.is(count, 1);
-    }).isWindowMinimized().then(min => {
+    }).browserWindow.isMinimized().then(min => {
       t.false(min);
-    }).isWindowDevToolsOpened().then(opened => {
+    }).browserWindow.isDevToolsOpened().then(opened => {
       t.false(opened);
-    }).isWindowVisible().then(visible => {
+    }).browserWindow.isVisible().then(visible => {
       t.true(visible);
-    }).isWindowFocused().then(focused => {
+    }).browserWindow.isFocused().then(focused => {
       t.true(focused);
-    }).getWindowWidth().then(width => {
-      t.ok(width > 0);
-    }).getWindowHeight().then(height => {
-      t.ok(height > 0);
+    }).browserWindow.getBounds().then(bounds => {
+      t.ok(bounds.width > 0);
+      t.ok(bounds.height > 0);
     });
 });
 ```
@@ -160,392 +424,11 @@ AVA supports ECMAScript advanced features not only promise but also async/await.
 test(async t => {
   await t.context.app.client.waitUntilWindowLoaded();
   t.is(1, await app.client.getWindowCount());
-  t.false(await app.client.isWindowMinimized());
-  t.false(await app.client.isWindowDevToolsOpened());
-  t.true(await app.client.isWindowVisible());
-  t.true(await app.client.isWindowFocused());
-  t.ok(await app.client.getWindowWidth() > 0);
-  t.ok(await app.client.getWindowHeight() > 0);
+  t.false(await app.browserWindow.isMinimized());
+  t.false(await app.browserWindow.isDevToolsOpened());
+  t.true(await app.browserWindow.isVisible());
+  t.true(await app.browserWindow.isFocused());
+  t.ok((await app.browserWindow.getBounds()).width > 0);
+  t.ok((await app.browserWindow.getBounds()).height > 0);
 });
-```
-
-### On Travis CI
-
-You will want to add the following to your `.travis.yml` file when building on
-Linux:
-
-```yml
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-```
-
-Check out Spectron's [.travis.yml](https://github.com/kevinsawicki/spectron/blob/master/.travis.yml)
-file for a production example.
-
-### On AppVeyor
-
-You will want to add the following to your `appveyor.yml` file:
-
-```yml
-os: unstable
-```
-
-Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
-file for a production example.
-
-### Application
-
-#### new Application(options)
-
-Create a new application with the following options:
-
-* `path` - String path to the application executable to launch. **Required**
-* `args` - Array of arguments to pass to the executable.
-  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities)
-  for details on the Chrome arguments.
-* `cwd`- String path to the working directory to use for the launched
-  application. Defaults to `process.cwd()`.
-* `env` - Object of additional environment variables to set in the launched
-  application.
-* `host` - String host name of the launched `chromedriver` process.
-  Defaults to `'localhost'`.
-* `port` - Number port of the launched `chromedriver` process.
-  Defaults to `9515`.
-* `nodePath` - String path to a `node` executable to launch ChromeDriver with.
-  Defaults to `process.execPath`.
-* `connectionRetryCount` - Number of retry attempts to make when connecting
-  to ChromeDriver. Defaults to `10` attempts.
-* `connectionRetryTimeout` - Number in milliseconds to wait for connections
-  to ChromeDriver to be made. Defaults to `30000` milliseconds.
-* `quitTimeout` - Number in milliseconds to wait for application quitting.
-  Defaults to `1000` milliseconds.
-* `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
-  Defaults to `5000` milliseconds.
-* `waitTimeout` - Number in milliseconds to wait for calls like
-  `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
-  Defaults to `5000` milliseconds.
-
-
-#### start()
-
-Starts the application. Returns a `Promise` that will be resolved when the
-application is ready to use. You should always wait for start to complete
-before running any commands.
-
-#### stop()
-
-Stops the application. Returns a `Promise` that will be resolved once the
-application has stopped.
-
-### Client Commands
-
-Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
-`client` property on the created `Application` instances.
-
-The full `client` API provided by WebdriverIO can be found
-[here](http://webdriver.io/api.html).
-
-Several additional commands are provided specific to Electron.
-
-All the commands return a `Promise`.
-
-#### getAppPath(name)
-
-Get the path using the `require('electron').app.getPath(name)` API.
-
-```js
-app.client.getAppPath('userData').then(function (userDataPath) {
-  console.log(userDataPath)
-})
-```
-
-#### getArgv()
-
-Get the `argv` array from the main process.
-
-```js
-app.client.getArgv().then(function (argv) {
-  console.log(argv)
-})
-```
-
-#### getClipboardText()
-
-Gets the clipboard text.
-
-```js
-app.client.getClipboardText().then(function (clipboardText) {
-  console.log(clipboardText)
-})
-```
-
-#### getCwd()
-
-Get the current working directory of the main process.
-
-```js
-app.client.getCwd().then(function (cwd) {
-  console.log(cwd)
-})
-```
-
-#### getMainProcessLogs()
-
-Gets the `console` log output from the main process. The logs are cleared
-after they are returned.
-
-Returns a `Promise` that resolves to an array of string log messages
-
-```js
-app.client.getMainProcessLogs().then(function (logs) {
-  logs.forEach(function (log) {
-    console.log(log)
-  })
-})
-```
-
-#### getMainProcessGlobal(globalName)
-
-Gets a global from the main process by name.
-
-```js
-app.client.getMainProcessGlobal('aGlobal').then(function (globalValue) {
-  console.log(globalValue)
-})
-```
-
-#### getRenderProcessLogs()
-
-Gets the `console` log output from the render process. The logs are cleared
-after they are returned.
-
-Returns a `Promise` that resolves to an array of log objects.
-
-```js
-app.client.getRenderProcessLogs().then(function (logs) {
-  logs.forEach(function (log) {
-    console.log(log.message)
-    console.log(log.source)
-    console.log(log.level)
-  })
-})
-```
-
-#### getRepresentedFilename()
-
-Gets the represented file name. Only supported on Mac OS X.
-
-```js
-app.client.getRepresentedFilename().then(function (filename) {
-  console.log(filename)
-})
-```
-
-#### getSelectedText()
-
-Get the selected text in the current window.
-
-```js
-app.client.getSelectedText().then(function (selectedText) {
-  console.log(selectedText)
-})
-```
-
-#### getWindowCount()
-
-Gets the number of open windows.
-
-```js
-app.client.getWindowCount().then(function (count) {
-  console.log(count)
-})
-```
-
-#### getWindowBounds()
-
-Gets the bounds of the current window. Object returned has
-`x`, `y`, `width`, and `height` properties.
-
-```js
-app.client.getWindowBounds().then(function (bounds) {
-  console.log(bounds.x, bounds.y, bounds.width, bounds.height)
-})
-```
-
-#### getWindowHeight()
-
-Get the height of the current window.
-
-```js
-app.client.getWindowHeight().then(function (height) {
-  console.log(height)
-})
-```
-
-#### getWindowWidth()
-
-Get the width of the current window.
-
-```js
-app.client.getWindowWidth().then(function (width) {
-  console.log(width)
-})
-```
-
-#### isDocumentEdited()
-
-Returns true if the document is edited, false otherwise. Only supported on
-Mac OS X.
-
-```js
-app.client.isDocumentEdited().then(function (edited) {
-  console.log(edited)
-})
-```
-
-#### isWindowDevToolsOpened()
-
-Returns whether the current window's dev tools are opened.
-
-```js
-app.client.isWindowDevToolsOpened().then(function (devToolsOpened) {
-  console.log(devToolsOpened)
-})
-```
-
-#### isWindowFocused()
-
-Returns whether the current window has focus.
-
-```js
-app.client.isWindowFocused().then(function (focused) {
-  console.log(focused)
-})
-```
-
-#### isWindowFullScreen()
-
-Returns whether the current window is in full screen mode.
-
-```js
-app.client.isWindowFullScreen().then(function (fullScreen) {
-  console.log(fullScreen)
-})
-```
-
-#### isWindowLoading()
-
-Returns whether the current window is loading.
-
-```js
-app.client.isWindowLoading().then(function (loading) {
-  console.log(loading)
-})
-```
-
-#### isWindowMaximized()
-
-Returns whether the current window is maximized.
-
-```js
-app.client.isWindowMaximized().then(function (maximized) {
-  console.log(maximized)
-})
-```
-
-#### isWindowMinimized()
-
-Returns whether the current window is minimized.
-
-```js
-app.client.isWindowMinimized().then(function (minimized) {
-  console.log(minimized)
-})
-```
-
-#### isWindowVisible()
-
-Returns whether the current window is visible.
-
-```js
-app.client.isWindowVisible().then(function (visible) {
-  console.log(visible)
-})
-```
-
-#### paste()
-
-Paste the text from the clipboard in the current window.
-
-```js
-app.client.paste()
-```
-
-#### selectAll()
-
-Select all the text in the current window.
-
-```js
-app.client.selectAll()
-```
-
-#### setClipboardText(clipboardText)
-
-Sets the clipboard text.
-
-```js
-app.client.setClipboardText('pasta')
-```
-
-#### setDocumentEdited(edited)
-
-Sets the document edited state. Only supported on Mac OS X.
-
-```js
-app.client.setDocumentEdited(true)
-```
-
-#### setRepresentedFilename(filename)
-
-Sets the represented file name. Only supported on Mac OS X.
-
-```js
-app.client.setRepresentedFilename('/foo.js')
-```
-
-#### setWindowBounds(bounds)
-
-Sets the window position and size. The bounds object should have `x`, `y`,
-`height`, and `width` keys.
-
-```js
-app.client.setWindowBounds({x: 100, y: 200, width: 50, height: 75})
-```
-
-#### waitUntilTextExists(selector, text, [timeout])
-
-Waits until the element matching the given selector contains the given
-text. Takes an optional timeout in milliseconds that defaults to `5000`.
-
-```js
-app.client.waitUntilTextExists('#message', 'Success', 10000)
-```
-
-#### waitUntilWindowLoaded([timeout])
-
-Wait until the window is no longer loading. Takes an optional timeout
-in milliseconds that defaults to `5000`.
-
-```js
-app.client.waitUntilWindowLoaded(10000)
-```
-
-#### windowByIndex(index)
-
-Focus a window using its index from the `windowHandles()` array.
-
-```js
-app.client.windowByIndex(1)
 ```
