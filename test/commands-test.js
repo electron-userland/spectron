@@ -180,4 +180,10 @@ describe('window commands', function () {
       return app.rendererProcess.versions().should.eventually.have.property('electron').and.not.be.empty
     })
   })
+
+  describe('electron.screen.getPrimaryDisplay()', function () {
+    it('returns information about the primary display', function () {
+      return app.electron.screen.getPrimaryDisplay().should.eventually.have.property('workArea').and.not.be.empty
+    })
+  })
 })
