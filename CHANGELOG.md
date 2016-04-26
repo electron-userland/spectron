@@ -6,7 +6,7 @@
       * `app.client.getWindowBounds()` should now be `app.browserWindow.getBounds()`
       * `app.client.getClipboardText()` should now be `app.electron.clipboard.readText()`
       * See the README or https://github.com/kevinsawicki/spectron/pull/18 for
-        full details.
+        more details.
   * You should now use `app.transferPromiseness` instead of `app.client.transferPromiseness`
     to ensure these new properties are correctly transferred to chained promises.
 
