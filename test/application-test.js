@@ -91,6 +91,7 @@ describe('application loading', function () {
       assert.equal(fs.existsSync(quitPath), false)
       return app.stop().then(function () {
         assert.equal(fs.existsSync(quitPath), true)
+        assert.equal(app.isRunning(), false)
       })
     })
 
