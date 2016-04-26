@@ -164,4 +164,8 @@ describe('window commands', function () {
         .electron.remote.app.getPath('music').should.eventually.equal(tempDir)
     })
   })
+
+  it('exposes properties on constructor APIs', function () {
+    return app.electron.remote.MenuItem.types().should.eventually.include('normal')
+  })
 })
