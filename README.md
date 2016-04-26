@@ -11,7 +11,7 @@
 [![dependencies:?](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/packages/spectron)
 
 Easily test your [Electron](http://electron.atom.io) apps using
-[ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver) and
+[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
 [WebdriverIO](http://webdriver.io).
 
 This minor version of this library tracks the minor version of the Electron
