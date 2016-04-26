@@ -57,117 +57,6 @@ describe('application launch', function () {
 })
 ```
 
-### With Chai As Promised
-
-WebdriverIO is promise-based and so it pairs really well with the
-[Chai as Promised](https://github.com/domenic/chai-as-promised) library that
-builds on top of [Chai](http://chaijs.com).
-
-Using these together allows you to chain assertions together and have fewer
-callback blocks. See below for a simple example:
-
-```sh
-npm install --save-dev chai
-npm install --save-dev chai-as-promised
-```
-
-```js
-var Application = require('spectron').Application
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var path = require('path')
-
-chai.should()
-chai.use(chaiAsPromised)
-
-describe('application launch', function () {
-  beforeEach(function () {
-    this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
-    })
-    return this.app.start()
-  })
-
-  beforeEach(function () {
-    chaiAsPromised.transferPromiseness = this.app.client.transferPromiseness
-  })
-
-  afterEach(function () {
-    if (this.app && this.app.isRunning()) {
-      return this.app.stop()
-    }
-  })
-
-  it('opens a window', function () {
-    return this.app.client.waitUntilWindowLoaded()
-      .getWindowCount().should.eventually.equal(1)
-      .browserWindow.isMinimized().should.eventually.be.false
-      .browserWindow.isDevToolsOpened().should.eventually.be.false
-      .browserWindow.isVisible().should.eventually.be.true
-      .browserWindow.isFocused().should.eventually.be.true
-      .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
-      .browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0)
-  })
-})
-```
-
-### With AVA
-
-Spectron works with [AVA](https://github.com/sindresorhus/ava) which allows you
-to write your tests in ES2015 without extra support.
-
-```js
-'use strict';
-
-import test from 'ava';
-import {Application} from 'spectron';
-
-test.beforeEach(t => {
-  t.context.app = new Application({
-    path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
-  });
-
-  return t.context.app.start();
-});
-
-test.afterEach(t => {
-  return t.context.app.stop();
-});
-
-test(t => {
-  return t.context.app.client.waitUntilWindowLoaded()
-    .getWindowCount().then(count => {
-      t.is(count, 1);
-    }).browserWindow.isMinimized().then(min => {
-      t.false(min);
-    }).browserWindow.isDevToolsOpened().then(opened => {
-      t.false(opened);
-    }).browserWindow.isVisible().then(visible => {
-      t.true(visible);
-    }).browserWindow.isFocused().then(focused => {
-      t.true(focused);
-    }).browserWindow.getBounds().then(bounds => {
-      t.ok(bounds.width > 0);
-      t.ok(bounds.height > 0);
-    });
-});
-```
-
-AVA supports ECMAScript advanced features not only promise but also async/await.
-
-```js
-test(async t => {
-  await t.context.app.client.waitUntilWindowLoaded();
-  t.is(1, await app.client.getWindowCount());
-  t.false(await app.browserWindow.isMinimized());
-  t.false(await app.browserWindow.isDevToolsOpened());
-  t.true(await app.browserWindow.isVisible());
-  t.true(await app.browserWindow.isFocused());
-  t.ok((await app.browserWindow.getBounds()).width > 0);
-  t.ok((await app.browserWindow.getBounds()).height > 0);
-});
-```
-
 ### On Travis CI
 
 You will want to add the following to your `.travis.yml` file when building on
@@ -326,4 +215,115 @@ Focus a window using its index from the `windowHandles()` array.
 
 ```js
 app.client.windowByIndex(1)
+```
+
+### With Chai As Promised
+
+WebdriverIO is promise-based and so it pairs really well with the
+[Chai as Promised](https://github.com/domenic/chai-as-promised) library that
+builds on top of [Chai](http://chaijs.com).
+
+Using these together allows you to chain assertions together and have fewer
+callback blocks. See below for a simple example:
+
+```sh
+npm install --save-dev chai
+npm install --save-dev chai-as-promised
+```
+
+```js
+var Application = require('spectron').Application
+var chai = require('chai')
+var chaiAsPromised = require('chai-as-promised')
+var path = require('path')
+
+chai.should()
+chai.use(chaiAsPromised)
+
+describe('application launch', function () {
+  beforeEach(function () {
+    this.app = new Application({
+      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+    })
+    return this.app.start()
+  })
+
+  beforeEach(function () {
+    chaiAsPromised.transferPromiseness = this.app.client.transferPromiseness
+  })
+
+  afterEach(function () {
+    if (this.app && this.app.isRunning()) {
+      return this.app.stop()
+    }
+  })
+
+  it('opens a window', function () {
+    return this.app.client.waitUntilWindowLoaded()
+      .getWindowCount().should.eventually.equal(1)
+      .browserWindow.isMinimized().should.eventually.be.false
+      .browserWindow.isDevToolsOpened().should.eventually.be.false
+      .browserWindow.isVisible().should.eventually.be.true
+      .browserWindow.isFocused().should.eventually.be.true
+      .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
+      .browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0)
+  })
+})
+```
+
+### With AVA
+
+Spectron works with [AVA](https://github.com/sindresorhus/ava) which allows you
+to write your tests in ES2015 without extra support.
+
+```js
+'use strict';
+
+import test from 'ava';
+import {Application} from 'spectron';
+
+test.beforeEach(t => {
+  t.context.app = new Application({
+    path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+  });
+
+  return t.context.app.start();
+});
+
+test.afterEach(t => {
+  return t.context.app.stop();
+});
+
+test(t => {
+  return t.context.app.client.waitUntilWindowLoaded()
+    .getWindowCount().then(count => {
+      t.is(count, 1);
+    }).browserWindow.isMinimized().then(min => {
+      t.false(min);
+    }).browserWindow.isDevToolsOpened().then(opened => {
+      t.false(opened);
+    }).browserWindow.isVisible().then(visible => {
+      t.true(visible);
+    }).browserWindow.isFocused().then(focused => {
+      t.true(focused);
+    }).browserWindow.getBounds().then(bounds => {
+      t.ok(bounds.width > 0);
+      t.ok(bounds.height > 0);
+    });
+});
+```
+
+AVA supports ECMAScript advanced features not only promise but also async/await.
+
+```js
+test(async t => {
+  await t.context.app.client.waitUntilWindowLoaded();
+  t.is(1, await app.client.getWindowCount());
+  t.false(await app.browserWindow.isMinimized());
+  t.false(await app.browserWindow.isDevToolsOpened());
+  t.true(await app.browserWindow.isVisible());
+  t.true(await app.browserWindow.isFocused());
+  t.ok((await app.browserWindow.getBounds()).width > 0);
+  t.ok((await app.browserWindow.getBounds()).height > 0);
+});
 ```
