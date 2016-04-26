@@ -109,6 +109,7 @@ All the commands return a `Promise`.
 #### electron
 
 The `electron` property is your gateway to accessing the full Electron API.
+
 Each Electron module is exposed as a property on the `electron` property
 so you can think of it as an alias for `require('electron')` from within your
 app.
@@ -126,10 +127,12 @@ app.electron.clipboard.writeText('pasta')
 #### browserWindow
 
 The `browserWindow` property is an alias for `require('electron').remote.getCurrentWindow()`.
-It provides you easy access to the current [BrowserWindow](http://electron.atom.io/docs/latest/api/browser-window/)
+
+It provides you access to the current [BrowserWindow](http://electron.atom.io/docs/latest/api/browser-window/)
 and contains all the APIs.
 
-So if you wanted to check if the current window is visible you would do:
+So if you wanted to check if the current window is visible in your tests you
+would do:
 
 ```js
 app.browserWindow.isVisible().then(function (visible) {
@@ -143,10 +146,12 @@ with the WebDriver command of that name.
 #### webContents
 
 The `browserWindow` property is an alias for `require('electron').remote.getCurrentWebContents()`.
-It provides you easy access to the [WebContents](http://electron.atom.io/docs/latest/api/web-contents/)
+
+It provides you access to the [WebContents](http://electron.atom.io/docs/latest/api/web-contents/)
 for the current window and contains all the APIs.
 
-So if you wanted to check if the current window is loading you would do:
+So if you wanted to check if the current window is loading in your tests you
+would do:
 
 ```js
 app.webContents.isLoading().then(function (visible) {
@@ -157,10 +162,12 @@ app.webContents.isLoading().then(function (visible) {
 #### mainProcess
 
 The `mainProcess` property is an alias for `require('electron').remote.process`.
+
 It provides you access to the main process's [process](https://nodejs.org/api/process.html)
 global.
 
-So if you wanted to get the `argv` for the main process you would do:
+So if you wanted to get the `argv` for the main process in your tests you would
+do:
 
 ```js
 app.mainProcess.argv().then(function (argv) {
@@ -174,12 +181,13 @@ make sure to call `mainProcess.env().then(...)` instead of
 
 #### rendererProcess
 
-The `rendererProcess` property is an alias for `global.process`. It provides
-you access to the renderer process's [process](https://nodejs.org/api/process.html)
+The `rendererProcess` property is an alias for `global.process`.
+
+It provides you access to the renderer process's [process](https://nodejs.org/api/process.html)
 global.
 
-So if you wanted to get the environment variables for the renderer process you
-would do:
+So if you wanted to get the environment variables for the renderer process in
+your tests you would do:
 
 ```js
 app.rendererProcess.env().then(function (env) {
