@@ -251,46 +251,6 @@ Several additional commands are provided specific to Electron.
 
 All the commands return a `Promise`.
 
-#### getAppPath(name)
-
-Get the path using the `require('electron').app.getPath(name)` API.
-
-```js
-app.client.getAppPath('userData').then(function (userDataPath) {
-  console.log(userDataPath)
-})
-```
-
-#### getArgv()
-
-Get the `argv` array from the main process.
-
-```js
-app.client.getArgv().then(function (argv) {
-  console.log(argv)
-})
-```
-
-#### getClipboardText()
-
-Gets the clipboard text.
-
-```js
-app.client.getClipboardText().then(function (clipboardText) {
-  console.log(clipboardText)
-})
-```
-
-#### getCwd()
-
-Get the current working directory of the main process.
-
-```js
-app.client.getCwd().then(function (cwd) {
-  console.log(cwd)
-})
-```
-
 #### getMainProcessLogs()
 
 Gets the `console` log output from the main process. The logs are cleared
@@ -303,16 +263,6 @@ app.client.getMainProcessLogs().then(function (logs) {
   logs.forEach(function (log) {
     console.log(log)
   })
-})
-```
-
-#### getMainProcessGlobal(globalName)
-
-Gets a global from the main process by name.
-
-```js
-app.client.getMainProcessGlobal('aGlobal').then(function (globalValue) {
-  console.log(globalValue)
 })
 ```
 
@@ -330,16 +280,6 @@ app.client.getRenderProcessLogs().then(function (logs) {
     console.log(log.source)
     console.log(log.level)
   })
-})
-```
-
-#### getRepresentedFilename()
-
-Gets the represented file name. Only supported on Mac OS X.
-
-```js
-app.client.getRepresentedFilename().then(function (filename) {
-  console.log(filename)
 })
 ```
 
@@ -361,167 +301,6 @@ Gets the number of open windows.
 app.client.getWindowCount().then(function (count) {
   console.log(count)
 })
-```
-
-#### getWindowBounds()
-
-Gets the bounds of the current window. Object returned has
-`x`, `y`, `width`, and `height` properties.
-
-```js
-app.client.getWindowBounds().then(function (bounds) {
-  console.log(bounds.x, bounds.y, bounds.width, bounds.height)
-})
-```
-
-#### getWindowHeight()
-
-Get the height of the current window.
-
-```js
-app.client.getWindowHeight().then(function (height) {
-  console.log(height)
-})
-```
-
-#### getWindowWidth()
-
-Get the width of the current window.
-
-```js
-app.client.getWindowWidth().then(function (width) {
-  console.log(width)
-})
-```
-
-#### isDocumentEdited()
-
-Returns true if the document is edited, false otherwise. Only supported on
-Mac OS X.
-
-```js
-app.client.isDocumentEdited().then(function (edited) {
-  console.log(edited)
-})
-```
-
-#### isWindowDevToolsOpened()
-
-Returns whether the current window's dev tools are opened.
-
-```js
-app.client.isWindowDevToolsOpened().then(function (devToolsOpened) {
-  console.log(devToolsOpened)
-})
-```
-
-#### isWindowFocused()
-
-Returns whether the current window has focus.
-
-```js
-app.client.isWindowFocused().then(function (focused) {
-  console.log(focused)
-})
-```
-
-#### isWindowFullScreen()
-
-Returns whether the current window is in full screen mode.
-
-```js
-app.client.isWindowFullScreen().then(function (fullScreen) {
-  console.log(fullScreen)
-})
-```
-
-#### isWindowLoading()
-
-Returns whether the current window is loading.
-
-```js
-app.client.isWindowLoading().then(function (loading) {
-  console.log(loading)
-})
-```
-
-#### isWindowMaximized()
-
-Returns whether the current window is maximized.
-
-```js
-app.client.isWindowMaximized().then(function (maximized) {
-  console.log(maximized)
-})
-```
-
-#### isWindowMinimized()
-
-Returns whether the current window is minimized.
-
-```js
-app.client.isWindowMinimized().then(function (minimized) {
-  console.log(minimized)
-})
-```
-
-#### isWindowVisible()
-
-Returns whether the current window is visible.
-
-```js
-app.client.isWindowVisible().then(function (visible) {
-  console.log(visible)
-})
-```
-
-#### paste()
-
-Paste the text from the clipboard in the current window.
-
-```js
-app.client.paste()
-```
-
-#### selectAll()
-
-Select all the text in the current window.
-
-```js
-app.client.selectAll()
-```
-
-#### setClipboardText(clipboardText)
-
-Sets the clipboard text.
-
-```js
-app.client.setClipboardText('pasta')
-```
-
-#### setDocumentEdited(edited)
-
-Sets the document edited state. Only supported on Mac OS X.
-
-```js
-app.client.setDocumentEdited(true)
-```
-
-#### setRepresentedFilename(filename)
-
-Sets the represented file name. Only supported on Mac OS X.
-
-```js
-app.client.setRepresentedFilename('/foo.js')
-```
-
-#### setWindowBounds(bounds)
-
-Sets the window position and size. The bounds object should have `x`, `y`,
-`height`, and `width` keys.
-
-```js
-app.client.setWindowBounds({x: 100, y: 200, width: 50, height: 75})
 ```
 
 #### waitUntilTextExists(selector, text, [timeout])
