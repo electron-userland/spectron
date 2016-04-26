@@ -57,32 +57,6 @@ describe('application launch', function () {
 })
 ```
 
-### On Travis CI
-
-You will want to add the following to your `.travis.yml` file when building on
-Linux:
-
-```yml
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-```
-
-Check out Spectron's [.travis.yml](https://github.com/kevinsawicki/spectron/blob/master/.travis.yml)
-file for a production example.
-
-### On AppVeyor
-
-You will want to add the following to your `appveyor.yml` file:
-
-```yml
-os: unstable
-```
-
-Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
-file for a production example.
-
 ## Application API
 
 Spectron exports an `Application` class that when configured, can start and
@@ -303,6 +277,35 @@ Focus a window using its index from the `windowHandles()` array.
 ```js
 app.client.windowByIndex(1)
 ```
+
+## Continuous Integration
+
+### On Travis CI
+
+You will want to add the following to your `.travis.yml` file when building on
+Linux:
+
+```yml
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+```
+
+Check out Spectron's [.travis.yml](https://github.com/kevinsawicki/spectron/blob/master/.travis.yml)
+file for a production example.
+
+### On AppVeyor
+
+You will want to add the following to your `appveyor.yml` file:
+
+```yml
+os: unstable
+```
+
+Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
+file for a production example.
+
 
 ## Test Library Examples
 
