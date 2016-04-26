@@ -83,6 +83,8 @@ os: unstable
 Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
 file for a production example.
 
+## API
+
 ### Application
 
 #### new Application(options)
@@ -216,6 +218,8 @@ Focus a window using its index from the `windowHandles()` array.
 ```js
 app.client.windowByIndex(1)
 ```
+
+## Test Library Examples
 
 ### With Chai As Promised
 
