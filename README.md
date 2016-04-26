@@ -101,12 +101,12 @@ describe('application launch', function () {
   it('opens a window', function () {
     return this.app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.equal(1)
-      .isWindowMinimized().should.eventually.be.false
-      .isWindowDevToolsOpened().should.eventually.be.false
-      .isWindowVisible().should.eventually.be.true
-      .isWindowFocused().should.eventually.be.true
-      .getWindowWidth().should.eventually.be.above(0)
-      .getWindowHeight().should.eventually.be.above(0)
+      .browserWindow.isMinimized().should.eventually.be.false
+      .browserWindow.isDevToolsOpened().should.eventually.be.false
+      .browserWindow.isVisible().should.eventually.be.true
+      .browserWindow.isFocused().should.eventually.be.true
+      .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
+      .browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0)
   })
 })
 ```
@@ -138,18 +138,17 @@ test(t => {
   return t.context.app.client.waitUntilWindowLoaded()
     .getWindowCount().then(count => {
       t.is(count, 1);
-    }).isWindowMinimized().then(min => {
+    }).browserWindow.isMinimized().then(min => {
       t.false(min);
-    }).isWindowDevToolsOpened().then(opened => {
+    }).browserWindow.isDevToolsOpened().then(opened => {
       t.false(opened);
-    }).isWindowVisible().then(visible => {
+    }).browserWindow.isVisible().then(visible => {
       t.true(visible);
-    }).isWindowFocused().then(focused => {
+    }).browserWindow.isFocused().then(focused => {
       t.true(focused);
-    }).getWindowWidth().then(width => {
-      t.ok(width > 0);
-    }).getWindowHeight().then(height => {
-      t.ok(height > 0);
+    }).browserWindow.getBounds().then(bounds => {
+      t.ok(bounds.width > 0);
+      t.ok(bounds.height > 0);
     });
 });
 ```
@@ -160,12 +159,12 @@ AVA supports ECMAScript advanced features not only promise but also async/await.
 test(async t => {
   await t.context.app.client.waitUntilWindowLoaded();
   t.is(1, await app.client.getWindowCount());
-  t.false(await app.client.isWindowMinimized());
-  t.false(await app.client.isWindowDevToolsOpened());
-  t.true(await app.client.isWindowVisible());
-  t.true(await app.client.isWindowFocused());
-  t.ok(await app.client.getWindowWidth() > 0);
-  t.ok(await app.client.getWindowHeight() > 0);
+  t.false(await app.browserWindow.isMinimized());
+  t.false(await app.browserWindow.isDevToolsOpened());
+  t.true(await app.browserWindow.isVisible());
+  t.true(await app.browserWindow.isFocused());
+  t.ok((await app.browserWindow.getBounds()).width > 0);
+  t.ok((await app.browserWindow.getBounds()).height > 0);
 });
 ```
 
