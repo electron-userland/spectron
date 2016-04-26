@@ -145,7 +145,7 @@ with the WebDriver command of that name.
 
 #### webContents
 
-The `browserWindow` property is an alias for `require('electron').remote.getCurrentWebContents()`.
+The `webContents` property is an alias for `require('electron').remote.getCurrentWebContents()`.
 
 It provides you access to the [WebContents](http://electron.atom.io/docs/latest/api/web-contents/)
 for the current window and contains all the APIs.
