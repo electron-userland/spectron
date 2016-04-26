@@ -83,11 +83,12 @@ os: unstable
 Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
 file for a production example.
 
-## API
+## Application API
 
-### Application
+Spectron exports an `Application` class that when configured, can start and
+stop your Electron application.
 
-#### new Application(options)
+### new Application(options)
 
 Create a new application with the following options:
 
@@ -117,6 +118,102 @@ Create a new application with the following options:
   `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
   Defaults to `5000` milliseconds.
 
+### Properties
+
+#### client
+
+Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
+`client` property on the created `Application` instances.
+
+The full `client` API provided by WebdriverIO can be found
+[here](http://webdriver.io/api.html).
+
+Several additional commands are provided specific to Electron.
+
+All the commands return a `Promise`.
+
+#### electron
+
+The `electron` property is your gateway to accessing the full Electron API.
+Each Electron module is exposed as a property on the `electron` property
+so you can think of it as an alias for `require('electron')` from within your
+app.
+
+So if you wanted to access the [clipboard](http://electron.atom.io/docs/latest/api/clipboard)
+API in your tests you would do:
+
+```js
+app.electron.clipboard.writeText('pasta')
+   .electron.clipboard.readText().then(function (clipboardText) {
+     console.log('The clipboard text is ' + clipboardText)
+   })
+```
+
+#### browserWindow
+
+The `browserWindow` property is an alias for `require('electron').remote.getCurrentWindow()`.
+It provides you easy access to the current [BrowserWindow](http://electron.atom.io/docs/latest/api/browser-window/)
+and contains all the APIs.
+
+So if you wanted to check if the current window is visible you would do:
+
+```js
+app.browserWindow.isVisible().then(function (visible) {
+  console.log('window is visible? ' + visible)
+})
+```
+
+It is named `browserWindow` instead of `window` so that it doesn't collide
+with the WebDriver command of that name.
+
+#### webContents
+
+The `browserWindow` property is an alias for `require('electron').remote.getCurrentWebContents()`.
+It provides you easy access to the [WebContents](http://electron.atom.io/docs/latest/api/web-contents/)
+for the current window and contains all the APIs.
+
+So if you wanted to check if the current window is loading you would do:
+
+```js
+app.webContents.isLoading().then(function (visible) {
+  console.log('window is loading? ' + visible)
+})
+```
+
+#### mainProcess
+
+The `mainProcess` property is an alias for `require('electron').remote.process`.
+It provides you access to the main process's [process](https://nodejs.org/api/process.html)
+global.
+
+So if you wanted to get the `argv` for the main process you would do:
+
+```js
+app.mainProcess.argv().then(function (argv) {
+  console.log('main process args: ' + argv)
+})
+```
+
+Properties on the `process` are exposed as functions that return promises so
+make sure to call `mainProcess.env().then(...)` instead of
+`mainProcess.env.then(...)`.
+
+#### rendererProcess
+
+The `rendererProcess` property is an alias for `global.process`. It provides
+you access to the renderer process's [process](https://nodejs.org/api/process.html)
+global.
+
+So if you wanted to get the environment variables for the renderer process you
+would do:
+
+```js
+app.rendererProcess.env().then(function (env) {
+  console.log('main process args: ' + env)
+})
+```
+
+### Methods
 
 #### start()
 
@@ -129,19 +226,7 @@ before running any commands.
 Stops the application. Returns a `Promise` that will be resolved once the
 application has stopped.
 
-### Client Commands
-
-Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
-`client` property on the created `Application` instances.
-
-The full `client` API provided by WebdriverIO can be found
-[here](http://webdriver.io/api.html).
-
-Several additional commands are provided specific to Electron.
-
-All the commands return a `Promise`.
-
-#### getMainProcessLogs()
+#### client.getMainProcessLogs()
 
 Gets the `console` log output from the main process. The logs are cleared
 after they are returned.
@@ -156,7 +241,7 @@ app.client.getMainProcessLogs().then(function (logs) {
 })
 ```
 
-#### getRenderProcessLogs()
+#### client.getRenderProcessLogs()
 
 Gets the `console` log output from the render process. The logs are cleared
 after they are returned.
@@ -173,7 +258,7 @@ app.client.getRenderProcessLogs().then(function (logs) {
 })
 ```
 
-#### getSelectedText()
+#### client.getSelectedText()
 
 Get the selected text in the current window.
 
@@ -183,7 +268,7 @@ app.client.getSelectedText().then(function (selectedText) {
 })
 ```
 
-#### getWindowCount()
+#### client.getWindowCount()
 
 Gets the number of open windows.
 
@@ -193,7 +278,7 @@ app.client.getWindowCount().then(function (count) {
 })
 ```
 
-#### waitUntilTextExists(selector, text, [timeout])
+#### client.waitUntilTextExists(selector, text, [timeout])
 
 Waits until the element matching the given selector contains the given
 text. Takes an optional timeout in milliseconds that defaults to `5000`.
@@ -202,7 +287,7 @@ text. Takes an optional timeout in milliseconds that defaults to `5000`.
 app.client.waitUntilTextExists('#message', 'Success', 10000)
 ```
 
-#### waitUntilWindowLoaded([timeout])
+#### client.waitUntilWindowLoaded([timeout])
 
 Wait until the window is no longer loading. Takes an optional timeout
 in milliseconds that defaults to `5000`.
@@ -211,7 +296,7 @@ in milliseconds that defaults to `5000`.
 app.client.waitUntilWindowLoaded(10000)
 ```
 
-#### windowByIndex(index)
+#### client.windowByIndex(index)
 
 Focus a window using its index from the `windowHandles()` array.
 
