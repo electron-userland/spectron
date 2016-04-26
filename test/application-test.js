@@ -174,7 +174,7 @@ describe('application loading', function () {
     })
   })
 
-  describe('getMainProcessGlobal', function () {
+  describe('electron.remote.getGlobal', function () {
     it('returns the requested global from the main process', function () {
       return app.electron.remote.getGlobal('mainProcessGlobal').should.eventually.equal('foo')
     })
