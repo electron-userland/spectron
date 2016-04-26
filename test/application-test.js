@@ -101,6 +101,23 @@ describe('application loading', function () {
     })
   })
 
+  describe('restart()', function () {
+    it('restarts the application', function () {
+      var quitPath = path.join(tempPath, 'quit.txt')
+      assert.equal(fs.existsSync(quitPath), false)
+      return app.restart().then(function () {
+        assert.equal(fs.existsSync(quitPath), true)
+        assert.equal(app.isRunning(), true)
+      })
+    })
+
+    it('rejects with an error if the application is not running', function () {
+      return app.stop().should.be.fulfilled.then(function () {
+        return app.restart().should.be.rejectedWith(Error)
+      })
+    })
+  })
+
   describe('getRenderProcessLogs', function () {
     it('gets the render process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()

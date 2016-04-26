@@ -1,6 +1,7 @@
 # 2.37.0
 
-  * Add support for the full Electron API
+  * Added a `restart()` method to `Application`
+  * Added support for the full Electron API
   * Many custom helpers have been removed in favor of accessing the Electron
     APIs directly through the new properties on the `Application` object.
       * `app.client.getWindowBounds()` should now be `app.browserWindow.getBounds()`

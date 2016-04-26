@@ -208,6 +208,11 @@ before running any commands.
 Stops the application. Returns a `Promise` that will be resolved once the
 application has stopped.
 
+#### restart()
+
+Stops the application and then starts it. Returns a `Promise` that will be
+resolved once the application has started again.
+
 #### client.getMainProcessLogs()
 
 Gets the `console` log output from the main process. The logs are cleared
