@@ -174,4 +174,10 @@ describe('window commands', function () {
       return app.electron.remote.globalShortcut.isRegistered('CommandOrControl+X').should.eventually.be.false
     })
   })
+
+  describe('rendererProcess.versions', function () {
+    it('includes the Electron version', function () {
+      return app.rendererProcess.versions().should.eventually.have.property('electron').and.not.be.empty
+    })
+  })
 })
