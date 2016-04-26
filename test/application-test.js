@@ -89,7 +89,8 @@ describe('application loading', function () {
     it('quits the application', function () {
       var quitPath = path.join(tempPath, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
-      return app.stop().then(function () {
+      return app.stop().then(function (stoppedApp) {
+        assert.equal(stoppedApp, app)
         assert.equal(fs.existsSync(quitPath), true)
         assert.equal(app.isRunning(), false)
       })
@@ -106,7 +107,8 @@ describe('application loading', function () {
     it('restarts the application', function () {
       var quitPath = path.join(tempPath, 'quit.txt')
       assert.equal(fs.existsSync(quitPath), false)
-      return app.restart().then(function () {
+      return app.restart().then(function (restartedApp) {
+        assert.equal(restartedApp, app)
         assert.equal(fs.existsSync(quitPath), true)
         assert.equal(app.isRunning(), true)
       })
