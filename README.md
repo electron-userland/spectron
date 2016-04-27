@@ -20,6 +20,8 @@ a `spectron` dependency of `~2.37` in your `package.json` file.
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
+:rotating_light: Upgrading from `1.x` to `2.x`? Read the [changelog](https://github.com/kevinsawicki/spectron/blob/master/CHANGELOG.md).
+
 ## Using
 
 ```sh
