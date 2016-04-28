@@ -18,7 +18,7 @@ This minor version of this library tracks the minor version of the Electron
 versions released. So if you are using Electron `0.37.x` you would want to use
 a `spectron` dependency of `~2.37` in your `package.json` file.
 
-Learn more from [this presentation](https://speakerdeck.com/electron/testing-your-electron-apps-with-chromedriver).
+Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
 :rotating_light: Upgrading from `1.x` to `2.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
