@@ -1,10 +1,10 @@
 # spectron
 
-[![Linux Build Status](https://travis-ci.org/kevinsawicki/spectron.svg?branch=master)](https://travis-ci.org/kevinsawicki/spectron)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/ppjnpi0ikqlhg6qw/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/spectron/branch/master)
+[![Linux Build Status](https://travis-ci.org/electron/spectron.svg?branch=master)](https://travis-ci.org/electron/spectron)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/ppjnpi0ikqlhg6qw/branch/master?svg=true)](https://ci.appveyor.com/project/electron/spectron/branch/master)
 <br>
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
-[![devDependencies:?](https://img.shields.io/david/kevinsawicki/spectron.svg)](https://david-dm.org/kevinsawicki/spectron)
+[![devDependencies:?](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron)
 <br>
 [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
 [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/packages/spectron)
@@ -18,9 +18,9 @@ This minor version of this library tracks the minor version of the Electron
 versions released. So if you are using Electron `0.37.x` you would want to use
 a `spectron` dependency of `~2.37` in your `package.json` file.
 
-Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
+Learn more from [this presentation](https://speakerdeck.com/electron/testing-your-electron-apps-with-chromedriver).
 
-:rotating_light: Upgrading from `1.x` to `2.x`? Read the [changelog](https://github.com/kevinsawicki/spectron/blob/master/CHANGELOG.md).
+:rotating_light: Upgrading from `1.x` to `2.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
 ## Using
 
@@ -307,7 +307,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
 ```
 
-Check out Spectron's [.travis.yml](https://github.com/kevinsawicki/spectron/blob/master/.travis.yml)
+Check out Spectron's [.travis.yml](https://github.com/electron/spectron/blob/master/.travis.yml)
 file for a production example.
 
 ### On AppVeyor
@@ -318,7 +318,7 @@ You will want to add the following to your `appveyor.yml` file:
 os: unstable
 ```
 
-Check out Spectron's [appveyor.yml](https://github.com/kevinsawicki/spectron/blob/master/appveyor.yml)
+Check out Spectron's [appveyor.yml](https://github.com/electron/spectron/blob/master/appveyor.yml)
 file for a production example.
 
 

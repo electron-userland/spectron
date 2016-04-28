@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kevinsawicki/spectron.git"
+    "url": "git+https://github.com/electron/spectron.git"
   },
   "keywords": [
     "electron",
@@ -22,9 +22,9 @@
   "author": "Kevin Sawicki",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kevinsawicki/spectron/issues"
+    "url": "https://github.com/electron/spectron/issues"
   },
-  "homepage": "https://github.com/kevinsawicki/spectron#readme",
+  "homepage": "https://github.com/electron/spectron#readme",
   "dependencies": {
     "dev-null": "^0.1.1",
     "electron-chromedriver": "^0.37.1",
