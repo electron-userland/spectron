@@ -4,3 +4,5 @@ appveyor.yml
 .npmignore
 script
 npm-debug.log
+lib/api.json
+lib/launcher.go
