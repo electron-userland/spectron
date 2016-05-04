@@ -108,6 +108,14 @@ Several additional commands are provided specific to Electron.
 
 All the commands return a `Promise`.
 
+So if you wanted to get the text of an element you would do:
+
+```js
+app.client.getText('#error-alert').then(function (errorText) {
+  console.log('The #error-alert text content is ' + errorText)
+})
+```
+
 #### electron
 
 The `electron` property is your gateway to accessing the full Electron API.
