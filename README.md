@@ -1,4 +1,4 @@
-# spectron
+# <img src="https://cloud.githubusercontent.com/assets/378023/15063284/cf544f2c-1383-11e6-9336-e13bd64b1694.png" width="60px" align="center" alt="Spectron icon"> Spectron
 
 [![Linux Build Status](https://travis-ci.org/electron/spectron.svg?branch=master)](https://travis-ci.org/electron/spectron)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/iv8xd919q6b44pap/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/spectron/branch/master)
