@@ -1,4 +1,3 @@
-require('electron').hideInternalModules()
 var app = require('electron').app
 var BrowserWindow = require('electron').BrowserWindow
 
