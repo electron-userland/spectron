@@ -48,7 +48,6 @@ describe('window commands', function () {
         width: 50,
         height: 75
       })
-      .pause(1000)
       .browserWindow.getBounds().should.eventually.deep.equal({
         x: 100,
         y: 200,
