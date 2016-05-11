@@ -1,3 +1,9 @@
+# 3.0.0
+
+  * Spectron now runs with `electron-chromedriver` 1.0 and is targeted at
+    apps using Electron 1.0 or later.
+  * No API changes.
+
 # 2.37.0
 
   * Added a `restart()` method to `Application`

@@ -20,7 +20,7 @@ a `spectron` dependency of `~3.0.0` in your `package.json` file.
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
-:rotating_light: Upgrading from `1.x` to `2.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
+:rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
 ## Using
 
