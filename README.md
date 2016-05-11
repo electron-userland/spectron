@@ -15,8 +15,8 @@ Easily test your [Electron](http://electron.atom.io) apps using
 [WebdriverIO](http://webdriver.io).
 
 This minor version of this library tracks the minor version of the Electron
-versions released. So if you are using Electron `0.37.x` you would want to use
-a `spectron` dependency of `~2.37` in your `package.json` file.
+versions released. So if you are using Electron `1.0.x` you would want to use
+a `spectron` dependency of `~3.0.0` in your `package.json` file.
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
