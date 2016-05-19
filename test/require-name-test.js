@@ -32,6 +32,7 @@ describe('requireName option to Application', function () {
         height: 100
       })
       .webContents.getTitle().should.eventually.equal('Test')
+      .electron.remote.process.execArgv().should.eventually.be.empty
       .getText('body').should.eventually.equal('Hello')
       .getTitle().should.eventually.equal('Test')
   })
