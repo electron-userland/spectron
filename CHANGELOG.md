@@ -1,3 +1,10 @@
+# 3.0.1
+
+  * Added a new `requireName` option to `Application` for if your app is
+    re-assigning the `require` function to a different name on `window`.
+  * Fixed an issue where applications setting `nodeIntegration` to `false` could
+    not be tested.
+
 # 3.0.0
 
   * Spectron now runs with `electron-chromedriver` 1.0 and is targeted at
