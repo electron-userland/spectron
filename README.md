@@ -90,7 +90,7 @@ Create a new application with the following options:
   Defaults to `1000` milliseconds.
 * `requireName` - Custom property name to use when requiring modules. Defaults
   to `require`. This should only be used if your application deletes the main
-  `window.require` function and assigns it to another property name.
+  `window.require` function and assigns it to another property name on `window`.
 * `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
   Defaults to `5000` milliseconds.
 * `waitTimeout` - Number in milliseconds to wait for calls like
