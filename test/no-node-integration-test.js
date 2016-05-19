@@ -23,5 +23,6 @@ describe('when nodeIntegration is set to false', function () {
 
   it('does not throw an error', function () {
     return app.client.getTitle().should.eventually.equal('no node integration')
+      .getText('body').should.eventually.equal('no node integration')
   })
 })
