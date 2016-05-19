@@ -1,4 +1,3 @@
-// Test for examples included in README.md
 var helpers = require('./global-setup')
 var path = require('path')
 
