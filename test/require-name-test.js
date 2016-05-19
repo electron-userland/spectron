@@ -7,7 +7,7 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe('requireName Application option', function () {
+describe('requireName option to Application', function () {
   helpers.setupTimeout(this)
 
   var app = null
