@@ -1,6 +1,5 @@
 var app = require('electron').app
 var BrowserWindow = require('electron').BrowserWindow
-var path = require('path')
 
 var mainWindow = null
 
