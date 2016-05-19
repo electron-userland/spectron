@@ -25,6 +25,7 @@ exports.setupTimeout = function (test) {
 
 exports.startApplication = function (options) {
   options.path = exports.getElectronPath()
+  if (process.env.CI) options.startTimeout = 30000
 
   var app = new Application(options)
   return app.start().then(function () {
