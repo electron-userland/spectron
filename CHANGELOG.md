@@ -1,3 +1,7 @@
+# 3.1.0
+
+  * Supports Electron `1.1.x` releases.
+
 # 3.0.1
 
   * Added a new `requireName` option to `Application` for if your app is
