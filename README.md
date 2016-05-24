@@ -435,7 +435,8 @@ AVA supports ECMAScript advanced features not only promise but also async/await.
 
 ```js
 test(async t => {
-  await t.context.app.client.waitUntilWindowLoaded();
+  const app = t.context.app;
+  await app.client.waitUntilWindowLoaded();
   t.is(1, await app.client.getWindowCount());
   t.false(await app.browserWindow.isMinimized());
   t.false(await app.browserWindow.isDevToolsOpened());
