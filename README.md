@@ -391,12 +391,10 @@ describe('application launch', function () {
 
 ### With AVA
 
-Spectron works with [AVA](https://github.com/sindresorhus/ava) which allows you
-to write your tests in ES2015 without extra support.
+Spectron works with [AVA](https://github.com/avajs/ava), which allows you
+to write your tests in ES2015+ without doing any extra work.
 
 ```js
-'use strict';
-
 import test from 'ava';
 import {Application} from 'spectron';
 
@@ -425,23 +423,43 @@ test(t => {
     }).browserWindow.isFocused().then(focused => {
       t.true(focused);
     }).browserWindow.getBounds().then(bounds => {
-      t.ok(bounds.width > 0);
-      t.ok(bounds.height > 0);
+      t.true(bounds.width > 0);
+      t.true(bounds.height > 0);
     });
 });
 ```
 
-AVA supports ECMAScript advanced features not only promise but also async/await.
+AVA has built-in support for [async functions](https://github.com/avajs/ava#async-function-support), which simplifies async operations:
 
 ```js
+import test from 'ava';
+import {Application} from 'spectron';
+
+test.beforeEach(async t => {
+  t.context.app = new Application({
+    path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+  });
+
+  await t.context.app.start();
+});
+
+test.afterEach(async t => {
+  await t.context.app.stop();
+});
+
 test(async t => {
-  await t.context.app.client.waitUntilWindowLoaded();
-  t.is(1, await app.client.getWindowCount());
-  t.false(await app.browserWindow.isMinimized());
-  t.false(await app.browserWindow.isDevToolsOpened());
-  t.true(await app.browserWindow.isVisible());
-  t.true(await app.browserWindow.isFocused());
-  t.ok((await app.browserWindow.getBounds()).width > 0);
-  t.ok((await app.browserWindow.getBounds()).height > 0);
+  const app = t.context.app;
+  await app.client.waitUntilWindowLoaded();
+  
+  const win = app.browserWindow;
+  t.is(await app.client.getWindowCount(), 1);
+  t.false(await win.isMinimized());
+  t.false(await win.isDevToolsOpened());
+  t.true(await win.isVisible());
+  t.true(await win.isFocused());
+  
+  const {width, height} = await win.getBounds();
+  t.true(width > 0);
+  t.true(height > 0);
 });
 ```
