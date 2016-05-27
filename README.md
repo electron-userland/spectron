@@ -184,6 +184,21 @@ app.webContents.isLoading().then(function (visible) {
 })
 ```
 
+##### savePage
+
+The async `savePage` API is supported but instead of taking a callback it
+returns a `Promise` that will raise any errors and resolve to `undefined` when
+complete.
+
+```js
+app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete')
+  .then(function () {
+    console.log('page saved')
+  }).catch(function (error) {
+    console.error('saving page failed', error.message)
+  })
+```
+
 #### mainProcess
 
 The `mainProcess` property is an alias for `require('electron').remote.process`.

@@ -200,4 +200,19 @@ describe('application loading', function () {
       })
     })
   })
+
+  describe('webContents.savePage', function () {
+    it('saves the page to the specified path', function () {
+      var filePath = path.join(tempPath, 'page.html')
+      return app.webContents.savePage(filePath, 'HTMLComplete').then(function () {
+        var html = fs.readFileSync(filePath, 'utf8')
+        expect(html).to.contain('<title>Test</title>')
+        expect(html).to.contain('Hello')
+      })
+    })
+
+    it('throws an error when the specified path is invalid', function () {
+      return app.webContents.savePage(tempPath, 'MHTML').should.be.rejectedWith(Error)
+    })
+  })
 })
