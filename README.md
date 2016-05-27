@@ -156,6 +156,18 @@ app.browserWindow.isVisible().then(function (visible) {
 It is named `browserWindow` instead of `window` so that it doesn't collide
 with the WebDriver command of that name.
 
+##### capturePage
+
+The async `capturePage` API is supported but instead of taking a callback it
+returns a `Promise` that resolves to a `Buffer` that is the image data of
+screenshot.
+
+```js
+app.browserWindow.capturePage().then(function (imageBuffer) {
+  fs.writeFile('page.png', imageBuffer)
+})
+```
+
 #### webContents
 
 The `webContents` property is an alias for `require('electron').remote.getCurrentWebContents()`.

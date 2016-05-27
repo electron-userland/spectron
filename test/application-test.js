@@ -179,4 +179,25 @@ describe('application loading', function () {
       return app.electron.remote.getGlobal('mainProcessGlobal').should.eventually.equal('foo')
     })
   })
+
+  describe('browserWindow.capturePage', function () {
+    it('returns a Buffer screenshot of the given rectangle', function () {
+      return app.browserWindow.capturePage({
+        x: 0,
+        y: 0,
+        width: 10,
+        height: 10
+      }).then(function (buffer) {
+        expect(buffer).to.be.an.instanceof(Buffer)
+        expect(buffer.length).to.be.above(0)
+      })
+    })
+
+    it('returns a Buffer screenshot of the entire page when no rectangle is specified', function () {
+      return app.browserWindow.capturePage().then(function (buffer) {
+        expect(buffer).to.be.an.instanceof(Buffer)
+        expect(buffer.length).to.be.above(0)
+      })
+    })
+  })
 })
