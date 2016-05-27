@@ -1,3 +1,8 @@
+# 3.1.2
+
+  * Add support for the async `WebContents.savePage` API. See the README
+    for usage details.
+
 # 3.1.1
 
   * Add support for the async `BrowserWindow.capturePage` API. See the README
