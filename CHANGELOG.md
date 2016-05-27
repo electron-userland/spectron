@@ -1,3 +1,8 @@
+# 3.1.1
+
+  * Add supported for the async `BrowserWindow.capturePage` API. See the README
+    for usage details.
+
 # 3.1.0
 
   * Supports Electron `1.1.x` releases.
