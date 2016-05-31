@@ -215,4 +215,14 @@ describe('application loading', function () {
       return app.webContents.savePage(tempPath, 'MHTML').should.be.rejectedWith(Error)
     })
   })
+
+  describe('electron.ipcRenderer.send', function () {
+    it('sends the message to the main process', function () {
+      return app.electron.remote.getGlobal('ipcEventCount').should.eventually.equal(0)
+        .electron.ipcRenderer.send('ipc-event', 123)
+        .electron.remote.getGlobal('ipcEventCount').should.eventually.equal(123)
+        .electron.ipcRenderer.send('ipc-event', 456)
+        .electron.remote.getGlobal('ipcEventCount').should.eventually.equal(579)
+    })
+  })
 })
