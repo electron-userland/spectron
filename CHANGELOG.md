@@ -1,3 +1,7 @@
+# 3.2.0
+
+  * Supports Electron `1.2.x` releases.
+
 # 3.1.3
 
   * Improve detection of Node integration inside application and gracefully
