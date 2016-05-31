@@ -4,8 +4,8 @@ var expect = require('chai').expect
 
 var describe = global.describe
 var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+var before = global.before
+var after = global.after
 
 describe('when nodeIntegration is set to false', function () {
   helpers.setupTimeout(this)
