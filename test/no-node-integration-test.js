@@ -33,5 +33,11 @@ describe('when nodeIntegration is set to false', function () {
     expect(app.webContents).to.be.undefined
     expect(app.mainProcess).to.be.undefined
     expect(app.rendererProcess).to.be.undefined
+
+    expect(app.client.electron).to.be.undefined
+    expect(app.client.browserWindow).to.be.undefined
+    expect(app.client.webContents).to.be.undefined
+    expect(app.client.mainProcess).to.be.undefined
+    expect(app.client.rendererProcess).to.be.undefined
   })
 })
