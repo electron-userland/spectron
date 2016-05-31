@@ -28,6 +28,7 @@ describe('when nodeIntegration is set to false', function () {
   })
 
   it('does not add Electron API helper methods', function () {
+    expect(app.electron).to.be.undefined
     expect(app.browserWindow).to.be.undefined
     expect(app.webContents).to.be.undefined
     expect(app.mainProcess).to.be.undefined
