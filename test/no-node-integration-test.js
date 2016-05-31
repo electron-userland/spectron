@@ -12,13 +12,13 @@ describe('when nodeIntegration is set to false', function () {
 
   var app = null
 
-  beforeEach(function () {
+  before(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'no-node-integration')]
     }).then(function (startedApp) { app = startedApp })
   })
 
-  afterEach(function () {
+  after(function () {
     return helpers.stopApplication(app)
   })
 
