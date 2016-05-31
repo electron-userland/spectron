@@ -1,3 +1,8 @@
+# 3.1.3
+
+  * Improve detection of Node integration inside application and gracefully
+    handle disabled Node integration.
+
 # 3.1.2
 
   * Add support for the async `WebContents.savePage` API. See the README
