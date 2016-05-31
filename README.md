@@ -97,6 +97,28 @@ Create a new application with the following options:
   `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
   Defaults to `5000` milliseconds.
 
+### Node Integration
+
+The Electron helpers provided by Spectron require accessing the core Electron
+APIs in the renderer processes of your application. So if your Electron
+application has `nodeIntegration` set to `false` then you'll need to expose a
+`require` window global to Spectron so it can access the core Electron APIs.
+
+You can do this by adding a [`preload`][preload] script that does the following:
+
+```js
+if (process.env.NODE_ENV === 'test') {
+  window.electronRequire = require
+}
+```
+
+Then create the Spectron `Application` with the `requireName` option set to
+`'electronRequire'` and then runs your tests via `NODE_ENV=test npm test`.
+
+**Note:** This is only required if you tests are accessing any Electron APIs.
+You don't need to do this if you are only accessing the helpers on the `client`
+property which do not require Node integration.
+
 ### Properties
 
 #### client
@@ -490,3 +512,5 @@ test(async t => {
   t.true(height > 0);
 });
 ```
+
+[preload]: http://electron.atom.io/docs/api/browser-window/#new-browserwindowoptions
