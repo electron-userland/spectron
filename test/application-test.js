@@ -225,4 +225,13 @@ describe('application loading', function () {
         .electron.remote.getGlobal('ipcEventCount').should.eventually.equal(579)
     })
   })
+
+  describe('webContents.sendInputEvent', function () {
+    it('triggers a keypress DOM event', function () {
+      return app.webContents.sendInputEvent({type: 'char', keyCode: 'x'})
+        .getText('.keypress-count').should.eventually.equal('x')
+        .webContents.sendInputEvent({type: 'char', keyCode: 'b'})
+        .getText('.keypress-count').should.eventually.equal('b')
+    })
+  })
 })

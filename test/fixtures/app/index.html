@@ -12,5 +12,12 @@
   <body>
     Hello
     <textarea rows="10" cols="80"></textarea>
+    <div class="keypress-count"></div>
   </body>
+
+  <script>
+    document.body.addEventListener('keypress', function (event) {
+      document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode)
+    })
+  </script>
 </html>
