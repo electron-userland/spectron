@@ -96,6 +96,7 @@ Create a new application with the following options:
 * `waitTimeout` - Number in milliseconds to wait for calls like
   `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
   Defaults to `5000` milliseconds.
+* `debuggerAddress` - String address of a Chrome debugger server to connect to.
 
 ### Node Integration
 
