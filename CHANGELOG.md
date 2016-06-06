@@ -1,3 +1,13 @@
+# 3.2.3
+
+  * Add `chromeDriverLogPath` option to `Application`. See README for usage
+    details.
+
+
+# 3.2.2
+
+  * Add `debuggerAddress` option to `Application`. See README for usage details.
+
 # 3.2.0
 
   * Supports Electron `1.2.x` releases.
