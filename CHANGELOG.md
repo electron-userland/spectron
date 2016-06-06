@@ -3,7 +3,6 @@
   * Add `chromeDriverLogPath` option to `Application`. See README for usage
     details.
 
-
 # 3.2.2
 
   * Add `debuggerAddress` option to `Application`. See README for usage details.
