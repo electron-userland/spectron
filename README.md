@@ -97,6 +97,8 @@ Create a new application with the following options:
   `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
   Defaults to `5000` milliseconds.
 * `debuggerAddress` - String address of a Chrome debugger server to connect to.
+* `chromeDriverLogPath` - String path to file to store ChromeDriver logs in.
+  Setting this option enables `--verbose` logging when starting ChromeDriver.
 
 ### Node Integration
 
