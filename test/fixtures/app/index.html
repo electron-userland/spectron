@@ -16,7 +16,7 @@
   </body>
 
   <script>
-    document.body.addEventListener('keypress', function (event) {
+    document.body.addEventListener('keydown', function (event) {
       document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode)
     })
   </script>

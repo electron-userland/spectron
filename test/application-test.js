@@ -228,10 +228,10 @@ describe('application loading', function () {
 
   describe('webContents.sendInputEvent', function () {
     it('triggers a keypress DOM event', function () {
-      return app.webContents.sendInputEvent({type: 'char', keyCode: 'x'})
-        .getText('.keypress-count').should.eventually.equal('x')
-        .webContents.sendInputEvent({type: 'char', keyCode: 'b'})
-        .getText('.keypress-count').should.eventually.equal('b')
+      return app.webContents.sendInputEvent({type: 'keyDown', keyCode: 'A'})
+        .getText('.keypress-count').should.eventually.equal('A')
+        .webContents.sendInputEvent({type: 'keyDown', keyCode: 'B'})
+        .getText('.keypress-count').should.eventually.equal('B')
     })
   })
 })
