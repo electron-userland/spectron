@@ -323,6 +323,7 @@ app.client.getSelectedText().then(function (selectedText) {
 #### client.getWindowCount()
 
 Gets the number of open windows.
+`<webview>` tags are also counted as separate windows.
 
 ```js
 app.client.getWindowCount().then(function (count) {
@@ -351,6 +352,7 @@ app.client.waitUntilWindowLoaded(10000)
 #### client.windowByIndex(index)
 
 Focus a window using its index from the `windowHandles()` array.
+`<webview>` tag can also be focused as a separate window.
 
 ```js
 app.client.windowByIndex(1)
