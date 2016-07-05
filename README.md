@@ -40,7 +40,10 @@ describe('application launch', function () {
 
   beforeEach(function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      args: [
+        path.join(__dirname, '..')
+      ]
     })
     return this.app.start()
   })
