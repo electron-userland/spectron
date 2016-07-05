@@ -2281,9 +2281,4 @@ axs.AuditRules.addRule({name:"videoWithoutCaptions", heading:"Video elements sho
   return axs;
 });
 
-// Define AMD module if possible, export globals otherwise.
-if (typeof define !== 'undefined' && define.amd) {
-  define([], fn);
-} else {
-  var axs = fn.call(this);
-}
+module.exports = fn.call(this);
