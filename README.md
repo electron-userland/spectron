@@ -366,6 +366,7 @@ tag in your application.
 
 #### client.auditAccessibility()
 
+Run an accessibility audit in the focused window.
 
 ```js
 app.client.auditAccessibility().then(function (audit) {
