@@ -358,6 +358,64 @@ Focus a window using its index from the `windowHandles()` array.
 app.client.windowByIndex(1)
 ```
 
+### Accessibility Testing
+
+Spectron bundles the [Accessibility Developer Tools](https://github.com/GoogleChrome/accessibility-developer-tools)
+provided by Google and adds support for auditing each window and `<webview>`
+tag in your application.
+
+#### client.auditAccessibility()
+
+
+```js
+app.client.auditAccessibility().then(function (audit) {
+  if (audit.failed) {
+    console.error(audit.message)
+  }
+})
+```
+
+The `audit` object returned by this method has the following properties:
+
+* `message` - A detailed String message about the results
+* `failed` - A Boolean, `false` when the audit has failures
+* `results` - An array of detail objects for each failed rule. Each object
+  in the array has the following properties:
+  * `code` - A unique String accessibility rule identifier
+  * `elements` - An Array of Strings representing the selector path of each
+    HTML element that failed the rule
+  * `message` - A String message about the failed rule
+  * `severity` - `'Warning'` or `'Severe'`
+  * `url` - A String URL providing more details about the failed rule
+
+See https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules
+for more details about the audit rules.
+
+If you are using a `<webview>` tag in your app and want to audit both the outer
+page and the `<webview>`'s page then you will need to do the following:
+
+```js
+// Focus main page and audit it
+app.client.windowByIndex(0).then(function() {
+  app.client.auditAccessibility().then(function (audit) {
+    if (audit.failed) {
+      console.error('Main page failed audit')
+      console.error(audit.message)
+    }
+
+    //Focus <webview> tag and audit it
+    app.client.windowByIndex(1).then(function() {
+      app.client.auditAccessibility().then(function () {
+        if (audit.failed) {
+          console.error('<webview> page failed audit')
+          console.error(audit.message)
+        }
+      })
+    })
+  })
+})
+```
+
 ## Continuous Integration
 
 ### On Travis CI

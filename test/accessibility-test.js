@@ -7,7 +7,7 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe('app.client.performAccessibilityAudit()', function () {
+describe('app.client.auditAccessibility()', function () {
   helpers.setupTimeout(this)
 
   var app = null
@@ -25,7 +25,7 @@ describe('app.client.performAccessibilityAudit()', function () {
 
     it('resolves to an audit object with no results', function () {
       return app.client.waitUntilWindowLoaded()
-        .performAccessibilityAudit().then(function (audit) {
+        .auditAccessibility().then(function (audit) {
           expect(audit.failed).to.be.false
           expect(audit.results).to.have.length(0)
           expect(audit.message).to.equal('Accessibilty audit passed')
@@ -42,7 +42,7 @@ describe('app.client.performAccessibilityAudit()', function () {
 
     it('resolves to an audit object with the results', function () {
       return app.client.waitUntilWindowLoaded()
-        .performAccessibilityAudit().then(function (audit) {
+        .auditAccessibility().then(function (audit) {
           expect(audit.failed).to.be.true
           expect(audit.results).to.have.length(3)
 
@@ -59,7 +59,7 @@ describe('app.client.performAccessibilityAudit()', function () {
           expect(audit.results[2].severity).to.equal('Warning')
         })
         .windowByIndex(1)
-        .performAccessibilityAudit().then(function (audit) {
+        .auditAccessibility().then(function (audit) {
           expect(audit.failed).to.be.true
           expect(audit.results).to.have.length(1)
 
