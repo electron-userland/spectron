@@ -22,7 +22,7 @@ describe('app.client.performAccessibilityAudit()', function () {
     return helpers.stopApplication(app)
   })
 
-  it('results to an audit object with the results', function () {
+  it('resolves to an audit object with the results', function () {
     return app.client.waitUntilWindowLoaded()
       .performAccessibilityAudit().then(function (audit) {
         expect(audit.failed).to.be.true
