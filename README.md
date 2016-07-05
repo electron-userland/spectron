@@ -372,7 +372,7 @@ Run an accessibility audit in the focused window with the specified options.
   * `ignoreWarnings` - `true` to ignore failures with a severity of `'Warning'`
     and only include failures with a severity of `'Severe'`. Defaults to `false`.
 
-Returns an `audit` Object returned by this method has the following properties:
+Returns an `audit` Object with the following properties:
 
 * `message` - A detailed String message about the results
 * `failed` - A Boolean, `false` when the audit has failures
