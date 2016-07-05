@@ -68,5 +68,17 @@ describe('app.client.auditAccessibility()', function () {
           expect(audit.results[0].severity).to.equal('Severe')
         })
     })
+
+    it('ignores warnings when ignoreWarnings is specified', function () {
+      return app.client.waitUntilWindowLoaded()
+        .auditAccessibility({ignoreWarnings: true}).then(function (audit) {
+          expect(audit.failed).to.be.true
+          expect(audit.results).to.have.length(1)
+
+          expect(audit.results[0].code).to.equal('AX_TEXT_01')
+          expect(audit.results[0].elements).to.deep.equal(['INPUT'])
+          expect(audit.results[0].severity).to.equal('Severe')
+        })
+    })
   })
 })

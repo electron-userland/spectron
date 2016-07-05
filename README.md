@@ -364,19 +364,15 @@ Spectron bundles the [Accessibility Developer Tools](https://github.com/GoogleCh
 provided by Google and adds support for auditing each window and `<webview>`
 tag in your application.
 
-#### client.auditAccessibility()
+#### client.auditAccessibility(options)
 
-Run an accessibility audit in the focused window.
+Run an accessibility audit in the focused window with the specified options.
 
-```js
-app.client.auditAccessibility().then(function (audit) {
-  if (audit.failed) {
-    console.error(audit.message)
-  }
-})
-```
+* `options` - An optional Object with the following keys:
+  * `ignoreWarnings` - `true` to ignore failures with a severity of `'Warning'`
+    and only include failures with a severity of `'Severe'`. Defaults to `false`.
 
-The `audit` object returned by this method has the following properties:
+Returns an `audit` Object returned by this method has the following properties:
 
 * `message` - A detailed String message about the results
 * `failed` - A Boolean, `false` when the audit has failures
@@ -388,6 +384,14 @@ The `audit` object returned by this method has the following properties:
   * `message` - A String message about the failed rule
   * `severity` - `'Warning'` or `'Severe'`
   * `url` - A String URL providing more details about the failed rule
+
+```js
+app.client.auditAccessibility().then(function (audit) {
+  if (audit.failed) {
+    console.error(audit.message)
+  }
+})
+```
 
 See https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules
 for more details about the audit rules.
