@@ -68,7 +68,7 @@ stop your Electron application.
 
 Create a new application with the following options:
 
-* `path` - String path to the application executable to launch. **Required**
+* `path` -  **Required.** String path to the application executable to launch. If you want to invoke electron with a particular script, which hasn't been packaged into single executable, `path` must point to electron, while the very first argument in `args` must be script's path.
 * `args` - Array of arguments to pass to the executable.
   See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities)
   for details on the Chrome arguments.
