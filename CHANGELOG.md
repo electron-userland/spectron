@@ -1,3 +1,8 @@
+# 3.2.5
+
+  * Add `app.client.auditAccessibility` API that audits the window for
+    accessibility issues. See README for usage details.
+
 # 3.2.3
 
   * Add `chromeDriverLogPath` option to `Application`. See README for usage
