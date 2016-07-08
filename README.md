@@ -371,6 +371,8 @@ Run an accessibility audit in the focused window with the specified options.
 * `options` - An optional Object with the following keys:
   * `ignoreWarnings` - `true` to ignore failures with a severity of `'Warning'`
     and only include failures with a severity of `'Severe'`. Defaults to `false`.
+  * `ignoreRules` - Array of String rule code values such as `AX_COLOR_01`.
+    The full list is available [here](https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules).
 
 Returns an `audit` Object with the following properties:
 
