@@ -1,3 +1,7 @@
+# 3.2.6
+  * Add `ignoreRules` option to `app.client.auditAccessibility(options)`. See
+    README for usage details.
+
 # 3.2.5
 
   * Add `app.client.auditAccessibility` API that audits the window for
