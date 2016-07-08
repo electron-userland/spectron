@@ -80,5 +80,17 @@ describe('app.client.auditAccessibility()', function () {
           expect(audit.results[0].severity).to.equal('Severe')
         })
     })
+
+    it('ignores rules when ignoreRules is specified', function () {
+      return app.client.waitUntilWindowLoaded()
+        .auditAccessibility({ignoreRules: ['AX_TEXT_01', 'AX_HTML_01']}).then(function (audit) {
+          expect(audit.failed).to.be.true
+          expect(audit.results).to.have.length(1)
+
+          expect(audit.results[0].code).to.equal('AX_COLOR_01')
+          expect(audit.results[0].elements).to.deep.equal(['DIV'])
+          expect(audit.results[0].severity).to.equal('Warning')
+        })
+    })
   })
 })
