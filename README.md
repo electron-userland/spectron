@@ -356,12 +356,13 @@ app.client.waitUntilWindowLoaded(10000)
 
 #### client.windowByIndex(index)
 
-Focus a window using its index from the `windowHandles()` array.
+Focuses client to a window using its index from the `windowHandles()` array.
 `<webview>` tags can also be focused as a separate window.
 
 ```js
 app.client.windowByIndex(1)
 ```
+When app closes windows, and opens new ones, client should be re-focused to new window(s).
 
 ### Accessibility Testing
 
