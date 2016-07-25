@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "3.2.6",
+  "version": "3.3.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "scripts": {
