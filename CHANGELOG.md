@@ -1,3 +1,7 @@
+# 3.3.0
+
+  * Supports Electron `1.3.x` releases.
+
 # 3.2.6
   * Add `ignoreRules` option to `app.client.auditAccessibility(options)`. See
     README for usage details.
