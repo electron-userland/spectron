@@ -129,7 +129,7 @@ describe('application loading', function () {
     it('returns an object with all the configured options', function () {
       expect(app.getSettings().port).to.equal(9515)
       expect(app.getSettings().quitTimeout).to.equal(1000)
-      expect(app.getSettings().env.FOO).to.equal('bar')
+      expect(app.getSettings().env.SPECTRON_TEMP_DIR).to.equal(tempPath)
     })
   })
 
