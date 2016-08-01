@@ -283,6 +283,13 @@ application has stopped.
 Stops the application and then starts it. Returns a `Promise` that will be
 resolved once the application has started again.
 
+#### getSettings()
+
+Get all the configured options passed to the `new Application()` constructor.
+This will include the default options values currently being used.
+
+Returns an `Object`.
+
 #### client.getMainProcessLogs()
 
 Gets the `console` log output from the main process. The logs are cleared

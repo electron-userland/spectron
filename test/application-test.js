@@ -73,6 +73,10 @@ describe('application loading', function () {
     return app.mainProcess.cwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
   })
 
+  it('throws an error when no path is specified', function () {
+    return new Application().start().should.be.rejectedWith(Error, 'Application path must be a string')
+  })
+
   describe('start()', function () {
     it('rejects with an error if the application does not exist', function () {
       return new Application({path: path.join(__dirname, 'invalid')})
@@ -118,6 +122,14 @@ describe('application loading', function () {
       return app.stop().should.be.fulfilled.then(function () {
         return app.restart().should.be.rejectedWith(Error)
       })
+    })
+  })
+
+  describe('getSettings()', function () {
+    it('returns an object with all the configured options', function () {
+      expect(app.getSettings().port).to.equal(9515)
+      expect(app.getSettings().quitTimeout).to.equal(1000)
+      expect(app.getSettings().env.SPECTRON_TEMP_DIR).to.equal(tempPath)
     })
   })
 
