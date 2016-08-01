@@ -125,6 +125,14 @@ describe('application loading', function () {
     })
   })
 
+  describe('getSettings()', function () {
+    it('returns an object with all the configured options', function () {
+      expect(app.getSettings().port).to.equal(9515)
+      expect(app.getSettings().quitTimeout).to.equal(1000)
+      expect(app.getSettings().env.FOO).to.equal('bar')
+    })
+  })
+
   describe('getRenderProcessLogs', function () {
     it('gets the render process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()
