@@ -73,6 +73,10 @@ describe('application loading', function () {
     return app.mainProcess.cwd().should.eventually.equal(path.join(__dirname, 'fixtures'))
   })
 
+  it('throws an error when no path is specified', function () {
+    return new Application().start().should.be.rejectedWith(Error, 'Application path must be a string')
+  })
+
   describe('start()', function () {
     it('rejects with an error if the application does not exist', function () {
       return new Application({path: path.join(__dirname, 'invalid')})
