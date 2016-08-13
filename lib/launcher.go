@@ -8,6 +8,7 @@ func main() {
   launcherCommand := exec.Command(os.Getenv("SPECTRON_NODE_PATH"), launcherArgs...)
   launcherCommand.Stdout = os.Stdout
   launcherCommand.Stderr = os.Stderr
+  launcherCommand.Stdin = os.Stdin
 
   startError := launcherCommand.Start()
   if startError != nil {
