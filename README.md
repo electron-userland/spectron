@@ -283,6 +283,12 @@ application has stopped.
 Stops the application and then starts it. Returns a `Promise` that will be
 resolved once the application has started again.
 
+#### isRunning()
+
+Checks to determine if the application is running or not.
+
+Returns a `Boolean`.
+
 #### getSettings()
 
 Get all the configured options passed to the `new Application()` constructor.
