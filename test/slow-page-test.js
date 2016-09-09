@@ -6,7 +6,7 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe.only('Slow loading page', function () {
+describe('Slow loading page', function () {
   helpers.setupTimeout(this)
 
   var app = null
