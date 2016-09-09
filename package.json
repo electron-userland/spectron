@@ -4,7 +4,7 @@
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "scripts": {
-    "test": "standard && mocha"
+    "test": "mocha && standard"
   },
   "engines": {
     "node": ">=0.12.4"
