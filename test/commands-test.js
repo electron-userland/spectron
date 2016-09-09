@@ -29,6 +29,20 @@ describe('window commands', function () {
     })
   })
 
+  describe('waitUntilTextExists', function () {
+    it('resolves if the element contains the given text', function () {
+      return app.client.waitUntilTextExists('html', 'Hello').should.be.fulfilled
+    })
+
+    it('rejects if the element is missing', function () {
+      return app.client.waitUntilTextExists('#not-in-page', 'Hello', 50).should.be.rejectedWith(Error, 'waitUntilTextExists Promise was rejected')
+    })
+
+    it('rejects if the element never contains the text', function () {
+      return app.client.waitUntilTextExists('html', 'not on page', 50).should.be.rejectedWith(Error, 'waitUntilTextExists Promise was rejected')
+    })
+  })
+
   describe('browserWindow.getBounds()', function () {
     it('gets the window bounds', function () {
       return app.browserWindow.getBounds().should.eventually.deep.equal({
