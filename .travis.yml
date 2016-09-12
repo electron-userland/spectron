@@ -11,9 +11,6 @@ branches:
   only:
     - master
 
-env:
-  - NODE_VERSION="4.2.1"
-
 script: ./script/travis-build.sh
 
 cache:
