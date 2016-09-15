@@ -261,7 +261,7 @@ your tests you would do:
 
 ```js
 app.rendererProcess.env().then(function (env) {
-  console.log('main process args: ' + env)
+  console.log('renderer process env variables: ' + env)
 })
 ```
 
