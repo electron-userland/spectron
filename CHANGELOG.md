@@ -1,3 +1,15 @@
+# 3.4.0
+
+  * Supports Electron `1.4.x` releases.
+  * The `Application.isRunning()` API is now public.
+  * Added an `Application.getSettings()` API to access the settings specified to
+    the `Application` constructor.
+  * Fixed an issue where `waitUntilWindowLoaded()` did not properly resolve when
+    the `webContents` reported as loaded.
+  * Fixed an issue where `waitUntilTextExists()` did not properly reject when
+    the element did not exist or a timeout occurred.
+  * Fixed an issue where a broken pipe error could occur in certain apps.
+
 # 3.3.0
 
   * Supports Electron `1.3.x` releases.
