@@ -51,7 +51,7 @@ describe('app.client.auditAccessibility()', function () {
           expect(audit.results[0].severity).to.equal('Severe')
 
           expect(audit.results[1].code).to.equal('AX_HTML_01')
-          expect(audit.results[1].elements).to.deep.equal(['html'])
+          expect(audit.results[1].elements).to.deep.equal(['HTML'])
           expect(audit.results[1].severity).to.equal('Warning')
 
           expect(audit.results[2].code).to.equal('AX_COLOR_01')

@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/electron/spectron#readme",
   "dependencies": {
+    "accessibility-developer-tools": "^2.11.0",
     "dev-null": "^0.1.1",
     "electron-chromedriver": "~1.4.0",
     "request": "^2.65.0",
