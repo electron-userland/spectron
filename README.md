@@ -601,4 +601,32 @@ test(async t => {
 });
 ```
 
+### Manually 
+
+```
+var Application = require('spectron').Application;
+var electron= require('electron-prebuilt');
+var Promise = require('es6-promise').Promise;
+
+app = new Application({
+  path: electron, args:['.']
+})
+
+var success = function(result) {
+    // This assumes your main.js electron app puts a DOM element
+    // with id = message and contents equals to success 
+    app.client.waitUntilTextExists('#message', 'success', 10000).then(function () {
+       console.log('success');
+    });
+};
+
+var error = function(reason) {
+};
+
+var promise = app.start();
+
+promise.then(success, error);
+
+```
+
 [preload]: http://electron.atom.io/docs/api/browser-window/#new-browserwindowoptions
