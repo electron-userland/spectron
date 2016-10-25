@@ -604,28 +604,34 @@ test(async t => {
 ### Manually 
 
 ```
-var Application = require('spectron').Application;
-var electron= require('electron-prebuilt');
-var Promise = require('es6-promise').Promise;
 
-app = new Application({
-  path: electron, args:['.']
+var Application = require('spectron').Application;
+var assert = require('assert');
+var electron= require('electron-prebuilt');
+// Depends on promises
+//var Promise = require('es6-promise').Promise;
+
+var app = new Application({
+	path: electron, args:['.']
 })
 
-var success = function(result) {
-    // This assumes your main.js electron app puts a DOM element
-    // with id = message and contents equals to success 
-    app.client.waitUntilTextExists('#message', 'success', 10000).then(function () {
-       console.log('success');
-    });
-};
+app.start().then(function ok() {
+	app.client.waitUntilTextExists('#message', 'success', 10000).then(
+		function success() {
+			console.log('Success, content loaded!!!');
+			app.stop().then(function ok() {
+				console.log('Quit ')
+			}, function nok() {
 
-var error = function(reason) {
-};
+			});
+		}
+	);
+}, function nok() {
+	console.log('Start not ok!')
+});
 
-var promise = app.start();
+console.log('Launching electron.. and waiting for inner page load!');
 
-promise.then(success, error);
 
 ```
 
