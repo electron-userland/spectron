@@ -639,9 +639,6 @@ app.start().then(
     // app.start failed..
   } 
 );
-
-
-
 ```
 
 [preload]: http://electron.atom.io/docs/api/browser-window/#new-browserwindowoptions
