@@ -22,7 +22,7 @@ Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing
 
 :rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
-## Using
+## To Install
 
 ```sh
 npm install --save-dev spectron
@@ -31,16 +31,50 @@ npm install --save-dev spectron
 Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):
 
+
+## To use
+To get up and running from your command line:
+```sh
+# Install mocha globally. 
+npm i mocha -g 
+# From the root of your project, create a folder called test. 
+mkdir test 
+# And in that directory, create a file called 'spec.js'
+cd test
+touch spec.js
+```
+
+Then simply include the following your first `spec.js`. 
+
 ```js
 var Application = require('spectron').Application
 var assert = require('assert')
+var electronBinariesPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
+var path = require('path');  
 
-describe('application launch', function () {
+describe('Application launch', function () {
   this.timeout(10000)
 
   beforeEach(function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      // Your electron path can be any binary
+      // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      // But for the sake of the example we fetch it from our node_modules. 
+      path: electronBinariesPath,
+
+      // Assuming you have the following directory structure 
+      
+      //  |__ my project
+      //     |__ ...
+      //     |__ main.js
+      //     |__ package.json
+      //     |__ index.html
+      //     |__ ...
+      //     |__ test
+      //        |__ spec.js  <- You are here! ~ Well you should be.
+      
+      // The following line tells spectron to look and use the main.js file, and the package.json located 1 level above. 
+      args: [path.join(__dirname, '..')]
     })
     return this.app.start()
   })
@@ -58,6 +92,15 @@ describe('application launch', function () {
   })
 })
 ```
+
+And from the root of your project, in your command-line simply run: 
+```sh
+mocha
+```
+
+By default, mocha searches for a folder with the name `test` ( which we created before ).
+For more information on how to configure mocha, please visit [mocha](https://mochajs.org).
+
 
 ## Application API
 
@@ -490,15 +533,19 @@ npm install --save-dev chai-as-promised
 var Application = require('spectron').Application
 var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
+var electronBinairiesPath = require('electron')
 var path = require('path')
 
 chai.should()
 chai.use(chaiAsPromised)
 
-describe('application launch', function () {
+describe('Application launch', function () {
+  this.timeout(10000);
+  
   beforeEach(function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      path: electronBinairiesPath, 
+      args: [path.join(__dirname, '..')]
     })
     return this.app.start()
   })
@@ -515,10 +562,10 @@ describe('application launch', function () {
 
   it('opens a window', function () {
     return this.app.client.waitUntilWindowLoaded()
-      .getWindowCount().should.eventually.equal(1)
-      .browserWindow.isMinimized().should.eventually.be.false
-      .browserWindow.isDevToolsOpened().should.eventually.be.false
+      .getWindowCount().should.eventually.have.at.least(1)
+      .browserWindow.isMinimized().should.eventually.be.false 
       .browserWindow.isVisible().should.eventually.be.true
+      .browserWindow.isDevToolsOpened().should.eventually.be.false
       .browserWindow.isFocused().should.eventually.be.true
       .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
       .browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0)
