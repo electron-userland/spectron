@@ -430,7 +430,7 @@ app.client.windowByIndex(0).then(function() {
 
     //Focus <webview> tag and audit it
     app.client.windowByIndex(1).then(function() {
-      app.client.auditAccessibility().then(function () {
+      app.client.auditAccessibility().then(function (audit) {
         if (audit.failed) {
           console.error('<webview> page failed audit')
           console.error(audit.message)
