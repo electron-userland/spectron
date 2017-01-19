@@ -49,7 +49,7 @@ Then simply include the following your first `spec.js`.
 ```js
 var Application = require('spectron').Application
 var assert = require('assert')
-var electronBinariesPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
+var electronPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
 var path = require('path');
 
 describe('Application launch', function () {
@@ -60,7 +60,7 @@ describe('Application launch', function () {
       // Your electron path can be any binary
       // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
       // But for the sake of the example we fetch it from our node_modules.
-      path: electronBinariesPath,
+      path: electronPath,
 
       // Assuming you have the following directory structure
 
