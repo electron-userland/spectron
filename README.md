@@ -35,22 +35,22 @@ Spectron works with any testing framework but the following example uses
 ## To use
 To get up and running from your command line:
 ```sh
-# Install mocha globally. 
-npm i mocha -g 
-# From the root of your project, create a folder called test. 
-mkdir test 
+# Install mocha locally as a dev dependency.
+npm i mocha -D
+# From the root of your project, create a folder called test.
+mkdir test
 # And in that directory, create a file called 'spec.js'
 cd test
 touch spec.js
 ```
 
-Then simply include the following your first `spec.js`. 
+Then simply include the following your first `spec.js`.
 
 ```js
 var Application = require('spectron').Application
 var assert = require('assert')
 var electronBinariesPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
-var path = require('path');  
+var path = require('path');
 
 describe('Application launch', function () {
   this.timeout(10000)
@@ -59,11 +59,11 @@ describe('Application launch', function () {
     this.app = new Application({
       // Your electron path can be any binary
       // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
-      // But for the sake of the example we fetch it from our node_modules. 
+      // But for the sake of the example we fetch it from our node_modules.
       path: electronBinariesPath,
 
-      // Assuming you have the following directory structure 
-      
+      // Assuming you have the following directory structure
+
       //  |__ my project
       //     |__ ...
       //     |__ main.js
@@ -72,8 +72,8 @@ describe('Application launch', function () {
       //     |__ ...
       //     |__ test
       //        |__ spec.js  <- You are here! ~ Well you should be.
-      
-      // The following line tells spectron to look and use the main.js file, and the package.json located 1 level above. 
+
+      // The following line tells spectron to look and use the main.js file, and the package.json located 1 level above.
       args: [path.join(__dirname, '..')]
     })
     return this.app.start()
@@ -93,9 +93,16 @@ describe('Application launch', function () {
 })
 ```
 
-And from the root of your project, in your command-line simply run: 
+Create a npm task in your package.json file
 ```sh
-mocha
+"scripts": {
+  "test": "mocha"
+}
+```
+
+And from the root of your project, in your command-line simply run:
+```sh
+npm run test
 ```
 
 By default, mocha searches for a folder with the name `test` ( which we created before ).
@@ -541,10 +548,10 @@ chai.use(chaiAsPromised)
 
 describe('Application launch', function () {
   this.timeout(10000);
-  
+
   beforeEach(function () {
     this.app = new Application({
-      path: electronBinairiesPath, 
+      path: electronBinairiesPath,
       args: [path.join(__dirname, '..')]
     })
     return this.app.start()
@@ -563,7 +570,7 @@ describe('Application launch', function () {
   it('opens a window', function () {
     return this.app.client.waitUntilWindowLoaded()
       .getWindowCount().should.eventually.have.at.least(1)
-      .browserWindow.isMinimized().should.eventually.be.false 
+      .browserWindow.isMinimized().should.eventually.be.false
       .browserWindow.isVisible().should.eventually.be.true
       .browserWindow.isFocused().should.eventually.be.true
       .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
