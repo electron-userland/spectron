@@ -1,3 +1,7 @@
+# 3.5.0
+
+  * Supports Electron `1.5.x` releases.
+
 # 3.4.1
 
   * Fixed an issue where an error would be thrown when the `process` global
