@@ -1,3 +1,7 @@
+# 3.6.0
+
+  * Supports Electron `1.6.x` releases.
+
 # 3.5.0
 
   * Supports Electron `1.5.x` releases.
