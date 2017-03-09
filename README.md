@@ -28,11 +28,10 @@ Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing
 npm install --save-dev spectron
 ```
 
+## Usage
 Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):
 
-
-## Usage
 To get up and running from your command line:
 ```sh
 # Install mocha locally as a dev dependency.
