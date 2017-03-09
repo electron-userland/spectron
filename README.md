@@ -87,14 +87,14 @@ describe('Application launch', function () {
   it('shows an initial window', function () {
     return this.app.client.getWindowCount().then(function (count) {
       assert.equal(count, 1)
-      // Please note that getWindowCount() it could give you 2 windows if `dev tools` are opened.
+      // Please note that getWindowCount() will return 2 if `dev tools` are opened.
       // assert.equal(count, 2)
     })
   })
 })
 ```
 
-Create a npm task in your package.json file
+Create an npm task in your package.json file
 ```sh
 "scripts": {
   "test": "mocha"
@@ -103,7 +103,7 @@ Create a npm task in your package.json file
 
 And from the root of your project, in your command-line simply run:
 ```sh
-npm run test
+npm test
 ```
 
 By default, mocha searches for a folder with the name `test` ( which we created before ).
