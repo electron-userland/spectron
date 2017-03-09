@@ -542,7 +542,7 @@ npm install --save-dev chai-as-promised
 var Application = require('spectron').Application
 var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
-var electronBinairiesPath = require('electron')
+var electronPath = require('electron')
 var path = require('path')
 
 chai.should()
@@ -553,7 +553,7 @@ describe('Application launch', function () {
 
   beforeEach(function () {
     this.app = new Application({
-      path: electronBinairiesPath,
+      path: electronPath,
       args: [path.join(__dirname, '..')]
     })
     return this.app.start()
