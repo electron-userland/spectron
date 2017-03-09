@@ -22,7 +22,7 @@ Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing
 
 :rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
-## To Install
+## Installation
 
 ```sh
 npm install --save-dev spectron
@@ -32,7 +32,7 @@ Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):
 
 
-## To use
+## Usage
 To get up and running from your command line:
 ```sh
 # Install mocha locally as a dev dependency.
