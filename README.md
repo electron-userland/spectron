@@ -46,10 +46,10 @@ touch spec.js
 Then simply include the following your first `spec.js`.
 
 ```js
-var Application = require('spectron').Application
-var assert = require('assert')
-var electronPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
-var path = require('path');
+const Application = require('spectron').Application
+const assert = require('assert')
+const electronPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
+const path = require('path');
 
 describe('Application launch', function () {
   this.timeout(10000)
@@ -538,11 +538,11 @@ npm install --save-dev chai-as-promised
 ```
 
 ```js
-var Application = require('spectron').Application
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var electronPath = require('electron')
-var path = require('path')
+const Application = require('spectron').Application
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const electronPath = require('electron')
+const path = require('path')
 
 chai.should()
 chai.use(chaiAsPromised)
