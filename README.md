@@ -36,11 +36,12 @@ To get up and running from your command line:
 ```sh
 # Install mocha locally as a dev dependency.
 npm i mocha -D
-# From the root of your project, create a folder called test.
-mkdir test
-# And in that directory, create a file called 'spec.js'
+
+# From the project root, create a folder called test, in that directory, create a file called 'spec.js'
+touch test/spec.js
+
+# Change directory to test
 cd test
-touch spec.js
 ```
 
 Then simply include the following your first `spec.js`.
