@@ -104,6 +104,8 @@ Create a new application with the following options:
 * `debuggerAddress` - String address of a Chrome debugger server to connect to.
 * `chromeDriverLogPath` - String path to file to store ChromeDriver logs in.
   Setting this option enables `--verbose` logging when starting ChromeDriver.
+* `webdriverLogPath` - String path to a directory where Webdriver will write
+  logs to. Setting this option enables `verbose` logging from Webdriver.
 
 ### Node Integration
 
