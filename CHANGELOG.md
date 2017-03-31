@@ -1,3 +1,8 @@
+# 3.6.1
+
+  * Display a warning in the console when the installed minor versions of
+    Electron and Spectron do not match.
+
 # 3.6.0
 
   * Supports Electron `1.6.x` releases.
