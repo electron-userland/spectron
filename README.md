@@ -14,19 +14,23 @@ Easily test your [Electron](http://electron.atom.io) apps using
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
 [WebdriverIO](http://webdriver.io).
 
-This minor version of this library tracks the minor version of the Electron
-versions released. So if you are using Electron `1.0.x` you would want to use
-a `spectron` dependency of `~3.0.0` in your `package.json` file.
-
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
 :rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
-## Using
+## Installation
 
 ```sh
 npm install --save-dev spectron
 ```
+
+Note: The minor version of Spectron is compatible with the same minor version
+of Electron. For example, if you are using `electron@1.6.x` you should use
+`spectron@3.6.x` in your `package.json` file, as it has the same minor version
+of `6`. For more details see
+[Electron Versioning](https://electron.atom.io/docs/tutorial/electron-versioning/).
+
+## Usage
 
 Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):

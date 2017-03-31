@@ -28,14 +28,16 @@
   "dependencies": {
     "dev-null": "^0.1.1",
     "electron-chromedriver": "~1.6.0",
+    "electron-version": "^1.1.0",
     "request": "^2.65.0",
+    "semver": "^5.3.0",
     "split": "^1.0.0",
     "webdriverio": "^4.0.4"
   },
   "devDependencies": {
     "chai": "^3.3.0",
     "chai-as-promised": "^5.1.0",
-    "electron": "~1.6.0",
+    "electron": "~1.6.2",
     "mocha": "^2.3.3",
     "standard": "^5.3.1",
     "temp": "^0.8.3"
