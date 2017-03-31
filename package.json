@@ -9,10 +9,7 @@
   "engines": {
     "node": ">=0.12.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electron/spectron.git"
-  },
+  "repository": "https://github.com/electron/spectron",
   "keywords": [
     "electron",
     "chromedriver",
@@ -21,10 +18,6 @@
   ],
   "author": "Kevin Sawicki",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/electron/spectron/issues"
-  },
-  "homepage": "https://github.com/electron/spectron#readme",
   "dependencies": {
     "dev-null": "^0.1.1",
     "electron-chromedriver": "~1.6.0",
