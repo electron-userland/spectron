@@ -1,3 +1,7 @@
+# 3.6.2
+  * Reverted the console warning about incompatible minor versions since it
+    caused launch issues.
+
 # 3.6.1
 
   * Display a warning in the console when the installed minor versions of
