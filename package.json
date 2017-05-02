@@ -3,7 +3,7 @@
   "version": "3.6.1",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
-  "types": "./lib/spectron.d.ts"
+  "types": "./lib/spectron.d.ts",
   "scripts": {
     "test": "mocha && standard"
   },
