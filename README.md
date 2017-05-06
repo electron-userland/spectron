@@ -49,8 +49,8 @@ Then simply include the following your first `spec.js`.
 ```js
 const Application = require('spectron').Application
 const assert = require('assert')
-const electronPath = require('electron') // We are actually launching Electron with the binaries included in our node_modules.
-const path = require('path');
+const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
+const path = require('path')
 
 describe('Application launch', function () {
   this.timeout(10000)
@@ -73,7 +73,8 @@ describe('Application launch', function () {
       //     |__ test
       //        |__ spec.js  <- You are here! ~ Well you should be.
 
-      // The following line tells spectron to look and use the main.js file, and the package.json located 1 level above.
+      // The following line tells spectron to look and use the main.js file
+      // and the package.json located 1 level above.
       args: [path.join(__dirname, '..')]
     })
     return this.app.start()
