@@ -29,7 +29,7 @@ describe('Slow loading page', function () {
 
   describe('waitUntilWindowLoaded(timeout)', function () {
     it('rejects with an error when the timeout is hit', function () {
-      return app.client.waitUntilWindowLoaded().should.be.rejectedWith(Error, 'waitUntilWindowLoaded Promise was rejected')
+      return app.client.waitUntilWindowLoaded(100).should.be.rejectedWith(Error, 'waitUntilWindowLoaded Promise was rejected')
     })
   })
 })
