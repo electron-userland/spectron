@@ -3,21 +3,21 @@ var path = require('path')
 
 var describe = global.describe
 var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+var before = global.before
+var after = global.after
 
 describe('Slow loading page', function () {
   helpers.setupTimeout(this)
 
   var app = null
 
-  beforeEach(function () {
+  before(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'slow')]
     }).then(function (startedApp) { app = startedApp })
   })
 
-  afterEach(function () {
+  after(function () {
     return helpers.stopApplication(app)
   })
 
