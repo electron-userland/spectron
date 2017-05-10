@@ -1,3 +1,10 @@
+# 3.6.3
+
+  * Added a `spectron.d.ts` file references from the `types` field in the
+    `package.json`.
+  * Switched to using the WebdriverIO `timeouts` API instead of the
+    deprecated `timeoutsAsyncScript` API.
+
 # 3.6.2
   * Reverted the console warning about incompatible minor versions since it
     caused launch issues.
