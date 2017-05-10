@@ -203,7 +203,7 @@ describe('window commands', function () {
   describe('electron.webFrame.getZoomFactor()', function () {
     it('returns information about the primary display', function () {
       return app.electron.webFrame.setZoomFactor(4)
-        .electron.webFrame.getZoomFactor().should.eventually.equal(4)
+        .electron.webFrame.getZoomFactor().should.eventually.be.closeTo(4, 0.1)
     })
   })
 })
