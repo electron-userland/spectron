@@ -1,0 +1,9 @@
+<script type="text/javascript">
+  const electron = require('electron')
+  const {getCurrentWebContents} = electron.remote
+  electron.remote.getCurrentWebContents = () => {
+    const webContents = getCurrentWebContents()
+    webContents.isLoading = () => true
+    return webContents
+  }
+</script>
