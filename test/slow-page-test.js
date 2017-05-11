@@ -3,21 +3,21 @@ var path = require('path')
 
 var describe = global.describe
 var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+var before = global.before
+var after = global.after
 
 describe('Slow loading page', function () {
   helpers.setupTimeout(this)
 
   var app = null
 
-  beforeEach(function () {
+  before(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'slow')]
     }).then(function (startedApp) { app = startedApp })
   })
 
-  afterEach(function () {
+  after(function () {
     return helpers.stopApplication(app)
   })
 
@@ -29,7 +29,7 @@ describe('Slow loading page', function () {
 
   describe('waitUntilWindowLoaded(timeout)', function () {
     it('rejects with an error when the timeout is hit', function () {
-      return app.client.waitUntilWindowLoaded().should.be.rejectedWith(Error, 'waitUntilWindowLoaded Promise was rejected')
+      return app.client.waitUntilWindowLoaded(100).should.be.rejectedWith(Error, 'waitUntilWindowLoaded Promise was rejected')
     })
   })
 })

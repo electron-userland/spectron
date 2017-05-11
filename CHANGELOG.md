@@ -1,6 +1,10 @@
+# 3.7.0
+
+  * Supports Electron `1.7.x` releases.
+
 # 3.6.3
 
-  * Added a `spectron.d.ts` file references from the `types` field in the
+  * Added a `spectron.d.ts` file referenced from the `types` field in the
     `package.json`.
   * Switched to using the WebdriverIO `timeouts` API instead of the
     deprecated `timeoutsAsyncScript` API.
