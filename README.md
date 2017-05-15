@@ -74,9 +74,9 @@ Create a new application with the following options:
   script then you should specify `path` as  `electron` via `electron-prebuilt`
   and specify your app's main script path as the first argument in the `args`
   array.
-* `args` - Array of arguments to pass to the executable.
-  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities)
-  for details on the Chrome arguments.
+* `args` - Array of arguments to pass to the Electron application.
+* `chromeDriverArgs` - Array of arguments to pass to the ChromeDriver.
+  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on the Chrome arguments.
 * `cwd`- String path to the working directory to use for the launched
   application. Defaults to `process.cwd()`.
 * `env` - Object of additional environment variables to set in the launched
