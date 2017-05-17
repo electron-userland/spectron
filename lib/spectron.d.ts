@@ -107,11 +107,15 @@ declare module "spectron" {
          */
         path:string,
         /**
-         * Array of arguments to pass to the executable.
+         * Array of arguments to pass to the Electron application.
+         */
+        args?:string[],
+        /**
+         * Array of arguments to pass to ChromeDriver.
          * See here (https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details
          * on the Chrome arguments.
          */
-        args?:string[],
+        chromeDriverArgs?:string[],
         /**
          * Object of additional environment variables to set in the launched application.
          */
