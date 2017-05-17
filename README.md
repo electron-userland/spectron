@@ -75,7 +75,7 @@ Create a new application with the following options:
   and specify your app's main script path as the first argument in the `args`
   array.
 * `args` - Array of arguments to pass to the Electron application.
-* `chromeDriverArgs` - Array of arguments to pass to the ChromeDriver.
+* `chromeDriverArgs` - Array of arguments to pass to ChromeDriver.
   See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on the Chrome arguments.
 * `cwd`- String path to the working directory to use for the launched
   application. Defaults to `process.cwd()`.
