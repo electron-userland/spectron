@@ -1,3 +1,8 @@
+# 3.7.1
+
+  * Added a `chromeDriverArgs` option to the `Application` constructor that
+    can be used to pass arguments directly to `chromedriver`.
+
 # 3.7.0
 
   * Supports Electron `1.7.x` releases.
