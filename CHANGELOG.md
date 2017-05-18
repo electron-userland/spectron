@@ -7,6 +7,11 @@
 
   * Supports Electron `1.7.x` releases.
 
+# 3.6.4
+
+  * Added a `chromeDriverArgs` option to the `Application` constructor that
+    can be used to pass arguments directly to `chromedriver`.
+
 # 3.6.3
 
   * Added a `spectron.d.ts` file referenced from the `types` field in the
