@@ -73,7 +73,9 @@ describe('window commands', function () {
 
   describe('browserWindow.isFocused()', function () {
     it('returns true when the current window is focused', function () {
-      return app.browserWindow.isFocused().should.eventually.be.true
+      return app
+        .browserWindow.show()
+        .browserWindow.isFocused().should.eventually.be.true
     })
   })
 
