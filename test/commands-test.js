@@ -45,7 +45,7 @@ describe('window commands', function () {
 
   describe('browserWindow.getBounds()', function () {
     it('gets the window bounds', function () {
-      return app.browserWindow.getBounds().should.eventually.deep.equal({
+      return app.browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
         x: 25,
         y: 35,
         width: 200,
@@ -59,14 +59,14 @@ describe('window commands', function () {
       return app.browserWindow.setBounds({
         x: 100,
         y: 200,
-        width: 50,
-        height: 75
+        width: 150, // Windows minimum is ~100px
+        height: 130
       })
-      .browserWindow.getBounds().should.eventually.deep.equal({
+      .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
         x: 100,
         y: 200,
-        width: 50,
-        height: 75
+        width: 150,
+        height: 130
       })
     })
   })

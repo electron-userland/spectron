@@ -24,7 +24,7 @@ describe('requireName option to Application', function () {
 
   it('uses the custom require name to load the electron module', function () {
     return app.client.waitUntilWindowLoaded()
-      .browserWindow.getBounds().should.eventually.deep.equal({
+      .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
         x: 25,
         y: 35,
         width: 200,

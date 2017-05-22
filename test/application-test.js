@@ -42,7 +42,7 @@ describe('application loading', function () {
   it('launches the application', function () {
     return app.client.windowHandles().then(function (response) {
       assert.equal(response.value.length, 1)
-    }).browserWindow.getBounds().should.eventually.deep.equal({
+    }).browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
       x: 25,
       y: 35,
       width: 200,
