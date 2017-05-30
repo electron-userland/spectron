@@ -26,4 +26,4 @@ install:
 test_script:
   - node --version
   - .\node_modules\.bin\npm --version
-  - .\node_modules\.bin\mocha -g "opens a window"
+  - .\node_modules\.bin\mocha

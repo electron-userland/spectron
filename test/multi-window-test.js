@@ -25,7 +25,7 @@ describe('multiple windows', function () {
     return app.client
       .getWindowCount().should.eventually.equal(2)
       .windowByIndex(1)
-        .browserWindow.getBounds().should.eventually.deep.equal({
+        .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
           x: 25,
           y: 35,
           width: 200,
@@ -33,7 +33,7 @@ describe('multiple windows', function () {
         })
         .getTitle().should.eventually.equal('Top')
       .windowByIndex(0)
-        .browserWindow.getBounds().should.eventually.deep.equal({
+        .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
           x: 25,
           y: 135,
           width: 300,

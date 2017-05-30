@@ -2,11 +2,14 @@ var Application = require('..').Application
 var assert = require('assert')
 var chai = require('chai')
 var chaiAsPromised = require('chai-as-promised')
+var chaiRoughly = require('chai-roughly')
+
 var path = require('path')
 
 global.before(function () {
   chai.should()
   chai.use(chaiAsPromised)
+  chai.use(chaiRoughly)
 })
 
 exports.getElectronPath = function () {
