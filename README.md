@@ -29,6 +29,7 @@ npm install --save-dev spectron
 ```
 
 ## Usage
+
 Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):
 
