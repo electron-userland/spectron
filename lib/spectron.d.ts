@@ -169,7 +169,7 @@ declare module "spectron" {
          * Each Electron module is exposed as a property on the electron property so you can
          * think of it as an alias for require('electron') from within your app.
          */
-        electron:Electron.ElectronMainAndRenderer;
+        electron:Electron.AllElectron;
         /**
          * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
          * It provides you access to the current BrowserWindow and contains all the APIs.
