@@ -1,3 +1,8 @@
+# 3.7.2
+
+  * Added `webdriverLogPath` to the Spectron typescript definition
+  * Fixed typescript definition reference to the Electron API
+
 # 3.7.1
 
   * Added a `chromeDriverArgs` option to the `Application` constructor that
