@@ -130,6 +130,11 @@ declare module "spectron" {
          */
         chromeDriverLogPath?:string,
         /**
+         * String path to a directory where Webdriver will write logs to.
+         * Setting this option enables verbose logging from Webdriver.
+         */
+        webdriverLogPath?:string,
+        /**
          * Custom property name to use when requiring modules.
          * Defaults to require.
          * This should only be used if your application deletes the main window.require function
