@@ -5,6 +5,7 @@
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
   "scripts": {
+    "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",
     "test": "mocha && standard"
   },
   "engines": {
@@ -30,9 +31,11 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-roughly": "^1.0.0",
-    "electron": "~1.7.0",
+    "electron": "~1.7.4",
     "mocha": "^3.4.1",
     "standard": "^5.3.1",
-    "temp": "^0.8.3"
+    "temp": "^0.8.3",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.4"
   }
 }
