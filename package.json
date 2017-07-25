@@ -5,6 +5,8 @@
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
   "scripts": {
+    "prepack": "check-for-leaks",
+    "prepush": "check-for-leaks",
     "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",
     "test": "mocha && standard"
   },
@@ -31,7 +33,9 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-roughly": "^1.0.0",
+    "check-for-leaks": "^1.0.2",
     "electron": "~1.7.4",
+    "husky": "^0.14.3",
     "mocha": "^3.4.1",
     "standard": "^5.3.1",
     "temp": "^0.8.3",
