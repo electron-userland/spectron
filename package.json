@@ -35,6 +35,8 @@
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
     "electron": "~1.7.4",
+    "fs": "0.0.1-security",
+    "glob": "^7.1.2",
     "husky": "^0.14.3",
     "mocha": "^3.4.1",
     "standard": "^5.3.1",
