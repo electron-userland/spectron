@@ -101,6 +101,12 @@ Create a new application with the following options:
 * `waitTimeout` - Number in milliseconds to wait for calls like
   `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
   Defaults to `5000` milliseconds.
+* `screenshotOnReject` - Attaches a screenshot of the current page to the error 
+   if the Selenium driver crashes. Can be specified as object to set the timeout 
+   and count of retries on the attempt to take screenshot. [See here for details]
+   (http://webdriver.io/guide/getstarted/configuration.html#screenshotOnReject).
+   Defaults to `false`.
+* `screenshotPath` - Path to put rejection screenshots in. Defaults to `process.cwd()`.
 * `debuggerAddress` - String address of a Chrome debugger server to connect to.
 * `chromeDriverLogPath` - String path to file to store ChromeDriver logs in.
   Setting this option enables `--verbose` logging when starting ChromeDriver.
