@@ -106,6 +106,8 @@ Create a new application with the following options:
   Setting this option enables `--verbose` logging when starting ChromeDriver.
 * `webdriverLogPath` - String path to a directory where Webdriver will write
   logs to. Setting this option enables `verbose` logging from Webdriver.
+* `deprecationWarnings` - WebdriverIO configuration parameter. Warns when a
+  deprecated command is used. Defaults to true (in WebdriverIO).
 
 ### Node Integration
 
