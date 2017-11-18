@@ -141,6 +141,11 @@ declare module "spectron" {
          * and assigns it to another property name on window.
          */
         requireName?:string
+        /**
+         * WebdriverIO configuration parameter. Warns when a deprecated command is used.
+         * Defaults to true (in WebdriverIO).
+         */
+        deprecationWarnings?:boolean
     };
     type AppConstructorOptions = BasicAppSettings & {
         /**
