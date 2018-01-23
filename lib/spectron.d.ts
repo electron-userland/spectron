@@ -14,13 +14,13 @@ declare module "spectron" {
          * Takes an optional timeout in milliseconds that defaults to 5000.
          */
         waitUntilWindowLoaded(timeout?:number):Promise<void>;
-        
+
         /**
          * Wait until the element matching the given selector contains the given text.
          * Takes an optional timeout in milliseconds that defaults to 5000.
          */
         waitUntilTextExists(selector:string, text:string, timeout?:number):Promise<void>;
-        
+
         /**
          * Gets the number of open windows. <webview> tags are also counted as separate windows.
          */
@@ -134,6 +134,10 @@ declare module "spectron" {
          * Setting this option enables verbose logging from Webdriver.
          */
         webdriverLogPath?:string,
+        /**
+         * Extra Webdriver options
+         */
+        webdriverOptions?:object,
         /**
          * Custom property name to use when requiring modules.
          * Defaults to require.
