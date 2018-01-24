@@ -22,25 +22,61 @@ Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing
 
 :rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
-## Using
+## Installation
 
 ```sh
 npm install --save-dev spectron
 ```
 
+## Usage
+
 Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):
 
-```js
-var Application = require('spectron').Application
-var assert = require('assert')
+To get up and running from your command line:
+```sh
+# Install mocha locally as a dev dependency.
+npm i mocha -D
 
-describe('application launch', function () {
+# From the project root, create a folder called test, in that directory, create a file called 'spec.js'
+touch test/spec.js
+
+# Change directory to test
+cd test
+```
+
+Then simply include the following your first `spec.js`.
+
+```js
+const Application = require('spectron').Application
+const assert = require('assert')
+const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
+const path = require('path')
+
+describe('Application launch', function () {
   this.timeout(10000)
 
   beforeEach(function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      // Your electron path can be any binary
+      // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      // But for the sake of the example we fetch it from our node_modules.
+      path: electronPath,
+
+      // Assuming you have the following directory structure
+
+      //  |__ my project
+      //     |__ ...
+      //     |__ main.js
+      //     |__ package.json
+      //     |__ index.html
+      //     |__ ...
+      //     |__ test
+      //        |__ spec.js  <- You are here! ~ Well you should be.
+
+      // The following line tells spectron to look and use the main.js file
+      // and the package.json located 1 level above.
+      args: [path.join(__dirname, '..')]
     })
     return this.app.start()
   })
@@ -54,10 +90,28 @@ describe('application launch', function () {
   it('shows an initial window', function () {
     return this.app.client.getWindowCount().then(function (count) {
       assert.equal(count, 1)
+      // Please note that getWindowCount() will return 2 if `dev tools` are opened.
+      // assert.equal(count, 2)
     })
   })
 })
 ```
+
+Create an npm task in your package.json file
+```sh
+"scripts": {
+  "test": "mocha"
+}
+```
+
+And from the root of your project, in your command-line simply run:
+```sh
+npm test
+```
+
+By default, mocha searches for a folder with the name `test` ( which we created before ).
+For more information on how to configure mocha, please visit [mocha](https://mochajs.org).
+
 
 ## Application API
 
@@ -489,18 +543,22 @@ npm install --save-dev chai-as-promised
 ```
 
 ```js
-var Application = require('spectron').Application
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var path = require('path')
+const Application = require('spectron').Application
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const electronPath = require('electron')
+const path = require('path')
 
 chai.should()
 chai.use(chaiAsPromised)
 
-describe('application launch', function () {
+describe('Application launch', function () {
+  this.timeout(10000);
+
   beforeEach(function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      path: electronPath,
+      args: [path.join(__dirname, '..')]
     })
     return this.app.start()
   })
@@ -517,9 +575,8 @@ describe('application launch', function () {
 
   it('opens a window', function () {
     return this.app.client.waitUntilWindowLoaded()
-      .getWindowCount().should.eventually.equal(1)
+      .getWindowCount().should.eventually.have.at.least(1)
       .browserWindow.isMinimized().should.eventually.be.false
-      .browserWindow.isDevToolsOpened().should.eventually.be.false
       .browserWindow.isVisible().should.eventually.be.true
       .browserWindow.isFocused().should.eventually.be.true
       .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
