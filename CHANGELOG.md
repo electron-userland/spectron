@@ -11,6 +11,12 @@
 # 3.7.0
 
   * Supports Electron `1.7.x` releases.
+  
+# 3.6.5
+
+  * Updated typescript definition for WebDriver logging support.
+  * Enhanced waitUntilTextExists() to find substrings in case the selector 
+    matches multiple elements.
 
 # 3.6.4
 
