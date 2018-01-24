@@ -121,6 +121,19 @@ declare module "spectron" {
          */
         env?:object,
         /**
+         * Attaches a screenshot of the current page to the error
+         * if the Selenium driver crashes. Can be specified as object to set the timeout
+         * and count of retries on the attempt to take screenshot. See here
+         * (http://webdriver.io/guide/getstarted/configuration.html#screenshotOnReject)
+         * for details.
+         * Defaults to `false`.
+         */
+        screenshotOnReject?:object|string,
+        /**
+         * Path to put rejection screenshots in. Defaults to `process.cwd()`.
+         */
+        screenshotPath?:string,
+        /**
          *  String address of a Chrome debugger server to connect to.
          */
         debuggerAddress?:string,

@@ -1,6 +1,8 @@
 // Test for examples included in README.md
 var helpers = require('./global-setup')
 var path = require('path')
+var glob = require('glob')
+var fs = require('fs')
 
 var describe = global.describe
 var it = global.it
@@ -14,7 +16,8 @@ describe('example application launch', function () {
 
   beforeEach(function () {
     return helpers.startApplication({
-      args: [path.join(__dirname, 'fixtures', 'example')]
+      args: [path.join(__dirname, 'fixtures', 'example')],
+      screenshotOnReject: true
     }).then(function (startedApp) { app = startedApp })
   })
 
@@ -53,6 +56,33 @@ describe('example application launch', function () {
         .click('.btn-make-smaller')
         .browserWindow.getBounds().should.eventually.have.property('width', 790)
         .browserWindow.getBounds().should.eventually.have.property('height', 390)
+    })
+  })
+
+  describe('when an error occurs', function () {
+    it('saves a screenshot', function () {
+      app.client.waitUntilWindowLoaded()
+        .click('.non-existing');
+
+      return new Promise(function (resolve) {
+        var tries = 0;
+        var maxTries = 10;
+        var fileWatcher = setInterval(function () {
+          var errorShots = glob.sync('ERROR*.png')
+
+          if (errorShots.length === 0 && tries < maxTries) {
+            return;
+          }
+
+          errorShots.length.should.equal(1)
+
+          for (var i = 0; i < errorShots.length; i++) {
+            fs.unlinkSync(errorShots[i]);
+          }
+
+          resolve();
+        }, 100)
+      });
     })
   })
 })
