@@ -30,8 +30,20 @@ describe('window commands', function () {
   })
 
   describe('waitUntilTextExists', function () {
-    it('resolves if the element contains the given text', function () {
-      return app.client.waitUntilTextExists('html', 'Hello').should.be.fulfilled
+    it('resolves if the element (single occurrence) contains the given text - full text', function () {
+      return app.client.waitUntilTextExists('.occurrences-1', 'word1 word2').should.be.fulfilled
+    })
+
+    it('resolves if the element (single occurrence) contains the given text - partial text', function () {
+      return app.client.waitUntilTextExists('.occurrences-1', 'word1').should.be.fulfilled
+    })
+
+    it('resolves if the element (multiple occurrences) contains the given text - full text', function () {
+      return app.client.waitUntilTextExists('.occurrences-2', 'word3 word4').should.be.fulfilled
+    })
+
+    it('resolves if the element (multiple occurrences) contains the given text - partial text', function () {
+      return app.client.waitUntilTextExists('.occurrences-2', 'word3').should.be.fulfilled
     })
 
     it('rejects if the element is missing', function () {
