@@ -179,7 +179,7 @@ if (process.env.NODE_ENV === 'test') {
 Then create the Spectron `Application` with the `requireName` option set to
 `'electronRequire'` and then runs your tests via `NODE_ENV=test npm test`.
 
-**Note:** This is only required if you tests are accessing any Electron APIs.
+**Note:** This is only required if your tests are accessing any Electron APIs.
 You don't need to do this if you are only accessing the helpers on the `client`
 property which do not require Node integration.
 
