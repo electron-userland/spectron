@@ -1,3 +1,7 @@
+# 3.8.0
+
+  * Supports Electron `1.8.x` releases.
+
 # 3.7.3
 
   * Updated README with better examples and fixed typos.
