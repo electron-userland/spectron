@@ -191,7 +191,7 @@ property which do not require Node integration.
 Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
 `client` property on the created `Application` instances.
 
-The full `client` API provided by WebdriverIO can be found
+The `client` API is WebdriverIO's `browser` object. Documentation can be found
 [here](http://webdriver.io/api.html).
 
 Several additional commands are provided specific to Electron.
