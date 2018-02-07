@@ -41,6 +41,6 @@
     "temp": "^0.8.3",
     "tslint": "^5.4.3",
     "typescript": "^2.3.4",
-    "@types/webdriverio": "4.8.8"
+    "@types/webdriverio": "^4.8.0"
   }
 }
