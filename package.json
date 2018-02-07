@@ -14,7 +14,12 @@
     "node": ">=0.12.4"
   },
   "repository": "https://github.com/electron/spectron",
-  "keywords": ["electron", "chromedriver", "webdriverio", "selenium"],
+  "keywords": [
+    "electron",
+    "chromedriver",
+    "webdriverio",
+    "selenium"
+  ],
   "author": "Kevin Sawicki",
   "license": "MIT",
   "dependencies": {
