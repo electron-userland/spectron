@@ -112,6 +112,9 @@ npm test
 By default, mocha searches for a folder with the name `test` ( which we created before ).
 For more information on how to configure mocha, please visit [mocha](https://mochajs.org).
 
+#### Limitations
+
+As stated in [issue #19](https://github.com/electron/spectron/issues/19), Spectron will not be able to start if your Electron app is launched using the `remote-debugging-port` command-line switch (i.e. `app.commandLine.appendSwitch('remote-debugging-port', <debugging-port-number>);`). Please make sure to include the necessary logic in your app's code to disable the switch during tests.
 
 ## Application API
 
