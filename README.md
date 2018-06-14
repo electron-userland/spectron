@@ -164,6 +164,9 @@ Create a new application with the following options:
 * `webdriverLogPath` - String path to a directory where Webdriver will write
   logs to. Setting this option enables `verbose` logging from Webdriver.
 * `webdriverOptions` - Object of additional options for Webdriver
+* `additionalChromeOptions` - Object of additional Chromium options for
+Webdriver. E.g., when testing an electron@2.x application you will want to pass
+``{ windowTypes: ['app', 'webview'] }`` in order to be able to access webviews.
 
 ### Node Integration
 
