@@ -178,6 +178,11 @@ Create a new application with the following options:
 * `webdriverLogPath` - String path to a directory where Webdriver will write
   logs to. Setting this option enables `verbose` logging from Webdriver.
 * `webdriverOptions` - Object of additional options for Webdriver
+* `mainWindowMatcher` - function that takes a window url and returns true if the
+  url matches the main window's url. Specifying this function is required if you
+  have multiple window and expect `client.mainWindow` to return the "main" one
+  according to your criteria.
+  Defaults to a function that always returns `true`.
 
 ### Node Integration
 
@@ -448,6 +453,38 @@ Focus a window using its index from the `windowHandles()` array.
 
 ```js
 app.client.windowByIndex(1)
+```
+
+#### client.mainWindow()
+
+Focus the "main" window of the application. To determine which window is the
+main one, you must specify an option `mainWindowMatcher` to spectron's `Application` contructor (
+if `mainWindowMatcher` is not provided or if `mainWindowMatcher` return `false` for all windows,
+`client.mainWindow()` focuses the first window from the `windowHandles()` array).
+
+Chaining promises after `mainWindow` allows to get the focused window index in `windowHandles()` array.
+
+One use case for `client.mainWindow()`, is to allow the use of chrome-extensions
+while being able to select the "real" application window (since chrome-extensions count as
+windows too).
+
+```js
+const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
+const path = require('path')
+
+var app = new Application({
+  path: electronPath,
+  args: [path.join(__dirname, '..')],
+  mainWindowMatcher: function (windowUrl) {
+    // Returns false if the window's url matches a chrome-extension's one and true otherwise
+    return !/chrome-extension/.test(windowUrl)
+  }
+})
+
+app.client.mainWindow()
+  .then(function (mainWindowIndex) {
+    console.log('The main window is now focused and its index in `windowHandles()` array is:' + mainWindowIndex)
+  })
 ```
 
 ### Accessibility Testing
