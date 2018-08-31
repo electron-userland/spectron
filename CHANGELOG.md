@@ -1,3 +1,7 @@
+# 4.0.0
+
+  * Supports Electron `2.0.x` releases.
+
 # 3.8.0
 
   * Supports Electron `1.8.x` releases.
