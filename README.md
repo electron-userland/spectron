@@ -25,7 +25,7 @@ Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing
 ## Installation
 
 ```sh
-npm install --save-dev spectron
+npm i spectron -D
 ```
 
 ## Usage
