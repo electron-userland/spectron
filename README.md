@@ -14,9 +14,23 @@ Easily test your [Electron](http://electron.atom.io) apps using
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
 [WebdriverIO](http://webdriver.io).
 
-This minor version of this library tracks the minor version of the Electron
-versions released. So if you are using Electron `1.0.x` you would want to use
-a `spectron` dependency of `~3.0.0` in your `package.json` file.
+## Version Map
+
+For given versions of Electron you must depend on a very specific version range of Spectron.  Below is a version mapping table between Spectron version and Electron version.
+
+| Electron Version | Spectron Version |
+|------------------|------------------|
+| `~1.0.0` | `~3.0.0` |
+| `~1.1.0` | `~3.1.0` |
+| `~1.2.0` | `~3.2.0` |
+| `~1.3.0` | `~3.3.0` |
+| `~1.4.0` | `~3.4.0` |
+| `~1.5.0` | `~3.5.0` |
+| `~1.6.0` | `~3.6.0` |
+| `~1.7.0` | `~3.7.0` |
+| `~1.8.0` | `~3.8.0` |
+| `^2.0.0` | `^4.0.0` |
+| `^3.0.0` | _Coming Soon_ |
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
