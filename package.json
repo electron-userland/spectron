@@ -30,17 +30,17 @@
     "webdriverio": "^4.13.0"
   },
   "devDependencies": {
+    "@types/webdriverio": "^4.8.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
     "electron": "~3.0.0",
     "husky": "^0.14.3",
-    "mocha": "^3.4.1",
-    "standard": "^5.3.1",
+    "mocha": "^5.2.0",
+    "standard": "^12.0.1",
     "temp": "^0.8.3",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.4",
-    "@types/webdriverio": "^4.8.0"
+    "typescript": "^2.8.4"
   }
 }
