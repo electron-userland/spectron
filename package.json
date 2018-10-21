@@ -8,6 +8,7 @@
     "prepack": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",
+    "lint": "standard",
     "test": "mocha && standard"
   },
   "engines": {
