@@ -1,5 +1,4 @@
-var app = require('electron').app
-var BrowserWindow = require('electron').BrowserWindow
+var { app, BrowserWindow } = require('electron')
 
 var mainWindow = null
 
@@ -10,6 +9,6 @@ app.on('ready', function () {
     width: 200,
     height: 100
   })
-  mainWindow.loadURL('file://' + __dirname + '/index.html')
+  mainWindow.loadFile('index.html')
   mainWindow.on('closed', function () { mainWindow = null })
 })
