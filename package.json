@@ -5,6 +5,7 @@
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
   "scripts": {
+    "lint": "standard",
     "prepack": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",

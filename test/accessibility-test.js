@@ -71,7 +71,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores warnings when ignoreWarnings is specified', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility({ignoreWarnings: true}).then(function (audit) {
+        .auditAccessibility({ ignoreWarnings: true }).then(function (audit) {
           expect(audit.failed).to.be.true
           expect(audit.results).to.have.length(1)
 
@@ -83,7 +83,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores rules when ignoreRules is specified', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility({ignoreRules: ['AX_TEXT_01', 'AX_HTML_01']}).then(function (audit) {
+        .auditAccessibility({ ignoreRules: ['AX_TEXT_01', 'AX_HTML_01'] }).then(function (audit) {
           expect(audit.failed).to.be.true
           expect(audit.results).to.have.length(1)
 

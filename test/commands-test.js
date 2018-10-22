@@ -74,12 +74,12 @@ describe('window commands', function () {
         width: 150, // Windows minimum is ~100px
         height: 130
       })
-      .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
-        x: 100,
-        y: 200,
-        width: 150,
-        height: 130
-      })
+        .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
+          x: 100,
+          y: 200,
+          width: 150,
+          height: 130
+        })
     })
   })
 

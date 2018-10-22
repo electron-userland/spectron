@@ -25,20 +25,20 @@ describe('multiple windows', function () {
     return app.client
       .getWindowCount().should.eventually.equal(2)
       .windowByIndex(1)
-        .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
-          x: 25,
-          y: 35,
-          width: 200,
-          height: 100
-        })
-        .getTitle().should.eventually.equal('Top')
+      .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
+        x: 25,
+        y: 35,
+        width: 200,
+        height: 100
+      })
+      .getTitle().should.eventually.equal('Top')
       .windowByIndex(0)
-        .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
-          x: 25,
-          y: 135,
-          width: 300,
-          height: 50
-        })
-        .getTitle().should.eventually.equal('Bottom')
+      .browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
+        x: 25,
+        y: 135,
+        width: 300,
+        height: 50
+      })
+      .getTitle().should.eventually.equal('Bottom')
   })
 })
