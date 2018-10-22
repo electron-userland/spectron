@@ -32,7 +32,7 @@ exports.startApplication = function (options) {
 
   var app = new Application(options)
   return app.start().then(function () {
-    assert.equal(app.isRunning(), true)
+    assert.strictEqual(app.isRunning(), true)
     chaiAsPromised.transferPromiseness = app.transferPromiseness
     return app
   })
@@ -42,6 +42,6 @@ exports.stopApplication = function (app) {
   if (!app || !app.isRunning()) return
 
   return app.stop().then(function () {
-    assert.equal(app.isRunning(), false)
+    assert.strictEqual(app.isRunning(), false)
   })
 }

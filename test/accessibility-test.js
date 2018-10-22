@@ -1,6 +1,7 @@
 var helpers = require('./global-setup')
 var path = require('path')
-var expect = require('chai').expect
+var { expect } = require('chai')
+var assert = require('assert')
 
 var describe = global.describe
 var it = global.it
@@ -26,7 +27,7 @@ describe('app.client.auditAccessibility()', function () {
     it('resolves to an audit object with no results', function () {
       return app.client.waitUntilWindowLoaded()
         .auditAccessibility().then(function (audit) {
-          expect(audit.failed).to.be.false
+          assert.strictEqual(audit.failed, false)
           expect(audit.results).to.have.length(0)
           expect(audit.message).to.equal('Accessibilty audit passed')
         })
@@ -43,7 +44,7 @@ describe('app.client.auditAccessibility()', function () {
     it('resolves to an audit object with the results', function () {
       return app.client.waitUntilWindowLoaded()
         .auditAccessibility().then(function (audit) {
-          expect(audit.failed).to.be.true
+          assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(3)
 
           expect(audit.results[0].code).to.equal('AX_TEXT_01')
@@ -60,7 +61,7 @@ describe('app.client.auditAccessibility()', function () {
         })
         .windowByIndex(1)
         .auditAccessibility().then(function (audit) {
-          expect(audit.failed).to.be.true
+          assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(1)
 
           expect(audit.results[0].code).to.equal('AX_ARIA_01')
@@ -71,8 +72,8 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores warnings when ignoreWarnings is specified', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility({ignoreWarnings: true}).then(function (audit) {
-          expect(audit.failed).to.be.true
+        .auditAccessibility({ ignoreWarnings: true }).then(function (audit) {
+          assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(1)
 
           expect(audit.results[0].code).to.equal('AX_TEXT_01')
@@ -83,8 +84,8 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores rules when ignoreRules is specified', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility({ignoreRules: ['AX_TEXT_01', 'AX_HTML_01']}).then(function (audit) {
-          expect(audit.failed).to.be.true
+        .auditAccessibility({ ignoreRules: ['AX_TEXT_01', 'AX_HTML_01'] }).then(function (audit) {
+          assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(1)
 
           expect(audit.results[0].code).to.equal('AX_COLOR_01')

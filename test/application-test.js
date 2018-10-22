@@ -41,7 +41,7 @@ describe('application loading', function () {
 
   it('launches the application', function () {
     return app.client.windowHandles().then(function (response) {
-      assert.equal(response.value.length, 1)
+      assert.strictEqual(response.value.length, 1)
     }).browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
       x: 25,
       y: 35,
@@ -60,11 +60,11 @@ describe('application loading', function () {
   it('passes through env to the launched app', function () {
     return app.rendererProcess.env().then(function (env) {
       if (process.platform === 'win32') {
-        assert.equal(env.foo, 'BAR')
-        assert.equal(env.hello, 'WORLD')
+        assert.strictEqual(env.foo, 'BAR')
+        assert.strictEqual(env.hello, 'WORLD')
       } else {
-        assert.equal(env.FOO, 'BAR')
-        assert.equal(env.HELLO, 'WORLD')
+        assert.strictEqual(env.FOO, 'BAR')
+        assert.strictEqual(env.HELLO, 'WORLD')
       }
     })
   })
@@ -79,12 +79,12 @@ describe('application loading', function () {
 
   describe('start()', function () {
     it('rejects with an error if the application does not exist', function () {
-      return new Application({path: path.join(__dirname, 'invalid')})
+      return new Application({ path: path.join(__dirname, 'invalid') })
         .start().should.be.rejectedWith(Error)
     })
 
     it('rejects with an error if ChromeDriver does not start within the specified timeout', function () {
-      return new Application({path: helpers.getElectronPath(), host: 'bad.host', startTimeout: 150})
+      return new Application({ path: helpers.getElectronPath(), host: 'bad.host', startTimeout: 150 })
         .start().should.be.rejectedWith(Error, 'ChromeDriver did not start within 150ms')
     })
   })
@@ -92,11 +92,11 @@ describe('application loading', function () {
   describe('stop()', function () {
     it('quits the application', function () {
       var quitPath = path.join(tempPath, 'quit.txt')
-      assert.equal(fs.existsSync(quitPath), false)
+      assert.strictEqual(fs.existsSync(quitPath), false)
       return app.stop().then(function (stoppedApp) {
-        assert.equal(stoppedApp, app)
-        assert.equal(fs.existsSync(quitPath), true)
-        assert.equal(app.isRunning(), false)
+        assert.strictEqual(stoppedApp, app)
+        assert.strictEqual(fs.existsSync(quitPath), true)
+        assert.strictEqual(app.isRunning(), false)
       })
     })
 
@@ -110,11 +110,11 @@ describe('application loading', function () {
   describe('restart()', function () {
     it('restarts the application', function () {
       var quitPath = path.join(tempPath, 'quit.txt')
-      assert.equal(fs.existsSync(quitPath), false)
+      assert.strictEqual(fs.existsSync(quitPath), false)
       return app.restart().then(function (restartedApp) {
-        assert.equal(restartedApp, app)
-        assert.equal(fs.existsSync(quitPath), true)
-        assert.equal(app.isRunning(), true)
+        assert.strictEqual(restartedApp, app)
+        assert.strictEqual(fs.existsSync(quitPath), true)
+        assert.strictEqual(app.isRunning(), true)
       })
     })
 
@@ -240,9 +240,9 @@ describe('application loading', function () {
 
   describe('webContents.sendInputEvent', function () {
     it('triggers a keypress DOM event', function () {
-      return app.webContents.sendInputEvent({type: 'keyDown', keyCode: 'A'})
+      return app.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'A' })
         .getText('.keypress-count').should.eventually.equal('A')
-        .webContents.sendInputEvent({type: 'keyDown', keyCode: 'B'})
+        .webContents.sendInputEvent({ type: 'keyDown', keyCode: 'B' })
         .getText('.keypress-count').should.eventually.equal('B')
     })
   })

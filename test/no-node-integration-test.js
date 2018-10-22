@@ -1,6 +1,6 @@
 var helpers = require('./global-setup')
 var path = require('path')
-var expect = require('chai').expect
+var assert = require('assert')
 
 var describe = global.describe
 var it = global.it
@@ -28,16 +28,16 @@ describe('when nodeIntegration is set to false', function () {
   })
 
   it('does not add Electron API helper methods', function () {
-    expect(app.electron).to.be.undefined
-    expect(app.browserWindow).to.be.undefined
-    expect(app.webContents).to.be.undefined
-    expect(app.mainProcess).to.be.undefined
-    expect(app.rendererProcess).to.be.undefined
+    assert.strictEqual(typeof app.electron, 'undefined')
+    assert.strictEqual(typeof app.browserWindow, 'undefined')
+    assert.strictEqual(typeof app.webContents, 'undefined')
+    assert.strictEqual(typeof app.mainProcess, 'undefined')
+    assert.strictEqual(typeof app.rendererProcess, 'undefined')
 
-    expect(app.client.electron).to.be.undefined
-    expect(app.client.browserWindow).to.be.undefined
-    expect(app.client.webContents).to.be.undefined
-    expect(app.client.mainProcess).to.be.undefined
-    expect(app.client.rendererProcess).to.be.undefined
+    assert.strictEqual(typeof app.client.electron, 'undefined')
+    assert.strictEqual(typeof app.client.browserWindow, 'undefined')
+    assert.strictEqual(typeof app.client.webContents, 'undefined')
+    assert.strictEqual(typeof app.client.mainProcess, 'undefined')
+    assert.strictEqual(typeof app.client.rendererProcess, 'undefined')
   })
 })

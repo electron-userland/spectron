@@ -1,5 +1,4 @@
-var app = require('electron').app
-var BrowserWindow = require('electron').BrowserWindow
+var { app, BrowserWindow } = require('electron')
 var path = require('path')
 
 var mainWindow = null
@@ -15,6 +14,6 @@ app.on('ready', function () {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-  mainWindow.loadURL('file://' + __dirname + '/index.html')
+  mainWindow.loadFile('index.html')
   mainWindow.on('closed', function () { mainWindow = null })
 })
