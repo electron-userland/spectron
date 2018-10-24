@@ -4,11 +4,11 @@
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/iv8xd919q6b44pap/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/spectron/branch/master)
 <br>
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
-[![devDependencies:?](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron)
+[![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron)
 <br>
 [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
-[![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/packages/spectron)
-[![dependencies:?](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/packages/spectron)
+[![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron)
+[![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
 Easily test your [Electron](http://electron.atom.io) apps using
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
