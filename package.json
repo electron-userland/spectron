@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "~4.0.0",
+    "electron-chromedriver": "^5.0.1",
     "request": "^2.87.0",
     "split": "^1.0.0",
     "webdriverio": "^4.13.0"
@@ -36,7 +36,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
-    "electron": "^4.2.2",
+    "electron": "^5.0.1",
     "husky": "^0.14.3",
     "mocha": "^5.2.0",
     "standard": "^12.0.1",
