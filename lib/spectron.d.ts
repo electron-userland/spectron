@@ -58,6 +58,7 @@ declare module "spectron" {
         ):boolean;
         savePage(fullPath:string, saveType:"HTMLOnly" | "HTMLComplete" | "MHTML"):Promise<void>;
         savePage(fullPath:string, saveType:"HTMLOnly" | "HTMLComplete" | "MHTML"):any;
+        executeJavaScript(code:string, userGesture?:boolean):Promise<any>;
     }
 
     type BasicAppSettings = {
