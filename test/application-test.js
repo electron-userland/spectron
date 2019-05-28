@@ -228,6 +228,26 @@ describe('application loading', function () {
     })
   })
 
+  describe('webContents.executeJavaScript', function () {
+    it('executes the given script and returns the result of its last statement (sync)', function () {
+      return app.webContents.executeJavaScript('1 + 2').then(function (result) {
+        expect(result).to.equal(3)
+      })
+    })
+
+    it('executes the given script and returns the result of its last statement (async)', function () {
+      return app.webContents.executeJavaScript(`
+        new Promise(function(resolve){
+          setTimeout(function(){
+            resolve("ok")
+          }, 1000)
+        })`
+      ).then(function (result) {
+        expect(result).to.equal('ok')
+      })
+    })
+  })
+
   describe('electron.ipcRenderer.send', function () {
     it('sends the message to the main process', function () {
       return app.electron.remote.getGlobal('ipcEventCount').should.eventually.equal(0)
