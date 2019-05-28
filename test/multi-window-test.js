@@ -21,7 +21,7 @@ describe('multiple windows', function () {
     return helpers.stopApplication(app)
   })
 
-  it('launches the application', async function () {
+  it('should switch focus thanks to windowByIndex', async function () {
     const windowCount = await app.client.getWindowCount()
     windowCount.should.equal(2)
 
@@ -50,4 +50,17 @@ describe('multiple windows', function () {
       height: 50
     })
   })
+
+  it('should switch focus thanks to switchWindow', function () {
+    return app.client
+      .getWindowCount().should.eventually.equal(2)
+      .switchWindow('Top')
+      .getTitle().should.eventually.equal('Top')
+      .switchWindow('Bottom')
+      .getTitle().should.eventually.equal('Bottom')
+      .switchWindow('index-top.html')
+      .getTitle().should.eventually.equal('Top')
+      .switchWindow('index-bottom.html')
+      .getTitle().should.eventually.equal('Bottom')
+  });
 })
