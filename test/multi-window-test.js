@@ -62,5 +62,5 @@ describe('multiple windows', function () {
       .getTitle().should.eventually.equal('Top')
       .switchWindow('index-bottom.html')
       .getTitle().should.eventually.equal('Bottom')
-  });
+  })
 })
