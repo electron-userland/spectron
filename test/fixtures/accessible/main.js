@@ -8,7 +8,7 @@ app.on('ready', function () {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true
     }
   })
   mainWindow.loadFile('index.html')

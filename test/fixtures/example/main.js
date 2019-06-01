@@ -10,7 +10,7 @@ app.on('ready', function () {
     minHeight: 100,
     minWidth: 100,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true
     }
   })
   mainWindow.loadFile('index.html')

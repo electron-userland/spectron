@@ -11,7 +11,7 @@ app.on('ready', function () {
     minWidth: 100,
     webPreferences: {
       nodeIntegration: true,
-      webviewTag: true,
+      webviewTag: true
     }
   })
   mainWindow.loadFile('index.html')
