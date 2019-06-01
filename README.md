@@ -184,8 +184,8 @@ Create a new application with the following options:
 ### Node Integration
 
 The Electron helpers provided by Spectron require accessing the core Electron
-APIs in the renderer processes of your application. So if your Electron
-application has `nodeIntegration` set to `false` then you'll need to expose a
+APIs in the renderer processes of your application. So, either your Electron
+application has `nodeIntegration` set to `true` or you'll need to expose a
 `require` window global to Spectron so it can access the core Electron APIs.
 
 You can do this by adding a [`preload`][preload] script that does the following:
