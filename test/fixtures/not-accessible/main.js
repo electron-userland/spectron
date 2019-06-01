@@ -9,6 +9,7 @@ app.on('ready', function () {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      webviewTag: true,
     }
   })
   mainWindow.loadFile('index.html')
