@@ -8,7 +8,7 @@ var it = global.it
 var beforeEach = global.beforeEach
 var afterEach = global.afterEach
 
-describe('app.client.auditAccessibility()', function () {
+xdescribe('app.client.auditAccessibility()', function () {
   helpers.setupTimeout(this)
 
   var app = null
