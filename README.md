@@ -31,6 +31,7 @@ For given versions of Electron you must depend on a very specific version range 
 | `~1.8.0` | `~3.8.0` |
 | `^2.0.0` | `^4.0.0` |
 | `^3.0.0` | `^5.0.0` |
+| `^4.0.0` | `^6.0.0` |
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
