@@ -32,6 +32,7 @@ For given versions of Electron you must depend on a very specific version range 
 | `^2.0.0` | `^4.0.0` |
 | `^3.0.0` | `^5.0.0` |
 | `^4.0.0` | `^6.0.0` |
+| `^5.0.0` | `^7.0.0` |
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
@@ -183,8 +184,8 @@ Create a new application with the following options:
 ### Node Integration
 
 The Electron helpers provided by Spectron require accessing the core Electron
-APIs in the renderer processes of your application. So if your Electron
-application has `nodeIntegration` set to `false` then you'll need to expose a
+APIs in the renderer processes of your application. So, either your Electron
+application has `nodeIntegration` set to `true` or you'll need to expose a
 `require` window global to Spectron so it can access the core Electron APIs.
 
 You can do this by adding a [`preload`][preload] script that does the following:

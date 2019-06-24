@@ -137,7 +137,7 @@ describe('application loading', function () {
     it('gets the render process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()
         .getRenderProcessLogs().then(function (logs) {
-          expect(logs.length).to.equal(4)
+          expect(logs.length).to.equal(3)
 
           expect(logs[0].message).to.contain('6:14 "render log"')
           expect(logs[0].source).to.equal('console-api')
