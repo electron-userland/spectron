@@ -224,7 +224,7 @@ describe('application loading', function () {
     })
 
     it('throws an error when the specified path is invalid', function () {
-      return app.webContents.savePage(tempPath, 'MHTML').should.be.rejectedWith(Error)
+      return app.webContents.savePage(tempPath, 'MHTMLfds').should.be.rejectedWith(Error)
     })
   })
 

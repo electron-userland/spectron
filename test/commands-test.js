@@ -210,7 +210,7 @@ describe('window commands', function () {
 
   describe('electron.screen.getPrimaryDisplay()', function () {
     it('returns information about the primary display', function () {
-      return app.electron.screen.getPrimaryDisplay().should.eventually.have.property('workArea').and.not.be.empty
+      return app.electron.remote.screen.getPrimaryDisplay().should.eventually.have.property('workArea').and.not.be.empty
     })
   })
 
