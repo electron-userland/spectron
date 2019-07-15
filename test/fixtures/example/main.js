@@ -8,7 +8,10 @@ app.on('ready', function () {
     width: 800,
     height: 400,
     minHeight: 100,
-    minWidth: 100
+    minWidth: 100,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
   mainWindow.loadFile('index.html')
   mainWindow.on('closed', function () { mainWindow = null })
