@@ -305,6 +305,18 @@ app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete')
   })
 ```
 
+##### executeJavaScript
+The async `executeJavaScript` API is supported but instead of taking a callback it
+returns a `Promise` that will resolve with the result of the last statement of the
+script.
+
+```js
+app.webContents.executeJavaScript('1 + 2')
+  .then(function (result) {
+    console.log(result) // prints 3
+  })
+```
+
 #### mainProcess
 
 The `mainProcess` property is an alias for `require('electron').remote.process`.
