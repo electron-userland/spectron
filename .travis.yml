@@ -13,6 +13,9 @@ branches:
 
 script: ./script/travis-build.sh
 
+services:
+  - xvfb
+
 cache:
   directories:
     - node_modules
