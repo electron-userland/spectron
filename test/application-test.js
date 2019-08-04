@@ -222,10 +222,6 @@ describe('application loading', function () {
         expect(html).to.contain('Hello')
       })
     })
-
-    it('throws an error when the specified path is invalid', function () {
-      return app.webContents.savePage(tempPath, 'MHTML').should.be.rejectedWith(Error)
-    })
   })
 
   describe('webContents.executeJavaScript', function () {
