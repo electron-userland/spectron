@@ -458,6 +458,18 @@ Focus a window using its index from the `windowHandles()` array.
 app.client.windowByIndex(1)
 ```
 
+#### client.switchWindow(urlOrTitleToMatch)
+
+Focus a window using its URL or title.
+
+```js
+// switch via url match
+app.client.switchWindow('google.com')
+
+// switch via title match
+app.client.switchWindow('Next-gen WebDriver test framework')
+```
+
 ### Accessibility Testing
 
 Spectron bundles the [Accessibility Developer Tools](https://github.com/GoogleChrome/accessibility-developer-tools)
