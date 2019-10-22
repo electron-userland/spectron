@@ -55,7 +55,7 @@ touch test/spec.js
 cd test
 ```
 
-Then simply include the following your first `spec.js`.
+Then simply include the following in your first `spec.js`.
 
 ```js
 const Application = require('spectron').Application
