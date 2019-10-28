@@ -28,7 +28,7 @@
     "electron-chromedriver": "^7.0.0",
     "request": "^2.87.0",
     "split": "^1.0.0",
-    "webdriverio": "^4.13.0"
+    "webdriverio": "^5.15.4"
   },
   "devDependencies": {
     "@types/webdriverio": "^4.8.0",
