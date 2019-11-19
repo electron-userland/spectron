@@ -24,6 +24,7 @@
   "author": "Kevin Sawicki",
   "license": "MIT",
   "dependencies": {
+    "accessibility-developer-tools": "^2.11.0",
     "dev-null": "^0.1.1",
     "electron-chromedriver": "^7.0.0",
     "request": "^2.87.0",
