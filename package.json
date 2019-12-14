@@ -24,6 +24,7 @@
   "author": "Kevin Sawicki",
   "license": "MIT",
   "dependencies": {
+    "@types/webdriverio": "^4.8.0",
     "dev-null": "^0.1.1",
     "electron-chromedriver": "^7.0.0",
     "request": "^2.87.0",
@@ -31,7 +32,6 @@
     "webdriverio": "^4.13.0"
   },
   "devDependencies": {
-    "@types/webdriverio": "^4.8.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
