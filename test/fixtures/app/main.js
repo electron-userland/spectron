@@ -3,6 +3,7 @@ var fs = require('fs')
 var path = require('path')
 
 var mainWindow = null
+app.allowRendererProcessReuse = true
 
 app.on('ready', function () {
   console.log('main log')
