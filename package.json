@@ -9,7 +9,8 @@
     "prepack": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",
-    "test": "mocha && standard"
+    "test": "mocha && standard",
+    "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
     "node": ">=0.12.4"
@@ -43,5 +44,8 @@
     "temp": "^0.9.0",
     "tslint": "^5.10.0",
     "typescript": "^3.5.3"
+  },
+  "resolutions": {
+    "@types/node": "^12.0.0"
   }
 }
