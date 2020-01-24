@@ -9,7 +9,8 @@
     "prepack": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",
-    "test": "mocha && standard"
+    "test": "mocha && standard",
+    "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
     "node": ">=0.12.4"
@@ -25,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "^7.0.0",
+    "electron-chromedriver": "^8.0.0-beta.7",
     "request": "^2.87.0",
     "split": "^1.0.0",
     "webdriverio": "^4.13.0"
@@ -36,12 +37,15 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
-    "electron": "^7.0.0",
+    "electron": "^8.0.0-beta.7",
     "husky": "^3.0.0",
     "mocha": "^6.1.4",
     "standard": "^12.0.1",
     "temp": "^0.9.0",
     "tslint": "^5.10.0",
     "typescript": "^3.5.3"
+  },
+  "resolutions": {
+    "@types/node": "^12.0.0"
   }
 }
