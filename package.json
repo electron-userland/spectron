@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
@@ -27,7 +27,7 @@
   "dependencies": {
     "@types/webdriverio": "^4.8.0",
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "^8.0.0-beta.7",
+    "electron-chromedriver": "^8.0.0",
     "request": "^2.87.0",
     "split": "^1.0.0",
     "webdriverio": "^4.13.0"
@@ -37,7 +37,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
-    "electron": "^8.0.0-beta.7",
+    "electron": "^8.0.0",
     "husky": "^4.2.1",
     "mocha": "^7.0.1",
     "standard": "^12.0.1",
