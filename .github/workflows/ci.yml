@@ -37,10 +37,4 @@ jobs:
       - name: Install
         run: npm ci
       - name: Test
-        shell: bash
-        run: |
-          if [[ "$(uname -s)" = "Linux" ]]; then
-            xvfb-run --auto-servernum npm test
-          else
-            npm test
-          fi
+        run: npm test
