@@ -24,11 +24,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install/start xvfb
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get install --no-install-recommends --yes xvfb
-          sh -e /etc/init.d/xvfb start
       - name: Get npm cache directory
         id: npm-cache
         run: |
@@ -42,6 +37,10 @@ jobs:
       - name: Install
         run: npm ci
       - name: Test
-        run: npm test
-        env:
-          DISPLAY: :99.0
+        shell: bash
+        run: |
+          if [[ "$(uname -s)" = "Linux" ]]; then
+            xvfb-run --auto-servernum npm test
+          else
+            npm test
+          fi
