@@ -1,24 +1,14 @@
-os:
-  - linux
-  - osx
-
+os: linux
 language: node_js
-
-node_js:
-  - '12'
+node_js: '12'
+cache: npm
 
 branches:
   only:
     - master
 
-script: ./script/travis-build.sh
-
 services:
   - xvfb
-
-cache:
-  directories:
-    - node_modules
 
 notifications:
   email:
