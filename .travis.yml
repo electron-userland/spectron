@@ -1,0 +1,16 @@
+os: linux
+language: node_js
+node_js: '12'
+cache: npm
+
+branches:
+  only:
+    - master
+
+services:
+  - xvfb
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
