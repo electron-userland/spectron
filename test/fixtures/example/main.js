@@ -1,8 +1,8 @@
-var { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron')
 
-var mainWindow = null
+let mainWindow = null
 
-app.on('ready', function () {
+app.on('ready', () => {
   mainWindow = new BrowserWindow({
     center: true,
     width: 800,
@@ -14,5 +14,5 @@ app.on('ready', function () {
     }
   })
   mainWindow.loadFile('index.html')
-  mainWindow.on('closed', function () { mainWindow = null })
+  mainWindow.on('closed', () => { mainWindow = null })
 })

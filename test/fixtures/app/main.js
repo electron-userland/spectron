@@ -1,11 +1,11 @@
-var { app, BrowserWindow, ipcMain } = require('electron')
-var fs = require('fs')
-var path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const fs = require('fs')
+const path = require('path')
 
-var mainWindow = null
+let mainWindow = null
 app.allowRendererProcessReuse = true
 
-app.on('ready', function () {
+app.on('ready', () => {
   console.log('main log')
   console.warn('main warn')
   console.error('main error')
@@ -23,15 +23,15 @@ app.on('ready', function () {
     }
   })
   mainWindow.loadFile('index.html')
-  mainWindow.on('closed', function () { mainWindow = null })
+  mainWindow.on('closed', () => { mainWindow = null })
 })
 
-app.on('will-quit', function () {
+app.on('will-quit', () => {
   if (fs.existsSync(process.env.SPECTRON_TEMP_DIR)) {
     fs.writeFileSync(path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt'), '')
   }
 })
 
-ipcMain.on('ipc-event', function (event, count) {
+ipcMain.on('ipc-event', (event, count) => {
   global.ipcEventCount += count
 })

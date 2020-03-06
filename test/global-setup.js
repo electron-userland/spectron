@@ -1,19 +1,19 @@
-var Application = require('..').Application
-var assert = require('assert')
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var chaiRoughly = require('chai-roughly')
+const Application = require('..').Application
+const assert = require('assert')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const chaiRoughly = require('chai-roughly')
 
-var path = require('path')
+const path = require('path')
 
-global.before(function () {
+global.before(() => {
   chai.should()
   chai.use(chaiAsPromised)
   chai.use(chaiRoughly)
 })
 
-exports.getElectronPath = function () {
-  var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
+exports.getElectronPath = () => {
+  let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
   if (process.platform === 'win32') electronPath += '.cmd'
   return electronPath
 }
@@ -26,22 +26,22 @@ exports.setupTimeout = function (test) {
   }
 }
 
-exports.startApplication = function (options) {
+exports.startApplication = (options) => {
   options.path = exports.getElectronPath()
   if (process.env.CI) options.startTimeout = 30000
 
-  var app = new Application(options)
-  return app.start().then(function () {
+  const app = new Application(options)
+  return app.start().then(() => {
     assert.strictEqual(app.isRunning(), true)
     chaiAsPromised.transferPromiseness = app.transferPromiseness
     return app
   })
 }
 
-exports.stopApplication = function (app) {
+exports.stopApplication = (app) => {
   if (!app || !app.isRunning()) return
 
-  return app.stop().then(function () {
+  return app.stop().then(() => {
     assert.strictEqual(app.isRunning(), false)
   })
 }

@@ -1,17 +1,17 @@
-var helpers = require('./global-setup')
-var path = require('path')
-var { expect } = require('chai')
-var assert = require('assert')
+const helpers = require('./global-setup')
+const path = require('path')
+const { expect } = require('chai')
+const assert = require('assert')
 
-var describe = global.describe
-var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+const describe = global.describe
+const it = global.it
+const beforeEach = global.beforeEach
+const afterEach = global.afterEach
 
 describe('app.client.auditAccessibility()', function () {
   helpers.setupTimeout(this)
 
-  var app = null
+  let app = null
 
   afterEach(function () {
     return helpers.stopApplication(app)
@@ -21,12 +21,12 @@ describe('app.client.auditAccessibility()', function () {
     beforeEach(function () {
       return helpers.startApplication({
         args: [path.join(__dirname, 'fixtures', 'accessible')]
-      }).then(function (startedApp) { app = startedApp })
+      }).then((startedApp) => { app = startedApp })
     })
 
     it('resolves to an audit object with no results', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility().then(function (audit) {
+        .auditAccessibility().then((audit) => {
           assert.strictEqual(audit.failed, false)
           expect(audit.results).to.have.length(0)
           expect(audit.message).to.equal('Accessibilty audit passed')
@@ -38,12 +38,12 @@ describe('app.client.auditAccessibility()', function () {
     beforeEach(function () {
       return helpers.startApplication({
         args: [path.join(__dirname, 'fixtures', 'not-accessible')]
-      }).then(function (startedApp) { app = startedApp })
+      }).then((startedApp) => { app = startedApp })
     })
 
     it('resolves to an audit object with the results', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility().then(function (audit) {
+        .auditAccessibility().then((audit) => {
           assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(3)
 
@@ -60,7 +60,7 @@ describe('app.client.auditAccessibility()', function () {
           expect(audit.results[2].severity).to.equal('Warning')
         })
         .windowByIndex(1)
-        .auditAccessibility().then(function (audit) {
+        .auditAccessibility().then((audit) => {
           assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(1)
 
@@ -72,7 +72,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores warnings when ignoreWarnings is specified', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility({ ignoreWarnings: true }).then(function (audit) {
+        .auditAccessibility({ ignoreWarnings: true }).then((audit) => {
           assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(1)
 
@@ -84,7 +84,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores rules when ignoreRules is specified', function () {
       return app.client.waitUntilWindowLoaded()
-        .auditAccessibility({ ignoreRules: ['AX_TEXT_01', 'AX_HTML_01'] }).then(function (audit) {
+        .auditAccessibility({ ignoreRules: ['AX_TEXT_01', 'AX_HTML_01'] }).then((audit) => {
           assert.strictEqual(audit.failed, true)
           expect(audit.results).to.have.length(1)
 

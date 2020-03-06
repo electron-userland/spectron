@@ -1,20 +1,20 @@
-var helpers = require('./global-setup')
-var path = require('path')
+const helpers = require('./global-setup')
+const path = require('path')
 
-var describe = global.describe
-var it = global.it
-var before = global.before
-var after = global.after
+const describe = global.describe
+const it = global.it
+const before = global.before
+const after = global.after
 
 describe('Slow loading page', function () {
   helpers.setupTimeout(this)
 
-  var app = null
+  let app = null
 
   before(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'slow')]
-    }).then(function (startedApp) { app = startedApp })
+    }).then((startedApp) => { app = startedApp })
   })
 
   after(function () {

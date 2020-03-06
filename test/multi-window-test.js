@@ -1,20 +1,20 @@
-var helpers = require('./global-setup')
-var path = require('path')
+const helpers = require('./global-setup')
+const path = require('path')
 
-var describe = global.describe
-var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+const describe = global.describe
+const it = global.it
+const beforeEach = global.beforeEach
+const afterEach = global.afterEach
 
 describe('multiple windows', function () {
   helpers.setupTimeout(this)
 
-  var app = null
+  let app = null
 
   beforeEach(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'multi-window')]
-    }).then(function (startedApp) { app = startedApp })
+    }).then((startedApp) => { app = startedApp })
   })
 
   afterEach(function () {

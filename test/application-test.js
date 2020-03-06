@@ -1,21 +1,21 @@
-var Application = require('..').Application
-var assert = require('assert')
-var fs = require('fs')
-var helpers = require('./global-setup')
-var path = require('path')
-var temp = require('temp').track()
+const Application = require('..').Application
+const assert = require('assert')
+const fs = require('fs')
+const helpers = require('./global-setup')
+const path = require('path')
+const temp = require('temp').track()
 
-var describe = global.describe
-var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
-var expect = require('chai').expect
+const describe = global.describe
+const it = global.it
+const beforeEach = global.beforeEach
+const afterEach = global.afterEach
+const expect = require('chai').expect
 
 describe('application loading', function () {
   helpers.setupTimeout(this)
 
-  var app = null
-  var tempPath = null
+  let app = null
+  let tempPath = null
 
   beforeEach(function () {
     tempPath = temp.mkdirSync('spectron-temp-dir-')
@@ -32,7 +32,7 @@ describe('application loading', function () {
         HELLO: 'WORLD',
         SPECTRON_TEMP_DIR: tempPath
       }
-    }).then(function (startedApp) { app = startedApp })
+    }).then((startedApp) => { app = startedApp })
   })
 
   afterEach(function () {
@@ -40,7 +40,7 @@ describe('application loading', function () {
   })
 
   it('launches the application', function () {
-    return app.client.windowHandles().then(function (response) {
+    return app.client.windowHandles().then((response) => {
       assert.strictEqual(response.value.length, 1)
     }).browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
       x: 25,
@@ -58,7 +58,7 @@ describe('application loading', function () {
   })
 
   it('passes through env to the launched app', function () {
-    return app.rendererProcess.env().then(function (env) {
+    return app.rendererProcess.env().then((env) => {
       if (process.platform === 'win32') {
         assert.strictEqual(env.foo, 'BAR')
         assert.strictEqual(env.hello, 'WORLD')
@@ -91,9 +91,9 @@ describe('application loading', function () {
 
   describe('stop()', function () {
     it('quits the application', function () {
-      var quitPath = path.join(tempPath, 'quit.txt')
+      const quitPath = path.join(tempPath, 'quit.txt')
       assert.strictEqual(fs.existsSync(quitPath), false)
-      return app.stop().then(function (stoppedApp) {
+      return app.stop().then((stoppedApp) => {
         assert.strictEqual(stoppedApp, app)
         assert.strictEqual(fs.existsSync(quitPath), true)
         assert.strictEqual(app.isRunning(), false)
@@ -101,7 +101,7 @@ describe('application loading', function () {
     })
 
     it('rejects with an error if the application is not running', function () {
-      return app.stop().should.be.fulfilled.then(function () {
+      return app.stop().should.be.fulfilled.then(() => {
         return app.stop().should.be.rejectedWith(Error)
       })
     })
@@ -109,9 +109,9 @@ describe('application loading', function () {
 
   describe('restart()', function () {
     it('restarts the application', function () {
-      var quitPath = path.join(tempPath, 'quit.txt')
+      const quitPath = path.join(tempPath, 'quit.txt')
       assert.strictEqual(fs.existsSync(quitPath), false)
-      return app.restart().then(function (restartedApp) {
+      return app.restart().then((restartedApp) => {
         assert.strictEqual(restartedApp, app)
         assert.strictEqual(fs.existsSync(quitPath), true)
         assert.strictEqual(app.isRunning(), true)
@@ -119,7 +119,7 @@ describe('application loading', function () {
     })
 
     it('rejects with an error if the application is not running', function () {
-      return app.stop().should.be.fulfilled.then(function () {
+      return app.stop().should.be.fulfilled.then(() => {
         return app.restart().should.be.rejectedWith(Error)
       })
     })
@@ -136,7 +136,7 @@ describe('application loading', function () {
   describe('getRenderProcessLogs', function () {
     it('gets the render process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()
-        .getRenderProcessLogs().then(function (logs) {
+        .getRenderProcessLogs().then((logs) => {
           expect(logs.length).to.equal(3)
 
           expect(logs[0].message).to.contain('6:14 "render log"')
@@ -151,7 +151,7 @@ describe('application loading', function () {
           expect(logs[2].source).to.equal('console-api')
           expect(logs[2].level).to.equal('SEVERE')
         })
-        .getRenderProcessLogs().then(function (logs) {
+        .getRenderProcessLogs().then((logs) => {
           expect(logs.length).to.equal(0)
         })
     })
@@ -160,27 +160,27 @@ describe('application loading', function () {
   describe('getMainProcessLogs', function () {
     it('gets the main process console logs and clears them', function () {
       return app.client.waitUntilWindowLoaded()
-        .getMainProcessLogs().then(function (logs) {
+        .getMainProcessLogs().then((logs) => {
           expect(logs).to.contain('main log')
           expect(logs).to.contain('main warn')
           expect(logs).to.contain('main error')
         })
-        .getMainProcessLogs().then(function (logs) {
+        .getMainProcessLogs().then((logs) => {
           expect(logs.length).to.equal(0)
         })
     })
 
     it('does not include any deprecation warnings', function () {
       return app.client.waitUntilWindowLoaded()
-        .getMainProcessLogs().then(function (logs) {
-          logs.forEach(function (log) {
+        .getMainProcessLogs().then((logs) => {
+          logs.forEach((log) => {
             expect(log).not.to.contain('(electron)')
           })
         })
     })
 
     it('clears the logs when the application is stopped', function () {
-      return app.stop().then(function () {
+      return app.stop().then(() => {
         expect(app.chromeDriver.getLogs().length).to.equal(0)
       })
     })
@@ -199,14 +199,14 @@ describe('application loading', function () {
         y: 0,
         width: 10,
         height: 10
-      }).then(function (buffer) {
+      }).then((buffer) => {
         expect(buffer).to.be.an.instanceof(Buffer)
         expect(buffer.length).to.be.above(0)
       })
     })
 
     it('returns a Buffer screenshot of the entire page when no rectangle is specified', function () {
-      return app.browserWindow.capturePage().then(function (buffer) {
+      return app.browserWindow.capturePage().then((buffer) => {
         expect(buffer).to.be.an.instanceof(Buffer)
         expect(buffer.length).to.be.above(0)
       })
@@ -215,9 +215,9 @@ describe('application loading', function () {
 
   describe('webContents.savePage', function () {
     it('saves the page to the specified path', function () {
-      var filePath = path.join(tempPath, 'page.html')
-      return app.webContents.savePage(filePath, 'HTMLComplete').then(function () {
-        var html = fs.readFileSync(filePath, 'utf8')
+      const filePath = path.join(tempPath, 'page.html')
+      return app.webContents.savePage(filePath, 'HTMLComplete').then(() => {
+        const html = fs.readFileSync(filePath, 'utf8')
         expect(html).to.contain('<title>Test</title>')
         expect(html).to.contain('Hello')
       })
@@ -230,19 +230,19 @@ describe('application loading', function () {
 
   describe('webContents.executeJavaScript', function () {
     it('executes the given script and returns the result of its last statement (sync)', function () {
-      return app.webContents.executeJavaScript('1 + 2').then(function (result) {
+      return app.webContents.executeJavaScript('1 + 2').then((result) => {
         expect(result).to.equal(3)
       })
     })
 
     it('executes the given script and returns the result of its last statement (async)', function () {
       return app.webContents.executeJavaScript(`
-        new Promise(function(resolve){
-          setTimeout(function(){
+        new Promise((resolve) => {
+          setTimeout(() => {
             resolve("ok")
           }, 1000)
         })`
-      ).then(function (result) {
+      ).then((result) => {
         expect(result).to.equal('ok')
       })
     })

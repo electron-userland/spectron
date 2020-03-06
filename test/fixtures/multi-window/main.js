@@ -1,9 +1,9 @@
-var { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron')
 
-var topWindow = null
-var bottomWindow = null
+let topWindow = null
+let bottomWindow = null
 
-app.on('ready', function () {
+app.on('ready', () => {
   topWindow = new BrowserWindow({
     x: 25,
     y: 35,
@@ -14,7 +14,7 @@ app.on('ready', function () {
     }
   })
   topWindow.loadFile('index-top.html')
-  topWindow.on('closed', function () { topWindow = null })
+  topWindow.on('closed', () => { topWindow = null })
 
   bottomWindow = new BrowserWindow({
     x: 25,
@@ -26,5 +26,5 @@ app.on('ready', function () {
     }
   })
   bottomWindow.loadFile('index-bottom.html')
-  bottomWindow.on('closed', function () { bottomWindow = null })
+  bottomWindow.on('closed', () => { bottomWindow = null })
 })

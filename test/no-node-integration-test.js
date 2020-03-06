@@ -1,21 +1,21 @@
-var helpers = require('./global-setup')
-var path = require('path')
-var assert = require('assert')
+const helpers = require('./global-setup')
+const path = require('path')
+const assert = require('assert')
 
-var describe = global.describe
-var it = global.it
-var before = global.before
-var after = global.after
+const describe = global.describe
+const it = global.it
+const before = global.before
+const after = global.after
 
 describe('when nodeIntegration is set to false', function () {
   helpers.setupTimeout(this)
 
-  var app = null
+  let app = null
 
   before(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'no-node-integration')]
-    }).then(function (startedApp) { app = startedApp })
+    }).then((startedApp) => { app = startedApp })
   })
 
   after(function () {

@@ -1,22 +1,22 @@
-var fs = require('fs')
-var helpers = require('./global-setup')
-var path = require('path')
-var temp = require('temp').track()
+const fs = require('fs')
+const helpers = require('./global-setup')
+const path = require('path')
+const temp = require('temp').track()
 
-var describe = global.describe
-var it = global.it
-var before = global.before
-var after = global.after
+const describe = global.describe
+const it = global.it
+const before = global.before
+const after = global.after
 
 describe('window commands', function () {
   helpers.setupTimeout(this)
 
-  var app = null
+  let app = null
 
   before(function () {
     return helpers.startApplication({
       args: [path.join(__dirname, 'fixtures', 'app')]
-    }).then(function (startedApp) { app = startedApp })
+    }).then((startedApp) => { app = startedApp })
   })
 
   after(function () {
@@ -122,24 +122,24 @@ describe('window commands', function () {
   describe('browserWindow.isMaximized()', function () {
     it('returns true when the window is maximized, false otherwise', function () {
       return app.browserWindow.isMaximized().should.eventually.be.false
-        .browserWindow.maximize().waitUntil(function () {
+        .browserWindow.maximize().waitUntil(() => {
           // FIXME window maximized state is never true on CI
           if (process.env.CI) return Promise.resolve(true)
 
-          return this.browserWindow.isMaximized()
-        }, 5000).then(function () { })
+          return app.browserWindow.isMaximized()
+        }, 5000).then(() => { })
     })
   })
 
   describe('browserWindow.isMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', function () {
       return app.browserWindow.isMinimized().should.eventually.be.false
-        .browserWindow.minimize().waitUntil(function () {
+        .browserWindow.minimize().waitUntil(() => {
           // FIXME window minimized state is never true on CI
           if (process.env.CI) return Promise.resolve(true)
 
-          return this.browserWindow.isMinimized()
-        }, 5000).then(function () { })
+          return app.browserWindow.isMinimized()
+        }, 5000).then(() => { })
     })
   })
 
@@ -186,7 +186,7 @@ describe('window commands', function () {
 
   describe('electron.remote.app.getPath()', function () {
     it('returns the path for the given name', function () {
-      var tempDir = fs.realpathSync(temp.dir)
+      const tempDir = fs.realpathSync(temp.dir)
       return app.electron.remote.app.setPath('music', tempDir)
         .electron.remote.app.getPath('music').should.eventually.equal(tempDir)
     })

@@ -1,8 +1,8 @@
-var { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron')
 
-var mainWindow = null
+let mainWindow = null
 
-app.on('ready', function () {
+app.on('ready', () => {
   mainWindow = new BrowserWindow({
     center: true,
     width: 800,
