@@ -35,7 +35,7 @@ declare module "spectron" {
         /**
          * An array of detail objects for each failed rule
          */
-        results:Array<{
+        results:{
             /**
              * A unique accessibility rule identifier
              */
@@ -60,7 +60,7 @@ declare module "spectron" {
              * URL providing more details about the failed rule
              */
             url:string;
-        }>;
+        }[];
     }
     
     export interface SpectronClient extends WebdriverIO.Client<void> {
