@@ -37,7 +37,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
-    "electron": "^8.0.0",
+    "electron": "^9.0.0",
     "husky": "^4.2.1",
     "mocha": "^7.0.1",
     "standard": "^12.0.1",
