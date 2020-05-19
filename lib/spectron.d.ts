@@ -8,6 +8,61 @@ declare module "spectron" {
     import * as Electron from "electron";
     import * as WebdriverIO from "webdriverio";
 
+    interface AccessibilityAuditOptions {
+        /**
+         * true to ignore failures with a severity of 'Warning' and only
+         * include failures with a severity of 'Severe'. Defaults to false.
+         */
+        ignoreWarnings?:boolean;
+        
+        /**
+         * Rule code values such as AX_COLOR_01 to ignore failures for.
+         */
+        ignoreRules?:string[];
+    }
+
+    interface AccessibilityAuditResult {
+        /**
+         * False when the audit has failures
+         */
+        failed:boolean;
+        
+        /**
+         * A detailed message about the results
+         */
+        message:string;
+        
+        /**
+         * An array of detail objects for each failed rule
+         */
+        results:{
+            /**
+             * A unique accessibility rule identifier
+             */
+            code:string;
+            
+            /**
+             * Selector path of each HTML element that failed the rule
+             */
+            elements:string[];
+            
+            /**
+             * A String message about the failed rule
+             */
+            message:string;
+            
+            /**
+             * 'Warning' or 'Severe'
+             */
+            severity:'Warning' | 'Severe';
+            
+            /**
+             * URL providing more details about the failed rule
+             */
+            url:string;
+        }[];
+    }
+    
     export interface SpectronClient extends WebdriverIO.Client<void> {
         /**
          * Focus a window using its title or URL.
@@ -50,6 +105,11 @@ declare module "spectron" {
          * The logs are cleared after they are returned.
          */
         getMainProcessLogs():Promise<string[]>;
+        
+        /**
+         * Run an accessibility audit in the focused window with the specified options.
+         */
+        auditAccessibility(options?:AccessibilityAuditOptions):Promise<AccessibilityAuditResult>;
     }
 
     export interface SpectronWindow extends Electron.BrowserWindow {
