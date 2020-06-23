@@ -160,6 +160,7 @@ describe('window commands', function () {
 
   describe('webContents.selectAll()', function () {
     it('selects all the text on the page', async function () {
+      app.client.waitUntilTextExists('html', 'Hello')
       let text = await app.client.getSelectedText()
       expect(text).to.equal('')
       app.client.webContents.selectAll()
