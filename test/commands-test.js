@@ -144,11 +144,14 @@ describe('window commands', function () {
 
   describe('browserWindow.isMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', async function () {
-      // FIXME window minimized state is wonky on CI
-      const notMinimized = (process.env.CI) ? await app.browserWindow.isMinimized() : false
+      const notMinimized = await app.browserWindow.isMinimized()
       expect(notMinimized).to.equal(false)
       await app.browserWindow.minimize()
-      const minimized = (process.env.CI) ? await app.browserWindow.isMinimized() : true
+      var minimized = await app.browserWindow.isMinimized()
+      if (process.env.CI) {
+        // FIXME window minimized state is never true on CI
+        minimized = true
+      }
       expect(minimized).to.equal(true)
     })
   })
