@@ -50,6 +50,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('resolves to an audit object with the results', async function () {
       await app.client.waitUntilWindowLoaded()
+      await app.client.windowByIndex(0)
       var audit = await app.client.auditAccessibility()
       assert.strictEqual(audit.failed, true)
       expect(audit.results).to.have.length(3)
