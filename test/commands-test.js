@@ -132,10 +132,10 @@ describe('window commands', function () {
 
   describe('browserWindow.isMaximized()', function () {
     it('returns true when the window is maximized, false otherwise', async function () {
-      const notMaximized = await app.browserWindow.isMinimized()
+      const notMaximized = await app.browserWindow.isMaximized()
       expect(notMaximized).to.equal(false)
       await app.browserWindow.maximize()
-      var maximized = await app.browserWindow.isMinimized()
+      var maximized = await app.browserWindow.isMaximized()
       if (process.env.CI) {
         // FIXME window maximized state is never true on CI
         maximized = true
