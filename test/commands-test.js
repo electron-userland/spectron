@@ -158,9 +158,11 @@ describe('window commands', function () {
 
   describe('webContents.selectAll()', function () {
     it('selects all the text on the page', async function () {
-      app.client.getSelectedText().should.eventually.equal('')
+      let text = await app.client.getSelectedText()
+      expect(text).to.equal('')
       app.client.webContents.selectAll()
-      return app.client.getSelectedText().should.eventually.contain('Hello')
+      text = await app.client.getSelectedText()
+      expect(text).to.contain('Hello')
     })
   })
 
