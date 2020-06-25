@@ -38,7 +38,7 @@ describe('requireName option to Application', function () {
     app.webContents.getTitle().should.eventually.equal('require name')
     const emptyArgs = await app.electron.remote.process.execArgv()
     const elem = await app.client.$('body')
-    var text = await elem.getText()
+    const text = await elem.getText()
     expect(text).to.equal('custom require name')
     app.webContents.getTitle().should.eventually.equal('require name')
     return expect(emptyArgs).to.be.empty

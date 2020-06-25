@@ -1,6 +1,6 @@
 var helpers = require('./global-setup')
 var path = require('path')
-var expect = require('chai').expect
+const expect = require('chai').expect
 
 var describe = global.describe
 var it = global.it

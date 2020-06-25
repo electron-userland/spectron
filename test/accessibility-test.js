@@ -51,7 +51,7 @@ describe('app.client.auditAccessibility()', function () {
     it('resolves to an audit object with the results', async function () {
       await app.client.waitUntilWindowLoaded()
       await app.client.windowByIndex(0)
-      var audit = await app.client.auditAccessibility()
+      let audit = await app.client.auditAccessibility()
       assert.strictEqual(audit.failed, true)
       expect(audit.results).to.have.length(3)
 
@@ -78,7 +78,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores warnings when ignoreWarnings is specified', async function () {
       await app.client.waitUntilWindowLoaded()
-      var audit = await app.client.auditAccessibility({ ignoreWarnings: true })
+      const audit = await app.client.auditAccessibility({ ignoreWarnings: true })
       assert.strictEqual(audit.failed, true)
       expect(audit.results).to.have.length(1)
 
@@ -89,7 +89,7 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores rules when ignoreRules is specified', async function () {
       await app.client.waitUntilWindowLoaded()
-      var audit = await app.client.auditAccessibility({
+      const audit = await app.client.auditAccessibility({
         ignoreRules: ['AX_TEXT_01', 'AX_HTML_01']
       })
       assert.strictEqual(audit.failed, true)

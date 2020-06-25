@@ -135,7 +135,7 @@ describe('window commands', function () {
       const notMaximized = await app.browserWindow.isMaximized()
       expect(notMaximized).to.equal(false)
       await app.browserWindow.maximize()
-      var maximized = await app.browserWindow.isMaximized()
+      let maximized = await app.browserWindow.isMaximized()
       if (process.env.CI) {
         // FIXME window maximized state is never true on CI
         maximized = true
@@ -149,7 +149,7 @@ describe('window commands', function () {
       const notMinimized = await app.browserWindow.isMinimized()
       expect(notMinimized).to.equal(false)
       await app.browserWindow.minimize()
-      var minimized = await app.browserWindow.isMinimized()
+      let minimized = await app.browserWindow.isMinimized()
       if (process.env.CI) {
         // FIXME window minimized state is never true on CI
         minimized = true
@@ -171,14 +171,14 @@ describe('window commands', function () {
 
   describe('webContents.paste()', function () {
     it('pastes the text into the focused element', async function () {
-      var elem = await app.client.$('textarea')
-      var text = await elem.getText('textarea')
+      const elem = await app.client.$('textarea')
+      const text = await elem.getText('textarea')
       expect(text).to.equal('')
       app.electron.clipboard.writeText('pasta')
       app.electron.clipboard.readText().should.eventually.equal('pasta')
       await elem.click()
       app.webContents.paste()
-      var value = await elem.getValue('textarea')
+      const value = await elem.getValue('textarea')
       return expect(value).to.equal('pasta')
     })
   })
@@ -198,7 +198,7 @@ describe('window commands', function () {
     it('returns the represented filename', async function () {
       if (process.platform !== 'darwin') return
 
-      var filename = await app.browserWindow.getRepresentedFilename()
+      let filename = await app.browserWindow.getRepresentedFilename()
       expect(filename).to.equal('')
       await app.browserWindow.setRepresentedFilename('/foo.js')
       filename = await app.browserWindow.getRepresentedFilename()
@@ -208,7 +208,7 @@ describe('window commands', function () {
 
   describe('electron.remote.app.getPath()', function () {
     it('returns the path for the given name', async function () {
-      var tempDir = fs.realpathSync(temp.dir)
+      const tempDir = fs.realpathSync(temp.dir)
       await app.electron.remote.app.setPath('music', tempDir)
       return app.electron.remote.app
         .getPath('music')

@@ -104,7 +104,7 @@ describe('application loading', function () {
 
   describe('stop()', function () {
     it('quits the application', async function () {
-      var quitPath = path.join(tempPath, 'quit.txt')
+      const quitPath = path.join(tempPath, 'quit.txt')
       assert.strictEqual(fs.existsSync(quitPath), false)
       const stoppedApp = await app.stop()
       assert.strictEqual(stoppedApp, app)
@@ -120,7 +120,7 @@ describe('application loading', function () {
 
   describe('restart()', function () {
     it('restarts the application', async function () {
-      var quitPath = path.join(tempPath, 'quit.txt')
+      const quitPath = path.join(tempPath, 'quit.txt')
       assert.strictEqual(fs.existsSync(quitPath), false)
       const restartedApp = await app.restart()
       assert.strictEqual(restartedApp, app)
@@ -145,7 +145,7 @@ describe('application loading', function () {
   describe('getRenderProcessLogs', function () {
     it('gets the render process console logs and clears them', async function () {
       await app.client.waitUntilWindowLoaded()
-      var logs = await app.client.getRenderProcessLogs()
+      let logs = await app.client.getRenderProcessLogs()
       expect(logs.length).to.equal(2)
       expect(logs[0].message).to.contain('7:14 "render warn"')
       expect(logs[0].source).to.equal('console-api')
@@ -162,7 +162,7 @@ describe('application loading', function () {
   describe('getMainProcessLogs', function () {
     it('gets the main process console logs and clears them', async function () {
       await app.client.waitUntilWindowLoaded()
-      var logs = await app.client.getMainProcessLogs()
+      let logs = await app.client.getMainProcessLogs()
       expect(logs).to.contain('main log')
       expect(logs).to.contain('main warn')
       expect(logs).to.contain('main error')
@@ -172,7 +172,7 @@ describe('application loading', function () {
 
     it('does not include any deprecation warnings', async function () {
       await app.client.waitUntilWindowLoaded()
-      var logs = await app.client.getMainProcessLogs()
+      let logs = await app.client.getMainProcessLogs()
       logs.forEach(function (log) {
         expect(log).not.to.contain('(electron)')
       })
@@ -212,11 +212,11 @@ describe('application loading', function () {
 
   describe('webContents.savePage', function () {
     it('saves the page to the specified path', function () {
-      var filePath = path.join(tempPath, 'page.html')
+      const filePath = path.join(tempPath, 'page.html')
       return app.webContents
         .savePage(filePath, 'HTMLComplete')
         .then(function () {
-          var html = fs.readFileSync(filePath, 'utf8')
+          const html = fs.readFileSync(filePath, 'utf8')
           expect(html).to.contain('<title>Test</title>')
           expect(html).to.contain('Hello')
         })
@@ -231,12 +231,12 @@ describe('application loading', function () {
 
   describe('webContents.executeJavaScript', function () {
     it('executes the given script and returns the result of its last statement (sync)', async function () {
-      var result = await app.webContents.executeJavaScript('1 + 2')
+      const result = await app.webContents.executeJavaScript('1 + 2')
       expect(result).to.equal(3)
     })
 
     it('executes the given script and returns the result of its last statement (async)', async function () {
-      var result = await app.webContents.executeJavaScript(`
+      const result = await app.webContents.executeJavaScript(`
         new Promise(function(resolve){
           setTimeout(function(){
             resolve("ok")
@@ -248,7 +248,7 @@ describe('application loading', function () {
 
   describe('electron.ipcRenderer.send', function () {
     it('sends the message to the main process', async function () {
-      var ipcCount = await app.electron.remote.getGlobal('ipcEventCount')
+      let ipcCount = await app.electron.remote.getGlobal('ipcEventCount')
       expect(ipcCount).to.equal(0)
       await app.electron.ipcRenderer.send('ipc-event', 123)
       ipcCount = await app.electron.remote.getGlobal('ipcEventCount')
@@ -263,7 +263,7 @@ describe('application loading', function () {
     it('triggers a keypress DOM event', async function () {
       await app.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'A' })
       const elem = await app.client.$('.keypress-count')
-      var text = await elem.getText()
+      let text = await elem.getText()
       expect(text).to.equal('A')
       await app.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'B' })
       text = await elem.getText()

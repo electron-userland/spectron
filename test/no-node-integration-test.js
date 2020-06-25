@@ -29,8 +29,8 @@ describe('when nodeIntegration is set to false', function () {
 
   it('does not throw an error', async function () {
     app.client.getTitle().should.eventually.equal('no node integration')
-    var elem = await app.client.$('body')
-    var text = await elem.getText()
+    const elem = await app.client.$('body')
+    const text = await elem.getText()
     expect(text).to.equal('no node integration')
   })
 
