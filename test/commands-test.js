@@ -171,14 +171,14 @@ describe('window commands', function () {
 
   describe('webContents.paste()', function () {
     it('pastes the text into the focused element', async function () {
-      const elem = await app.client.$('textarea')
-      const text = await elem.getText('textarea')
+      var elem = await app.client.$('textarea')
+      var text = await elem.getText('textarea')
       expect(text).to.equal('')
       app.electron.clipboard.writeText('pasta')
       app.electron.clipboard.readText().should.eventually.equal('pasta')
       await elem.click()
       app.webContents.paste()
-      const value = await elem.getValue('textarea')
+      var value = await elem.getValue('textarea')
       return expect(value).to.equal('pasta')
     })
   })
