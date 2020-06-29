@@ -12,5 +12,7 @@ app.on('ready', function () {
     }
   });
   mainWindow.loadFile('index.html');
-  mainWindow.on('closed', function () { mainWindow = null; });
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
 });

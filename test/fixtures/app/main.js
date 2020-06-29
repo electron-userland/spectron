@@ -24,7 +24,9 @@ app.on('ready', function () {
     }
   });
   mainWindow.loadFile('index.html');
-  mainWindow.on('closed', function () { mainWindow = null; });
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
 });
 
 app.on('will-quit', function () {

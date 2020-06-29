@@ -52,13 +52,15 @@ describe('window commands', function () {
     });
 
     it('rejects if the element is missing', async function () {
-      await expect(app.client.waitUntilTextExists('#not-in-page', 'Hello', 50))
-        .to.be.rejectedWith(Error);
+      await expect(
+        app.client.waitUntilTextExists('#not-in-page', 'Hello', 50)
+      ).to.be.rejectedWith(Error);
     });
 
     it('rejects if the element never contains the text', async function () {
-      await expect(app.client.waitUntilTextExists('html', 'not on page', 50))
-        .to.be.rejectedWith(Error);
+      await expect(
+        app.client.waitUntilTextExists('html', 'not on page', 50)
+      ).to.be.rejectedWith(Error);
     });
   });
 

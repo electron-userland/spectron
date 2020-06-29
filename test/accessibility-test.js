@@ -78,7 +78,9 @@ describe('app.client.auditAccessibility()', function () {
 
     it('ignores warnings when ignoreWarnings is specified', async function () {
       await app.client.waitUntilWindowLoaded();
-      const audit = await app.client.auditAccessibility({ ignoreWarnings: true });
+      const audit = await app.client.auditAccessibility({
+        ignoreWarnings: true
+      });
       assert.strictEqual(audit.failed, true);
       expect(audit.results).to.have.length(1);
 

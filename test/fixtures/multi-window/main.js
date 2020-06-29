@@ -14,7 +14,9 @@ app.on('ready', function () {
     }
   });
   topWindow.loadFile('index-top.html');
-  topWindow.on('closed', function () { topWindow = null; });
+  topWindow.on('closed', function () {
+    topWindow = null;
+  });
 
   bottomWindow = new BrowserWindow({
     x: 25,
@@ -26,5 +28,7 @@ app.on('ready', function () {
     }
   });
   bottomWindow.loadFile('index-bottom.html');
-  bottomWindow.on('closed', function () { bottomWindow = null; });
+  bottomWindow.on('closed', function () {
+    bottomWindow = null;
+  });
 });
