@@ -63,7 +63,7 @@ declare module "spectron" {
         }[];
     }
     
-    export interface SpectronClient extends WebdriverIO.Client<void> {
+    export interface SpectronClient extends WebdriverIO.BrowserObject {
         /**
          * Focus a window using its title or URL.
          * <webview> tags can also be focused as a separate window.
@@ -99,7 +99,7 @@ declare module "spectron" {
          * Gets the console log output from the render process.
          * The logs are cleared after they are returned.
          */
-        getRenderProcessLogs():Promise<WebdriverIO.LogEntry[]>;
+        getRenderProcessLogs():Promise<object[]>;
         /**
          * Gets the console log output from the main process.
          * The logs are cleared after they are returned.

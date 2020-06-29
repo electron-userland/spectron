@@ -12,9 +12,13 @@ describe('multiple windows', function () {
   var app = null
 
   beforeEach(function () {
-    return helpers.startApplication({
-      args: [path.join(__dirname, 'fixtures', 'multi-window')]
-    }).then(function (startedApp) { app = startedApp })
+    return helpers
+      .startApplication({
+        args: [path.join(__dirname, 'fixtures', 'multi-window')]
+      })
+      .then(function (startedApp) {
+        app = startedApp
+      })
   })
 
   afterEach(function () {
@@ -22,19 +26,20 @@ describe('multiple windows', function () {
   })
 
   it('should switch focus thanks to windowByIndex', async function () {
+    // TODO
     const windowCount = await app.client.getWindowCount()
     windowCount.should.equal(2)
 
     const windowsData = {}
 
-    const window0 = app.client.windowByIndex(0)
-    const window0Title = await window0.browserWindow.getTitle()
-    const window0Bounds = await window0.browserWindow.getBounds()
+    await app.client.windowByIndex(0)
+    const window0Title = await app.browserWindow.getTitle()
+    const window0Bounds = await app.browserWindow.getBounds()
     windowsData[window0Title] = window0Bounds
 
-    const window1 = app.client.windowByIndex(1)
-    const window1Title = await window1.browserWindow.getTitle()
-    const window1Bounds = await window1.browserWindow.getBounds()
+    await app.client.windowByIndex(1)
+    const window1Title = await app.browserWindow.getTitle()
+    const window1Bounds = await app.browserWindow.getBounds()
     windowsData[window1Title] = window1Bounds
 
     windowsData['Top'].should.roughly(5).deep.equal({
@@ -51,16 +56,16 @@ describe('multiple windows', function () {
     })
   })
 
-  it('should switch focus thanks to switchWindow', function () {
-    return app.client
-      .getWindowCount().should.eventually.equal(2)
-      .switchWindow('Top')
-      .getTitle().should.eventually.equal('Top')
-      .switchWindow('Bottom')
-      .getTitle().should.eventually.equal('Bottom')
-      .switchWindow('index-top.html')
-      .getTitle().should.eventually.equal('Top')
-      .switchWindow('index-bottom.html')
-      .getTitle().should.eventually.equal('Bottom')
+  it('should switch focus thanks to switchWindow', async function () {
+    const windowCount = await app.client.getWindowCount()
+    windowCount.should.equal(2)
+    await app.client.switchWindow('Top')
+    app.client.getTitle().should.eventually.equal('Top')
+    await app.client.switchWindow('Bottom')
+    app.client.getTitle().should.eventually.equal('Bottom')
+    await app.client.switchWindow('index-top.html')
+    app.client.getTitle().should.eventually.equal('Top')
+    await app.client.switchWindow('index-bottom.html')
+    app.client.getTitle().should.eventually.equal('Bottom')
   })
 })

@@ -38,10 +38,9 @@ exports.startApplication = function (options) {
   })
 }
 
-exports.stopApplication = function (app) {
+exports.stopApplication = async function (app) {
   if (!app || !app.isRunning()) return
 
-  return app.stop().then(function () {
-    assert.strictEqual(app.isRunning(), false)
-  })
+  await app.stop()
+  assert.strictEqual(app.isRunning(), false)
 }

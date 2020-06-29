@@ -1,6 +1,7 @@
 var helpers = require('./global-setup')
 var path = require('path')
 var assert = require('assert')
+const { expect } = require('chai')
 
 var describe = global.describe
 var it = global.it
@@ -13,18 +14,24 @@ describe('when nodeIntegration is set to false', function () {
   var app = null
 
   before(function () {
-    return helpers.startApplication({
-      args: [path.join(__dirname, 'fixtures', 'no-node-integration')]
-    }).then(function (startedApp) { app = startedApp })
+    return helpers
+      .startApplication({
+        args: [path.join(__dirname, 'fixtures', 'no-node-integration')]
+      })
+      .then(function (startedApp) {
+        app = startedApp
+      })
   })
 
   after(function () {
     return helpers.stopApplication(app)
   })
 
-  it('does not throw an error', function () {
-    return app.client.getTitle().should.eventually.equal('no node integration')
-      .getText('body').should.eventually.equal('no node integration')
+  it('does not throw an error', async function () {
+    app.client.getTitle().should.eventually.equal('no node integration')
+    const elem = await app.client.$('body')
+    const text = await elem.getText()
+    expect(text).to.equal('no node integration')
   })
 
   it('does not add Electron API helper methods', function () {
