@@ -4,9 +4,9 @@
 
 /// <reference types="node" />
 
-declare module "spectron" {
-    import * as Electron from "electron";
-    import * as WebdriverIO from "webdriverio";
+declare module 'spectron' {
+    import * as Electron from 'electron';
+    import * as WebdriverIO from 'webdriverio';
 
     interface AccessibilityAuditOptions {
         /**
@@ -14,7 +14,7 @@ declare module "spectron" {
          * include failures with a severity of 'Severe'. Defaults to false.
          */
         ignoreWarnings?:boolean;
-        
+
         /**
          * Rule code values such as AX_COLOR_01 to ignore failures for.
          */
@@ -26,12 +26,12 @@ declare module "spectron" {
          * False when the audit has failures
          */
         failed:boolean;
-        
+
         /**
          * A detailed message about the results
          */
         message:string;
-        
+
         /**
          * An array of detail objects for each failed rule
          */
@@ -40,29 +40,29 @@ declare module "spectron" {
              * A unique accessibility rule identifier
              */
             code:string;
-            
+
             /**
              * Selector path of each HTML element that failed the rule
              */
             elements:string[];
-            
+
             /**
              * A String message about the failed rule
              */
             message:string;
-            
+
             /**
              * 'Warning' or 'Severe'
              */
             severity:'Warning' | 'Severe';
-            
+
             /**
              * URL providing more details about the failed rule
              */
             url:string;
         }[];
     }
-    
+
     export interface SpectronClient extends WebdriverIO.BrowserObject {
         /**
          * Focus a window using its title or URL.
@@ -105,7 +105,7 @@ declare module "spectron" {
          * The logs are cleared after they are returned.
          */
         getMainProcessLogs():Promise<string[]>;
-        
+
         /**
          * Run an accessibility audit in the focused window with the specified options.
          */
@@ -119,11 +119,11 @@ declare module "spectron" {
     export interface SpectronWebContents extends Electron.WebContents {
         savePage(
             fullPath:string,
-            saveType:"HTMLOnly" | "HTMLComplete" | "MHTML",
+            saveType:'HTMLOnly' | 'HTMLComplete' | 'MHTML',
             callback?:(eror:Error) => void
         ):boolean;
-        savePage(fullPath:string, saveType:"HTMLOnly" | "HTMLComplete" | "MHTML"):Promise<void>;
-        savePage(fullPath:string, saveType:"HTMLOnly" | "HTMLComplete" | "MHTML"):any;
+        savePage(fullPath:string, saveType:'HTMLOnly' | 'HTMLComplete' | 'MHTML'):Promise<void>;
+        savePage(fullPath:string, saveType:'HTMLOnly' | 'HTMLComplete' | 'MHTML'):any;
         executeJavaScript(code:string, userGesture?:boolean):Promise<any>;
     }
 

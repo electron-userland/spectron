@@ -1,7 +1,7 @@
-var { app, BrowserWindow } = require('electron')
-var path = require('path')
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-var mainWindow = null
+let mainWindow = null;
 
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
@@ -13,7 +13,7 @@ app.on('ready', function () {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     }
-  })
-  mainWindow.loadFile('index.html')
-  mainWindow.on('closed', function () { mainWindow = null })
-})
+  });
+  mainWindow.loadFile('index.html');
+  mainWindow.on('closed', function () { mainWindow = null; });
+});

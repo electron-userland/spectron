@@ -1,1 +1,1 @@
-exports.Application = require('./lib/application')
+exports.Application = require('./lib/application');
