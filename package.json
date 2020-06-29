@@ -5,11 +5,12 @@
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
   "scripts": {
-    "lint": "standard",
+    "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
+    "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
     "prepack": "check-for-leaks",
     "prepush": "check-for-leaks",
-    "pretest": "tslint lib/spectron.d.ts && tsc lib/spectron.d.ts",
-    "test": "xvfb-maybe mocha && standard",
+    "pretest": "tsc lib/spectron.d.ts",
+    "test": "npm run lint && xvfb-maybe mocha",
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
@@ -32,13 +33,22 @@
     "webdriverio": "^6.1.20"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
     "electron": "^9.0.0",
+    "eslint": "^7.3.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.1",
     "mocha": "^7.1.2",
+    "prettier": "^2.0.5",
     "standard": "^12.0.1",
     "temp": "^0.9.0",
     "tslint": "^6.0.0",

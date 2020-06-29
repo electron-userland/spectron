@@ -1,21 +1,21 @@
-var helpers = require('./global-setup')
-var path = require('path')
-var temp = require('temp').track()
+const helpers = require('./global-setup');
+const path = require('path');
+const temp = require('temp').track();
 
-var describe = global.describe
-var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
-var expect = require('chai').expect
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
+const expect = require('chai').expect;
 
 describe('application loading', function () {
-  helpers.setupTimeout(this)
+  helpers.setupTimeout(this);
 
-  var app = null
-  var tempPath = null
+  let app = null;
+  let tempPath = null;
 
   beforeEach(function () {
-    tempPath = temp.mkdirSync('spectron-temp-dir-')
+    tempPath = temp.mkdirSync('spectron-temp-dir-');
 
     return helpers
       .startApplication({
@@ -43,18 +43,18 @@ describe('application loading', function () {
         }
       })
       .then(function (startedApp) {
-        app = startedApp
-      })
-  })
+        app = startedApp;
+      });
+  });
 
   afterEach(function () {
-    return helpers.stopApplication(app)
-  })
+    return helpers.stopApplication(app);
+  });
 
   it('passes through args to the launched app', async function () {
-    const argv = await app.mainProcess.argv()
-    expect(argv[2]).to.equal('--bar1=baz1')
-    expect(argv[9]).to.equal('--bar8=baz8')
-    expect(argv[12]).to.equal('--bar11=baz11')
-  })
-})
+    const argv = await app.mainProcess.argv();
+    expect(argv[2]).to.equal('--bar1=baz1');
+    expect(argv[9]).to.equal('--bar8=baz8');
+    expect(argv[12]).to.equal('--bar11=baz11');
+  });
+});
