@@ -10,7 +10,8 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
   topWindow.loadFile('index-top.html');
@@ -24,7 +25,8 @@ app.on('ready', function () {
     width: 300,
     height: 50,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
   bottomWindow.loadFile('index-bottom.html');

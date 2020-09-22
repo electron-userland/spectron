@@ -11,7 +11,8 @@ app.on('ready', function () {
     minWidth: 100,
     webPreferences: {
       nodeIntegration: true,
-      webviewTag: true
+      webviewTag: true,
+      enableRemoteModule: true
     }
   });
   mainWindow.loadFile('index.html');
