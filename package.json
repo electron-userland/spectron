@@ -49,7 +49,7 @@
     "husky": "^4.2.1",
     "mocha": "^7.1.2",
     "prettier": "^2.0.5",
-    "standard": "^12.0.1",
+    "standard": "^14.3.4",
     "temp": "^0.9.0",
     "tslint": "^6.0.0",
     "typescript": "^4.0.3",
