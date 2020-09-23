@@ -55,14 +55,14 @@ describe('example application launch', function () {
       await app.client.waitUntilWindowLoaded();
       app.browserWindow
         .getBounds()
-        .should.eventually.have.property('width', 800);
+        .should.eventually.have.property('width', 600);
       app.browserWindow
         .getBounds()
         .should.eventually.have.property('height', 400);
       const elem = await app.client.$('.btn-make-bigger');
       await elem.click();
       const bounds = await app.browserWindow.getBounds();
-      bounds.should.have.property('width', 810);
+      bounds.should.have.property('width', 610);
       bounds.should.have.property('height', 410);
     });
   });
@@ -72,14 +72,14 @@ describe('example application launch', function () {
       await app.client.waitUntilWindowLoaded();
       app.browserWindow
         .getBounds()
-        .should.eventually.have.property('width', 800);
+        .should.eventually.have.property('width', 600);
       app.browserWindow
         .getBounds()
         .should.eventually.have.property('height', 400);
       const elem = await app.client.$('.btn-make-smaller');
       await elem.click();
       const bounds = await app.browserWindow.getBounds();
-      bounds.should.have.property('width', 790);
+      bounds.should.have.property('width', 590);
       bounds.should.have.property('height', 390);
     });
   });
