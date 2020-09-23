@@ -11,7 +11,8 @@ app.on('ready', function () {
     height: 100,
     webPreferences: {
       nodeIntegration: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      enableRemoteModule: true
     }
   });
   mainWindow.loadFile('index.html');

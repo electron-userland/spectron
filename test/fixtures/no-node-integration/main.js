@@ -9,7 +9,8 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      nodeIntegration: false
+      nodeIntegration: false,
+      enableRemoteModule: true
     }
   });
   mainWindow.loadFile('index.html');
