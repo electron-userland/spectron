@@ -5,7 +5,7 @@ let mainWindow = null;
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     center: true,
-    width: 800,
+    width: 600,
     height: 400,
     minHeight: 100,
     minWidth: 100,
