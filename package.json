@@ -27,7 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "^10.0.0",
+    "electron-chromedriver": "^11.0.0",
     "request": "^2.87.0",
     "split": "^1.0.0",
     "webdriverio": "^6.1.20"
@@ -39,7 +39,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.0.2",
-    "electron": "^10.1.2",
+    "electron": "^11.0.0",
     "eslint": "^7.3.1",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
