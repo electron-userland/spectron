@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
-    "prepack": "check-for-leaks",
+    "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tsc lib/spectron.d.ts",
     "test": "npm run lint && xvfb-maybe mocha",
