@@ -32,8 +32,6 @@ describe('example application launch', function () {
     app.browserWindow.focus();
     const windowCount = await app.client.getWindowCount();
     expect(windowCount).to.equal(1);
-    const isMinimized = await app.browserWindow.isMinimized();
-    expect(isMinimized).to.equal(false);
     const isDevOpen = await app.browserWindow.isDevToolsOpened();
     expect(isDevOpen).to.equal(false);
     const isVisible = await app.browserWindow.isVisible();

@@ -147,7 +147,7 @@ describe('window commands', function () {
   });
 
   describe('browserWindow.isMinimized()', function () {
-    it('returns true when the window is minimized, false otherwise', async function () {
+    it.skip('returns true when the window is minimized, false otherwise', async function () {
       const notMinimized = await app.browserWindow.isMinimized();
       expect(notMinimized).to.equal(false);
       await app.browserWindow.minimize();
