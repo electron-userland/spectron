@@ -1,6 +1,6 @@
 # <img src="https://cloud.githubusercontent.com/assets/378023/15063284/cf544f2c-1383-11e6-9336-e13bd64b1694.png" width="60px" align="center" alt="Spectron icon"> Spectron
 
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/iv8xd919q6b44pap/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/spectron/branch/master) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![CI](https://github.com/electron-userland/spectron/workflows/CI/badge.svg)](https://github.com/electron-userland/spectron/actions) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 [![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
 Easily test your [Electron](http://electron.atom.io) apps using

@@ -181,7 +181,7 @@ describe('window commands', function () {
       app.electron.clipboard.writeText('pasta');
       await app.electron.clipboard.readText().should.eventually.equal('pasta');
       await elem.click();
-      app.webContents.paste();
+      await app.webContents.paste();
       const value = await elem.getValue();
       return expect(value).to.equal('pasta');
     });
