@@ -60,12 +60,12 @@ describe('multiple windows', function () {
     const windowCount = await app.client.getWindowCount();
     windowCount.should.equal(2);
     await app.client.switchWindow('Top');
-    app.client.getTitle().should.eventually.equal('Top');
+    await app.client.getTitle().should.eventually.equal('Top');
     await app.client.switchWindow('Bottom');
-    app.client.getTitle().should.eventually.equal('Bottom');
+    await app.client.getTitle().should.eventually.equal('Bottom');
     await app.client.switchWindow('index-top.html');
-    app.client.getTitle().should.eventually.equal('Top');
+    await app.client.getTitle().should.eventually.equal('Top');
     await app.client.switchWindow('index-bottom.html');
-    app.client.getTitle().should.eventually.equal('Bottom');
+    await app.client.getTitle().should.eventually.equal('Bottom');
   });
 });

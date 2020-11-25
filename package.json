@@ -14,7 +14,7 @@
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
-    "node": ">=0.12.4"
+    "node": ">=10.12.0"
   },
   "repository": "https://github.com/electron/spectron",
   "keywords": [
@@ -27,32 +27,30 @@
   "license": "MIT",
   "dependencies": {
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "^10.0.0",
-    "request": "^2.87.0",
-    "split": "^1.0.0",
-    "webdriverio": "^6.1.20"
+    "electron-chromedriver": "^11.0.0",
+    "request": "^2.88.2",
+    "split": "^1.0.1",
+    "webdriverio": "^6.9.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.0.0",
-    "@typescript-eslint/parser": "^3.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
-    "check-for-leaks": "^1.0.2",
-    "electron": "^10.1.2",
-    "eslint": "^7.3.1",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
+    "check-for-leaks": "^1.2.1",
+    "electron": "^11.0.3",
+    "eslint": "^7.14.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "husky": "^4.2.1",
-    "mocha": "^7.1.2",
-    "prettier": "^2.0.5",
-    "standard": "^14.3.4",
-    "temp": "^0.9.0",
-    "tslint": "^6.0.0",
-    "typescript": "^4.0.3",
+    "husky": "^4.3.0",
+    "mocha": "^8.2.1",
+    "prettier": "^2.2.0",
+    "standard": "^16.0.3",
+    "temp": "^0.9.4",
+    "typescript": "^4.1.2",
     "xvfb-maybe": "^0.2.1"
   },
   "resolutions": {

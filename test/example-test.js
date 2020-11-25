@@ -40,11 +40,11 @@ describe('example application launch', function () {
     expect(isVisible).to.equal(true);
     const isFocused = await app.browserWindow.isFocused();
     expect(isFocused).to.equal(true);
-    app.browserWindow
+    await app.browserWindow
       .getBounds()
       .should.eventually.have.property('width')
       .and.be.above(0);
-    app.browserWindow
+    await app.browserWindow
       .getBounds()
       .should.eventually.have.property('height')
       .and.be.above(0);
@@ -53,10 +53,10 @@ describe('example application launch', function () {
   describe('when the make larger button is clicked', function () {
     it('increases the window height and width by 10 pixels', async function () {
       await app.client.waitUntilWindowLoaded();
-      app.browserWindow
+      await app.browserWindow
         .getBounds()
         .should.eventually.have.property('width', 800);
-      app.browserWindow
+      await app.browserWindow
         .getBounds()
         .should.eventually.have.property('height', 400);
       const elem = await app.client.$('.btn-make-bigger');
@@ -70,10 +70,10 @@ describe('example application launch', function () {
   describe('when the make smaller button is clicked', function () {
     it('decreases the window height and width by 10 pixels', async function () {
       await app.client.waitUntilWindowLoaded();
-      app.browserWindow
+      await app.browserWindow
         .getBounds()
         .should.eventually.have.property('width', 800);
-      app.browserWindow
+      await app.browserWindow
         .getBounds()
         .should.eventually.have.property('height', 400);
       const elem = await app.client.$('.btn-make-smaller');

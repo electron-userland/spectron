@@ -29,18 +29,21 @@ describe('requireName option to Application', function () {
 
   it('uses the custom require name to load the electron module', async function () {
     await app.client.waitUntilWindowLoaded();
-    app.browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
-      x: 25,
-      y: 35,
-      width: 200,
-      height: 100
-    });
-    app.webContents.getTitle().should.eventually.equal('require name');
+    await app.browserWindow
+      .getBounds()
+      .should.eventually.roughly(5)
+      .deep.equal({
+        x: 25,
+        y: 35,
+        width: 200,
+        height: 100
+      });
+    await app.webContents.getTitle().should.eventually.equal('require name');
     const emptyArgs = await app.electron.remote.process.execArgv();
     const elem = await app.client.$('body');
     const text = await elem.getText();
     expect(text).to.equal('custom require name');
-    app.webContents.getTitle().should.eventually.equal('require name');
+    await app.webContents.getTitle().should.eventually.equal('require name');
     return expect(emptyArgs).to.be.empty;
   });
 });

@@ -8,7 +8,9 @@ const it = global.it;
 const before = global.before;
 const after = global.after;
 
-describe('when nodeIntegration is set to false', function () {
+const skipIfWindows = process.platform === 'win32' ? describe.skip : describe;
+
+skipIfWindows('when nodeIntegration is set to false', function () {
   helpers.setupTimeout(this);
 
   let app = null;
@@ -28,7 +30,7 @@ describe('when nodeIntegration is set to false', function () {
   });
 
   it('does not throw an error', async function () {
-    app.client.getTitle().should.eventually.equal('no node integration');
+    await app.client.getTitle().should.eventually.equal('no node integration');
     const elem = await app.client.$('body');
     const text = await elem.getText();
     expect(text).to.equal('no node integration');
