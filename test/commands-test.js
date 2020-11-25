@@ -239,11 +239,7 @@ describe('window commands', function () {
   });
 
   describe('electron.remote.screen.getPrimaryDisplay()', function () {
-    // In Electron 11, the screen module now export a proxy
-    // which lazily calls createScreen on first access. This
-    // is causing an error with remote's screen API methods.
-    // PR: https://github.com/electron/electron/pull/24677
-    it.skip('returns information about the primary display', function () {
+    it('returns information about the primary display', function () {
       return app.electron.remote.screen
         .getPrimaryDisplay()
         .should.eventually.have.property('workArea').and.not.be.empty;
