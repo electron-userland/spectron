@@ -43,20 +43,23 @@ describe('application loading', function () {
     const response = await app.client.getWindowHandles();
     assert.strictEqual(response.length, 1);
 
-    app.browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
-      x: 25,
-      y: 35,
-      width: 200,
-      height: 100
-    });
-    app.client.waitUntilTextExists('html', 'Hello');
-    app.client.getTitle().should.eventually.equal('Test');
+    await app.browserWindow
+      .getBounds()
+      .should.eventually.roughly(5)
+      .deep.equal({
+        x: 25,
+        y: 35,
+        width: 200,
+        height: 100
+      });
+    await app.client.waitUntilTextExists('html', 'Hello');
+    await app.client.getTitle().should.eventually.equal('Test');
   });
 
-  it('passes through args to the launched app', function () {
+  it('passes through args to the launched app', async function () {
     const arvg = app.mainProcess.argv();
-    arvg.should.eventually.contain('--foo');
-    arvg.should.eventually.contain('--bar=baz');
+    await arvg.should.eventually.contain('--foo');
+    await arvg.should.eventually.contain('--bar=baz');
   });
 
   it('passes through env to the launched app', async function () {
@@ -70,9 +73,9 @@ describe('application loading', function () {
     }
   });
 
-  it('passes through cwd to the launched app', function () {
+  it('passes through cwd to the launched app', async function () {
     const cwd = app.mainProcess.cwd();
-    cwd.should.eventually.equal(path.join(__dirname, 'fixtures'));
+    await cwd.should.eventually.equal(path.join(__dirname, 'fixtures'));
   });
 
   it('throws an error when no path is specified', function () {
@@ -146,7 +149,7 @@ describe('application loading', function () {
     it('gets the render process console logs and clears them', async function () {
       await app.client.waitUntilWindowLoaded();
       let logs = await app.client.getRenderProcessLogs();
-      expect(logs.length).to.equal(3);
+      expect(logs.length).to.equal(2);
       expect(logs[0].message).to.contain('7:14 "render warn"');
       expect(logs[0].source).to.equal('console-api');
       expect(logs[0].level).to.equal('WARNING');

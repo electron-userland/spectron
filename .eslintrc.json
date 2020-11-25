@@ -31,8 +31,9 @@
     {
       "files": "*.d.ts",
       "rules": {
-          "no-useless-constructor": "off"
-      }
+          "no-useless-constructor": "off",
+          "no-undef": "off"
+        }
     }
   ]
 }

@@ -37,6 +37,6 @@ describe('<webview> tags', function () {
     const elem = await app.client.$('body');
     const text = await elem.getText();
     expect(text).to.equal('web view');
-    app.webContents.getTitle().should.eventually.equal('Web View');
+    await app.webContents.getTitle().should.eventually.equal('Web View');
   });
 });

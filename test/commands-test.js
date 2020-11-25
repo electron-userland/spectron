@@ -86,12 +86,15 @@ describe('window commands', function () {
         width: 150, // Windows minimum is ~100px
         height: 130
       });
-      app.browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
-        x: 100,
-        y: 200,
-        width: 150,
-        height: 130
-      });
+      await app.browserWindow
+        .getBounds()
+        .should.eventually.roughly(5)
+        .deep.equal({
+          x: 100,
+          y: 200,
+          width: 150,
+          height: 130
+        });
     });
   });
 
@@ -148,21 +151,20 @@ describe('window commands', function () {
 
   describe('browserWindow.isMinimized()', function () {
     it('returns true when the window is minimized, false otherwise', async function () {
-      const notMinimized = await app.browserWindow.isMinimized();
-      expect(notMinimized).to.equal(false);
+      expect(await app.browserWindow.isMinimized()).to.equal(false);
+
       await app.browserWindow.minimize();
-      let minimized = await app.browserWindow.isMinimized();
-      if (process.env.CI) {
-        // FIXME window minimized state is never true on CI
-        minimized = true;
+      if (!process.env.CI) {
+        await app.client.waitUntil(() => app.browserWindow.isMinimized(), {
+          timeout: 2000
+        });
       }
-      expect(minimized).to.equal(true);
     });
   });
 
   describe('webContents.selectAll()', function () {
     it('selects all the text on the page', async function () {
-      app.client.waitUntilTextExists('html', 'Hello');
+      await app.client.waitUntilTextExists('html', 'Hello');
       let text = await app.client.getSelectedText();
       expect(text).to.equal('');
       app.client.webContents.selectAll();
@@ -174,13 +176,13 @@ describe('window commands', function () {
   describe('webContents.paste()', function () {
     it('pastes the text into the focused element', async function () {
       const elem = await app.client.$('textarea');
-      const text = await elem.getText('textarea');
+      const text = await elem.getText();
       expect(text).to.equal('');
       app.electron.clipboard.writeText('pasta');
-      app.electron.clipboard.readText().should.eventually.equal('pasta');
+      await app.electron.clipboard.readText().should.eventually.equal('pasta');
       await elem.click();
       app.webContents.paste();
-      const value = await elem.getValue('textarea');
+      const value = await elem.getValue();
       return expect(value).to.equal('pasta');
     });
   });
@@ -218,8 +220,10 @@ describe('window commands', function () {
     });
   });
 
-  it('exposes properties on constructor APIs', function () {
-    app.electron.remote.MenuItem.types().should.eventually.include('normal');
+  it('exposes properties on constructor APIs', async function () {
+    await app.electron.remote.MenuItem.types().should.eventually.include(
+      'normal'
+    );
   });
 
   describe('globalShortcut.isRegistered()', function () {
