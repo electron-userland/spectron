@@ -28,7 +28,7 @@
   "dependencies": {
     "dev-null": "^0.1.1",
     "electron-chromedriver": "^11.0.0",
-    "request": "^2.88.2",
+    "got": "^11.8.0",
     "split": "^1.0.1",
     "webdriverio": "^6.9.1"
   },
