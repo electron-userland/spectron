@@ -10,7 +10,7 @@
     "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tsc lib/spectron.d.ts",
-    "test": "npm run lint && xvfb-maybe mocha",
+    "test": "npm run lint && xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha",
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
