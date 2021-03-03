@@ -22,7 +22,7 @@ app.on('ready', function () {
     webPreferences: {
       enableRemoteModule: true,
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: false
     }
   });
   mainWindow.loadFile('index.html');

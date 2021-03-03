@@ -14,7 +14,7 @@ app.on('ready', function () {
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: false,
-      webviewTag: true,
+      webviewTag: true
     }
   });
   mainWindow.loadFile('index.html');
