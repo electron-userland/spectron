@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+require('@electron/remote/main').initialize();
 
 let mainWindow = null;
 
@@ -11,8 +12,9 @@ app.on('ready', function () {
     minWidth: 100,
     webPreferences: {
       nodeIntegration: true,
-      webviewTag: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false,
+      webviewTag: true
     }
   });
   mainWindow.loadFile('index.html');

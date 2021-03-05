@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+require('@electron/remote/main').initialize();
 
 let topWindow = null;
 let bottomWindow = null;
@@ -11,7 +12,8 @@ app.on('ready', function () {
     height: 100,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false
     }
   });
   topWindow.loadFile('index-top.html');
@@ -26,7 +28,8 @@ app.on('ready', function () {
     height: 50,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false
     }
   });
   bottomWindow.loadFile('index-bottom.html');

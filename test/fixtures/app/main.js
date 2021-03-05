@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+require('@electron/remote/main').initialize();
 const fs = require('fs');
 const path = require('path');
 
@@ -20,7 +21,8 @@ app.on('ready', function () {
     height: 100,
     webPreferences: {
       enableRemoteModule: true,
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   });
   mainWindow.loadFile('index.html');
