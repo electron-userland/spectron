@@ -26,8 +26,9 @@ process.argv.slice(2).forEach(function (arg) {
   }
 });
 
+const shell = process.platform === 'win32';
 const args = appArgs.concat(chromeArgs);
-const appProcess = ChildProcess.spawn(executablePath, args);
+const appProcess = ChildProcess.spawn(executablePath, args, { shell });
 appProcess.on('exit', function (code) {
   process.exit(code);
 });

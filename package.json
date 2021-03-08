@@ -4,6 +4,14 @@
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
+  "bin": {
+    "spectron-launcher.bat": "./bin/spectron-launcher.bat",
+    "spectron-launcher.js": "./bin/spectron-launcher.js"
+  },
+  "files": [
+    "lib/**",
+    "vendor/**"
+  ],
   "scripts": {
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
