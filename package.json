@@ -9,8 +9,11 @@
     "spectron-launcher.js": "./bin/spectron-launcher.js"
   },
   "files": [
+    "bin/**",
     "lib/**",
-    "vendor/**"
+    "vendor/**",
+    "index.js",
+    "*.md"
   ],
   "scripts": {
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
