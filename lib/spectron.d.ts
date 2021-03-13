@@ -118,11 +118,7 @@ declare module 'spectron' {
     ): Promise<AccessibilityAuditResult>;
   }
 
-  type PromisedBrowserWindow = { [P in keyof Electron.BrowserWindow]: Electron.BrowserWindow[P] extends (...args: infer A) => infer R ? (...args: A) => Promise<R> : undefined };
-
-  export interface SpectronWindow extends PromisedBrowserWindow {
-    capturePage(): Promise<Electron.NativeImage>;
-  }
+  export type SpectronWindow = { [P in keyof Electron.BrowserWindow]: Electron.BrowserWindow[P] extends (...args: infer A) => infer R ? (...args: A) => Promise<R> : undefined };
 
   export interface SpectronWebContents extends Electron.WebContents {
     savePage(
