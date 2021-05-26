@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "14.0.0",
+  "version": "15.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
