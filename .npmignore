@@ -7,3 +7,4 @@ npm-debug.log
 lib/api.json
 lib/launcher.go
 .node-version
+.npmrc
