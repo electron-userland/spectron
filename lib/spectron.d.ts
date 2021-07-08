@@ -7,6 +7,16 @@
 import * as Electron from 'electron';
 import * as WebdriverIO from 'webdriverio';
 
+type MethodsOf<T> = {
+  [K in keyof T]: T[K] extends (...args: any) => any ? K : never;
+}[keyof T];
+
+type MakeAsync<T> = T extends (...args: infer A) => infer R
+  ? (...args: A) => Promise<R extends PromiseLike<infer T> ? T : R>
+  : never;
+
+type MakeMethodsAsync<T> = { [K in MethodsOf<T>]: MakeAsync<T[K]> };
+
 interface AccessibilityAuditOptions {
   /**
    * true to ignore failures with a severity of 'Warning' and only
@@ -111,30 +121,13 @@ export interface SpectronClient extends WebdriverIO.Browser<'async'> {
   ): Promise<AccessibilityAuditResult>;
 }
 
-export type SpectronWindow = {
-  [P in keyof Electron.BrowserWindow]: Electron.BrowserWindow[P] extends (
-    ...args: infer A
-  ) => infer R
-    ? (...args: A) => Promise<R>
-    : undefined;
+export type SpectronElectron = {
+  [K in keyof typeof Electron]: MakeMethodsAsync<typeof Electron[K]>;
 };
 
-export interface SpectronWebContents extends Electron.WebContents {
-  savePage(
-    fullPath: string,
-    saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML',
-    callback?: (error: Error) => void
-  ): boolean;
-  savePage(
-    fullPath: string,
-    saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'
-  ): Promise<void>;
-  savePage(
-    fullPath: string,
-    saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'
-  ): any;
-  executeJavaScript(code: string, userGesture?: boolean): Promise<any>;
-}
+export type SpectronWindow = MakeMethodsAsync<Electron.BrowserWindow>;
+
+export type SpectronWebContents = MakeMethodsAsync<Electron.WebContents>;
 
 type BasicAppSettings = {
   /**
@@ -254,7 +247,7 @@ export class Application {
    * Each Electron module is exposed as a property on the electron property so you can
    * think of it as an alias for require('electron') from within your app.
    */
-  electron: typeof Electron;
+  electron: SpectronElectron;
   /**
    * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
    * It provides you access to the current BrowserWindow and contains all the APIs.
