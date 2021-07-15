@@ -7,7 +7,7 @@
 declare module 'spectron' {
   import * as Electron from 'electron';
   import * as WebdriverIO from 'webdriverio';
-  export interface SpectronClient extends WebdriverIO.BrowserObject {
+  export interface SpectronClient extends WebdriverIO.Browser {
     /**
      * Focus a window using its title or URL.
      * <webview> tags can also be focused as a separate window.
