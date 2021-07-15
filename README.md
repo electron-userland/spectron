@@ -1,43 +1,17 @@
 # <img src="https://cloud.githubusercontent.com/assets/378023/15063284/cf544f2c-1383-11e6-9336-e13bd64b1694.png" width="60px" align="center" alt="Spectron icon"> Spectron
 
-[![CI](https://github.com/electron-userland/spectron/workflows/CI/badge.svg)](https://github.com/electron-userland/spectron/actions) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![CI](https://github.com/goosewobbler/spectron/workflows/CI/badge.svg)](https://github.com/goosewobbler/spectron/actions)
 [![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
-Easily test your [Electron](http://electron.atom.io) apps using
-[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
+Easily test your [Electron](http://electronjs.org) apps using
+[ChromeDriver](https://sites.google.com/chromium.org/driver/) and
 [WebdriverIO](http://webdriver.io).
 
-## Version Map
+## Differences between this fork and @electron-userland/spectron
 
-For given versions of Electron you must depend on a very specific version range of Spectron. Below is a version mapping table between Spectron version and Electron version.
+This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. That means I deleted a lot of code and some things might not work as expected. Spectron really needs a complete rewrite, this is merely a collection of hacks - although I believe them to be less hacky than some of the "official" attempts at keeping Spectron working with modern Electron versions. Hopefully this code will inspire some future development. I might rewrite it completely at some point, or switch to [Playwright](https://playwright.dev) (currently experimental support for Electron).
 
-| Electron Version | Spectron Version |
-| ---------------- | ---------------- |
-| `~1.0.0`         | `~3.0.0`         |
-| `~1.1.0`         | `~3.1.0`         |
-| `~1.2.0`         | `~3.2.0`         |
-| `~1.3.0`         | `~3.3.0`         |
-| `~1.4.0`         | `~3.4.0`         |
-| `~1.5.0`         | `~3.5.0`         |
-| `~1.6.0`         | `~3.6.0`         |
-| `~1.7.0`         | `~3.7.0`         |
-| `~1.8.0`         | `~3.8.0`         |
-| `^2.0.0`         | `^4.0.0`         |
-| `^3.0.0`         | `^5.0.0`         |
-| `^4.0.0`         | `^6.0.0`         |
-| `^5.0.0`         | `^7.0.0`         |
-| `^6.0.0`         | `^8.0.0`         |
-| `^7.0.0`         | `^9.0.0`         |
-| `^8.0.0`         | `^10.0.0`        |
-| `^9.0.0`         | `^11.0.0`        |
-| `^10.0.0`        | `^12.0.0`        |
-| `^11.0.0`        | `^13.0.0`        |
-| `^12.0.0`        | `^14.0.0`        |
-| `^13.0.0`        | `^15.0.0`        |
-
-Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
-
-:rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
+This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps.
 
 ## Installation
 
@@ -94,7 +68,7 @@ describe('Application launch', function () {
 
       // The following line tells spectron to look and use the main.js file
       // and the package.json located 1 level above.
-      args: [path.join(__dirname, '..')]
+      args: [path.join(__dirname, '..')],
     });
     return this.app.start();
   });
@@ -234,7 +208,7 @@ Each Electron module is exposed as a property on the `electron` property
 so you can think of it as an alias for `require('electron')` from within your
 app.
 
-So if you wanted to access the [clipboard](http://electron.atom.io/docs/latest/api/clipboard)
+So if you wanted to access the [clipboard](http://electronjs.org/docs/latest/api/clipboard)
 API in your tests you would do:
 
 ```js
@@ -250,7 +224,7 @@ app.electron.clipboard
 
 The `browserWindow` property is an alias for `require('electron').remote.getCurrentWindow()`.
 
-It provides you access to the current [BrowserWindow](http://electron.atom.io/docs/latest/api/browser-window/)
+It provides you access to the current [BrowserWindow](http://electronjs.org/docs/latest/api/browser-window/)
 and contains all the APIs.
 
 So if you wanted to check if the current window is visible in your tests you
@@ -281,7 +255,7 @@ app.browserWindow.capturePage().then(function (imageBuffer) {
 
 The `webContents` property is an alias for `require('electron').remote.getCurrentWebContents()`.
 
-It provides you access to the [WebContents](http://electron.atom.io/docs/latest/api/web-contents/)
+It provides you access to the [WebContents](http://electronjs.org/docs/latest/api/web-contents/)
 for the current window and contains all the APIs.
 
 So if you wanted to check if the current window is loading in your tests you
@@ -445,71 +419,6 @@ app.client.switchWindow('google.com');
 app.client.switchWindow('Next-gen WebDriver test framework');
 ```
 
-### Accessibility Testing
-
-Spectron bundles the [Accessibility Developer Tools](https://github.com/GoogleChrome/accessibility-developer-tools)
-provided by Google and adds support for auditing each window and `<webview>`
-tag in your application.
-
-#### client.auditAccessibility(options)
-
-Run an accessibility audit in the focused window with the specified options.
-
-- `options` - An optional Object with the following keys:
-  - `ignoreWarnings` - `true` to ignore failures with a severity of `'Warning'`
-    and only include failures with a severity of `'Severe'`. Defaults to `false`.
-  - `ignoreRules` - Array of String rule code values such as `AX_COLOR_01` to
-    ignore failures for. The full list is available [here](https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules).
-
-Returns an `audit` Object with the following properties:
-
-- `message` - A detailed String message about the results
-- `failed` - A Boolean, `false` when the audit has failures
-- `results` - An array of detail objects for each failed rule. Each object
-  in the array has the following properties:
-  - `code` - A unique String accessibility rule identifier
-  - `elements` - An Array of Strings representing the selector path of each
-    HTML element that failed the rule
-  - `message` - A String message about the failed rule
-  - `severity` - `'Warning'` or `'Severe'`
-  - `url` - A String URL providing more details about the failed rule
-
-```js
-app.client.auditAccessibility().then(function (audit) {
-  if (audit.failed) {
-    console.error(audit.message);
-  }
-});
-```
-
-See https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules
-for more details about the audit rules.
-
-If you are using a `<webview>` tag in your app and want to audit both the outer
-page and the `<webview>`'s page then you will need to do the following:
-
-```js
-// Focus main page and audit it
-app.client.windowByIndex(0).then(function () {
-  app.client.auditAccessibility().then(function (audit) {
-    if (audit.failed) {
-      console.error('Main page failed audit');
-      console.error(audit.message);
-    }
-
-    //Focus <webview> tag and audit it
-    app.client.windowByIndex(1).then(function () {
-      app.client.auditAccessibility().then(function (audit) {
-        if (audit.failed) {
-          console.error('<webview> page failed audit');
-          console.error(audit.message);
-        }
-      });
-    });
-  });
-});
-```
-
 ## Continuous Integration
 
 ### On Travis CI
@@ -570,7 +479,7 @@ describe('Application launch', function () {
   beforeEach(function () {
     this.app = new Application({
       path: electronPath,
-      args: [path.join(__dirname, '..')]
+      args: [path.join(__dirname, '..')],
     });
     return this.app.start();
   });
@@ -614,7 +523,7 @@ import { Application } from 'spectron';
 
 test.beforeEach((t) => {
   t.context.app = new Application({
-    path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+    path: '/Applications/MyApp.app/Contents/MacOS/MyApp',
   });
 
   return t.context.app.start();
@@ -663,7 +572,7 @@ import { Application } from 'spectron';
 
 test.beforeEach(async (t) => {
   t.context.app = new Application({
-    path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+    path: '/Applications/MyApp.app/Contents/MacOS/MyApp',
   });
 
   await t.context.app.start();
@@ -690,4 +599,4 @@ test(async (t) => {
 });
 ```
 
-[preload]: http://electron.atom.io/docs/api/browser-window/#new-browserwindowoptions
+[preload]: http://electronjs.org/docs/api/browser-window/#new-browserwindowoptions
