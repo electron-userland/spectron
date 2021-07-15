@@ -15,8 +15,15 @@ ipcMain.handle('spectron.getCurrentWindowFunctionNames', async (event) => {
   return Object.keys(browserWindowInstanceMethods); // .filter((propName) => typeof window[propName] === 'function' && propName[0] !== '_');
 });
 
-ipcMain.handle('spectron.invokeCurrentWindow', (event, funcName, ...args) => {
+ipcMain.handle('spectron.invokeCurrentWindow', async (event, funcName, ...args) => {
   const window = BrowserWindow.fromWebContents(event.sender);
+  if (funcName === 'capturePage') {
+    const image = await window.capturePage.apply(window, args);
+    if (image != null) {
+      return image.toPNG().toString('base64');
+    }
+    return null;
+  }
   return window[funcName].apply(window, args);
 });
 
