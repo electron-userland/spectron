@@ -6,7 +6,7 @@ const it = global.it;
 const beforeEach = global.beforeEach;
 const afterEach = global.afterEach;
 
-describe.skip('multiple windows', function () {
+describe('multiple windows', function () {
   helpers.setupTimeout(this);
 
   let app = null;
@@ -25,38 +25,7 @@ describe.skip('multiple windows', function () {
     return helpers.stopApplication(app);
   });
 
-  it('should switch focus thanks to windowByIndex', async function () {
-    // TODO
-    const windowCount = await app.client.getWindowCount();
-    windowCount.should.equal(2);
-
-    const windowsData = {};
-
-    await app.client.windowByIndex(0);
-    const window0Title = await app.browserWindow.getTitle();
-    const window0Bounds = await app.browserWindow.getBounds();
-    windowsData[window0Title] = window0Bounds;
-
-    await app.client.windowByIndex(1);
-    const window1Title = await app.browserWindow.getTitle();
-    const window1Bounds = await app.browserWindow.getBounds();
-    windowsData[window1Title] = window1Bounds;
-
-    windowsData.Top.should.roughly(5).deep.equal({
-      x: 25,
-      y: 35,
-      width: 200,
-      height: 100,
-    });
-    windowsData.Bottom.should.roughly(5).deep.equal({
-      x: 25,
-      y: 135,
-      width: 300,
-      height: 50,
-    });
-  });
-
-  it('should switch focus thanks to switchWindow', async function () {
+  it('should switch focus using switchWindow', async function () {
     const windowCount = await app.client.getWindowCount();
     windowCount.should.equal(2);
     await app.client.switchWindow('Top');
