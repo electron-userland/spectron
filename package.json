@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "15.0.0",
+  "version": "16.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
@@ -23,7 +23,7 @@
     "webdriverio",
     "selenium"
   ],
-  "author": "Kevin Sawicki",
+  "author": "Sam Maister",
   "license": "MIT",
   "dependencies": {
     "dev-null": "^0.1.1",
