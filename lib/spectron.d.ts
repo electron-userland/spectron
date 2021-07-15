@@ -7,62 +7,6 @@
 declare module 'spectron' {
   import * as Electron from 'electron';
   import * as WebdriverIO from 'webdriverio';
-
-  interface AccessibilityAuditOptions {
-    /**
-     * true to ignore failures with a severity of 'Warning' and only
-     * include failures with a severity of 'Severe'. Defaults to false.
-     */
-    ignoreWarnings?: boolean;
-
-    /**
-     * Rule code values such as AX_COLOR_01 to ignore failures for.
-     */
-    ignoreRules?: string[];
-  }
-
-  interface AccessibilityAuditResult {
-    /**
-     * False when the audit has failures
-     */
-    failed: boolean;
-
-    /**
-     * A detailed message about the results
-     */
-    message: string;
-
-    /**
-     * An array of detail objects for each failed rule
-     */
-    results: {
-      /**
-       * A unique accessibility rule identifier
-       */
-      code: string;
-
-      /**
-       * Selector path of each HTML element that failed the rule
-       */
-      elements: string[];
-
-      /**
-       * A String message about the failed rule
-       */
-      message: string;
-
-      /**
-       * 'Warning' or 'Severe'
-       */
-      severity: 'Warning' | 'Severe';
-
-      /**
-       * URL providing more details about the failed rule
-       */
-      url: string;
-    }[];
-  }
-
   export interface SpectronClient extends WebdriverIO.BrowserObject {
     /**
      * Focus a window using its title or URL.
@@ -80,11 +24,7 @@ declare module 'spectron' {
      * Wait until the element matching the given selector contains the given text.
      * Takes an optional timeout in milliseconds that defaults to 5000.
      */
-    waitUntilTextExists(
-      selector: string,
-      text: string,
-      timeout?: number
-    ): Promise<void>;
+    waitUntilTextExists(selector: string, text: string, timeout?: number): Promise<void>;
 
     /**
      * Gets the number of open windows. <webview> tags are also counted as separate windows.
@@ -109,13 +49,6 @@ declare module 'spectron' {
      * The logs are cleared after they are returned.
      */
     getMainProcessLogs(): Promise<string[]>;
-
-    /**
-     * Run an accessibility audit in the focused window with the specified options.
-     */
-    auditAccessibility(
-      options?: AccessibilityAuditOptions
-    ): Promise<AccessibilityAuditResult>;
   }
 
   export interface SpectronWindow extends Electron.BrowserWindow {
@@ -126,16 +59,10 @@ declare module 'spectron' {
     savePage(
       fullPath: string,
       saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML',
-      callback?: (eror: Error) => void
+      callback?: (eror: Error) => void,
     ): boolean;
-    savePage(
-      fullPath: string,
-      saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'
-    ): Promise<void>;
-    savePage(
-      fullPath: string,
-      saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'
-    ): any;
+    savePage(fullPath: string, saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'): Promise<void>;
+    savePage(fullPath: string, saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'): any;
     executeJavaScript(code: string, userGesture?: boolean): Promise<any>;
   }
 
