@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:import/errors", "plugin:import/warnings"],
+  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["import", "prettier"],
   "env": {
     "es6": true,
@@ -21,18 +21,14 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:import/errors",
-        "plugin:import/typescript",
-        "plugin:import/warnings",
         "plugin:prettier/recommended"
       ],
       "plugins": ["import", "prettier", "@typescript-eslint"],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "ecmaFeatures": { "jsx": true },
-        "ecmaVersion": 2021,
-        "sourceType": "module",
-        "project": "./tsconfig.json"
+        "ecmaVersion": 2020,
+        "sourceType": "module"
       },
       "env": {
         "node": true,
