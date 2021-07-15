@@ -49,22 +49,21 @@ describe('example application launch', function () {
       await app.browserWindow.getBounds().should.eventually.have.property('height', 400);
       const elem = await app.client.$('.btn-make-bigger');
       await elem.click();
-      const bounds = await app.browserWindow.getBounds();
-      bounds.should.have.property('width', 810);
-      bounds.should.have.property('height', 410);
+      await app.browserWindow.getBounds().should.eventually.have.property('width', 810);
+      await app.browserWindow.getBounds().should.eventually.have.property('height', 410);
     });
   });
 
   describe('when the make smaller button is clicked', function () {
     it('decreases the window height and width by 10 pixels', async function () {
+      app.client.setTimeout({ script: 60000 });
       await app.client.waitUntilWindowLoaded();
       await app.browserWindow.getBounds().should.eventually.have.property('width', 800);
       await app.browserWindow.getBounds().should.eventually.have.property('height', 400);
       const elem = await app.client.$('.btn-make-smaller');
       await elem.click();
-      const bounds = await app.browserWindow.getBounds();
-      bounds.should.have.property('width', 790);
-      bounds.should.have.property('height', 390);
+      await app.browserWindow.getBounds().should.eventually.have.property('width', 790);
+      await app.browserWindow.getBounds().should.eventually.have.property('height', 390);
     });
   });
 });
