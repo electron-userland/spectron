@@ -136,6 +136,7 @@ const browserWindowInstanceMethods = [
 contextBridge.exposeInMainWorld('spectron', {
   electronRequire: require,
   browserWindow: {
+    // using a ridiculous hardcoded array of func names until spectron.getCurrentWindowFunctionNames can return what we need
     getFunctionNames: async () => Promise.resolve(browserWindowInstanceMethods),
     invoke: async (funcName, ...args) => await ipcRenderer.invoke('spectron.invokeCurrentWindow', funcName, ...args),
   },
