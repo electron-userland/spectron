@@ -104,12 +104,6 @@ describe('window commands', function () {
     });
   });
 
-  describe('browserWindow.isDevToolsOpened()', function () {
-    it('returns false when the dev tools are closed', function () {
-      return app.browserWindow.isDevToolsOpened().should.eventually.be.false;
-    });
-  });
-
   describe('browserWindow.isFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
       return app.client.browserWindow.isFullScreen().should.eventually.be.false;
@@ -158,20 +152,6 @@ describe('window commands', function () {
       app.client.webContents.selectAll();
       text = await app.client.getSelectedText();
       expect(text).to.contain('Hello');
-    });
-  });
-
-  describe('webContents.paste()', function () {
-    it('pastes the text into the focused element', async function () {
-      const elem = await app.client.$('textarea');
-      const text = await elem.getText();
-      expect(text).to.equal('');
-      app.electron.clipboard.writeText('pasta');
-      await app.electron.clipboard.readText().should.eventually.equal('pasta');
-      await elem.click();
-      await app.webContents.paste();
-      const value = await elem.getValue();
-      return expect(value).to.equal('pasta');
     });
   });
 
