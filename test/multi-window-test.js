@@ -6,7 +6,7 @@ const it = global.it;
 const beforeEach = global.beforeEach;
 const afterEach = global.afterEach;
 
-describe('multiple windows', function () {
+describe.skip('multiple windows', function () {
   helpers.setupTimeout(this);
 
   let app = null;
@@ -14,7 +14,7 @@ describe('multiple windows', function () {
   beforeEach(function () {
     return helpers
       .startApplication({
-        args: [path.join(__dirname, 'fixtures', 'multi-window')]
+        args: [path.join(__dirname, 'fixtures', 'multi-window')],
       })
       .then(function (startedApp) {
         app = startedApp;
@@ -46,13 +46,13 @@ describe('multiple windows', function () {
       x: 25,
       y: 35,
       width: 200,
-      height: 100
+      height: 100,
     });
     windowsData.Bottom.should.roughly(5).deep.equal({
       x: 25,
       y: 135,
       width: 300,
-      height: 50
+      height: 50,
     });
   });
 

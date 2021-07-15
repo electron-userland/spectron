@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Example</title>
     <style>
-      html, body {
+      html,
+      body {
         width: 100%;
         height: 100%;
         -webkit-user-select: none;
@@ -48,30 +49,29 @@
         color: white;
         background-color: #800;
       }
-
     </style>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.btn-make-bigger').addEventListener('click', function () {
-          var remote = require('electron').remote
-          var currentWindow = remote.getCurrentWindow()
-          var size = currentWindow.getSize()
-          currentWindow.setSize(size[0] + 10, size[1] + 10)
-        })
+          (async function () {
+            const size = await window.spectron.invokeCurrentWindow('getSize');
+            await window.spectron.invokeCurrentWindow('setSize', size[0] + 10, size[1] + 10);
+          })();
+        });
 
         document.querySelector('.btn-make-smaller').addEventListener('click', function () {
-          var remote = require('electron').remote
-          var currentWindow = remote.getCurrentWindow()
-          var size = currentWindow.getSize()
-          currentWindow.setSize(size[0] - 10, size[1] - 10)
-        })
-      })
+          (async function () {
+            const size = await window.spectron.invokeCurrentWindow('getSize');
+            await window.spectron.invokeCurrentWindow('setSize', size[0] - 10, size[1] - 10);
+          })();
+        });
+      });
     </script>
   </head>
   <body>
     <div class="container">
       <span class="btn btn-make-bigger">make larger</span>
-      <br>
+      <br />
       <span class="btn btn-make-smaller">make smaller</span>
     </div>
   </body>

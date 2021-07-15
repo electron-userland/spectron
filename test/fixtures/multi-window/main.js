@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
-require('@electron/remote/main').initialize();
+const path = require('path');
+require('../../../main');
 
 let topWindow = null;
 let bottomWindow = null;
@@ -11,10 +12,12 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false
-    }
+      devTools: false,
+      preload: require.resolve(__dirname, '../../../preload.js'),
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true,
+    },
   });
   topWindow.loadFile('index-top.html');
   topWindow.on('closed', function () {
@@ -27,10 +30,12 @@ app.on('ready', function () {
     width: 300,
     height: 50,
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false
-    }
+      devTools: false,
+      preload: path.resolve(__dirname, '../../../preload.js'),
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true,
+    },
   });
   bottomWindow.loadFile('index-bottom.html');
   bottomWindow.on('closed', function () {

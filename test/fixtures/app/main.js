@@ -1,10 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-require('@electron/remote/main').initialize();
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
+require('../../../main');
 
 let mainWindow = null;
-app.allowRendererProcessReuse = true;
+
+// app.allowRendererProcessReuse = true;
 
 app.on('ready', function () {
   console.log('main log');
@@ -20,11 +21,14 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      enableRemoteModule: true,
+      devTools: false,
+      preload: path.resolve(__dirname, '../../../preload.js'),
+      enableRemoteModule: false,
       nodeIntegration: true,
-      contextIsolation: false
-    }
+      contextIsolation: true,
+    },
   });
+
   mainWindow.loadFile('index.html');
   mainWindow.on('closed', function () {
     mainWindow = null;

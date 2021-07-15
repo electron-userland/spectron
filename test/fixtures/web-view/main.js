@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
-require('@electron/remote/main').initialize();
+const path = require('path');
+require('../../../main');
 
 let mainWindow = null;
 
@@ -11,11 +12,13 @@ app.on('ready', function () {
     minHeight: 100,
     minWidth: 100,
     webPreferences: {
+      devTools: false,
+      preload: path.resolve(__dirname, '../../../preload.js'),
       nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false,
-      webviewTag: true
-    }
+      enableRemoteModule: false,
+      contextIsolation: true,
+      webviewTag: true,
+    },
   });
   mainWindow.loadFile('index.html');
   mainWindow.on('closed', function () {

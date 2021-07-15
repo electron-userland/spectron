@@ -1,39 +1,72 @@
 {
-  "extends": "standard",
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "extends": ["airbnb", "prettier", "plugin:import/errors", "plugin:import/warnings"],
+  "plugins": ["import", "prettier"],
   "env": {
-    "browser": true
+    "es6": true,
+    "node": true
   },
   "rules": {
-    "semi": ["error", "always"],
-    "no-var": "error",
-    "no-unused-vars": 0,
-    "no-global-assign": 0,
-    "guard-for-in": 2,
-    "space-before-function-paren": 0,
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "vars": "all",
-      "args": "after-used",
-      "ignoreRestSiblings": false
-    }],
-    "prefer-const": ["error", {
-      "destructuring": "all"
-    }],
-    "standard/no-callback-literal": "off",
-    "node/no-deprecated-api": 0
-  },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "curly": "error",
+    "import/extensions": ["error", "never"],
+    "import/no-default-export": "error",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   },
   "overrides": [
     {
-      "files": "*.d.ts",
+      "files": ["**/*.ts"],
+      "extends": [
+        "airbnb-typescript",
+        "airbnb/hooks",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:import/errors",
+        "plugin:import/typescript",
+        "plugin:import/warnings",
+        "plugin:prettier/recommended"
+      ],
+      "plugins": ["import", "prettier", "@typescript-eslint"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaFeatures": { "jsx": true },
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "env": {
+        "node": true,
+        "es6": true,
+        "browser": true
+      },
       "rules": {
-          "no-useless-constructor": "off",
-          "no-undef": "off"
+        "radix": "off",
+        "curly": "error",
+        "import/extensions": [
+          "error",
+          {
+            "ts": "never",
+            "tsx": "never"
+          }
+        ],
+        "import/no-default-export": "error",
+        "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "no-param-reassign": ["error", { "props": false }],
+        "no-void": ["error", { "allowAsStatement": true }]
+      },
+      "settings": {
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+          "node": {},
+          "typescript": {
+            "alwaysTryTypes": true
+          }
         }
+      }
     }
   ]
 }

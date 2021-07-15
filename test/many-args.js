@@ -34,13 +34,13 @@ describe('application loading', function () {
           '--bar10=baz10',
           '--bar11=baz11',
           '--bar12=baz12',
-          '--bar13=baz13'
+          '--bar13=baz13',
         ],
         env: {
           FOO: 'BAR',
           HELLO: 'WORLD',
-          SPECTRON_TEMP_DIR: tempPath
-        }
+          SPECTRON_TEMP_DIR: tempPath,
+        },
       })
       .then(function (startedApp) {
         app = startedApp;

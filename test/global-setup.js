@@ -13,13 +13,7 @@ global.before(function () {
 });
 
 exports.getElectronPath = function () {
-  let electronPath = path.join(
-    __dirname,
-    '..',
-    'node_modules',
-    '.bin',
-    'electron'
-  );
+  let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
   if (process.platform === 'win32') electronPath += '.cmd';
   return electronPath;
 };

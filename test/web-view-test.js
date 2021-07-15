@@ -15,7 +15,7 @@ describe('<webview> tags', function () {
   beforeEach(function () {
     return helpers
       .startApplication({
-        args: [path.join(__dirname, 'fixtures', 'web-view')]
+        args: [path.join(__dirname, 'fixtures', 'web-view')],
       })
       .then(function (startedApp) {
         app = startedApp;

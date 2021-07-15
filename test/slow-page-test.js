@@ -15,7 +15,7 @@ describe('Slow loading page', function () {
   before(function () {
     return helpers
       .startApplication({
-        args: [path.join(__dirname, 'fixtures', 'slow')]
+        args: [path.join(__dirname, 'fixtures', 'slow')],
       })
       .then(function (startedApp) {
         app = startedApp;
@@ -34,9 +34,7 @@ describe('Slow loading page', function () {
 
   describe('waitUntilWindowLoaded(timeout)', function () {
     it('rejects with an error when the timeout is hit', async function () {
-      await expect(app.client.waitUntilWindowLoaded(100)).to.be.rejectedWith(
-        Error
-      );
+      await expect(app.client.waitUntilWindowLoaded(100)).to.be.rejectedWith(Error);
     });
   });
 });

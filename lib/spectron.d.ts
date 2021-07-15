@@ -217,13 +217,6 @@ declare module 'spectron' {
      * Extra Webdriver options
      */
     webdriverOptions?: object;
-    /**
-     * Custom property name to use when requiring modules.
-     * Defaults to require.
-     * This should only be used if your application deletes the main window.require function
-     * and assigns it to another property name on window.
-     */
-    requireName?: string;
   };
   type AppConstructorOptions = BasicAppSettings & {
     /**
@@ -253,12 +246,6 @@ declare module 'spectron' {
      */
     client: SpectronClient;
     /**
-     * The electron property is your gateway to accessing the full Electron API.
-     * Each Electron module is exposed as a property on the electron property so you can
-     * think of it as an alias for require('electron') from within your app.
-     */
-    electron: Electron.RemoteMainInterface;
-    /**
      * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
      * It provides you access to the current BrowserWindow and contains all the APIs.
      * https://electron.atom.io/docs/api/browser-window/
@@ -272,18 +259,6 @@ declare module 'spectron' {
      * https://electron.atom.io/docs/api/web-contents/
      */
     webContents: SpectronWebContents;
-    /**
-     * The mainProcess property is an alias for require('electron').remote.process.
-     * It provides you access to the main process's process global.
-     * https://nodejs.org/api/process.html
-     */
-    mainProcess: NodeJS.Process;
-    /**
-     *The rendererProcess property is an alias for global.process.
-     * It provides you access to the main process's process global.
-     * https://nodejs.org/api/process.html
-     */
-    rendererProcess: NodeJS.Process;
 
     constructor(options: AppConstructorOptions);
 

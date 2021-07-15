@@ -1,8 +1,6 @@
-const fs = require('fs');
 const helpers = require('./global-setup');
 const path = require('path');
 const { expect } = require('chai');
-const temp = require('temp').track();
 
 const describe = global.describe;
 const it = global.it;
@@ -17,7 +15,7 @@ describe('window commands', function () {
   before(function () {
     return helpers
       .startApplication({
-        args: [path.join(__dirname, 'fixtures', 'app')]
+        args: [path.join(__dirname, 'fixtures', 'app')],
       })
       .then(function (startedApp) {
         app = startedApp;
@@ -52,29 +50,22 @@ describe('window commands', function () {
     });
 
     it('rejects if the element is missing', async function () {
-      await expect(
-        app.client.waitUntilTextExists('#not-in-page', 'Hello', 50)
-      ).to.be.rejectedWith(Error);
+      await expect(app.client.waitUntilTextExists('#not-in-page', 'Hello', 50)).to.be.rejectedWith(Error);
     });
 
     it('rejects if the element never contains the text', async function () {
-      await expect(
-        app.client.waitUntilTextExists('html', 'not on page', 50)
-      ).to.be.rejectedWith(Error);
+      await expect(app.client.waitUntilTextExists('html', 'not on page', 50)).to.be.rejectedWith(Error);
     });
   });
 
   describe('browserWindow.getBounds()', function () {
     it('gets the window bounds', function () {
-      return app.browserWindow
-        .getBounds()
-        .should.eventually.roughly(5)
-        .deep.equal({
-          x: 25,
-          y: 35,
-          width: 200,
-          height: 100
-        });
+      return app.browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
+        x: 25,
+        y: 35,
+        width: 200,
+        height: 100,
+      });
     });
   });
 
@@ -84,17 +75,14 @@ describe('window commands', function () {
         x: 100,
         y: 200,
         width: 150, // Windows minimum is ~100px
-        height: 130
+        height: 130,
       });
-      await app.browserWindow
-        .getBounds()
-        .should.eventually.roughly(5)
-        .deep.equal({
-          x: 100,
-          y: 200,
-          width: 150,
-          height: 130
-        });
+      await app.browserWindow.getBounds().should.eventually.roughly(5).deep.equal({
+        x: 100,
+        y: 200,
+        width: 150,
+        height: 130,
+      });
     });
   });
 
@@ -156,7 +144,7 @@ describe('window commands', function () {
       await app.browserWindow.minimize();
       if (!process.env.CI) {
         await app.client.waitUntil(() => app.browserWindow.isMinimized(), {
-          timeout: 2000
+          timeout: 2000,
         });
       }
     });
@@ -207,55 +195,6 @@ describe('window commands', function () {
       await app.browserWindow.setRepresentedFilename('/foo.js');
       filename = await app.browserWindow.getRepresentedFilename();
       return expect(filename).to.equal('/foo.js');
-    });
-  });
-
-  describe('electron.remote.app.getPath()', function () {
-    it('returns the path for the given name', async function () {
-      const tempDir = fs.realpathSync(temp.dir);
-      await app.electron.remote.app.setPath('music', tempDir);
-      return app.electron.remote.app
-        .getPath('music')
-        .should.eventually.equal(tempDir);
-    });
-  });
-
-  it('exposes properties on constructor APIs', async function () {
-    await app.electron.remote.MenuItem.types().should.eventually.include(
-      'normal'
-    );
-  });
-
-  describe('globalShortcut.isRegistered()', function () {
-    it('returns false if the shortcut is not registered', function () {
-      return app.electron.remote.globalShortcut.isRegistered(
-        'CommandOrControl+X'
-      ).should.eventually.be.false;
-    });
-  });
-
-  describe('rendererProcess.versions', function () {
-    it('includes the Electron version', function () {
-      return app.rendererProcess
-        .versions()
-        .should.eventually.have.property('electron').and.not.be.empty;
-    });
-  });
-
-  describe('electron.screen.getPrimaryDisplay()', function () {
-    it('returns information about the primary display', function () {
-      return app.electron.remote.screen
-        .getPrimaryDisplay()
-        .should.eventually.have.property('workArea').and.not.be.empty;
-    });
-  });
-
-  describe('electron.webFrame.getZoomFactor()', function () {
-    it('returns information about the primary display', async function () {
-      await app.electron.webFrame.setZoomFactor(4);
-      return app.electron.webFrame
-        .getZoomFactor()
-        .should.eventually.be.closeTo(4, 0.1);
     });
   });
 });
