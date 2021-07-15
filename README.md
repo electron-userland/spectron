@@ -1,7 +1,7 @@
 # <img src="https://cloud.githubusercontent.com/assets/378023/15063284/cf544f2c-1383-11e6-9336-e13bd64b1694.png" width="60px" align="center" alt="Spectron icon"> Spectron
 
 [![CI](https://github.com/goosewobbler/spectron/workflows/CI/badge.svg)](https://github.com/goosewobbler/spectron/actions)
-[![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
+[![dependencies](https://img.shields.io/david/goosewobbler/spectron.svg)](https://david-dm.org/goosewobbler/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
 Easily test your [Electron](http://electronjs.org) apps using
 [ChromeDriver](https://sites.google.com/chromium.org/driver/) and
