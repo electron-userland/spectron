@@ -1,6 +1,6 @@
 {
   "name": "@goosewobbler/spectron",
-  "version": "16.0.0",
+  "version": "16.0.1",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
@@ -10,6 +10,7 @@
     "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tsc lib/spectron.d.ts",
+    "summat": "tsc -p .",
     "test": "xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha && npm run lint",
     "postinstall": "node lib/rpath-fix.js"
   },
