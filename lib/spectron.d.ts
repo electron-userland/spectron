@@ -4,7 +4,7 @@
 
 /// <reference types="node" />
 
-declare module 'spectron' {
+declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
   import * as WebdriverIO from 'webdriverio';
   export interface SpectronClient extends WebdriverIO.Browser {
