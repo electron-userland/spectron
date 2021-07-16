@@ -185,7 +185,7 @@ describe('application loading', function () {
     });
 
     it('throws an error when the specified path is invalid', async function () {
-      await expect(app.webContents.savePage(tempPath, 'MHTMLfds')).to.be.rejectedWith(Error);
+      await expect(app.webContents.savePage(tempPath, 'MHTML')).to.be.rejectedWith(Error);
     });
   });
 
