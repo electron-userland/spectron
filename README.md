@@ -1,7 +1,7 @@
 # <img src="https://cloud.githubusercontent.com/assets/378023/15063284/cf544f2c-1383-11e6-9336-e13bd64b1694.png" width="60px" align="center" alt="Spectron icon"> Spectron
 
 [![CI](https://github.com/goosewobbler/spectron/workflows/CI/badge.svg)](https://github.com/goosewobbler/spectron/actions)
-[![dependencies](https://img.shields.io/david/goosewobbler/spectron.svg)](https://david-dm.org/goosewobbler/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
+[![dependencies](https://img.shields.io/david/goosewobbler/spectron.svg)](https://david-dm.org/goosewobbler/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/@goosewobbler/spectron.svg)](https://www.npmjs.com/package/@goosewobbler/spectron) [![downloads](https://img.shields.io/npm/dm/@goosewobbler/spectron.svg)](https://www.npmjs.com/package/@goosewobbler/spectron)
 
 Easily test your [Electron](http://electronjs.org) apps using
 [ChromeDriver](https://sites.google.com/chromium.org/driver/) and
@@ -13,102 +13,77 @@ This was forked to fulfil a simple requirement - bring Spectron in line with mod
 
 This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps.
 
-## Installation
+## Installation & Quick Start
 
 ```sh
-npm install --save-dev spectron
+npm install --save-dev @goosewobbler/spectron
 ```
 
-## Usage
+In your main process root (index) file, add the following import:
 
-Spectron works with any testing framework but the following example uses
-[mocha](https://mochajs.org):
-
-To get up and running from your command line:
-
-```sh
-# Install mocha locally as a dev dependency.
-npm i mocha -D
-
-# From the project root, create a folder called test, in that directory, create a file called 'spec.js'
-touch test/spec.js
-
-# Change directory to test
-cd test
+```
+import '@goosewobbler/spectron/main';
 ```
 
-Then simply include the following in your first `spec.js`.
+In your preload file, add the following import:
 
-```js
-const Application = require('spectron').Application;
-const assert = require('assert');
-const electronPath = require('electron'); // Require Electron from the binaries included in node_modules.
-const path = require('path');
+```
+import '@goosewobbler/spectron/preload';
+```
 
-describe('Application launch', function () {
-  this.timeout(10000);
+Add a spec file - the following is an example using Jest and Testing Library, on a Mac:
 
-  beforeEach(function () {
-    this.app = new Application({
-      // Your electron path can be any binary
-      // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
-      // But for the sake of the example we fetch it from our node_modules.
-      path: electronPath,
+```
+import path from 'path';
+import { Application } from '@goosewobbler/spectron';
+import { setupBrowser } from '@testing-library/webdriverio';
 
-      // Assuming you have the following directory structure
+const app: Application = new Application({
+  path: path.join(
+    process.cwd(), // This works assuming you run npm test from project root
+    // The path to the binary depends on your platform and architecture
+    'dist/mac/lists.app/Contents/MacOS/lists',
+  ),
+});
 
-      //  |__ my project
-      //     |__ ...
-      //     |__ main.js
-      //     |__ package.json
-      //     |__ index.html
-      //     |__ ...
-      //     |__ test
-      //        |__ spec.js  <- You are here! ~ Well you should be.
-
-      // The following line tells spectron to look and use the main.js file
-      // and the package.json located 1 level above.
-      args: [path.join(__dirname, '..')],
-    });
-    return this.app.start();
+describe('App', () => {
+  beforeEach(async () => {
+    await app.start();
+    await app.client.waitUntilWindowLoaded();
   });
 
-  afterEach(function () {
-    if (this.app && this.app.isRunning()) {
-      return this.app.stop();
+  afterEach(async () => {
+    if (app && app.isRunning()) {
+      await app.stop();
     }
   });
 
-  it('shows an initial window', function () {
-    return this.app.client.getWindowCount().then(function (count) {
-      assert.equal(count, 1);
-      // Please note that getWindowCount() will return 2 if `dev tools` are opened.
-      // assert.equal(count, 2)
-    });
+  it('should launch app', async () => {
+    const isVisible = await app.browserWindow.isVisible();
+    expect(isVisible).toBe(true);
+  });
+
+  it('should display a new list button', async () => {
+    const { getByRole } = setupBrowser(app.client);
+    const button = await getByRole('button', { name: /New List/i });
+    await button.click();
   });
 });
+
 ```
 
-Create an npm task in your package.json file
+Obviously this depends on your app binary so you will need to ensure it is built before the tests are executed.
 
-```sh
-"scripts": {
-  "test": "mocha"
-}
-```
+## Known Limitations / WIP
 
-And from the root of your project, in your command-line simply run:
+In rough priority order:
 
-```sh
-npm test
-```
-
-By default, mocha searches for a folder with the name `test` ( which we created before ).
-For more information on how to configure mocha, please visit [mocha](https://mochajs.org).
-
-#### Limitations
-
-As stated in [issue #19](https://github.com/electron/spectron/issues/19), Spectron will not be able to start if your Electron app is launched using the `remote-debugging-port` command-line switch (i.e. `app.commandLine.appendSwitch('remote-debugging-port', <debugging-port-number>);`). Please make sure to include the necessary logic in your app's code to disable the switch during tests.
+- Doesn't seem to close down cleanly
+- TypeScript `main` import type def needs doing
+- Passing args and cwd through was removed, probably should find a way to put it back
+- Multi-window test fails on CI
+- Breaks with new WebDriverIO (v7)
+- Could do with unit tests, better build process and...rewriting completely in TS.
 
 ## Application API
 
@@ -156,28 +131,6 @@ Create a new application with the following options:
   logs to. Setting this option enables `verbose` logging from Webdriver.
 - `webdriverOptions` - Object of additional options for Webdriver
 
-### Node Integration
-
-The Electron helpers provided by Spectron require accessing the core Electron
-APIs in the renderer processes of your application. So, either your Electron
-application has `nodeIntegration` set to `true` or you'll need to expose a
-`require` window global to Spectron so it can access the core Electron APIs.
-
-You can do this by adding a [`preload`][preload] script that does the following:
-
-```js
-if (process.env.NODE_ENV === 'test') {
-  window.electronRequire = require;
-}
-```
-
-Then create the Spectron `Application` with the `requireName` option set to
-`'electronRequire'` and then runs your tests via `NODE_ENV=test npm test`.
-
-**Note:** This is only required if your tests are accessing any Electron APIs.
-You don't need to do this if you are only accessing the helpers on the `client`
-property which do not require Node integration.
-
 ### Properties
 
 #### client
@@ -198,26 +151,6 @@ So if you wanted to get the text of an element you would do:
 app.client.getText('#error-alert').then(function (errorText) {
   console.log('The #error-alert text content is ' + errorText);
 });
-```
-
-#### electron
-
-The `electron` property is your gateway to accessing the full Electron API.
-
-Each Electron module is exposed as a property on the `electron` property
-so you can think of it as an alias for `require('electron')` from within your
-app.
-
-So if you wanted to access the [clipboard](http://electronjs.org/docs/latest/api/clipboard)
-API in your tests you would do:
-
-```js
-app.electron.clipboard
-  .writeText('pasta')
-  .electron.clipboard.readText()
-  .then(function (clipboardText) {
-    console.log('The clipboard text is ' + clipboardText);
-  });
 ```
 
 #### browserWindow
@@ -418,185 +351,3 @@ app.client.switchWindow('google.com');
 // switch via title match
 app.client.switchWindow('Next-gen WebDriver test framework');
 ```
-
-## Continuous Integration
-
-### On Travis CI
-
-You will want to add the following to your `.travis.yml` file when building on
-Linux:
-
-```yml
-before_script:
-  - 'export DISPLAY=:99.0'
-  - 'sh -e /etc/init.d/xvfb start'
-  - sleep 3 # give xvfb some time to start
-```
-
-Check out Spectron's [.travis.yml](https://github.com/electron/spectron/blob/master/.travis.yml)
-file for a production example.
-
-### On AppVeyor
-
-You will want to add the following to your `appveyor.yml` file:
-
-```yml
-os: unstable
-```
-
-Check out Spectron's [appveyor.yml](https://github.com/electron/spectron/blob/master/appveyor.yml)
-file for a production example.
-
-## Test Library Examples
-
-### With Chai As Promised
-
-WebdriverIO is promise-based and so it pairs really well with the
-[Chai as Promised](https://github.com/domenic/chai-as-promised) library that
-builds on top of [Chai](http://chaijs.com).
-
-Using these together allows you to chain assertions together and have fewer
-callback blocks. See below for a simple example:
-
-```sh
-npm install --save-dev chai
-npm install --save-dev chai-as-promised
-```
-
-```js
-const Application = require('spectron').Application;
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const electronPath = require('electron');
-const path = require('path');
-
-chai.should();
-chai.use(chaiAsPromised);
-
-describe('Application launch', function () {
-  this.timeout(10000);
-
-  beforeEach(function () {
-    this.app = new Application({
-      path: electronPath,
-      args: [path.join(__dirname, '..')],
-    });
-    return this.app.start();
-  });
-
-  beforeEach(function () {
-    chaiAsPromised.transferPromiseness = this.app.transferPromiseness;
-  });
-
-  afterEach(function () {
-    if (this.app && this.app.isRunning()) {
-      return this.app.stop();
-    }
-  });
-
-  it('opens a window', function () {
-    return this.app.client
-      .waitUntilWindowLoaded()
-      .getWindowCount()
-      .should.eventually.have.at.least(1)
-      .browserWindow.isMinimized()
-      .should.eventually.be.false.browserWindow.isVisible()
-      .should.eventually.be.true.browserWindow.isFocused()
-      .should.eventually.be.true.browserWindow.getBounds()
-      .should.eventually.have.property('width')
-      .and.be.above(0)
-      .browserWindow.getBounds()
-      .should.eventually.have.property('height')
-      .and.be.above(0);
-  });
-});
-```
-
-### With AVA
-
-Spectron works with [AVA](https://github.com/avajs/ava), which allows you
-to write your tests in ES2015+ without doing any extra work.
-
-```js
-import test from 'ava';
-import { Application } from 'spectron';
-
-test.beforeEach((t) => {
-  t.context.app = new Application({
-    path: '/Applications/MyApp.app/Contents/MacOS/MyApp',
-  });
-
-  return t.context.app.start();
-});
-
-test.afterEach((t) => {
-  return t.context.app.stop();
-});
-
-test((t) => {
-  return t.context.app.client
-    .waitUntilWindowLoaded()
-    .getWindowCount()
-    .then((count) => {
-      t.is(count, 1);
-    })
-    .browserWindow.isMinimized()
-    .then((min) => {
-      t.false(min);
-    })
-    .browserWindow.isDevToolsOpened()
-    .then((opened) => {
-      t.false(opened);
-    })
-    .browserWindow.isVisible()
-    .then((visible) => {
-      t.true(visible);
-    })
-    .browserWindow.isFocused()
-    .then((focused) => {
-      t.true(focused);
-    })
-    .browserWindow.getBounds()
-    .then((bounds) => {
-      t.true(bounds.width > 0);
-      t.true(bounds.height > 0);
-    });
-});
-```
-
-AVA has built-in support for [async functions](https://github.com/avajs/ava#async-function-support), which simplifies async operations:
-
-```js
-import test from 'ava';
-import { Application } from 'spectron';
-
-test.beforeEach(async (t) => {
-  t.context.app = new Application({
-    path: '/Applications/MyApp.app/Contents/MacOS/MyApp',
-  });
-
-  await t.context.app.start();
-});
-
-test.afterEach.always(async (t) => {
-  await t.context.app.stop();
-});
-
-test(async (t) => {
-  const app = t.context.app;
-  await app.client.waitUntilWindowLoaded();
-
-  const win = app.browserWindow;
-  t.is(await app.client.getWindowCount(), 1);
-  t.false(await win.isMinimized());
-  t.false(await win.isDevToolsOpened());
-  t.true(await win.isVisible());
-  t.true(await win.isFocused());
-
-  const { width, height } = await win.getBounds();
-  t.true(width > 0);
-  t.true(height > 0);
-});
-```
-
-[preload]: http://electronjs.org/docs/api/browser-window/#new-browserwindowoptions
