@@ -79,7 +79,6 @@ Obviously this depends on your app binary so you will need to ensure it is built
 In rough priority order:
 
 - Doesn't seem to close down cleanly
-- TypeScript `main` import type def needs doing
 - Passing args and cwd through was removed, probably should find a way to put it back
 - Multi-window test fails on CI
 - Breaks with new WebDriverIO (v7)
