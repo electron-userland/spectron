@@ -19,7 +19,6 @@ app.on('ready', function () {
       contextIsolation: true,
     },
   });
-  topWindow.loadFile('index-top.html');
   topWindow.on('closed', function () {
     topWindow = null;
   });
@@ -37,8 +36,10 @@ app.on('ready', function () {
       contextIsolation: true,
     },
   });
-  bottomWindow.loadFile('index-bottom.html');
   bottomWindow.on('closed', function () {
     bottomWindow = null;
   });
+
+  topWindow.loadFile('index-top.html');
+  bottomWindow.loadFile('index-bottom.html');
 });
