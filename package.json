@@ -1,5 +1,5 @@
 {
-  "name": "spectron",
+  "name": "@goosewobbler/spectron",
   "version": "16.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
@@ -10,13 +10,13 @@
     "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
     "pretest": "tsc lib/spectron.d.ts",
-    "test": "xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha ./test/*.js && npm run lint",
+    "test": "xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha && npm run lint",
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
     "node": ">=12.20.0"
   },
-  "repository": "https://github.com/electron/spectron",
+  "repository": "https://github.com/goosewobbler/spectron",
   "keywords": [
     "electron",
     "chromedriver",
