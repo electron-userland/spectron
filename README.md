@@ -15,25 +15,31 @@ This version of Spectron is designed to be used with `nodeIntegration: false`, `
 
 ## Installation & Quick Start
 
+Install using your favourite package manager:
+
 ```sh
 npm install --save-dev @goosewobbler/spectron
+---
+yarn add -D @goosewobbler/spectron
+---
+pnpm i -D @goosewobbler/spectron
 ```
 
 In your main process root (index) file, add the following import:
 
-```
+```js
 import '@goosewobbler/spectron/main';
 ```
 
 In your preload file, add the following import:
 
-```
+```js
 import '@goosewobbler/spectron/preload';
 ```
 
 Add a spec file - the following is an example using Jest and Testing Library, on a Mac:
 
-```
+```js
 import path from 'path';
 import { Application } from '@goosewobbler/spectron';
 import { setupBrowser } from '@testing-library/webdriverio';
@@ -69,7 +75,6 @@ describe('App', () => {
     await button.click();
   });
 });
-
 ```
 
 Obviously this depends on your app binary so you will need to ensure it is built before the tests are executed.
@@ -79,7 +84,9 @@ Obviously this depends on your app binary so you will need to ensure it is built
 In rough priority order:
 
 - Doesn't seem to close down cleanly
-- Passing args and cwd through was removed, probably should find a way to put it back
+- The BrowserWindow function names are currently hardcoded in a big old array, because I couldn't find a way to get more than one (!) via Object.keys and a larger subset with Object.getPrototypeOf. Can mitigate somewhat by using getPrototypeOf and adding the missing names from the hardcoded list. Object.keys works fine for webContents, strangely.
+- Passing args and cwd through was removed, probably should attempt to put it back
+- Need to test each of the usecases in the original readme and update the examples
 - Multi-window test fails on CI
 - Breaks with new WebDriverIO (v7)
 - Could do with unit tests, better build process and...rewriting completely in TS.
@@ -147,24 +154,21 @@ All the commands return a `Promise`.
 So if you wanted to get the text of an element you would do:
 
 ```js
-app.client.getText('#error-alert').then(function (errorText) {
-  console.log('The #error-alert text content is ' + errorText);
-});
+const errorText = await app.client.getText('#error-alert');
+console.log(`The #error-alert text content is ${errorText}`);
 ```
 
 #### browserWindow
 
-The `browserWindow` property is an alias for `require('electron').remote.getCurrentWindow()`.
-
-It provides you access to the current [BrowserWindow](http://electronjs.org/docs/latest/api/browser-window/)
+The `browserWindow` property provides you access to the current [BrowserWindow](http://electronjs.org/docs/latest/api/browser-window/)
 and contains all the APIs.
 
 So if you wanted to check if the current window is visible in your tests you
 would do:
 
 ```js
-app.browserWindow.isVisible().then(function (visible) {
-  console.log('window is visible? ' + visible);
+const visible = await app.client.isVisible();
+console.log(`window is visible? ${visible}`);
 });
 ```
 
@@ -178,25 +182,21 @@ returns a `Promise` that resolves to a `Buffer` that is the image data of
 screenshot.
 
 ```js
-app.browserWindow.capturePage().then(function (imageBuffer) {
-  fs.writeFile('page.png', imageBuffer);
-});
+const imageBuffer = await app.browserWindow.capturePage();
+fs.writeFile('page.png', imageBuffer);
 ```
 
 #### webContents
 
-The `webContents` property is an alias for `require('electron').remote.getCurrentWebContents()`.
-
-It provides you access to the [WebContents](http://electronjs.org/docs/latest/api/web-contents/)
+The `webContents` property provides you access to the [WebContents](http://electronjs.org/docs/latest/api/web-contents/)
 for the current window and contains all the APIs.
 
 So if you wanted to check if the current window is loading in your tests you
 would do:
 
 ```js
-app.webContents.isLoading().then(function (visible) {
-  console.log('window is loading? ' + visible);
-});
+const loading = await app.webContents.isLoading();
+console.log(`window is loading? ${loading}`);
 ```
 
 ##### savePage
@@ -206,14 +206,12 @@ returns a `Promise` that will raise any errors and resolve to `undefined` when
 complete.
 
 ```js
-app.webContents
-  .savePage('/Users/kevin/page.html', 'HTMLComplete')
-  .then(function () {
-    console.log('page saved');
-  })
-  .catch(function (error) {
-    console.error('saving page failed', error.message);
-  });
+try {
+  await app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete');
+} catch (error) {
+  console.error('saving page failed', error.message);
+}
+console.log('page saved');
 ```
 
 ##### executeJavaScript
