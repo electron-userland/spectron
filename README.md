@@ -19,9 +19,13 @@ Install using your favourite package manager:
 
 ```sh
 npm install --save-dev @goosewobbler/spectron
+
 ---
+
 yarn add -D @goosewobbler/spectron
+
 ---
+
 pnpm i -D @goosewobbler/spectron
 ```
 
@@ -81,15 +85,7 @@ Obviously this depends on your app binary so you will need to ensure it is built
 
 ## Known Limitations / WIP
 
-In rough priority order:
-
-- Doesn't seem to close down cleanly
-- The BrowserWindow function names are currently hardcoded in a big old array, because I couldn't find a way to get more than one (!) via Object.keys and a larger subset with Object.getPrototypeOf. Can mitigate somewhat by using getPrototypeOf and adding the missing names from the hardcoded list. Object.keys works fine for webContents, strangely.
-- Passing args and cwd through was removed, probably should attempt to put it back
-- Need to test each of the usecases in the original readme and update the examples
-- Multi-window test fails on CI
-- Breaks with new WebDriverIO (v7)
-- Could do with unit tests, better build process and...rewriting completely in TS.
+https://github.com/goosewobbler/spectron/projects/1
 
 ## Application API
 
@@ -337,14 +333,14 @@ Focus a window using its index from the `windowHandles()` array.
 app.client.windowByIndex(1);
 ```
 
-#### client.switchWindow(urlOrTitleToMatch)
+#### client.switchToWindow(urlOrTitleToMatch)
 
 Focus a window using its URL or title.
 
 ```js
 // switch via url match
-app.client.switchWindow('google.com');
+app.client.switchToWindow('google.com');
 
 // switch via title match
-app.client.switchWindow('Next-gen WebDriver test framework');
+app.client.switchToWindow('Next-gen WebDriver test framework');
 ```
