@@ -85,6 +85,8 @@ Obviously this depends on your app binary so you will need to ensure it is built
 
 ## Known Limitations / WIP
 
+Logging all tasks here:
+
 https://github.com/goosewobbler/spectron/projects/1
 
 ## Application API
