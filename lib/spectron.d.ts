@@ -9,12 +9,6 @@ declare module '@goosewobbler/spectron' {
   import * as WebdriverIO from 'webdriverio';
   export interface SpectronClient extends WebdriverIO.Browser {
     /**
-     * Focus a window using its title or URL.
-     * <webview> tags can also be focused as a separate window.
-     */
-    switchWindow(urlOrTitleToMatch: string): Promise<void>;
-
-    /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
      */
