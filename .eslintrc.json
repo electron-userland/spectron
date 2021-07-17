@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
-  "plugins": ["import", "prettier"],
+  "extends": ["airbnb-base", "prettier", "plugin:node/recommended"],
+  "plugins": ["import", "node", "prettier", "promise"],
   "env": {
     "es6": true,
     "node": true
@@ -9,60 +9,6 @@
     "curly": "error",
     "import/extensions": ["error", "never"],
     "import/no-default-export": "error",
-    "import/prefer-default-export": "off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
-  },
-  "overrides": [
-    {
-      "files": ["**/*.ts"],
-      "extends": [
-        "airbnb-typescript",
-        "airbnb/hooks",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:prettier/recommended"
-      ],
-      "plugins": ["import", "prettier", "@typescript-eslint"],
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "ecmaFeatures": { "jsx": true },
-        "ecmaVersion": 2020,
-        "sourceType": "module"
-      },
-      "env": {
-        "node": true,
-        "es6": true,
-        "browser": true
-      },
-      "rules": {
-        "radix": "off",
-        "curly": "error",
-        "import/extensions": [
-          "error",
-          {
-            "ts": "never",
-            "tsx": "never"
-          }
-        ],
-        "import/no-default-export": "error",
-        "import/prefer-default-export": "off",
-        "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "no-param-reassign": ["error", { "props": false }],
-        "no-void": ["error", { "allowAsStatement": true }]
-      },
-      "settings": {
-        "import/parsers": {
-          "@typescript-eslint/parser": [".ts", ".tsx"]
-        },
-        "import/resolver": {
-          "node": {},
-          "typescript": {
-            "alwaysTryTypes": true
-          }
-        }
-      }
-    }
-  ]
+    "import/prefer-default-export": "off"
+  }
 }
