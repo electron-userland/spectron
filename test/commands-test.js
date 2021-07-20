@@ -1,11 +1,8 @@
-const helpers = require('./global-setup');
 const path = require('path');
 const { expect } = require('chai');
+const helpers = require('./global-setup');
 
-const describe = global.describe;
-const it = global.it;
-const before = global.before;
-const after = global.after;
+const { describe, it, before, after } = global;
 
 describe('window commands', function () {
   helpers.setupTimeout(this);
@@ -106,7 +103,7 @@ describe('window commands', function () {
 
   describe('browserWindow.isFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
-      return app.client.browserWindow.isFullScreen().should.eventually.be.false;
+      return app.browserWindow.isFullScreen().should.eventually.be.false;
     });
   });
 
@@ -149,7 +146,7 @@ describe('window commands', function () {
       await app.client.waitUntilTextExists('html', 'Hello');
       let text = await app.client.getSelectedText();
       expect(text).to.equal('');
-      app.client.webContents.selectAll();
+      app.webContents.selectAll();
       text = await app.client.getSelectedText();
       expect(text).to.contain('Hello');
     });

@@ -1,3 +1,4 @@
+/* eslint node/no-unpublished-require: off */
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 require('../../../main');
@@ -5,21 +6,20 @@ require('../../../main');
 let topWindow = null;
 let bottomWindow = null;
 
-app.on('ready', function () {
+app.on('ready', () => {
   topWindow = new BrowserWindow({
     x: 25,
     y: 35,
     width: 200,
     height: 100,
     webPreferences: {
-      devTools: false,
-      preload: require.resolve(__dirname, '../../../preload.js'),
+      preload: path.resolve(__dirname, '..', '..', '..', 'preload.js'),
       nodeIntegration: false,
       enableRemoteModule: false,
       contextIsolation: true,
     },
   });
-  topWindow.on('closed', function () {
+  topWindow.on('closed', () => {
     topWindow = null;
   });
 
@@ -29,14 +29,13 @@ app.on('ready', function () {
     width: 300,
     height: 50,
     webPreferences: {
-      devTools: false,
-      preload: path.resolve(__dirname, '../../../preload.js'),
+      preload: path.resolve(__dirname, '..', '..', '..', 'preload.js'),
       nodeIntegration: false,
       enableRemoteModule: false,
       contextIsolation: true,
     },
   });
-  bottomWindow.on('closed', function () {
+  bottomWindow.on('closed', () => {
     bottomWindow = null;
   });
 

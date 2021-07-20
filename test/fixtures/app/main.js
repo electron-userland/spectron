@@ -1,3 +1,4 @@
+/* eslint node/no-unpublished-require: off, no-console: off */
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -7,7 +8,7 @@ let mainWindow = null;
 
 // app.allowRendererProcessReuse = true;
 
-app.on('ready', function () {
+app.on('ready', () => {
   console.log('main log');
   console.warn('main warn');
   console.error('main error');
@@ -21,7 +22,6 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      devTools: false,
       preload: path.resolve(__dirname, '../../../preload.js'),
       enableRemoteModule: false,
       nodeIntegration: true,
@@ -30,17 +30,17 @@ app.on('ready', function () {
   });
 
   mainWindow.loadFile('index.html');
-  mainWindow.on('closed', function () {
+  mainWindow.on('closed', () => {
     mainWindow = null;
   });
 });
 
-app.on('will-quit', function () {
+app.on('will-quit', () => {
   if (fs.existsSync(process.env.SPECTRON_TEMP_DIR)) {
     fs.writeFileSync(path.join(process.env.SPECTRON_TEMP_DIR, 'quit.txt'), '');
   }
 });
 
-ipcMain.on('ipc-event', function (event, count) {
+ipcMain.on('ipc-event', (event, count) => {
   global.ipcEventCount += count;
 });

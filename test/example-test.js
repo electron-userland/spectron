@@ -1,12 +1,9 @@
 // Test for examples included in README.md
-const helpers = require('./global-setup');
 const path = require('path');
 const { expect } = require('chai');
+const helpers = require('./global-setup');
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
+const { describe, it, beforeEach, afterEach } = global;
 
 describe('example application launch', function () {
   helpers.setupTimeout(this);

@@ -1,4 +1,4 @@
-const { BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 // Don't know why this only returns setBounds. Object.getPrototypeOf(window) returns a few more methods but not anywhere near the full amount
 ipcMain.handle('spectron.getCurrentWindowFunctionNames', async (event) => {
@@ -29,4 +29,12 @@ ipcMain.handle('spectron.getCurrentWebContentsFunctionNames', (event) => {
 ipcMain.handle('spectron.invokeCurrentWebContents', (event, funcName, ...args) => {
   const webContents = BrowserWindow.fromWebContents(event.sender).webContents;
   return webContents[funcName].apply(webContents, args);
+});
+
+ipcMain.handle('spectron.getAppFunctionNames', () => {
+  return Object.keys(app).filter((propName) => typeof app[propName] === 'function' && propName[0] !== '_');
+});
+
+ipcMain.handle('spectron.invokeApp', (event, funcName, ...args) => {
+  return app[funcName](...args);
 });
