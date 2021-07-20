@@ -106,7 +106,7 @@ describe('window commands', function () {
 
   describe('browserWindow.isFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
-      return app.client.browserWindow.isFullScreen().should.eventually.be.false;
+      return app.browserWindow.isFullScreen().should.eventually.be.false;
     });
   });
 
@@ -149,7 +149,7 @@ describe('window commands', function () {
       await app.client.waitUntilTextExists('html', 'Hello');
       let text = await app.client.getSelectedText();
       expect(text).to.equal('');
-      app.client.webContents.selectAll();
+      app.webContents.selectAll();
       text = await app.client.getSelectedText();
       expect(text).to.contain('Hello');
     });
