@@ -12,7 +12,6 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      devTools: false,
       preload: require.resolve(__dirname, '../../../preload.js'),
       nodeIntegration: false,
       enableRemoteModule: false,
@@ -29,7 +28,6 @@ app.on('ready', function () {
     width: 300,
     height: 50,
     webPreferences: {
-      devTools: false,
       preload: path.resolve(__dirname, '../../../preload.js'),
       nodeIntegration: false,
       enableRemoteModule: false,

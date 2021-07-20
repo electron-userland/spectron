@@ -10,7 +10,6 @@ app.on('ready', function () {
     width: 800,
     height: 600,
     webPreferences: {
-      devTools: false,
       preload: path.resolve(__dirname, '../../../preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
