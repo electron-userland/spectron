@@ -1,3 +1,4 @@
+/* eslint node/no-unpublished-require: off */
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 require('../../../main');
@@ -5,7 +6,7 @@ require('../../../main');
 let topWindow = null;
 let bottomWindow = null;
 
-app.on('ready', function () {
+app.on('ready', () => {
   topWindow = new BrowserWindow({
     x: 25,
     y: 35,
@@ -18,7 +19,7 @@ app.on('ready', function () {
       contextIsolation: true,
     },
   });
-  topWindow.on('closed', function () {
+  topWindow.on('closed', () => {
     topWindow = null;
   });
 
@@ -34,7 +35,7 @@ app.on('ready', function () {
       contextIsolation: true,
     },
   });
-  bottomWindow.on('closed', function () {
+  bottomWindow.on('closed', () => {
     bottomWindow = null;
   });
 

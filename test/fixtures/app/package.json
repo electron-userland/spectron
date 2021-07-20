@@ -1,5 +1,8 @@
 {
   "name": "Test",
   "version": "1.0.0",
-  "main": "main.js"
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^13.1.7"
+  }
 }
