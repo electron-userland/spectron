@@ -9,6 +9,7 @@
     "curly": "error",
     "import/extensions": ["error", "never"],
     "import/no-default-export": "error",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-param-reassign": ["error", { "props": false }]
   }
 }
