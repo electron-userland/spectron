@@ -1,5 +1,4 @@
-const { contextBridge, ipcRenderer, app } = require('electron');
-const process = require('process');
+const { contextBridge, ipcRenderer } = require('electron');
 
 const browserWindowInstanceMethods = [
   'destroy',
@@ -137,7 +136,8 @@ const browserWindowInstanceMethods = [
 contextBridge.exposeInMainWorld('spectron', {
   electronRequire: require,
   app: {
-    exit: () => app.exit(0),
+    getFunctionNames: async () => await ipcRenderer.invoke('spectron.getAppFunctionNames'),
+    invoke: async (funcName, ...args) => await ipcRenderer.invoke('spectron.invokeApp', funcName, ...args),
   },
   browserWindow: {
     // using a ridiculous hardcoded array of func names until spectron.getCurrentWindowFunctionNames can return what we need
