@@ -1,10 +1,7 @@
-const helpers = require('./global-setup');
 const path = require('path');
+const helpers = require('./global-setup');
 
-const describe = global.describe;
-const it = global.it;
-const before = global.before;
-const after = global.after;
+const { describe, it, before, after } = global;
 
 describe('multiple windows', function () {
   helpers.setupTimeout(this);

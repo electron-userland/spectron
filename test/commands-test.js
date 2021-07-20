@@ -1,11 +1,8 @@
-const helpers = require('./global-setup');
 const path = require('path');
 const { expect } = require('chai');
+const helpers = require('./global-setup');
 
-const describe = global.describe;
-const it = global.it;
-const before = global.before;
-const after = global.after;
+const { describe, it, before, after } = global;
 
 describe('window commands', function () {
   helpers.setupTimeout(this);

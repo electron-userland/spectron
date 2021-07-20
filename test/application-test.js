@@ -1,15 +1,12 @@
-const Application = require('..').Application;
+const { expect } = require('chai');
 const assert = require('assert');
 const fs = require('fs');
-const helpers = require('./global-setup');
 const path = require('path');
 const temp = require('temp').track();
+const helpers = require('./global-setup');
+const { Application } = require('..');
 
-const describe = global.describe;
-const it = global.it;
-const beforeEach = global.beforeEach;
-const afterEach = global.afterEach;
-const expect = require('chai').expect;
+const { describe, it, beforeEach, afterEach } = global;
 
 describe('application loading', function () {
   helpers.setupTimeout(this);
