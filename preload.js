@@ -1,9 +1,21 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('spectron', {
-  process: {
-    getApiKeys: () => ipcRenderer.invoke('spectron.process.getApiKeys'),
-    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.process.invoke', funcName, ...args),
+  rendererProcess: {
+    getApiKeys: async () => Object.keys(process).filter((propName) => propName[0] !== '_'),
+    invoke: async (funcName, ...args) => {
+      if (typeof process[funcName] === 'function') {
+        return process[funcName](...args);
+      }
+      if (funcName === 'env') {
+        return process.env[args[0]];
+      }
+      return process[funcName];
+    },
+  },
+  mainProcess: {
+    getApiKeys: () => ipcRenderer.invoke('spectron.mainProcess.getApiKeys'),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.mainProcess.invoke', funcName, ...args),
   },
   app: {
     getApiKeys: () => ipcRenderer.invoke('spectron.app.getApiKeys'),
