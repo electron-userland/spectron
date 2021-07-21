@@ -2,7 +2,15 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('spectron', {
   rendererProcess: {
-    getApiKeys: async () => Object.keys(process).filter((propName) => propName[0] !== '_'),
+    getApiKeys: async () => {
+      const keys = [];
+      /* eslint-disable no-restricted-syntax,guard-for-in */
+      for (const key in process) {
+        keys.push(key);
+      }
+      /* eslint-enable no-restricted-syntax,guard-for-in */
+      return keys.filter((propName) => propName[0] !== '_');
+    },
     invoke: async (funcName, ...args) => {
       if (typeof process[funcName] === 'function') {
         return process[funcName](...args);
