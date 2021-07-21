@@ -49,7 +49,7 @@ describe('application loading', function () {
   });
 
   it('passes through args to the launched app', async function () {
-    const argv = await app.process.argv();
+    const argv = await app.mainProcess.argv();
     expect(argv[2]).to.equal('--bar1=baz1');
     expect(argv[9]).to.equal('--bar8=baz8');
     expect(argv[12]).to.equal('--bar11=baz11');
