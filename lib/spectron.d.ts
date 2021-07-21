@@ -46,20 +46,15 @@ declare module '@goosewobbler/spectron' {
     getMainProcessLogs(): Promise<string[]>;
   }
 
-  export interface SpectronWindow extends Electron.BrowserWindow {
-    capturePage(): Promise<Electron.NativeImage>;
-  }
+  export interface SpectronWindow extends Electron.BrowserWindow {}
 
-  export interface SpectronWebContents extends Electron.WebContents {
-    savePage(
-      fullPath: string,
-      saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML',
-      callback?: (eror: Error) => void,
-    ): boolean;
-    savePage(fullPath: string, saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'): Promise<void>;
-    savePage(fullPath: string, saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML'): any;
-    executeJavaScript(code: string, userGesture?: boolean): Promise<any>;
-  }
+  export interface SpectronWebContents extends Electron.WebContents {}
+
+  export interface SpectronElectronApp extends Electron.App {}
+
+  export interface SpectronMainProcess extends Electron.Main {}
+
+  export interface SpectronRendererProcess extends Electron.Renderer {}
 
   type BasicAppSettings = {
     /**
@@ -183,6 +178,14 @@ declare module '@goosewobbler/spectron' {
      * https://electron.atom.io/docs/api/web-contents/
      */
     webContents: SpectronWebContents;
+
+    app: SpectronElectronApp;
+
+    electronApp: SpectronElectronApp;
+
+    mainProcess: SpectronMainProcess;
+
+    rendererProcess: SpectronRendererProcess;
 
     constructor(options: AppConstructorOptions);
 
