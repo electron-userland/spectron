@@ -27,9 +27,10 @@
   "author": "Sam Maister",
   "license": "MIT",
   "dependencies": {
-    "electron": "^13.1.7",
     "dev-null": "^0.1.1",
+    "electron": "^13.1.7",
     "electron-chromedriver": "^13.0.0",
+    "fs-extra": "^10.0.0",
     "got": "^11.8.0",
     "split": "^1.0.1",
     "webdriverio": "^6.12.1"
