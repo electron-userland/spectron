@@ -3,7 +3,7 @@ const helpers = require('./global-setup');
 
 const { describe, it, before, after } = global;
 
-describe.only('multiple windows', function () {
+describe('multiple windows', function () {
   helpers.setupTimeout(this);
 
   let app = null;
