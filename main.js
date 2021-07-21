@@ -27,12 +27,12 @@ ipcMain.handle('spectron.browserWindow.invoke', async (event, funcName, ...args)
   return browserWindow[funcName];
 });
 
-ipcMain.handle('spectron.webContents.getApiKeys', (event) => {
+ipcMain.handle('spectron.webContents.getApiKeys', async (event) => {
   const { webContents } = BrowserWindow.fromWebContents(event.sender);
   return Object.keys(webContents).filter((propName) => propName[0] !== '_');
 });
 
-ipcMain.handle('spectron.webContents.invoke', (event, funcName, ...args) => {
+ipcMain.handle('spectron.webContents.invoke', async (event, funcName, ...args) => {
   const { webContents } = BrowserWindow.fromWebContents(event.sender);
   if (typeof webContents[funcName] === 'function') {
     return webContents[funcName](...args);
@@ -40,18 +40,20 @@ ipcMain.handle('spectron.webContents.invoke', (event, funcName, ...args) => {
   return webContents[funcName];
 });
 
-ipcMain.handle('spectron.app.getApiKeys', () => Object.keys(app).filter((propName) => propName[0] !== '_'));
+ipcMain.handle('spectron.app.getApiKeys', async () => Object.keys(app).filter((propName) => propName[0] !== '_'));
 
-ipcMain.handle('spectron.app.invoke', (event, funcName, ...args) => {
+ipcMain.handle('spectron.app.invoke', async (event, funcName, ...args) => {
   if (typeof app[funcName] === 'function') {
     return app[funcName](...args);
   }
   return app[funcName];
 });
 
-ipcMain.handle('spectron.process.getApiKeys', () => Object.keys(process).filter((propName) => propName[0] !== '_'));
+ipcMain.handle('spectron.mainProcess.getApiKeys', async () =>
+  Object.keys(process).filter((propName) => propName[0] !== '_'),
+);
 
-ipcMain.handle('spectron.process.invoke', (event, funcName, ...args) => {
+ipcMain.handle('spectron.mainProcess.invoke', async (event, funcName, ...args) => {
   if (typeof process[funcName] === 'function') {
     return process[funcName](...args);
   }
