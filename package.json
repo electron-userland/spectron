@@ -10,8 +10,7 @@
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
     "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
-    "pretest": "tsc lib/spectron.d.ts",
-    "summat": "tsc -p .",
+    "pretest": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
     "test": "xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha && npm run lint",
     "postinstall": "node lib/rpath-fix.js"
   },
