@@ -87,7 +87,7 @@ describe('App', () => {
       const input = await screen.getByLabelText('List Title');
       expect(await input.getValue()).toEqual('New List');
     });
-   });
+  });
 });
 ```
 
@@ -95,7 +95,7 @@ Obviously this depends on your app binary so you will need to ensure it is built
 
 ## Known Limitations / WIP
 
-The old functionality of the electron.remote API is not yet fully replicated, each of the APIs has to be added back separately.  Some API functions may not work due to serialisation errors - this is a consequence of the new way of accessing electron methods from renderer processes and is by design - however it should be possible to create workarounds for at least some of these cases.  The accessibility testing is gone, not considering putting that back as the tool being used hasn't had a commit for 4 years, and there are better devtools-based alternatives for accessibility.  <webview> is being deprecated so I deleted those tests, BrowserView support will be added before long.
+The old functionality of the electron.remote API is not yet fully replicated, each of the APIs has to be added back separately. Some API functions may not work due to serialisation errors - this is a consequence of the new way of accessing electron methods from renderer processes and is by design - however it should be possible to create workarounds for at least some of these cases. The accessibility testing is gone, not considering putting that back as the tool being used hasn't had a commit for 4 years, and there are better devtools-based alternatives for accessibility. \<webview\> is being deprecated so I deleted those tests, BrowserView support will be added before long.
 
 Logging all tasks here:
 
