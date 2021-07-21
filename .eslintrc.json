@@ -11,5 +11,20 @@
     "import/no-default-export": "error",
     "import/prefer-default-export": "off",
     "no-param-reassign": ["error", { "props": false }]
-  }
+  },
+  "overrides": [
+    {
+      "files": "*.d.ts",
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint"],
+      "env": {
+        "node": true
+      },
+      "rules": {},
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+      }
+    }
+  ]
 }
