@@ -50,6 +50,28 @@ describe('application loading', function () {
     await app.client.getTitle().should.eventually.equal('Test');
   });
 
+  it('passes through args to the launched app', async function () {
+    const arvg = app.mainProcess.argv();
+    await arvg.should.eventually.contain('--foo');
+    await arvg.should.eventually.contain('--bar=baz');
+  });
+
+  it('passes through env to the launched app', async function () {
+    const env = await app.rendererProcess.env();
+    if (process.platform === 'win32') {
+      assert.strictEqual(env.foo, 'BAR');
+      assert.strictEqual(env.hello, 'WORLD');
+    } else {
+      assert.strictEqual(env.FOO, 'BAR');
+      assert.strictEqual(env.HELLO, 'WORLD');
+    }
+  });
+
+  it('passes through cwd to the launched app', async function () {
+    const cwd = app.mainProcess.cwd();
+    await cwd.should.eventually.equal(path.join(__dirname, 'fixtures'));
+  });
+
   it('throws an error when no path is specified', function () {
     return new Application().start().should.be.rejectedWith(Error, 'Application path must be a string');
   });
