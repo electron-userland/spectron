@@ -141,7 +141,7 @@ contextBridge.exposeInMainWorld('spectron', {
   },
   browserWindow: {
     // using a ridiculous hardcoded array of func names until spectron.getCurrentWindowFunctionNames can return what we need
-    getFunctionNames: () => Promise.resolve(browserWindowInstanceMethods),
+    getFunctionNames: async () => browserWindowInstanceMethods,
     invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeCurrentWindow', funcName, ...args),
   },
   webContents: {
