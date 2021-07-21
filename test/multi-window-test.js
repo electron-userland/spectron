@@ -3,26 +3,24 @@ const helpers = require('./global-setup');
 
 const { describe, it, before, after } = global;
 
-describe('multiple windows', function () {
+describe.only('multiple windows', function () {
   helpers.setupTimeout(this);
 
   let app = null;
 
-  before(function () {
-    return helpers
+  before(() =>
+    helpers
       .startApplication({
         args: [path.join(__dirname, 'fixtures', 'multi-window')],
       })
-      .then(function (startedApp) {
+      .then((startedApp) => {
         app = startedApp;
-      });
-  });
+      }),
+  );
 
-  after(function () {
-    return helpers.stopApplication(app);
-  });
+  after(() => helpers.stopApplication(app));
 
-  it('should switch focus using windowByIndex', async function () {
+  it('should switch focus using windowByIndex', async () => {
     const windowCount = await app.client.getWindowCount();
     windowCount.should.equal(2);
     await app.client.windowByIndex(0);
