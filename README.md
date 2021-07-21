@@ -9,7 +9,9 @@ Easily test your [Electron](http://electronjs.org) apps using
 
 ## Differences between this fork and @electron-userland/spectron
 
-This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. That means I deleted a lot of code and some things might not work as expected. Spectron really needs a complete rewrite, this is merely a collection of hacks - although I believe them to be less hacky than some of the "official" attempts at keeping Spectron working with modern Electron versions. Hopefully this code will inspire some future development. I might rewrite it completely at some point, or switch to [Playwright](https://playwright.dev) (currently experimental support for Electron).
+This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. I deleted a lot of code and some things might not work as expected. Spectron really needs a complete rewrite, this is a start.
+
+Other options: [Playwright](https://playwright.dev) (currently experimental support for Electron).
 
 This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps.
 
@@ -74,16 +76,26 @@ describe('App', () => {
   });
 
   it('should display a new list button', async () => {
-    const { getByRole } = setupBrowser(app.client);
-    const button = await getByRole('button', { name: /New List/i });
-    await button.click();
+    const button = await screen.getByText('New List');
+    expect(button).toBeDefined();
   });
+
+  describe('when the new list button is clicked', () => {
+    it('should create a new list input box', async () => {
+      const button = await screen.getByText('New List');
+      await button.click();
+      const input = await screen.getByLabelText('List Title');
+      expect(await input.getValue()).toEqual('New List');
+    });
+   });
 });
 ```
 
 Obviously this depends on your app binary so you will need to ensure it is built before the tests are executed.
 
 ## Known Limitations / WIP
+
+The old functionality of the electron.remote API is not yet fully replicated, each of the APIs has to be added back separately.  Some API functions may not work due to serialisation errors - this is a consequence of the new way of accessing electron methods from renderer processes and is by design - however it should be possible to create workarounds for at least some of these cases.  The accessibility testing is gone, not considering putting that back as the tool being used hasn't had a commit for 4 years, and there are better devtools-based alternatives for accessibility.  <webview> is being deprecated so I deleted those tests, BrowserView support will be added before long.
 
 Logging all tasks here:
 
