@@ -7,6 +7,7 @@
 declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
   import * as WebdriverIO from 'webdriverio';
+
   export interface SpectronClient extends WebdriverIO.Browser {
     /**
      * Wait until the window is no longer loading.
@@ -166,12 +167,14 @@ declare module '@goosewobbler/spectron' {
      * Several additional commands are provided specific to Electron.
      */
     client: SpectronClient;
+
     /**
      * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
      * It provides you access to the current BrowserWindow and contains all the APIs.
      * https://electron.atom.io/docs/api/browser-window/
      */
     browserWindow: SpectronWindow;
+
     /**
      * The webContents property is an alias for
      * require('electron').remote.getCurrentWebContents().

@@ -136,17 +136,16 @@ const browserWindowInstanceMethods = [
 contextBridge.exposeInMainWorld('spectron', {
   electronRequire: require,
   app: {
-    getFunctionNames: async () => await ipcRenderer.invoke('spectron.getAppFunctionNames'),
-    invoke: async (funcName, ...args) => await ipcRenderer.invoke('spectron.invokeApp', funcName, ...args),
+    getFunctionNames: () => ipcRenderer.invoke('spectron.getAppFunctionNames'),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeApp', funcName, ...args),
   },
   browserWindow: {
     // using a ridiculous hardcoded array of func names until spectron.getCurrentWindowFunctionNames can return what we need
-    getFunctionNames: async () => Promise.resolve(browserWindowInstanceMethods),
-    invoke: async (funcName, ...args) => await ipcRenderer.invoke('spectron.invokeCurrentWindow', funcName, ...args),
+    getFunctionNames: async () => browserWindowInstanceMethods,
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeCurrentWindow', funcName, ...args),
   },
   webContents: {
-    getFunctionNames: async () => await ipcRenderer.invoke('spectron.getCurrentWebContentsFunctionNames'),
-    invoke: async (funcName, ...args) =>
-      await ipcRenderer.invoke('spectron.invokeCurrentWebContents', funcName, ...args),
+    getFunctionNames: () => ipcRenderer.invoke('spectron.getCurrentWebContentsFunctionNames'),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeCurrentWebContents', funcName, ...args),
   },
 });

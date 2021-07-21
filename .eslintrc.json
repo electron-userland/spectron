@@ -9,6 +9,30 @@
     "curly": "error",
     "import/extensions": ["error", "never"],
     "import/no-default-export": "error",
-    "import/prefer-default-export": "off"
-  }
+    "import/prefer-default-export": "off",
+    "no-param-reassign": ["error", { "props": false }]
+  },
+  "overrides": [
+    {
+      "files": "*.d.ts",
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint"],
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "no-unused-vars": "off",
+        "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }]
+      },
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+      },
+      "settings": {
+        "node": {
+          "tryExtensions": [".js", ".json", ".node", ".ts"]
+        }
+      }
+    }
+  ]
 }

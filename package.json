@@ -1,16 +1,16 @@
 {
   "name": "@goosewobbler/spectron",
-  "version": "16.0.4",
+  "version": "16.0.5",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
+  "bin": "./lib/launcher",
   "scripts": {
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
     "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
-    "pretest": "tsc lib/spectron.d.ts",
-    "summat": "tsc -p .",
+    "pretest": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
     "test": "xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha && npm run lint",
     "postinstall": "node lib/rpath-fix.js"
   },
@@ -28,7 +28,9 @@
   "license": "MIT",
   "dependencies": {
     "dev-null": "^0.1.1",
+    "electron": "^13.1.7",
     "electron-chromedriver": "^13.0.0",
+    "fs-extra": "^10.0.0",
     "got": "^11.8.0",
     "split": "^1.0.1",
     "webdriverio": "^6.12.1"
@@ -40,7 +42,6 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.2.1",
-    "electron": "^13.1.7",
     "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",

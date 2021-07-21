@@ -10,31 +10,29 @@ ipcMain.handle('spectron.getCurrentWindowFunctionNames', async (event) => {
 ipcMain.handle('spectron.invokeCurrentWindow', async (event, funcName, ...args) => {
   const window = BrowserWindow.fromWebContents(event.sender);
   if (funcName === 'capturePage') {
-    const image = await window.capturePage.apply(window, args);
+    const image = await window.capturePage(...args);
     if (image != null) {
       return image.toPNG().toString('base64');
     }
     return null;
   }
-  return window[funcName].apply(window, args);
+  return window[funcName](...args);
 });
 
 ipcMain.handle('spectron.getCurrentWebContentsFunctionNames', (event) => {
-  const webContents = BrowserWindow.fromWebContents(event.sender).webContents;
+  const { webContents } = BrowserWindow.fromWebContents(event.sender);
   return Object.keys(webContents).filter(
     (propName) => typeof webContents[propName] === 'function' && propName[0] !== '_',
   );
 });
 
 ipcMain.handle('spectron.invokeCurrentWebContents', (event, funcName, ...args) => {
-  const webContents = BrowserWindow.fromWebContents(event.sender).webContents;
-  return webContents[funcName].apply(webContents, args);
+  const { webContents } = BrowserWindow.fromWebContents(event.sender);
+  return webContents[funcName](...args);
 });
 
-ipcMain.handle('spectron.getAppFunctionNames', () => {
-  return Object.keys(app).filter((propName) => typeof app[propName] === 'function' && propName[0] !== '_');
-});
+ipcMain.handle('spectron.getAppFunctionNames', () =>
+  Object.keys(app).filter((propName) => typeof app[propName] === 'function' && propName[0] !== '_'),
+);
 
-ipcMain.handle('spectron.invokeApp', (event, funcName, ...args) => {
-  return app[funcName](...args);
-});
+ipcMain.handle('spectron.invokeApp', (event, funcName, ...args) => app[funcName](...args));
