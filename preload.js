@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, process } = require('electron');
 
 const browserWindowInstanceMethods = [
   'destroy',
@@ -134,18 +134,22 @@ const browserWindowInstanceMethods = [
 ];
 
 contextBridge.exposeInMainWorld('spectron', {
-  electronRequire: require,
+  process: {
+    getProperties: () => ipcRenderer.invoke('spectron.process.getProperties'),
+    getFunctionNames: () => ipcRenderer.invoke('spectron.process.getFunctionNames'),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.process.invoke', funcName, ...args),
+  },
   app: {
-    getFunctionNames: () => ipcRenderer.invoke('spectron.getAppFunctionNames'),
-    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeApp', funcName, ...args),
+    getFunctionNames: () => ipcRenderer.invoke('spectron.app.getFunctionNames'),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.app.invoke', funcName, ...args),
   },
   browserWindow: {
-    // using a ridiculous hardcoded array of func names until spectron.getCurrentWindowFunctionNames can return what we need
+    // using a ridiculous hardcoded array of func names until spectron.browserWindow.getFunctionNames can return what we need
     getFunctionNames: async () => browserWindowInstanceMethods,
-    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeCurrentWindow', funcName, ...args),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.browserWindow.invoke', funcName, ...args),
   },
   webContents: {
-    getFunctionNames: () => ipcRenderer.invoke('spectron.getCurrentWebContentsFunctionNames'),
-    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.invokeCurrentWebContents', funcName, ...args),
+    getFunctionNames: () => ipcRenderer.invoke('spectron.webContents.getFunctionNames'),
+    invoke: (funcName, ...args) => ipcRenderer.invoke('spectron.webContents.invoke', funcName, ...args),
   },
 });
