@@ -20,10 +20,18 @@
       "env": {
         "node": true
       },
-      "rules": {},
+      "rules": {
+        "no-unused-vars": "off",
+        "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }]
+      },
       "parserOptions": {
         "ecmaVersion": 2020,
         "sourceType": "module"
+      },
+      "settings": {
+        "node": {
+          "tryExtensions": [".js", ".json", ".node", ".ts"]
+        }
       }
     }
   ]
