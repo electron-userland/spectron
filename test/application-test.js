@@ -57,14 +57,10 @@ describe('application loading', function () {
   });
 
   it('passes through env to the launched app', async function () {
-    const env = await app.rendererProcess.env();
-    if (process.platform === 'win32') {
-      assert.strictEqual(env.foo, 'BAR');
-      assert.strictEqual(env.hello, 'WORLD');
-    } else {
-      assert.strictEqual(env.FOO, 'BAR');
-      assert.strictEqual(env.HELLO, 'WORLD');
-    }
+    const foo = await app.rendererProcess.env(process.platform === 'win32' ? 'foo' : 'FOO');
+    const hello = await app.rendererProcess.env(process.platform === 'win32' ? 'hello' : 'HELLO');
+    assert.strictEqual(foo, 'BAR');
+    assert.strictEqual(hello, 'WORLD');
   });
 
   it('passes through cwd to the launched app', async function () {
