@@ -4,6 +4,10 @@
 
 /// <reference types="node" />
 
+declare namespace NodeJS {
+  interface Process extends NodeJS.EventEmitter {}
+}
+
 declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
   import * as WebdriverIO from 'webdriverio';
@@ -52,9 +56,9 @@ declare module '@goosewobbler/spectron' {
 
   export interface SpectronElectronApp extends Electron.App {}
 
-  export interface SpectronMainProcess extends Electron.Main {}
+  export interface SpectronMainProcess extends NodeJS.Process {}
 
-  export interface SpectronRendererProcess extends Electron.Renderer {}
+  export interface SpectronRendererProcess extends NodeJS.Process {}
 
   type BasicAppSettings = {
     /**
