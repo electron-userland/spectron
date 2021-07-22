@@ -1,0 +1,18 @@
+{
+  "private": "true",
+  "name": "@goosewobbler/spectron-unit",
+  "version": "1.0.0",
+  "scripts": {
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:watch-coverage": "jest --watch --coverage",
+    "test": "pnpm run test:coverage"
+  },
+  "devDependencies": {
+    "@goosewobbler/spectron": "*",
+    "@testing-library/dom": "^8.1.0",
+    "@types/jest": "^26.0.24",
+    "ts-jest": "^27.0.4",
+    "jest": "^27.0.6"
+  }
+}

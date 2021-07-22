@@ -1,3 +1,6 @@
 node_modules
+test/e2e/dist
+coverage
 target
 *.log
+.DS_Store

@@ -3,8 +3,9 @@ test
 appveyor.yml
 .npmignore
 script
-npm-debug.log
+*.log
 lib/api.json
 lib/launcher.go
+coverage
 .node-version
 .npmrc

@@ -4,7 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const WebDriver = require('webdriverio');
 const ChromeDriver = require('./chrome-driver');
-const { createApi, transferPromiseness } = require('./api');
+const { createApi } = require('./api');
 
 function Application(options = {}) {
   this.host = options.host || '127.0.0.1';
@@ -28,7 +28,6 @@ function Application(options = {}) {
   this.chromeDriverLogPath = options.chromeDriverLogPath;
   this.webdriverLogPath = options.webdriverLogPath;
   this.webdriverOptions = options.webdriverOptions || {};
-  this.transferPromiseness = (target, promise) => transferPromiseness(target, promise);
 }
 
 Application.prototype.start = function start() {

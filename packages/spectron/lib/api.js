@@ -83,17 +83,4 @@ module.exports = {
 
     return apiObj;
   },
-  transferPromiseness: (target, promise) => {
-    function addProperties(source, moduleName) {
-      const sourceModule = source[moduleName];
-      if (!sourceModule) {
-        return;
-      }
-      target[moduleName] = transformObject(sourceModule, {}, (value, parent) => value.bind(parent));
-    }
-
-    apis.forEach((apiName) => {
-      addProperties(promise, apiName);
-    });
-  },
 };

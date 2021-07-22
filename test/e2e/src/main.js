@@ -2,11 +2,12 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
-require('../../../main');
+require('@goosewobbler/spectron/main');
 
+const appPath = app.getAppPath();
+
+const appRootPath = `${appPath}/dist`;
 let mainWindow = null;
-
-// app.allowRendererProcessReuse = true;
 
 app.on('ready', () => {
   console.log('main log');
@@ -22,17 +23,18 @@ app.on('ready', () => {
     width: 200,
     height: 100,
     webPreferences: {
-      preload: path.resolve(__dirname, '../../../preload.js'),
+      preload: `${appRootPath}/preload.js`,
       enableRemoteModule: false,
       nodeIntegration: true,
       contextIsolation: true,
     },
   });
 
-  mainWindow.loadFile('index.html');
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+  mainWindow.loadFile(`${appRootPath}/index.html`);
+  mainWindow.webContents.openDevTools();
 });
 
 app.on('will-quit', () => {

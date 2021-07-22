@@ -1,62 +1,24 @@
 {
-  "name": "@goosewobbler/spectron",
-  "version": "16.1.0",
-  "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
-  "main": "index.js",
-  "types": "./lib/spectron.d.ts",
-  "bin": "./lib/launcher",
-  "scripts": {
-    "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
-    "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
-    "prepare": "check-for-leaks",
-    "prepush": "check-for-leaks",
-    "pretest": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
-    "test": "xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha && npm run lint",
-    "postinstall": "node lib/rpath-fix.js"
-  },
-  "engines": {
-    "node": ">=12.20.0"
-  },
-  "repository": "https://github.com/goosewobbler/spectron",
-  "keywords": [
-    "electron",
-    "chromedriver",
-    "webdriverio",
-    "selenium"
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "test/*"
   ],
+  "description": "Make sure all your stores are on the same page",
   "author": "Sam Maister",
-  "license": "MIT",
-  "dependencies": {
-    "dev-null": "^0.1.1",
-    "electron": "^13.1.7",
-    "electron-chromedriver": "^13.0.0",
-    "fs-extra": "^10.0.0",
-    "got": "^11.8.2",
-    "split": "^1.0.1",
-    "webdriverio": "^6.12.1"
-  },
+  "repository": "https://github.com/goosewobbler/spectron",
+  "bugs": "https://github.com/goosewobbler/spectron/issues",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "chai": "^4.3.4",
-    "chai-as-promised": "^7.1.1",
-    "chai-roughly": "^1.0.0",
-    "check-for-leaks": "^1.2.1",
     "eslint": "^7.31.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "husky": "^7.0.1",
-    "mocha": "^9.0.2",
     "prettier": "^2.3.2",
-    "temp": "^0.9.4",
-    "typescript": "^4.3.5",
-    "xvfb-maybe": "^0.2.1"
+    "typescript": "^4.3.5"
   },
-  "resolutions": {
-    "@types/node": "^12.0.0"
+  "scripts": {
+    "build": "pnpm run -r build",
+    "lint": "pnpm run -r lint",
+    "clean": "pnpm run -r clean",
+    "format": "prettier --ignore-path .gitignore --write .",
+    "smoke-test": "pnpm run --filter @goosewobbler/spectron-e2e test",
+    "test": "pnpm run --filter @goosewobbler/spectron-unit test"
   }
 }

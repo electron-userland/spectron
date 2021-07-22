@@ -12,7 +12,7 @@ declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
   import * as WebdriverIO from 'webdriverio';
 
-  export interface SpectronClient extends WebdriverIO.Browser {
+  export interface SpectronClient extends WebdriverIO.BrowserObject {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.

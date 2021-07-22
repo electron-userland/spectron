@@ -1,0 +1,35 @@
+{
+  "private": "true",
+  "name": "@goosewobbler/spectron-e2e",
+  "version": "1.0.0",
+  "main": "./dist/main.js",
+  "scripts": {
+    "build": "pnpm run clean && mkdir -p ./dist && webpack && cp ./src/index.html ./dist && electron-builder",
+    "clean": "rm -rf ./dist",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:watch-coverage": "jest --watch --coverage",
+    "test": "pnpm run test:coverage"
+  },
+  "devDependencies": {
+    "@goosewobbler/spectron": "*",
+    "@testing-library/dom": "^8.1.0",
+    "@testing-library/webdriverio": "^3.0.2",
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "@types/jest": "^26.0.24",
+    "ts-jest": "^27.0.4",
+    "jest": "^27.0.6",
+    "webpack": "^5.46.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "build": {
+    "asar": true,
+    "appId": "com.test.demo",
+    "copyright": "goosewobbler",
+    "productName": "test",
+    "files": [
+      "./dist/*"
+    ]
+  }
+}
