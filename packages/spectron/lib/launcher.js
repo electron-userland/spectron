@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/* eslint node/shebang: off */
 const ChildProcess = require('child_process');
 
 let executablePath = null;
