@@ -50,6 +50,24 @@ describe('application loading', function () {
     await app.client.getTitle().should.eventually.equal('Test');
   });
 
+  it('passes through args to the launched app', async function () {
+    const arvg = app.mainProcess.argv();
+    await arvg.should.eventually.contain('--foo');
+    await arvg.should.eventually.contain('--bar=baz');
+  });
+
+  it('passes through env to the launched app', async function () {
+    const foo = await app.rendererProcess.env(process.platform === 'win32' ? 'foo' : 'FOO');
+    const hello = await app.rendererProcess.env(process.platform === 'win32' ? 'hello' : 'HELLO');
+    assert.strictEqual(foo, 'BAR');
+    assert.strictEqual(hello, 'WORLD');
+  });
+
+  it('passes through cwd to the launched app', async function () {
+    const cwd = app.mainProcess.cwd();
+    await cwd.should.eventually.equal(path.join(__dirname, 'fixtures'));
+  });
+
   it('throws an error when no path is specified', function () {
     return new Application().start().should.be.rejectedWith(Error, 'Application path must be a string');
   });
@@ -149,57 +167,6 @@ describe('application loading', function () {
     it('clears the logs when the application is stopped', async function () {
       await app.stop();
       expect(app.chromeDriver.getLogs().length).to.equal(0);
-    });
-  });
-
-  describe('browserWindow.capturePage', function () {
-    it('returns a Buffer screenshot of the given rectangle', async function () {
-      const buffer = await app.browserWindow.capturePage({
-        x: 0,
-        y: 0,
-        width: 10,
-        height: 10,
-      });
-      expect(buffer).to.be.an.instanceof(Buffer);
-      expect(buffer.length).to.be.above(0);
-    });
-
-    it('returns a Buffer screenshot of the entire page when no rectangle is specified', async function () {
-      const buffer = await app.browserWindow.capturePage();
-      expect(buffer).to.be.an.instanceof(Buffer);
-      expect(buffer.length).to.be.above(0);
-    });
-  });
-
-  describe('webContents.savePage', function () {
-    it('saves the page to the specified path', function () {
-      const filePath = path.join(tempPath, 'page.html');
-      return app.webContents.savePage(filePath, 'HTMLComplete').then(function () {
-        const html = fs.readFileSync(filePath, 'utf8');
-        expect(html).to.contain('<title>Test</title>');
-        expect(html).to.contain('Hello');
-      });
-    });
-
-    it('throws an error when the specified path is invalid', async function () {
-      await expect(app.webContents.savePage(tempPath, 'MHTML')).to.be.rejectedWith(Error);
-    });
-  });
-
-  describe('webContents.executeJavaScript', function () {
-    it('executes the given script and returns the result of its last statement (sync)', async function () {
-      const result = await app.webContents.executeJavaScript('1 + 2');
-      expect(result).to.equal(3);
-    });
-
-    it('executes the given script and returns the result of its last statement (async)', async function () {
-      const result = await app.webContents.executeJavaScript(`
-        new Promise(function(resolve){
-          setTimeout(function(){
-            resolve("ok")
-          }, 1000)
-        })`);
-      expect(result).to.equal('ok');
     });
   });
 

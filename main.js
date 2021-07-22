@@ -1,38 +1,74 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 
-// Don't know why this only returns setBounds. Object.getPrototypeOf(window) returns a few more methods but not anywhere near the full amount
-ipcMain.handle('spectron.getCurrentWindowFunctionNames', async (event) => {
+ipcMain.handle('spectron.browserWindow.getApiKeys', async (event) => {
   const window = await BrowserWindow.fromWebContents(event.sender);
-  // const windowProto = Object.getPrototypeOf(window);
-  return Object.keys(window).filter((propName) => typeof window[propName] === 'function' && propName[0] !== '_');
-});
+  const keys = [];
 
-ipcMain.handle('spectron.invokeCurrentWindow', async (event, funcName, ...args) => {
-  const window = BrowserWindow.fromWebContents(event.sender);
-  if (funcName === 'capturePage') {
-    const image = await window.capturePage(...args);
-    if (image != null) {
-      return image.toPNG().toString('base64');
-    }
-    return null;
+  /* eslint-disable no-restricted-syntax,guard-for-in */
+  for (const key in window) {
+    keys.push(key);
   }
-  return window[funcName](...args);
+  /* eslint-enable no-restricted-syntax,guard-for-in */
+  return keys.filter((propName) => propName[0] !== '_');
 });
 
-ipcMain.handle('spectron.getCurrentWebContentsFunctionNames', (event) => {
+ipcMain.handle('spectron.browserWindow.invoke', async (event, funcName, ...args) => {
+  const browserWindow = BrowserWindow.fromWebContents(event.sender);
+  if (typeof browserWindow[funcName] === 'function') {
+    return browserWindow[funcName](...args);
+  }
+  return browserWindow[funcName];
+});
+
+ipcMain.handle('spectron.webContents.getApiKeys', async (event) => {
   const { webContents } = BrowserWindow.fromWebContents(event.sender);
-  return Object.keys(webContents).filter(
-    (propName) => typeof webContents[propName] === 'function' && propName[0] !== '_',
-  );
+  const keys = [];
+  /* eslint-disable no-restricted-syntax,guard-for-in */
+  for (const key in webContents) {
+    keys.push(key);
+  }
+  /* eslint-enable no-restricted-syntax,guard-for-in */
+  return keys.filter((propName) => propName[0] !== '_');
 });
 
-ipcMain.handle('spectron.invokeCurrentWebContents', (event, funcName, ...args) => {
+ipcMain.handle('spectron.webContents.invoke', async (event, funcName, ...args) => {
   const { webContents } = BrowserWindow.fromWebContents(event.sender);
-  return webContents[funcName](...args);
+  if (typeof webContents[funcName] === 'function') {
+    return webContents[funcName](...args);
+  }
+  return webContents[funcName];
 });
 
-ipcMain.handle('spectron.getAppFunctionNames', () =>
-  Object.keys(app).filter((propName) => typeof app[propName] === 'function' && propName[0] !== '_'),
-);
+ipcMain.handle('spectron.app.getApiKeys', async () => {
+  const keys = [];
+  /* eslint-disable no-restricted-syntax,guard-for-in */
+  for (const key in app) {
+    keys.push(key);
+  }
+  /* eslint-enable no-restricted-syntax,guard-for-in */
+  return keys.filter((propName) => propName[0] !== '_');
+});
 
-ipcMain.handle('spectron.invokeApp', (event, funcName, ...args) => app[funcName](...args));
+ipcMain.handle('spectron.app.invoke', async (event, funcName, ...args) => {
+  if (typeof app[funcName] === 'function') {
+    return app[funcName](...args);
+  }
+  return app[funcName];
+});
+
+ipcMain.handle('spectron.mainProcess.getApiKeys', async () => {
+  const keys = [];
+  /* eslint-disable no-restricted-syntax,guard-for-in */
+  for (const key in process) {
+    keys.push(key);
+  }
+  /* eslint-enable no-restricted-syntax,guard-for-in */
+  return keys.filter((propName) => propName[0] !== '_');
+});
+
+ipcMain.handle('spectron.mainProcess.invoke', async (event, funcName, ...args) => {
+  if (typeof process[funcName] === 'function') {
+    return process[funcName](...args);
+  }
+  return process[funcName];
+});
