@@ -1,7 +1,5 @@
 /* global window */
 
-const apis = ['browserWindow', 'webContents', 'app', 'mainProcess', 'rendererProcess'];
-
 function transformObject(input, output, callback) {
   Object.keys(input).forEach((name) => {
     const value = input[name];
@@ -14,7 +12,7 @@ function transformObject(input, output, callback) {
   return output;
 }
 
-async function loadApi(webDriverClient) {
+async function loadApi(webDriverClient, apis) {
   return webDriverClient.executeAsync(async (apiNames, done) => {
     const api = {};
 
@@ -69,8 +67,8 @@ function addClientProperty(name, api, webDriverClient) {
 }
 
 module.exports = {
-  createApi: async (webDriverClient) => {
-    const placeholders = await loadApi(webDriverClient);
+  createApi: async (webDriverClient, apis) => {
+    const placeholders = await loadApi(webDriverClient, apis);
     const apiObj = {};
 
     apis.forEach((apiName) => {

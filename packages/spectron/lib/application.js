@@ -39,7 +39,13 @@ Application.prototype.start = function start() {
       self.client = await self.createClient();
     })
     .then(async () => {
-      const apis = await createApi(self.client);
+      const apis = await createApi(self.client, [
+        'browserWindow',
+        'webContents',
+        'app',
+        'mainProcess',
+        'rendererProcess',
+      ]);
       Object.keys(apis).forEach((apiName) => {
         self[apiName] = apis[apiName];
       });
