@@ -33,6 +33,7 @@
     ],
     "linux": {
       "executableName": "test",
+      "category": "Utility",
       "target": [
         "AppImage"
       ]
