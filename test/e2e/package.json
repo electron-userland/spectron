@@ -30,6 +30,9 @@
     "productName": "test",
     "files": [
       "./dist/*"
-    ]
+    ],
+    "linux": {
+      "executableName": "test"
+    }
   }
 }
