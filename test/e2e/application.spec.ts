@@ -6,9 +6,9 @@ import { Application } from '@goosewobbler/spectron';
 describe('application loading', function () {
   const app = new Application({
     path: path.join(process.cwd(), 'dist/mac/test.app/Contents/MacOS/test'),
+    chromeDriverLogPath: path.join(process.cwd(), 'chromeDriver.log'),
   });
 
-  // @ts-ignore
   let screen: WebdriverIOBoundFunctions<typeof queries>;
 
   describe('App', () => {
