@@ -67,6 +67,7 @@ importers:
       '@testing-library/dom': ^8.1.0
       '@testing-library/webdriverio': ^3.0.2
       '@types/jest': ^26.0.24
+      cross-env: ^7.0.3
       electron: ^13.1.7
       electron-builder: ^22.11.7
       jest: ^27.0.6
@@ -78,10 +79,11 @@ importers:
       '@testing-library/dom': 8.1.0
       '@testing-library/webdriverio': 3.0.2
       '@types/jest': 26.0.24
+      cross-env: 7.0.3
       electron: 13.1.7
       electron-builder: 22.11.7
       jest: 27.0.6
-      ts-jest: 27.0.4_52cc4273aa16028085013af47e479e10
+      ts-jest: 27.0.4_@types+jest@26.0.24+jest@27.0.6
       webpack: 5.46.0_webpack-cli@4.7.2
       webpack-cli: 4.7.2_webpack@5.46.0
 
@@ -2172,6 +2174,14 @@ packages:
       crc-32: 1.2.0
       readable-stream: 3.6.0
     dev: false
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -5782,6 +5792,38 @@ packages:
       mkdirp: 1.0.4
       semver: 7.3.5
       typescript: 4.3.5
+      yargs-parser: 20.2.9
+    dev: true
+
+  /ts-jest/27.0.4_@types+jest@26.0.24+jest@27.0.6:
+    resolution: {integrity: sha512-c4E1ECy9Xz2WGfTMyHbSaArlIva7Wi2p43QOMmCqjSSjHP06KXv+aT+eSY+yZMuqsMi3k7pyGsGj2q5oSl5WfQ==}
+    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    hasBin: true
+    peerDependencies:
+      '@babel/core': '>=7.0.0-beta.0 <8'
+      '@types/jest': ^26.0.0
+      babel-jest: '>=27.0.0 <28'
+      jest: ^27.0.0
+      typescript: '>=3.8 <5.0'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@types/jest':
+        optional: true
+      babel-jest:
+        optional: true
+    dependencies:
+      '@types/jest': 26.0.24
+      bs-logger: 0.2.6
+      buffer-from: 1.1.1
+      fast-json-stable-stringify: 2.1.0
+      jest: 27.0.6
+      jest-util: 27.0.6
+      json5: 2.2.0
+      lodash: 4.17.21
+      make-error: 1.3.6
+      mkdirp: 1.0.4
+      semver: 7.3.5
       yargs-parser: 20.2.9
     dev: true
 
