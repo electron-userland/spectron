@@ -5,7 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "build": "pnpm run clean && webpack && cp ./src/index.html ./dist && electron-builder",
-    "clean": "cross-env rm -rf ./dist && mkdir -p ./dist",
+    "clean": "cross-env rm -rf ./dist && cross-env mkdir -p ./dist",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
