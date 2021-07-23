@@ -4,13 +4,13 @@ import { queries } from '@testing-library/dom';
 import { Application } from '@goosewobbler/spectron';
 
 function getAppPath(distPath: string, appName: string) {
-  enum supportedPlatform {
+  enum SupportedPlatform {
     darwin = 'darwin',
     linux = 'linux',
     win32 = 'win32',
   }
-  const supportedPlatforms = ['darwin', 'linux', 'win32'];
-  if (!supportedPlatforms.includes(process.platform)) {
+
+  if (!Object.values(SupportedPlatform).includes(process.platform as SupportedPlatform)) {
     throw new Error('unsupported platform');
   }
   const pathMap = {
@@ -19,7 +19,7 @@ function getAppPath(distPath: string, appName: string) {
     win32: `win-unpacked/${appName}.exe`,
   };
 
-  return `${distPath}/${pathMap[process.platform as supportedPlatform]}`;
+  return `${distPath}/${pathMap[process.platform as SupportedPlatform]}`;
 }
 
 describe('application loading', () => {
