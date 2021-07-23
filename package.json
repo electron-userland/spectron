@@ -14,6 +14,7 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
+    "init": "npm install -g pnpm && pnpm i",
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm run -r build",
     "lint": "pnpm run -r lint",
