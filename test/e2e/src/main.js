@@ -25,7 +25,7 @@ app.on('ready', () => {
     webPreferences: {
       preload: `${appRootPath}/preload.js`,
       enableRemoteModule: false,
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
     },
   });
@@ -34,7 +34,10 @@ app.on('ready', () => {
     mainWindow = null;
   });
   mainWindow.loadFile(`${appRootPath}/index.html`);
-  mainWindow.webContents.openDevTools();
+
+  mainWindow.on('ready-to-show', () => {
+    // mainWindow.webContents.openDevTools();
+  });
 });
 
 app.on('will-quit', () => {
