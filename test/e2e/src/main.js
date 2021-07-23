@@ -18,8 +18,8 @@ app.on('ready', () => {
   global.ipcEventCount = 0;
 
   mainWindow = new BrowserWindow({
-    x: 25,
-    y: 35,
+    x: 250,
+    y: 350,
     width: 200,
     height: 100,
     webPreferences: {

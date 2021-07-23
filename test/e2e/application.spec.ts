@@ -51,8 +51,8 @@ describe('application loading', () => {
 
       const bounds = await app.browserWindow.getBounds();
       expect(bounds).toEqual({
-        x: 25,
-        y: 35,
+        x: 250,
+        y: 350,
         width: 200,
         height: 100,
       });
