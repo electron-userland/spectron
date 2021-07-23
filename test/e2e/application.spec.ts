@@ -16,7 +16,7 @@ function getAppPath(distPath: string, appName: string) {
   const pathMap = {
     darwin: `mac/${appName}.app/Contents/MacOS/${appName}`,
     linux: `linux-unpacked/${appName}`,
-    win32: `mac/${appName}.app/Contents/MacOS/${appName}`,
+    win32: `win-unpacked/${appName}.exe`,
   };
 
   return `${distPath}/${pathMap[process.platform as supportedPlatform]}`;
