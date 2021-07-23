@@ -8,11 +8,7 @@
     "build": "",
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
-    "pretest": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run test:coverage && pnpm run lint",
+    "test": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
