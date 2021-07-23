@@ -50,12 +50,8 @@ describe('application loading', () => {
       expect(response.length).toEqual(1);
 
       const bounds = await app.browserWindow.getBounds();
-      expect(bounds).toEqual({
-        x: 250,
-        y: 350,
-        width: 200,
-        height: 100,
-      });
+      expect(bounds.width).toEqual(200);
+      expect(bounds.height).toEqual(300);
       await app.client.waitUntilTextExists('html', 'Hello');
       const title = await app.client.getTitle();
       expect(title).toEqual('Test');

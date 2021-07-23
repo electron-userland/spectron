@@ -18,10 +18,10 @@ app.on('ready', () => {
   global.ipcEventCount = 0;
 
   mainWindow = new BrowserWindow({
-    x: 250,
-    y: 350,
+    x: 25,
+    y: 35,
     width: 200,
-    height: 100,
+    height: 300,
     webPreferences: {
       preload: `${appRootPath}/preload.js`,
       enableRemoteModule: false,
