@@ -32,7 +32,10 @@
       "./dist/*"
     ],
     "linux": {
-      "executableName": "test"
+      "executableName": "test",
+      "target": [
+        "AppImage"
+      ]
     }
   }
 }
