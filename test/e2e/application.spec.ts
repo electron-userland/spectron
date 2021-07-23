@@ -9,6 +9,7 @@ describe('application loading', function () {
     chromeDriverLogPath: path.join(process.cwd(), 'chromeDriver.log'),
   });
 
+  //@ts-ignore
   let screen: WebdriverIOBoundFunctions<typeof queries>;
 
   describe('App', () => {
