@@ -1,17 +1,17 @@
 /// <reference path="./api.d.ts" />
 /* global window */
 
-function transformObject(input, output, callback) {
-  Object.keys(input).forEach((name) => {
-    const value = input[name];
-    if (typeof value === 'object') {
-      output[name] = transformObject(value, {}, callback);
-    } else {
-      output[name] = callback(value, input);
-    }
-  });
-  return output;
-}
+// function transformObject(input, output, callback) {
+//   Object.keys(input).forEach((name) => {
+//     const value = input[name];
+//     if (typeof value === 'object') {
+//       output[name] = transformObject(value, {}, callback);
+//     } else {
+//       output[name] = callback(value, input);
+//     }
+//   });
+//   return output;
+// }
 
 async function loadApi(webDriverClient, apis) {
   return webDriverClient.executeAsync(async (apiNames, done) => {
@@ -60,12 +60,12 @@ function addApis(webdriverClient, nameSpace, placeholders) {
   return apiObj;
 }
 
-function addClientProperty(name, api, webDriverClient) {
-  const clientPrototype = Object.getPrototypeOf(webDriverClient);
-  Object.defineProperty(clientPrototype, name, {
-    get: () => transformObject(api[name], {}, (value) => value.bind(webDriverClient)),
-  });
-}
+// function addClientProperty(name, api, webDriverClient) {
+//   const clientPrototype = Object.getPrototypeOf(webDriverClient);
+//   Object.defineProperty(clientPrototype, name, {
+//     get: () => transformObject(api[name], {}, (value) => value.bind(webDriverClient)),
+//   });
+// }
 
 module.exports = {
   /**
@@ -81,9 +81,9 @@ module.exports = {
       apiObj[apiName] = addApis(webDriverClient, apiName, placeholders);
     });
 
-    apis.forEach((apiName) => {
-      addClientProperty(apiName, apiObj, webDriverClient);
-    });
+    // apis.forEach((apiName) => {
+    //   addClientProperty(apiName, apiObj, webDriverClient);
+    // });
 
     return apiObj;
   },
