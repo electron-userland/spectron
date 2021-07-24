@@ -1,5 +1,5 @@
 import { anyFunction, mock, MockProxy } from 'jest-mock-extended';
-import { createApi, SpectronClient } from '@goosewobbler/spectron/lib/api';
+import { createApi, SpectronClient, SpectronWindowObj } from '@goosewobbler/spectron/lib/api';
 
 let mockWebDriverClient: MockProxy<SpectronClient>;
 let mockApiPlaceholders: {};
@@ -27,20 +27,20 @@ beforeEach(() => {
     mockWebDriverClient[commandName] = (...args: unknown[]) => func.bind(mockWebDriverClient)(...args);
   });
   mockWebDriverClient.executeAsync.mockImplementation(() => Promise.resolve(mockApiPlaceholders));
-  // window.spectron = {
-  //   mockApi1: {
-  //     getApiKeys: jest.fn(),
-  //     invoke: jest.fn(),
-  //   },
-  //   mockApi2: {
-  //     getApiKeys: jest.fn(),
-  //     invoke: jest.fn(),
-  //   },
-  //   mockApi3: {
-  //     getApiKeys: jest.fn(),
-  //     invoke: jest.fn(),
-  //   },
-  // };
+  window.spectron = {
+    mockApi1: {
+      getApiKeys: jest.fn(),
+      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['mockApi1 invoke called with', args])),
+    },
+    mockApi2: {
+      getApiKeys: jest.fn(),
+      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['mockApi2 invoke called with', args])),
+    },
+    mockApi3: {
+      getApiKeys: jest.fn(),
+      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['mockApi3 invoke called with', args])),
+    },
+  };
 });
 
 it('should return the expected interface', async () => {
@@ -80,17 +80,45 @@ it('should add the expected client commands', async () => {
 });
 
 describe('calling API functions', () => {
-  beforeEach(() => {});
-
-  it('should call executeAsync with the expected params', async () => {
+  beforeEach(async () => {
     const api = await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
     api.mockApi1.mockFn1('test');
     api.mockApi3.mockFn2('moar test');
     api.mockApi2.mockFn3('yet moar test');
+  });
+
+  it('should call executeAsync with the expected params', () => {
     expect(mockWebDriverClient.executeAsync.mock.calls.slice(1)).toEqual([
       [anyFunction(), 'mockFn1', 'mockApi1', ['test']],
       [anyFunction(), 'mockFn2', 'mockApi3', ['moar test']],
       [anyFunction(), 'mockFn3', 'mockApi2', ['yet moar test']],
     ]);
+  });
+
+  it('should resolve without a result when window.spectron is not defined', async () => {
+    const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(1).map((call) => call[0]);
+    const resultCallback1 = jest.fn();
+    window.spectron = undefined;
+    (funcsToExec[0] as Function)('mockFn1', 'mockApi1', ['test'], resultCallback1);
+    expect(resultCallback1).toHaveBeenCalled();
+    expect(resultCallback1.mock.calls).toEqual([[]]);
+  });
+
+  it('should resolve with a result when window.spectron is defined', async () => {
+    const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(1).map((call) => call[0]);
+    const resultCallback1 = jest.fn();
+    await (funcsToExec[0] as Function)('mockFn1', 'mockApi1', ['test'], resultCallback1);
+    expect((window.spectron as SpectronWindowObj).mockApi1.invoke).toHaveBeenCalledWith('mockFn1', 'test');
+    expect(resultCallback1.mock.calls[0]).toEqual([['mockApi1 invoke called with', ['mockFn1', 'test']]]);
+
+    const resultCallback2 = jest.fn();
+    await (funcsToExec[0] as Function)('mockFn2', 'mockApi3', ['moar test'], resultCallback2);
+    expect((window.spectron as SpectronWindowObj).mockApi3.invoke).toHaveBeenCalledWith('mockFn2', 'moar test');
+    expect(resultCallback2.mock.calls[0]).toEqual([['mockApi3 invoke called with', ['mockFn2', 'moar test']]]);
+
+    const resultCallback3 = jest.fn();
+    await (funcsToExec[0] as Function)('mockFn3', 'mockApi2', ['yet moar test'], resultCallback3);
+    expect((window.spectron as SpectronWindowObj).mockApi2.invoke).toHaveBeenCalledWith('mockFn3', 'yet moar test');
+    expect(resultCallback3.mock.calls[0]).toEqual([['mockApi2 invoke called with', ['mockFn3', 'yet moar test']]]);
   });
 });
