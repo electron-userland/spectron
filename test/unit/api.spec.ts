@@ -23,7 +23,24 @@ beforeEach(() => {
     },
   };
   mockWebDriverClient = mock<SpectronClient>();
-  mockWebDriverClient.executeAsync.mockImplementationOnce(() => Promise.resolve(mockApiPlaceholders));
+  mockWebDriverClient.addCommand.mockImplementation((commandName, func) => {
+    mockWebDriverClient[commandName] = (...args: unknown[]) => func.bind(mockWebDriverClient)(...args);
+  });
+  mockWebDriverClient.executeAsync.mockImplementation(() => Promise.resolve(mockApiPlaceholders));
+  // window.spectron = {
+  //   mockApi1: {
+  //     getApiKeys: jest.fn(),
+  //     invoke: jest.fn(),
+  //   },
+  //   mockApi2: {
+  //     getApiKeys: jest.fn(),
+  //     invoke: jest.fn(),
+  //   },
+  //   mockApi3: {
+  //     getApiKeys: jest.fn(),
+  //     invoke: jest.fn(),
+  //   },
+  // };
 });
 
 it('should return the expected interface', async () => {
@@ -60,4 +77,20 @@ it('should add the expected client commands', async () => {
     ['spectron.mockApi3.mockFn2', anyFunction()],
     ['spectron.mockApi3.mockFn3', anyFunction()],
   ]);
+});
+
+describe('calling API functions', () => {
+  beforeEach(() => {});
+
+  it('should call executeAsync with the expected params', async () => {
+    const api = await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
+    api.mockApi1.mockFn1('test');
+    api.mockApi3.mockFn2('moar test');
+    api.mockApi2.mockFn3('yet moar test');
+    expect(mockWebDriverClient.executeAsync.mock.calls.slice(1)).toEqual([
+      [anyFunction(), 'mockFn1', 'mockApi1', ['test']],
+      [anyFunction(), 'mockFn2', 'mockApi3', ['moar test']],
+      [anyFunction(), 'mockFn3', 'mockApi2', ['yet moar test']],
+    ]);
+  });
 });
