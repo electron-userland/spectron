@@ -93,13 +93,15 @@ importers:
       '@testing-library/dom': ^8.1.0
       '@types/jest': ^26.0.24
       jest: ^27.0.6
+      jest-mock-extended: ^1.0.18
       ts-jest: ^27.0.4
     devDependencies:
       '@goosewobbler/spectron': link:../../packages/spectron
       '@testing-library/dom': 8.1.0
       '@types/jest': 26.0.24
       jest: 27.0.6
-      ts-jest: 27.0.4_52cc4273aa16028085013af47e479e10
+      jest-mock-extended: 1.0.18_jest@27.0.6
+      ts-jest: 27.0.4_@types+jest@26.0.24+jest@27.0.6
 
 packages:
 
@@ -3978,6 +3980,16 @@ packages:
       stack-utils: 2.0.3
     dev: true
 
+  /jest-mock-extended/1.0.18_jest@27.0.6:
+    resolution: {integrity: sha512-qf1n7lIa2dTxxPIBr+FlXrbj3hnV1sG9DPZsrr2H/8W+Jw0wt6OmeOQsPcjRuW8EXIECC9pDXsSIfEdn+HP7JQ==}
+    peerDependencies:
+      jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0
+      typescript: ^3.0.0 || ^4.0.0
+    dependencies:
+      jest: 27.0.6
+      ts-essentials: 7.0.2
+    dev: true
+
   /jest-mock/27.0.6:
     resolution: {integrity: sha512-lzBETUoK8cSxts2NYXSBWT+EJNzmUVtVVwS1sU9GwE1DLCfGsngg+ZVSIe0yd0ZSm+y791esiuo+WSwpXJQ5Bw==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -5760,6 +5772,12 @@ packages:
     resolution: {integrity: sha1-QFkjkJWS1W94pYGENLC3hInKXys=}
     dependencies:
       utf8-byte-length: 1.0.4
+    dev: true
+
+  /ts-essentials/7.0.2:
+    resolution: {integrity: sha512-qWPVC1xZGdefbsgFP7tPo+bsgSA2ZIXL1XeEe5M2WoMZxIOr/HbsHxP/Iv75IFhiMHMDGL7cOOwi5SXcgx9mHw==}
+    peerDependencies:
+      typescript: '>=3.7.0'
     dev: true
 
   /ts-jest/27.0.4_52cc4273aa16028085013af47e479e10:
