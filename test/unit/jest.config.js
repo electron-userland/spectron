@@ -7,7 +7,7 @@ module.exports = {
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   collectCoverage: true,
-  collectCoverageFrom: ['../../packages/spectron/lib/*.js'],
+  collectCoverageFrom: ['<rootDir>/../../packages/spectron/lib/*.js'],
   coverageThreshold: {
     global: {
       branches: 100,
