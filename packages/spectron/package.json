@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
   "scripts": {
-    "build": "",
+    "build": "tsc -p './tsconfig.json'",
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
     "test": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
