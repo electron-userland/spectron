@@ -1,6 +1,26 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "importsNotUsedAsValues": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "newLine": "lf",
+    "noEmitOnError": true,
+    "lib": ["DOM", "ES2020"],
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true
+  },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }
