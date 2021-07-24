@@ -59,14 +59,16 @@ export type ApiObj = {
 
 export function createApi(webDriverClient: WebDriverClient, apiNames: ApiNames): Promise<ApiObj>;
 
+export type SpectronWindowObj = {
+  [Key: string]: {
+    getApiKeys: () => Promise<string[]>;
+    invoke: (funcName: string, ...args: any) => Promise<unknown>;
+  };
+};
+
 declare global {
   interface Window {
-    spectron: {
-      [Key: string]: {
-        getApiKeys: () => Promise<string[]>;
-        invoke: (funcName: string, ...args: any) => Promise<unknown>;
-      };
-    };
+    spectron?: SpectronWindowObj;
   }
 }
 
