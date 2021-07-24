@@ -63,7 +63,4 @@ declare global {
   }
 }
 
-declare module '@goosewobbler/spectron/api' {
-  //   // const api: API;
-  //   // export = api;
-}
+declare module '@goosewobbler/spectron/api' {}
