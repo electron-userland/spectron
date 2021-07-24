@@ -6,7 +6,8 @@ module.exports = {
     '^.+\\.ts': 'ts-jest',
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  collectCoverageFrom: ['../../../packages/spectron/lib/**/*'],
+  collectCoverage: true,
+  collectCoverageFrom: ['../../../packages/spectron/lib/*.js'],
   coverageThreshold: {
     global: {
       branches: 100,
