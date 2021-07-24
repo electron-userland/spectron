@@ -1,6 +1,7 @@
 import * as WebdriverIO from 'webdriverio';
 
 export interface SpectronClient extends WebdriverIO.BrowserObject {
+  [key: string]: any;
   /**
    * Wait until the window is no longer loading.
    * Takes an optional timeout in milliseconds that defaults to 5000.
@@ -50,7 +51,13 @@ export type ApiPlaceholdersObj =
     }
   | {};
 
-export function createApi(webDriverClient: WebDriverClient, apiNames: ApiNames): Promise<ApiPlaceholdersObj>;
+export type ApiObj = {
+  [Key: string]: {
+    [Key: string]: (unknown) => Promise<unknown>;
+  };
+};
+
+export function createApi(webDriverClient: WebDriverClient, apiNames: ApiNames): Promise<ApiObj>;
 
 declare global {
   interface Window {
