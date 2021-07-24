@@ -1,3 +1,4 @@
+/// <reference path="./api.d.ts" />
 /* global window */
 
 function transformObject(input, output, callback) {
@@ -67,6 +68,11 @@ function addClientProperty(name, api, webDriverClient) {
 }
 
 module.exports = {
+  /**
+   * @param {import("./api").WebDriverClient} webDriverClient
+   * @param {import("./api").ApiNames} apis
+   * @returns {Promise<import("./api").ApiPlaceholdersObj>}
+   */
   createApi: async (webDriverClient, apis) => {
     const placeholders = await loadApi(webDriverClient, apis);
     const apiObj = {};
