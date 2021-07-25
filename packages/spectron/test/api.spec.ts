@@ -102,14 +102,14 @@ describe('calling API functions', () => {
     ]);
   });
 
-  it('should throw an error when window.spectron is not defined', async () => {
+  it('should throw an error when ç', async () => {
     window.spectron = undefined;
     await expect(mockWebDriverRunExecuteAsync('mockFn1', 'mockApi1', ['test'])).rejects.toThrowError(
       'ContextBridge not available for invocation of mockApi1.mockFn1',
     );
   });
 
-  it('should resolve with a result when window.spectron is defined', async () => {
+  it('should resolve with the expected result when the Context Bridge is available', async () => {
     const resultCallback1 = await mockWebDriverRunExecuteAsync('mockFn1', 'mockApi1', ['test']);
     expect((window.spectron as SpectronWindowObj).mockApi1.invoke).toHaveBeenCalledWith('mockFn1', 'test');
     expect(resultCallback1.mock.calls[0]).toEqual([['mockApi1 invoke called with', ['mockFn1', 'test']]]);
