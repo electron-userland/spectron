@@ -24,12 +24,14 @@ async function loadApi(webDriverClient, apis) {
       });
     }
 
-    if (window.spectron !== undefined) {
-      apiNames.forEach(async (apiName) => {
-        api[apiName] = {};
-        await addPlaceholders(apiName);
-      });
+    if (window.spectron === undefined) {
+      throw new Error('ContextBridge not available for retrieval of api keys');
     }
+
+    apiNames.forEach(async (apiName) => {
+      api[apiName] = {};
+      await addPlaceholders(apiName);
+    });
 
     done(api);
   }, apis);
