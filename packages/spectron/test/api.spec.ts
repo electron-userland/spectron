@@ -1,5 +1,5 @@
 import { anyFunction, mock, MockProxy } from 'jest-mock-extended';
-import { createApi, SpectronClient, SpectronWindowObj } from '@goosewobbler/spectron/lib/api';
+import { createApi, SpectronClient, SpectronWindowObj } from '../lib/api';
 
 let mockWebDriverClient: MockProxy<SpectronClient>;
 let mockApiPlaceholders: {};

@@ -9,6 +9,7 @@
   "repository": "https://github.com/goosewobbler/spectron",
   "bugs": "https://github.com/goosewobbler/spectron/issues",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.31.0",
     "prettier": "^2.3.2",
     "typescript": "^4.3.5"

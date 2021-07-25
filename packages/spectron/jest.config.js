@@ -6,7 +6,8 @@ module.exports = {
     '^.+\\.ts': 'ts-jest',
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
-  collectCoverageFrom: ['../../../packages/spectron/lib/**/*'],
+  collectCoverage: true,
+  collectCoverageFrom: ['<rootDir>/lib/*.js'],
   coverageThreshold: {
     global: {
       branches: 100,
@@ -16,9 +17,8 @@ module.exports = {
     },
   },
   clearMocks: true,
-  testPathIgnorePatterns: ['.node_modules_production'],
   modulePathIgnorePatterns: ['.node_modules_production'],
-  testMatch: ['**/test/e2e/*.spec.ts'],
+  testMatch: ['<rootDir>/test/*.spec.ts'],
   testURL: 'https://github.com/goosewobbler/',
   testEnvironment: 'jsdom',
   globals: {
