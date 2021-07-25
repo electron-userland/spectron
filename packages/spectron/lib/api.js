@@ -40,7 +40,7 @@ function addApis(webdriverClient, nameSpace, placeholders) {
 
   async function callApi(funcName, bridgePropName, args, done) {
     if (window.spectron === undefined) {
-      done();
+      throw new Error(`ContextBridge not available for invocation of ${bridgePropName}.${funcName}`);
     }
     done(await window.spectron[bridgePropName].invoke(funcName, ...args));
   }
