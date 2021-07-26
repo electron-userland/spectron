@@ -44,7 +44,7 @@ beforeEach(() => {
 });
 
 async function mockWebDriverRunExecuteAsync(callIndex: number, ...args: unknown[]) {
-  const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(callIndex).map((call: string[]) => call[0]);
+  const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(callIndex).map((call: Function[]) => call[0]);
   const resultCallback = jest.fn();
   await (funcsToExec[0] as Function)(...args, resultCallback);
   return resultCallback;
