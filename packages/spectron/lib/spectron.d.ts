@@ -5,17 +5,18 @@
 /// <reference types="node" />
 
 declare namespace WebdriverIO {
-  interface Browser {
-    browserCustomCommand: (arg: any) => Promise<void>;
-  }
+  interface BrowserObject {}
+  //   interface Browser {
+  //     browserCustomCommand: (arg: any) => Promise<void>;
+  //   }
 
-  interface MultiRemoteBrowser {
-    browserCustomCommand: (arg: any) => Promise<void>;
-  }
+  //   // interface MultiRemoteBrowser {
+  //   //   browserCustomCommand: (arg: any) => Promise<void>;
+  //   // }
 
-  interface Element {
-    elementCustomCommand: (arg: any) => Promise<number>;
-  }
+  //   // interface Element {
+  //   //   elementCustomCommand: (arg: any) => Promise<number>;
+  //   // }
 }
 declare namespace NodeJS {
   interface Process extends NodeJS.EventEmitter {}
@@ -24,11 +25,7 @@ declare namespace NodeJS {
 declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
 
-  export interface SpectronClient extends WebdriverIO.Browser {
-    $(): Promise<WebdriverIO.Element>;
-
-    addCommand(): Promise<void>;
-
+  export interface SpectronClient extends WebdriverIO.BrowserObject {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
