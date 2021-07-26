@@ -10,7 +10,7 @@
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run build && pnpm run test:coverage && cat ./chromeDriver.log"
+    "test": "pnpm run build && pnpm run test:coverage ; cat ./chromeDriver.log"
   },
   "devDependencies": {
     "@goosewobbler/spectron": "*",
