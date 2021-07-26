@@ -5,7 +5,7 @@
 /// <reference types="node" />
 
 declare namespace WebdriverIO {
-  interface BrowserObject {}
+  interface Browser {}
   //   interface Browser {
   //     browserCustomCommand: (arg: any) => Promise<void>;
   //   }
@@ -25,7 +25,7 @@ declare namespace NodeJS {
 declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
 
-  export interface SpectronClient extends WebdriverIO.BrowserObject {
+  export interface SpectronClient extends WebdriverIO.Browser {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
