@@ -25,7 +25,7 @@ declare module '@goosewobbler/spectron' {
   import * as Electron from 'electron';
 
   export interface SpectronClient extends WebdriverIO.Browser {
-    $(): Promise<void>;
+    $(): Promise<WebdriverIO.Element>;
 
     addCommand(): Promise<void>;
 
