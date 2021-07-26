@@ -27,6 +27,7 @@ ChromeDriver.prototype.start = function start() {
     '--headless',
     '--no-sandbox',
     '--disable-dev-shm-usage',
+    '--remote-debugging-port=9222',
   ];
 
   if (this.chromeDriverLogPath) {
