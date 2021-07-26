@@ -159,7 +159,6 @@ Application.prototype.createClient = async function createClient() {
   args.push('headless');
   args.push('no-sandbox');
   args.push('disable-dev-shm-usage');
-  args.push('remote-debugging-port=9222');
   // }
 
   const options = {
@@ -174,6 +173,7 @@ Application.prototype.createClient = async function createClient() {
         binary: launcherPath,
         args,
         debuggerAddress: self.debuggerAddress,
+        windowTypes: ['app', 'webview'],
       },
     },
     logOutput: DevNull(),
@@ -190,7 +190,8 @@ Application.prototype.createClient = async function createClient() {
     const remote = await WebDriver.remote(options);
     return remote;
   } catch (error) {
-    throw new Error(`Webdriver error: ${error.message}`);
+    const data = fs.readFile(path.join(process.cwd(), 'chromeDriver.log'), 'utf8');
+    throw new Error(`Webdriver error: ${error.message} ${data}`);
   }
 };
 
