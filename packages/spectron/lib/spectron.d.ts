@@ -5,7 +5,7 @@
 /// <reference types="node" />
 
 declare namespace WebdriverIO {
-  interface Browser {
+  interface BrowserBase {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
@@ -176,7 +176,7 @@ declare module '@goosewobbler/spectron' {
      * http://webdriver.io/api.html
      * Several additional commands are provided specific to Electron.
      */
-    client: WebdriverIO.Browser;
+    client: WebdriverIO.BrowserBase;
 
     /**
      * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
