@@ -23,8 +23,8 @@ beforeEach(() => {
     },
   };
   mockWebDriverClient = mock<SpectronClient>();
-  mockWebDriverClient.addCommand.mockImplementation((commandName, func) => {
-    mockWebDriverClient[commandName] = (...args: unknown[]) => func.bind(mockWebDriverClient)(...args);
+  mockWebDriverClient.addCommand.mockImplementation((commandName: string, func: unknown) => {
+    mockWebDriverClient[commandName] = (...args: unknown[]) => (func as Function).bind(mockWebDriverClient)(...args);
   });
   mockWebDriverClient.executeAsync.mockImplementation(() => Promise.resolve(mockApiPlaceholders));
   window.spectron = {
@@ -44,7 +44,7 @@ beforeEach(() => {
 });
 
 async function mockWebDriverRunExecuteAsync(callIndex: number, ...args: unknown[]) {
-  const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(callIndex).map((call) => call[0]);
+  const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(callIndex).map((call: string[]) => call[0]);
   const resultCallback = jest.fn();
   await (funcsToExec[0] as Function)(...args, resultCallback);
   return resultCallback;
