@@ -155,11 +155,11 @@ Application.prototype.createClient = async function createClient() {
   const isWin = process.platform === 'win32';
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
-  if (process.env.CI) {
-    args.push('headless');
-    args.push('no-sandbox');
-    args.push('disable-dev-shm-usage');
-  }
+  // if (process.env.CI) {
+  args.push('headless');
+  args.push('no-sandbox');
+  args.push('disable-dev-shm-usage');
+  // }
 
   const options = {
     hostname: self.host,
@@ -173,7 +173,6 @@ Application.prototype.createClient = async function createClient() {
         binary: launcherPath,
         args,
         debuggerAddress: self.debuggerAddress,
-        windowTypes: ['app', 'webview'],
       },
     },
     logOutput: DevNull(),

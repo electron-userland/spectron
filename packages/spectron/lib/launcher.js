@@ -26,6 +26,10 @@ process.argv.slice(2).forEach((arg) => {
   }
 });
 
+chromeArgs.push('--headless');
+chromeArgs.push('--no-sandbox');
+chromeArgs.push('--disable-dev-shm-usage');
+
 const args = appArgs.concat(chromeArgs);
 const appProcess = ChildProcess.spawn(executablePath, args);
 appProcess.on('exit', (code) => {
