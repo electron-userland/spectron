@@ -7,17 +7,6 @@
 declare namespace WebdriverIO {
   interface BrowserObject {}
   interface Element {}
-  // interface Browser {
-  //   browserCustomCommand: (arg: any) => Promise<void>;
-  // }
-
-  // interface MultiRemoteBrowser {
-  //   browserCustomCommand: (arg: any) => Promise<void>;
-  // }
-
-  // interface Element {
-  //   elementCustomCommand: (arg: any) => Promise<number>;
-  // }
 }
 declare namespace NodeJS {
   interface Process extends NodeJS.EventEmitter {}
