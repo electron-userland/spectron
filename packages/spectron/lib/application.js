@@ -156,10 +156,10 @@ Application.prototype.createClient = async function createClient() {
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
   // if (process.env.CI) {
-  args.push('--headless');
-  args.push('--no-sandbox');
-  args.push('--disable-dev-shm-usage');
-  args.push('--remote-debugging-port=9222');
+  args.push('headless');
+  args.push('no-sandbox');
+  args.push('disable-dev-shm-usage');
+  args.push('remote-debugging-port=9222');
   // }
 
   const options = {
