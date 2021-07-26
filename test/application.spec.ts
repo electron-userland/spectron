@@ -1,4 +1,4 @@
-import path from 'path';
+import { join } from 'path';
 import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
 import { queries } from '@testing-library/dom';
 import { Application } from '@goosewobbler/spectron';
@@ -23,10 +23,10 @@ function getAppPath(distPath: string, appName: string) {
 }
 
 describe('application loading', () => {
-  const appPath = getAppPath(path.join(process.cwd(), 'dist'), 'test');
+  const appPath = getAppPath(join(process.cwd(), 'dist'), 'test');
   const app = new Application({
     path: appPath,
-    chromeDriverLogPath: path.join(process.cwd(), 'chromeDriver.log'),
+    chromeDriverLogPath: join(process.cwd(), 'chromeDriver.log'),
     webdriverLogPath: process.cwd(),
   });
 

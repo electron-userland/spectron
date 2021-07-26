@@ -23,8 +23,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.json',
-      packageJson: 'package.json',
+      tsConfig: '<rootDir>/tsconfig.json',
+      packageJson: '<rootDir>/package.json',
     },
   },
 };
