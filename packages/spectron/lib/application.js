@@ -159,6 +159,8 @@ Application.prototype.createClient = async function createClient() {
   args.push('--headless');
   args.push('--no-sandbox');
   args.push('--disable-dev-shm-usage');
+  args.push('blink-settings=imagesEnabled=false');
+  args.push('--disable-gpu');
   // }
 
   const options = {
