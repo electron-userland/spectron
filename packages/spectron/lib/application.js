@@ -155,8 +155,10 @@ Application.prototype.createClient = async function createClient() {
   const isWin = process.platform === 'win32';
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
-  if (process.env.APPVEYOR) {
+  if (process.env.CI) {
+    args.push('headless');
     args.push('no-sandbox');
+    args.push('disable-dev-shm-usage');
   }
 
   const options = {
