@@ -156,9 +156,9 @@ Application.prototype.createClient = async function createClient() {
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
   // if (process.env.CI) {
-  args.push('headless');
-  args.push('no-sandbox');
-  args.push('disable-dev-shm-usage');
+  args.push('--headless');
+  args.push('--no-sandbox');
+  args.push('--disable-dev-shm-usage');
   // }
 
   const options = {
@@ -191,7 +191,8 @@ Application.prototype.createClient = async function createClient() {
     return remote;
   } catch (error) {
     const data = fs.readFile(path.join(process.cwd(), 'chromeDriver.log'), 'utf8');
-    throw new Error(`Webdriver error: ${error.message} ${data}`);
+    console.log(data);
+    throw new Error(`Webdriver error yo: ${error.message} ${data}`);
   }
 };
 
