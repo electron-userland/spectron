@@ -6,6 +6,7 @@
 
 declare namespace WebdriverIO {
   interface BrowserObject {}
+  interface Element {}
   // interface Browser {
   //   browserCustomCommand: (arg: any) => Promise<void>;
   // }
