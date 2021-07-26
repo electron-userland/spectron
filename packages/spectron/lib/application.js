@@ -161,6 +161,8 @@ Application.prototype.createClient = async function createClient() {
   args.push('--disable-dev-shm-usage');
   args.push('blink-settings=imagesEnabled=false');
   args.push('--disable-gpu');
+  args.push('--remote-debugging-port=9223');
+  // --enable-ui-devtools
   // }
 
   const options = {
