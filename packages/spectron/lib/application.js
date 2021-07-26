@@ -197,7 +197,7 @@ Application.prototype.createClient = async function createClient() {
   } catch (error) {
     const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
     console.log(cdLog);
-    const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/webDriver.log', 'utf8');
+    const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
     console.log(wdLog);
     throw new Error(`Webdriver error: ${error.message}`);
   }
