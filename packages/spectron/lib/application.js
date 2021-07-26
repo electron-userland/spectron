@@ -159,7 +159,6 @@ Application.prototype.createClient = async function createClient() {
   args.push('--headless');
   args.push('--no-sandbox');
   args.push('--disable-dev-shm-usage');
-  args.push('--remote-debugging-port=9515');
   // }
 
   const options = {
