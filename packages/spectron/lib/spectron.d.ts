@@ -5,7 +5,27 @@
 /// <reference types="node" />
 
 declare namespace WebdriverIO {
-  interface BrowserBase {
+  interface BrowserObject {}
+  // interface Browser {
+  //   browserCustomCommand: (arg: any) => Promise<void>;
+  // }
+
+  // interface MultiRemoteBrowser {
+  //   browserCustomCommand: (arg: any) => Promise<void>;
+  // }
+
+  // interface Element {
+  //   elementCustomCommand: (arg: any) => Promise<number>;
+  // }
+}
+declare namespace NodeJS {
+  interface Process extends NodeJS.EventEmitter {}
+}
+
+declare module '@goosewobbler/spectron' {
+  import * as Electron from 'electron';
+
+  export interface SpectronClient extends WebdriverIO.BrowserObject {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
@@ -42,24 +62,6 @@ declare namespace WebdriverIO {
      */
     getMainProcessLogs(): Promise<string[]>;
   }
-  //   interface Browser {
-  //     browserCustomCommand: (arg: any) => Promise<void>;
-  //   }
-
-  //   // interface MultiRemoteBrowser {
-  //   //   browserCustomCommand: (arg: any) => Promise<void>;
-  //   // }
-
-  //   // interface Element {
-  //   //   elementCustomCommand: (arg: any) => Promise<number>;
-  //   // }
-}
-declare namespace NodeJS {
-  interface Process extends NodeJS.EventEmitter {}
-}
-
-declare module '@goosewobbler/spectron' {
-  import * as Electron from 'electron';
 
   export interface SpectronWindow extends Electron.BrowserWindow {}
 
@@ -176,7 +178,7 @@ declare module '@goosewobbler/spectron' {
      * http://webdriver.io/api.html
      * Several additional commands are provided specific to Electron.
      */
-    client: WebdriverIO.BrowserBase;
+    client: SpectronClient;
 
     /**
      * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
