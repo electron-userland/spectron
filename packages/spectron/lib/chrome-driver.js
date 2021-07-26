@@ -20,7 +20,12 @@ function ChromeDriver(host, port, nodePath, startTimeout, workingDirectory, chro
 ChromeDriver.prototype.start = function start() {
   if (this.process) throw new Error('ChromeDriver already started');
 
-  const args = [this.path, `--port=${this.port}`, `--url-base=${this.urlBase}`, '--remote-debugging-port=9222'];
+  const args = [
+    this.path,
+    `--port=${this.port}`,
+    `--url-base=${this.urlBase}`,
+    '--headless --no-sandbox --disable-dev-shm-usage',
+  ];
 
   if (this.chromeDriverLogPath) {
     args.push('--verbose');
