@@ -162,7 +162,7 @@ Application.prototype.createClient = async function createClient() {
   args.push('blink-settings=imagesEnabled=false');
   args.push('--disable-gpu');
   args.push('--remote-debugging-port=9223');
-  // --enable-ui-devtools
+  args.push('--enable-ui-devtools');
   // }
 
   const options = {
