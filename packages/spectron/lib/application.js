@@ -190,7 +190,7 @@ Application.prototype.createClient = async function createClient() {
     const remote = await WebDriver.remote(options);
     return remote;
   } catch (error) {
-    const data = fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
+    const data = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
     console.log(data);
     throw new Error(`Webdriver error yo: ${error.message} ${data}`);
   }
