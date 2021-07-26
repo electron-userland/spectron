@@ -155,11 +155,16 @@ Application.prototype.createClient = async function createClient() {
   const isWin = process.platform === 'win32';
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
-  // if (process.env.CI) {
-  args.push('headless');
-  args.push('no-sandbox');
-  args.push('disable-dev-shm-usage');
-  // }
+  if (process.env.CI) {
+    args.push('--headless');
+    args.push('--no-sandbox');
+    args.push('--disable-dev-shm-usage');
+    args.push('blink-settings=imagesEnabled=false');
+    args.push('--disable-gpu');
+    // args.push('--remote-debugging-port=9222');
+    args.push('disable-infobars');
+    args.push('--disable-extensions');
+  }
 
   const options = {
     hostname: self.host,
@@ -173,6 +178,7 @@ Application.prototype.createClient = async function createClient() {
         binary: launcherPath,
         args,
         debuggerAddress: self.debuggerAddress,
+        windowTypes: ['app', 'webview'],
       },
     },
     logOutput: DevNull(),
@@ -189,6 +195,10 @@ Application.prototype.createClient = async function createClient() {
     const remote = await WebDriver.remote(options);
     return remote;
   } catch (error) {
+    const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
+    console.log(cdLog);
+    const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
+    console.log(wdLog);
     throw new Error(`Webdriver error: ${error.message}`);
   }
 };

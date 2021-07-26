@@ -27,6 +27,7 @@ describe('application loading', () => {
   const app = new Application({
     path: appPath,
     chromeDriverLogPath: path.join(process.cwd(), 'chromeDriver.log'),
+    webdriverLogPath: process.cwd(),
   });
 
   //@ts-ignore
