@@ -2,7 +2,7 @@
 const DevNull = require('dev-null');
 const fs = require('fs-extra');
 const path = require('path');
-const WebDriver = require('webdriverio');
+const { remote } = require('webdriverio');
 const ChromeDriver = require('./chrome-driver');
 const { createApi } = require('./api');
 
@@ -145,6 +145,9 @@ Application.prototype.startChromeDriver = function startChromeDriver() {
   return this.chromeDriver.start();
 };
 
+/**
+ * @returns Promise<SpectronClient> webDriverClient
+ */
 Application.prototype.createClient = async function createClient() {
   const self = this;
   const args = [`spectron-path=${self.path}`]
@@ -156,14 +159,14 @@ Application.prototype.createClient = async function createClient() {
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
   if (process.env.CI) {
-    args.push('--headless');
-    args.push('--no-sandbox');
-    args.push('--disable-dev-shm-usage');
+    args.unshift('no-sandbox');
+    args.push('headless');
+    args.push('disable-dev-shm-usage');
     args.push('blink-settings=imagesEnabled=false');
-    args.push('--disable-gpu');
+    args.push('disable-gpu');
     // args.push('--remote-debugging-port=9222');
     args.push('disable-infobars');
-    args.push('--disable-extensions');
+    args.push('disable-extensions');
   }
 
   const options = {
@@ -174,6 +177,7 @@ Application.prototype.createClient = async function createClient() {
     connectionRetryTimeout: self.connectionRetryTimeout,
     logLevel: 'error',
     capabilities: {
+      'browserName': 'chrome',
       'goog:chromeOptions': {
         binary: launcherPath,
         args,
@@ -192,8 +196,7 @@ Application.prototype.createClient = async function createClient() {
   Object.assign(options, self.webdriverOptions);
 
   try {
-    const remote = await WebDriver.remote(options);
-    return remote;
+    return await remote(options);
   } catch (error) {
     const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
     console.log(cdLog);
