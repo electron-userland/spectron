@@ -33,7 +33,7 @@
     "electron": "^13.1.7",
     "electron-chromedriver": "^13.0.0",
     "fs-extra": "^10.0.0",
-    "got": "^11.8.2",
+    "got": "11.5.1",
     "split": "^1.0.1",
     "webdriverio": "^7.8.0"
   },
