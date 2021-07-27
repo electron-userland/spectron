@@ -47,6 +47,16 @@ const appProcess = ChildProcess.spawn(executablePath, args);
 appProcess.on('exit', (code) => {
   throw new Error(`exit: ${code}`);
 });
-appProcess.stderr.pipe(process.stdout);
-appProcess.stdout.pipe(process.stdout);
-appProcess.stdin.pipe(process.stdin);
+// appProcess.stderr.pipe(process.stdout);
+// appProcess.stdout.pipe(process.stdout);
+// appProcess.stdin.pipe(process.stdin);
+
+if (appProcess.stderr) {
+  appProcess.stderr.pipe(process.stdout);
+}
+if (appProcess.stdin) {
+  process.stdin.pipe(appProcess.stdin);
+}
+if (appProcess.stdout) {
+  appProcess.stdout.pipe(process.stdout);
+}
