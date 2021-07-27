@@ -46,6 +46,9 @@ if (process.env.CI) {
 
 const args = appArgs.concat(chromeArgs);
 const appProcess = ChildProcess.spawn(executablePath, args);
+appProcess.on('error', (error) => {
+  console.log(error.message);
+});
 appProcess.on('exit', (code) => {
   throw new Error(`exit: ${code}`);
 });
