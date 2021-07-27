@@ -28,6 +28,7 @@ describe('application loading', () => {
     path: appPath,
     chromeDriverLogPath: join(process.cwd(), 'chromeDriver.log'),
     webdriverLogPath: process.cwd(),
+    quitTimeout: 0,
   });
 
   //@ts-ignore
