@@ -18,7 +18,9 @@ function ChromeDriver(host, port, nodePath, startTimeout, workingDirectory, chro
 }
 
 ChromeDriver.prototype.start = function start() {
-  if (this.process) throw new Error('ChromeDriver already started');
+  if (this.process) {
+    throw new Error('ChromeDriver already started');
+  }
 
   const args = [this.path, `--port=${this.port}`, `--url-base=${this.urlBase}`];
 
@@ -91,11 +93,15 @@ ChromeDriver.prototype.getEnvironment = function getEnvironment() {
 };
 
 ChromeDriver.prototype.stop = function stop() {
-  if (this.exitHandler) global.process.removeListener('exit', this.exitHandler);
-  this.exitHandler = null;
+  if (this.exitHandler) {
+    global.process.removeListener('exit', this.exitHandler);
+    this.exitHandler = null;
+  }
 
-  if (this.process) this.process.kill();
-  this.process = null;
+  if (this.process) {
+    this.process.kill();
+    this.process = null;
+  }
 
   this.clearLogs();
 };

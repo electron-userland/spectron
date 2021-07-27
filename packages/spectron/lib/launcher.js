@@ -27,14 +27,16 @@ process.argv.slice(2).forEach((arg) => {
 });
 
 if (process.env.CI) {
-  chromeArgs.unshift('no-sandbox');
-  chromeArgs.push('headless');
-  chromeArgs.push('disable-dev-shm-usage');
+  chromeArgs.unshift('--no-sandbox');
+  chromeArgs.push('--headless');
+  chromeArgs.push('--single-process');
+  chromeArgs.push('--window-size=1024,768');
+  chromeArgs.push('--disable-dev-shm-usage');
   chromeArgs.push('blink-settings=imagesEnabled=false');
-  chromeArgs.push('disable-gpu');
+  chromeArgs.push('--disable-gpu');
   // args.push('--remote-debugging-port=9222');
-  chromeArgs.push('disable-infobars');
-  chromeArgs.push('disable-extensions');
+  chromeArgs.push('--disable-infobars');
+  chromeArgs.push('--disable-extensions');
 }
 
 // chromeArgs.push('--headless');
@@ -44,9 +46,22 @@ if (process.env.CI) {
 
 const args = appArgs.concat(chromeArgs);
 const appProcess = ChildProcess.spawn(executablePath, args);
-appProcess.on('exit', (code) => {
-  throw new Error(`exit: ${code}`);
+appProcess.on('error', (error) => {
+  console.log(error.message);
 });
-appProcess.stderr.pipe(process.stdout);
-appProcess.stdout.pipe(process.stdout);
-appProcess.stdin.pipe(process.stdin);
+// appProcess.on('exit', (code) => {
+//   throw new Error(`exit: ${code}`);
+// });
+// appProcess.stderr.pipe(process.stdout);
+// appProcess.stdout.pipe(process.stdout);
+// appProcess.stdin.pipe(process.stdin);
+
+if (appProcess.stderr) {
+  appProcess.stderr.pipe(process.stdout);
+}
+if (appProcess.stdin) {
+  process.stdin.pipe(appProcess.stdin);
+}
+if (appProcess.stdout) {
+  appProcess.stdout.pipe(process.stdout);
+}

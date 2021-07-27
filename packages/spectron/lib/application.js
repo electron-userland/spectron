@@ -71,9 +71,10 @@ Application.prototype.stop = async function stop() {
   }
 
   await delay(this.quitTimeout);
-  await this.electronApp.quit();
-
   this.chromeDriver.stop();
+  // await this.electronApp.quit();
+  await this.mainProcess.abort();
+
   this.running = false;
 
   return this;
@@ -161,6 +162,8 @@ Application.prototype.createClient = async function createClient() {
   if (process.env.CI) {
     args.unshift('no-sandbox');
     args.push('headless');
+    args.push('single-process');
+    args.push('window-size=1024,768');
     args.push('disable-dev-shm-usage');
     args.push('blink-settings=imagesEnabled=false');
     args.push('disable-gpu');

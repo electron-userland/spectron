@@ -28,6 +28,7 @@ describe('application loading', () => {
     path: appPath,
     chromeDriverLogPath: join(process.cwd(), 'chromeDriver.log'),
     webdriverLogPath: process.cwd(),
+    quitTimeout: 0,
   });
 
   //@ts-ignore
@@ -41,10 +42,11 @@ describe('application loading', () => {
     }, 30000);
 
     afterEach(async () => {
-      if (app && app.isRunning()) {
-        await app.stop();
+      if (app) {
+        await app.mainProcess.abort();
+        // await app.stop();
       }
-    }, 30000);
+    });
 
     it('launches the application', async () => {
       const response = await app.client.getWindowHandles();
