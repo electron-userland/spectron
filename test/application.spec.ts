@@ -42,9 +42,9 @@ describe('application loading', () => {
     }, 30000);
 
     afterEach(async () => {
-      if (app && app.isRunning()) {
-        app.mainProcess.abort();
-        await app.stop();
+      if (app) {
+        await app.mainProcess.abort();
+        // await app.stop();
       }
     });
 

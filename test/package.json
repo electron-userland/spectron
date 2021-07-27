@@ -7,7 +7,7 @@
     "build": "pnpm run clean:dist && webpack && cp ./src/index.html ./dist && electron-builder",
     "clean": "cross-env rm -rf ./node_modules && pnpm run clean:dist",
     "clean:dist": "cross-env rm -rf ./dist && cross-env mkdir -p ./dist",
-    "test:coverage": "strace -f jest --coverage",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
     "test": "pnpm run build && pnpm run test:coverage"
