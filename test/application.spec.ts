@@ -43,6 +43,7 @@ describe('application loading', () => {
 
     afterEach(async () => {
       if (app && app.isRunning()) {
+        app.mainProcess.abort();
         await app.stop();
       }
     }, 30000);
