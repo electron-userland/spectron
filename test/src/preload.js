@@ -1,0 +1,1 @@
+require('@goosewobbler/spectron/preload');
