@@ -1,10 +1,22 @@
 #!/usr/bin/env node
 /* eslint node/shebang: off */
 const ChildProcess = require('child_process');
+const { promisify } = require('util');
 
 let executablePath = null;
 const appArgs = [];
 const chromeArgs = [];
+
+const execAsync = promisify(ChildProcess.exec);
+
+(async () => {
+  const pids = await execAsync(`pstree ${process.pid} | sed 's/[^0-9]*\\([0-9]*\\).*/\\1/' | grep -v "${process.pid}"`);
+
+  // Join the pids into one line separated by space
+  const pidsString = pids.stdout.replace(/[\r\n]+/g, ' ');
+
+  await execAsync(`kill -9 ${pidsString} || true`);
+})();
 
 process.argv.slice(2).forEach((arg) => {
   const indexOfEqualSign = arg.indexOf('=');
