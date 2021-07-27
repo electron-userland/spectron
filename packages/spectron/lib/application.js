@@ -161,6 +161,7 @@ Application.prototype.createClient = async function createClient() {
   if (process.env.CI) {
     args.unshift('no-sandbox');
     args.push('headless');
+    args.push('single-process');
     args.push('disable-dev-shm-usage');
     args.push('blink-settings=imagesEnabled=false');
     args.push('disable-gpu');
