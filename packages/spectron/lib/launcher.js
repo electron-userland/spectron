@@ -49,9 +49,9 @@ const appProcess = ChildProcess.spawn(executablePath, args);
 appProcess.on('error', (error) => {
   console.log(error.message);
 });
-appProcess.on('exit', (code) => {
-  throw new Error(`exit: ${code}`);
-});
+// appProcess.on('exit', (code) => {
+//   throw new Error(`exit: ${code}`);
+// });
 // appProcess.stderr.pipe(process.stdout);
 // appProcess.stdout.pipe(process.stdout);
 // appProcess.stdin.pipe(process.stdin);
