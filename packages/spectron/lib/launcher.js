@@ -27,14 +27,16 @@ process.argv.slice(2).forEach((arg) => {
 });
 
 if (process.env.CI) {
-  chromeArgs.unshift('no-sandbox');
-  chromeArgs.push('headless');
-  chromeArgs.push('disable-dev-shm-usage');
+  chromeArgs.unshift('--no-sandbox');
+  chromeArgs.push('--headless');
+  chromeArgs.push('--single-process');
+  chromeArgs.push('--window-size=1024,768');
+  chromeArgs.push('--disable-dev-shm-usage');
   chromeArgs.push('blink-settings=imagesEnabled=false');
-  chromeArgs.push('disable-gpu');
+  chromeArgs.push('--disable-gpu');
   // args.push('--remote-debugging-port=9222');
-  chromeArgs.push('disable-infobars');
-  chromeArgs.push('disable-extensions');
+  chromeArgs.push('--disable-infobars');
+  chromeArgs.push('--disable-extensions');
 }
 
 // chromeArgs.push('--headless');
