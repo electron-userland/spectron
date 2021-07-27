@@ -159,8 +159,8 @@ Application.prototype.createClient = async function createClient() {
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
   if (process.env.CI) {
+    args.unshift('no-sandbox');
     args.push('headless');
-    args.push('no-sandbox');
     args.push('disable-dev-shm-usage');
     args.push('blink-settings=imagesEnabled=false');
     args.push('disable-gpu');
