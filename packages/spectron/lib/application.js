@@ -212,10 +212,10 @@ Application.prototype.createClient = async function createClient() {
     return await remote(options);
   } catch (error) {
     if (process.env.CI) {
-      const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
-      console.log(cdLog);
-      const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
-      console.log(wdLog);
+      // const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
+      // console.log(cdLog);
+      // const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
+      // console.log(wdLog);
     }
 
     throw new Error(`Webdriver error: ${error.message}`);
