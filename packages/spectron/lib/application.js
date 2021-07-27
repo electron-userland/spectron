@@ -162,6 +162,7 @@ Application.prototype.createClient = async function createClient() {
     args.unshift('no-sandbox');
     args.push('headless');
     args.push('single-process');
+    args.push('window-size=1024,768');
     args.push('disable-dev-shm-usage');
     args.push('blink-settings=imagesEnabled=false');
     args.push('disable-gpu');
