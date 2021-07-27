@@ -43,10 +43,10 @@ describe('application loading', () => {
 
     afterEach(async () => {
       if (app) {
-        await app.mainProcess.abort();
-        // await app.stop();
+        // await app.mainProcess.abort();
+        await app.stop();
       }
-    });
+    }, 30000);
 
     it('launches the application', async () => {
       const response = await app.client.getWindowHandles();
