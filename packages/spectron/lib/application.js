@@ -3,12 +3,18 @@ const DevNull = require('dev-null');
 const fs = require('fs-extra');
 const path = require('path');
 const { remote } = require('webdriverio');
-const ChromeDriver = require('./chrome-driver');
+const { initChromeDriver } = require('./chrome-driver');
 const { createApi } = require('./api');
 
 function Application(options = {}) {
   this.host = options.host || '127.0.0.1';
-  this.port = parseInt(options.port, 10) || 9515;
+  this.port = parseInt(options.port, 10) || 9519;
+
+  this.chromeDriver = undefined;
+  this.electronApp = undefined;
+  this.client = undefined;
+  this.mainProcess = undefined;
+  this.webContents = undefined;
 
   this.quitTimeout = parseInt(options.quitTimeout, 10) || 1000;
   this.startTimeout = parseInt(options.startTimeout, 10) || 5000;
@@ -34,7 +40,17 @@ Application.prototype.start = function start() {
   const self = this;
   return self
     .exists()
-    .then(() => self.startChromeDriver())
+    .then(async () => {
+      self.chromeDriver = initChromeDriver(
+        self.host,
+        self.port,
+        self.nodePath,
+        self.startTimeout,
+        self.workingDirectory,
+        self.chromeDriverLogPath,
+      );
+      return self.chromeDriver.start();
+    })
     .then(async () => {
       self.client = await self.createClient();
     })
@@ -70,10 +86,16 @@ Application.prototype.stop = async function stop() {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  await delay(this.quitTimeout);
-  this.chromeDriver.stop();
   // await this.electronApp.quit();
-  await this.mainProcess.abort();
+  if (this.mainProcess) {
+    await this.mainProcess.abort();
+  }
+
+  await delay(this.quitTimeout);
+
+  if (this.chromeDriver) {
+    this.chromeDriver.stop();
+  }
 
   this.running = false;
 
@@ -134,18 +156,6 @@ Application.prototype.exists = async function exists() {
   }
 };
 
-Application.prototype.startChromeDriver = function startChromeDriver() {
-  this.chromeDriver = new ChromeDriver(
-    this.host,
-    this.port,
-    this.nodePath,
-    this.startTimeout,
-    this.workingDirectory,
-    this.chromeDriverLogPath,
-  );
-  return this.chromeDriver.start();
-};
-
 /**
  * @returns Promise<SpectronClient> webDriverClient
  */
@@ -201,10 +211,13 @@ Application.prototype.createClient = async function createClient() {
   try {
     return await remote(options);
   } catch (error) {
-    const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
-    console.log(cdLog);
-    const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
-    console.log(wdLog);
+    if (process.env.CI) {
+      const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
+      console.log(cdLog);
+      const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
+      console.log(wdLog);
+    }
+
     throw new Error(`Webdriver error: ${error.message}`);
   }
 };
