@@ -46,7 +46,7 @@ describe('application loading', () => {
         app.mainProcess.abort();
         await app.stop();
       }
-    }, 30000);
+    });
 
     it('launches the application', async () => {
       const response = await app.client.getWindowHandles();
