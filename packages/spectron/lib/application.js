@@ -159,14 +159,14 @@ Application.prototype.createClient = async function createClient() {
   const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
 
   if (process.env.CI) {
-    args.push('--headless');
-    args.push('--no-sandbox');
-    args.push('--disable-dev-shm-usage');
+    args.push('headless');
+    args.push('no-sandbox');
+    args.push('disable-dev-shm-usage');
     args.push('blink-settings=imagesEnabled=false');
-    args.push('--disable-gpu');
+    args.push('disable-gpu');
     // args.push('--remote-debugging-port=9222');
     args.push('disable-infobars');
-    args.push('--disable-extensions');
+    args.push('disable-extensions');
   }
 
   const options = {
