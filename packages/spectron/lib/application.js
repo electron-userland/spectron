@@ -72,6 +72,7 @@ Application.prototype.stop = async function stop() {
 
   await delay(this.quitTimeout);
   await this.electronApp.quit();
+  await this.mainProcess.abort();
 
   this.chromeDriver.stop();
   this.running = false;
