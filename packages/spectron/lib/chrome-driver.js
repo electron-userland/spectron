@@ -1,84 +1,24 @@
 const ChildProcess = require('child_process');
-const path = require('path');
-const { default: got } = require('got');
+const { join } = require('path');
+const {
+  default: { get },
+} = require('got');
 const split = require('split');
 
-function ChromeDriver(host, port, nodePath, startTimeout, workingDirectory, chromeDriverLogPath) {
-  this.host = host;
-  this.port = port;
-  this.nodePath = nodePath;
-  this.startTimeout = startTimeout;
-  this.workingDirectory = workingDirectory;
-  this.chromeDriverLogPath = chromeDriverLogPath;
-
-  this.path = require.resolve('electron-chromedriver/chromedriver');
-  this.urlBase = '/';
-  this.statusUrl = `http://${host}:${port}${this.urlBase}status`;
-  this.logLines = [];
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-ChromeDriver.prototype.start = function start() {
-  if (this.process) {
-    throw new Error('ChromeDriver already started');
-  }
-
-  const args = [this.path, `--port=${this.port}`, `--url-base=${this.urlBase}`];
-
-  if (this.chromeDriverLogPath) {
+function createProcessArgs(path, port, chromeDriverLogPath) {
+  const args = [path, `--port=${port}`, '--url-base=/'];
+  if (chromeDriverLogPath) {
     args.push('--verbose');
-    args.push(`--log-path=${this.chromeDriverLogPath}`);
+    args.push(`--log-path=${chromeDriverLogPath}`);
   }
-  const options = {
-    cwd: this.workingDirectory,
-    env: this.getEnvironment(),
-  };
-  this.process = ChildProcess.spawn(this.nodePath, args, options);
-  this.exitHandler = () => this.stop();
-  global.process.on('exit', this.exitHandler);
+  return args;
+}
 
-  this.setupLogs();
-  return this.waitUntilRunning();
-};
-
-ChromeDriver.prototype.waitUntilRunning = async function waitUntilRunning() {
-  const self = this;
-  const startTime = Date.now();
-
-  function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  async function checkIfRunning() {
-    const running = await self.isRunning();
-    if (!self.process) {
-      throw new Error('ChromeDriver has been stopped');
-    }
-
-    if (running) {
-      return;
-    }
-
-    const elapsedTime = Date.now() - startTime;
-    if (elapsedTime > self.startTimeout) {
-      throw new Error(`ChromeDriver did not start within ${self.startTimeout}ms`);
-    }
-
-    await delay(100);
-    checkIfRunning();
-  }
-  return checkIfRunning();
-};
-
-ChromeDriver.prototype.setupLogs = function setupLogs() {
-  this.logLines = [];
-
-  const self = this;
-  this.process.stdout.pipe(split()).on('data', (line) => {
-    self.logLines.push(line);
-  });
-};
-
-ChromeDriver.prototype.getEnvironment = function getEnvironment() {
+function createProcessOptions(workingDirectory) {
   const env = {};
   Object.keys(process.env).forEach((key) => {
     env[key] = process.env[key];
@@ -86,41 +26,111 @@ ChromeDriver.prototype.getEnvironment = function getEnvironment() {
 
   if (process.platform === 'win32') {
     env.SPECTRON_NODE_PATH = process.execPath;
-    env.SPECTRON_LAUNCHER_PATH = path.join(__dirname, 'launcher.js');
+    env.SPECTRON_LAUNCHER_PATH = join(__dirname, 'launcher.js');
   }
 
-  return env;
+  return {
+    cwd: workingDirectory,
+    env,
+  };
+}
+
+function initChromeDriver(host, port, nodePath, startTimeout, workingDirectory, chromeDriverLogPath) {
+  const path = require.resolve('electron-chromedriver/chromedriver');
+  const statusUrl = `http://${host}:${port}/status`;
+
+  const chromeDriver = (() => {
+    let exitHandler;
+    let logLines;
+    let chromeDriverProcess;
+
+    const clearLogs = () => {
+      logLines = [];
+    };
+
+    const getLogs = () => logLines;
+
+    const isRunning = async () => {
+      try {
+        console.log('checking', statusUrl);
+        const { value } = await get(statusUrl).json();
+        return value && value.ready;
+      } catch (error) {
+        return false;
+        // throw new Error(`ChromeDriver isRunning error: ${error.message}`);
+      }
+    };
+
+    const waitUntilRunning = async () => {
+      const startTime = Date.now();
+
+      async function checkIfRunning() {
+        const running = await isRunning();
+        if (!chromeDriverProcess) {
+          throw new Error('ChromeDriver has been stopped');
+        }
+
+        if (running) {
+          return true;
+        }
+
+        const elapsedTime = Date.now() - startTime;
+        if (elapsedTime > startTimeout) {
+          throw new Error(`ChromeDriver did not start within ${startTimeout}ms`);
+        }
+
+        await delay(100);
+        return checkIfRunning();
+      }
+
+      return checkIfRunning();
+    };
+
+    const stop = () => {
+      if (exitHandler) {
+        global.process.removeListener('exit', exitHandler);
+        exitHandler = null;
+      }
+
+      if (chromeDriverProcess) {
+        chromeDriverProcess.kill();
+        chromeDriverProcess = null;
+      }
+
+      clearLogs();
+    };
+
+    async function start() {
+      if (chromeDriverProcess) {
+        throw new Error('ChromeDriver already started');
+      }
+
+      const args = createProcessArgs(path, port, chromeDriverLogPath);
+      const options = createProcessOptions(workingDirectory);
+
+      chromeDriverProcess = ChildProcess.spawn(nodePath, args, options);
+      exitHandler = () => stop();
+      global.process.on('exit', exitHandler);
+      logLines = [];
+
+      if (chromeDriverProcess.stdout) {
+        chromeDriverProcess.stdout.pipe(split()).on('data', (line) => logLines.push(line));
+      }
+
+      return waitUntilRunning();
+    }
+
+    return {
+      start,
+      stop,
+      getLogs,
+      clearLogs,
+    };
+  })();
+
+  return chromeDriver;
+}
+
+module.exports = {
+  initChromeDriver,
 };
-
-ChromeDriver.prototype.stop = function stop() {
-  if (this.exitHandler) {
-    global.process.removeListener('exit', this.exitHandler);
-    this.exitHandler = null;
-  }
-
-  if (this.process) {
-    this.process.kill();
-    this.process = null;
-  }
-
-  this.clearLogs();
-};
-
-ChromeDriver.prototype.isRunning = async function isRunning() {
-  try {
-    const { value } = await got(this.statusUrl).json();
-    return value && value.ready;
-  } catch (error) {
-    throw new Error(`ChromeDriver isRunning error: ${error.message}`);
-  }
-};
-
-ChromeDriver.prototype.getLogs = function getLogs() {
-  return this.logLines.slice();
-};
-
-ChromeDriver.prototype.clearLogs = function clearLogs() {
-  this.logLines = [];
-};
-
-module.exports = ChromeDriver;
