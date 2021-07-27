@@ -172,13 +172,14 @@ Application.prototype.createClient = async function createClient() {
   const options = {
     hostname: self.host,
     port: self.port,
-    path: launcherPath,
     waitforTimeout: self.waitTimeout,
     connectionRetryCount: self.connectionRetryCount,
     connectionRetryTimeout: self.connectionRetryTimeout,
     logLevel: 'error',
     capabilities: {
+      'browserName': 'chrome',
       'goog:chromeOptions': {
+        binary: launcherPath,
         args,
         debuggerAddress: self.debuggerAddress,
         windowTypes: ['app', 'webview'],
