@@ -38,5 +38,7 @@ jobs:
         with:
           version: 6.10.3
           run_install: true
-      - name: Test
-        run: pnpm test
+      - name: Run headless test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: pnpm run test

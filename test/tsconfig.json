@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
@@ -19,7 +19,8 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["node", "webdriverio/async", "wdio-chromedriver-service"]
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

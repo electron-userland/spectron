@@ -8,6 +8,7 @@
   "author": "Sam Maister",
   "repository": "https://github.com/goosewobbler/spectron",
   "bugs": "https://github.com/goosewobbler/spectron/issues",
+  "type": "module",
   "devDependencies": {
     "cross-env": "^7.0.3",
     "eslint": "^7.31.0",
@@ -22,7 +23,7 @@
     "clean": "pnpm run -r clean",
     "format": "prettier --ignore-path .gitignore --write .",
     "smoke-test": "pnpm run --filter @goosewobbler/spectron-e2e test",
-    "unit-test": "pnpm run --filter @goosewobbler/spectron-unit test",
+    "unit-test": "pnpm run --filter @goosewobbler/spectron test",
     "test": "pnpm run -r test"
   }
 }

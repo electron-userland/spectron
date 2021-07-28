@@ -1,13 +1,12 @@
 /* global window */
 const fs = require('fs-extra');
 const path = require('path');
-const { remote } = require('webdriverio');
-const { initChromeDriver } = require('./chrome-driver');
+// const { initChromeDriver } = require('./chrome-driver');
 const { createApi } = require('./api');
 
 function Application(options = {}) {
   this.host = options.host || '127.0.0.1';
-  this.port = parseInt(options.port, 10) || 9519;
+  this.port = parseInt(options.port, 10) || 9515;
 
   this.chromeDriver = undefined;
   this.electronApp = undefined;
@@ -37,43 +36,46 @@ function Application(options = {}) {
 
 Application.prototype.start = function start() {
   const self = this;
-  return self
-    .exists()
-    .then(async () => {
-      self.chromeDriver = initChromeDriver(
-        self.host,
-        self.port,
-        self.nodePath,
-        self.startTimeout,
-        self.workingDirectory,
-        self.chromeDriverLogPath,
-      );
-      return self.chromeDriver.start();
-    })
-    .then(async () => {
-      self.client = await self.createClient();
-    })
-    .then(async () => {
-      const apis = await createApi(self.client, [
-        'browserWindow',
-        'webContents',
-        'app',
-        'mainProcess',
-        'rendererProcess',
-      ]);
-      Object.keys(apis).forEach((apiName) => {
-        self[apiName] = apis[apiName];
-      });
-      self.electronApp = apis.app;
-    })
-    .then(() => {
-      self.addCommands();
-    })
-    .then(() => self.client.setTimeouts(self.waitTimeout, self.waitTimeout, self.waitTimeout))
-    .then(() => {
-      self.running = true;
-    })
-    .then(() => self);
+  return (
+    self
+      .exists()
+      // .then(async () => {
+      //   self.chromeDriver = initChromeDriver(
+      //     self.host,
+      //     self.port,
+      //     self.nodePath,
+      //     self.startTimeout,
+      //     self.workingDirectory,
+      //     self.chromeDriverLogPath,
+      //   );
+      //   return self.chromeDriver.start();
+      // })
+      .then(async () => {
+        // const { sessionId } = browser;
+        self.client = browser;
+      })
+      .then(async () => {
+        const apis = await createApi(self.client, [
+          'browserWindow',
+          'webContents',
+          'app',
+          'mainProcess',
+          'rendererProcess',
+        ]);
+        Object.keys(apis).forEach((apiName) => {
+          self[apiName] = apis[apiName];
+        });
+        self.electronApp = apis.app;
+      })
+      .then(() => {
+        self.addCommands();
+      })
+      .then(() => self.client.setTimeouts(self.waitTimeout, self.waitTimeout, self.waitTimeout))
+      .then(() => {
+        self.running = true;
+      })
+      .then(() => self)
+  );
 };
 
 Application.prototype.stop = async function stop() {
@@ -92,9 +94,9 @@ Application.prototype.stop = async function stop() {
 
   await delay(this.quitTimeout);
 
-  if (this.chromeDriver) {
-    this.chromeDriver.stop();
-  }
+  // if (this.chromeDriver) {
+  //   this.chromeDriver.stop();
+  // }
 
   this.running = false;
 
@@ -108,28 +110,6 @@ Application.prototype.restart = async function restart() {
 
 Application.prototype.isRunning = function isRunning() {
   return this.running;
-};
-
-Application.prototype.getSettings = function getSettings() {
-  return {
-    host: this.host,
-    port: this.port,
-    quitTimeout: this.quitTimeout,
-    startTimeout: this.startTimeout,
-    waitTimeout: this.waitTimeout,
-    connectionRetryCount: this.connectionRetryCount,
-    connectionRetryTimeout: this.connectionRetryTimeout,
-    nodePath: this.nodePath,
-    path: this.path,
-    args: this.args,
-    chromeDriverArgs: this.chromeDriverArgs,
-    env: this.env,
-    workingDirectory: this.workingDirectory,
-    debuggerAddress: this.debuggerAddress,
-    chromeDriverLogPath: this.chromeDriverLogPath,
-    webdriverLogPath: this.webdriverLogPath,
-    webdriverOptions: this.webdriverOptions,
-  };
 };
 
 Application.prototype.exists = async function exists() {
@@ -152,74 +132,6 @@ Application.prototype.exists = async function exists() {
     return;
   } catch (error) {
     throw new Error(`Exists error: ${error.message}`);
-  }
-};
-
-/**
- * @returns Promise<SpectronClient> webDriverClient
- */
-Application.prototype.createClient = async function createClient() {
-  const self = this;
-  const args = [`spectron-path=${self.path}`]
-    .concat(self.args.map((arg, index) => `spectron-arg${index}=${arg}`))
-    .concat(Object.keys(self.env).map((name) => `spectron-env-${name}=${self.env[name]}`))
-    .concat(self.chromeDriverArgs);
-
-  const isWin = process.platform === 'win32';
-  const launcherPath = path.join(__dirname, isWin ? 'launcher.bat' : 'launcher.js');
-
-  if (process.env.CI) {
-    args.unshift('no-sandbox');
-    args.push('headless');
-    args.push('single-process');
-    args.push('window-size=1280,800');
-    args.push('disable-dev-shm-usage');
-    args.push('disable-setuid-sandbox');
-    args.push('blink-settings=imagesEnabled=false');
-    args.push('disable-gpu');
-    args.push('enable-automation');
-    // args.push('--remote-debugging-port=9222');
-    args.push('disable-infobars');
-    args.push('disable-extensions');
-  }
-
-  const options = {
-    hostname: self.host,
-    port: self.port,
-    waitforTimeout: self.waitTimeout,
-    connectionRetryCount: self.connectionRetryCount,
-    connectionRetryTimeout: self.connectionRetryTimeout,
-    logLevel: 'error',
-    runner: 'local',
-    capabilities: {
-      'browserName': 'chrome',
-      'goog:chromeOptions': {
-        binary: launcherPath,
-        args,
-        debuggerAddress: self.debuggerAddress,
-        windowTypes: ['app', 'webview'],
-      },
-    },
-  };
-
-  if (self.webdriverLogPath) {
-    options.outputDir = self.webdriverLogPath;
-    options.logLevel = 'trace';
-  }
-
-  Object.assign(options, self.webdriverOptions);
-
-  try {
-    return await remote(options);
-  } catch (error) {
-    if (process.env.CI) {
-      const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
-      console.log(cdLog);
-      const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
-      console.log(wdLog);
-    }
-
-    throw new Error(`Webdriver error: ${error.message}`);
   }
 };
 

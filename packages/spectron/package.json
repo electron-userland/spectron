@@ -13,7 +13,7 @@
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run test:coverage && pnpm run test:check-types",
+    "test": "pnpm run test:coverage",
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
