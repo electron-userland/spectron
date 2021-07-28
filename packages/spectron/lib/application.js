@@ -1,5 +1,4 @@
 /* global window */
-const DevNull = require('dev-null');
 const fs = require('fs-extra');
 const path = require('path');
 const { remote } = require('webdriverio');
@@ -173,10 +172,12 @@ Application.prototype.createClient = async function createClient() {
     args.unshift('no-sandbox');
     args.push('headless');
     args.push('single-process');
-    args.push('window-size=1024,768');
+    args.push('window-size=1280,800');
     args.push('disable-dev-shm-usage');
+    args.push('disable-setuid-sandbox');
     args.push('blink-settings=imagesEnabled=false');
     args.push('disable-gpu');
+    args.push('enable-automation');
     // args.push('--remote-debugging-port=9222');
     args.push('disable-infobars');
     args.push('disable-extensions');
@@ -189,6 +190,7 @@ Application.prototype.createClient = async function createClient() {
     connectionRetryCount: self.connectionRetryCount,
     connectionRetryTimeout: self.connectionRetryTimeout,
     logLevel: 'error',
+    runner: 'local',
     capabilities: {
       'browserName': 'chrome',
       'goog:chromeOptions': {
@@ -198,7 +200,6 @@ Application.prototype.createClient = async function createClient() {
         windowTypes: ['app', 'webview'],
       },
     },
-    logOutput: DevNull(),
   };
 
   if (self.webdriverLogPath) {
@@ -212,10 +213,10 @@ Application.prototype.createClient = async function createClient() {
     return await remote(options);
   } catch (error) {
     if (process.env.CI) {
-      // const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
-      // console.log(cdLog);
-      // const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
-      // console.log(wdLog);
+      const cdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/chromeDriver.log', 'utf8');
+      console.log(cdLog);
+      const wdLog = await fs.readFile('/home/runner/work/spectron/spectron/test/wdio.log', 'utf8');
+      console.log(wdLog);
     }
 
     throw new Error(`Webdriver error: ${error.message}`);
