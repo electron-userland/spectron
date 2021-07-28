@@ -20,7 +20,6 @@ importers:
       '@types/jest': ^26.0.24
       '@typescript-eslint/eslint-plugin': ^4.28.4
       '@typescript-eslint/parser': ^4.28.4
-      dev-null: ^0.1.1
       electron: ^13.1.7
       electron-chromedriver: ^13.0.0
       eslint: ^7.31.0
@@ -41,7 +40,6 @@ importers:
       typescript: ^4.3.5
       webdriverio: ^7.8.0
     dependencies:
-      dev-null: 0.1.1
       electron: 13.1.7
       electron-chromedriver: 13.0.0
       fs-extra: 10.0.0
@@ -2315,10 +2313,6 @@ packages:
   /detect-node/2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     optional: true
-
-  /dev-null/0.1.1:
-    resolution: {integrity: sha1-WiBc48Ky73e2I41roXnrdMag6Bg=}
-    dev: false
 
   /devtools-protocol/0.0.883894:
     resolution: {integrity: sha512-33idhm54QJzf3Q7QofMgCvIVSd2o9H3kQPWaKT/fhoZh+digc+WSiMhbkeG3iN79WY4Hwr9G05NpbhEVrsOYAg==}
