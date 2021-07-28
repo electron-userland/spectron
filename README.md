@@ -11,7 +11,10 @@ Easily test your [Electron](http://electronjs.org) apps using
 
 This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. I deleted a lot of code and some things might not work as expected. Spectron really needs a complete rewrite, this is a start.
 
-Other options: [Playwright](https://playwright.dev) (currently experimental support for Electron).
+Other options:
+
+[Playwright](https://playwright.dev) (currently experimental support for Electron).
+[Puppeteer-in-electron](https://github.com/TrevorSundberg/puppeteer-in-electron)
 
 This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps.
 
