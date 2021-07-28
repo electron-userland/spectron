@@ -57,7 +57,7 @@ const config = {
   logLevel: 'debug',
   runner: 'local',
   // outputDir: 'all-logs',
-  specs: ['./*.wdio.ts'],
+  specs: ['./*.spec.ts'],
   services: [
     [
       'chromedriver',

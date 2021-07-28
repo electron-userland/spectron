@@ -1,37 +1,14 @@
-import { join } from 'path';
-import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
-import { queries } from '@testing-library/dom';
-import { Application } from '@goosewobbler/spectron';
-
-function getAppPath(distPath: string, appName: string) {
-  enum SupportedPlatform {
-    darwin = 'darwin',
-    linux = 'linux',
-    win32 = 'win32',
-  }
-
-  if (!Object.values(SupportedPlatform).includes(process.platform as SupportedPlatform)) {
-    throw new Error('unsupported platform');
-  }
-  const pathMap = {
-    darwin: `mac/${appName}.app/Contents/MacOS/${appName}`,
-    linux: `linux-unpacked/${appName}`,
-    win32: `win-unpacked/${appName}.exe`,
-  };
-
-  return `${distPath}/${pathMap[process.platform as SupportedPlatform]}`;
-}
+const { setupBrowser, WebdriverIOBoundFunctions } = require('@testing-library/webdriverio');
+const { queries } = require('@testing-library/dom');
+const { Application } = require('@goosewobbler/spectron');
 
 describe('application loading', () => {
-  const appPath = getAppPath(join(process.cwd(), 'dist'), 'test');
   const app = new Application({
-    path: appPath,
     chromeDriverLogPath: join(process.cwd(), 'chromeDriver.log'),
     webdriverLogPath: process.cwd(),
     quitTimeout: 0,
   });
 
-  //@ts-ignore
   let screen: WebdriverIOBoundFunctions<typeof queries>;
 
   describe('App', () => {
@@ -43,10 +20,12 @@ describe('application loading', () => {
 
     afterEach(async () => {
       if (app) {
-        // await app.mainProcess.abort();
-        await app.stop();
+        await app.mainProcess.abort();
+        // await app.stop();
       }
     }, 30000);
+
+    afterAll(() => {});
 
     it('launches the application', async () => {
       const response = await app.client.getWindowHandles();

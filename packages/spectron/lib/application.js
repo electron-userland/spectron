@@ -1,7 +1,4 @@
-/* global window */
-const fs = require('fs-extra');
-const path = require('path');
-// const { initChromeDriver } = require('./chrome-driver');
+/* global window, browser */
 const { createApi } = require('./api');
 
 function Application(options = {}) {
@@ -22,7 +19,6 @@ function Application(options = {}) {
   this.connectionRetryTimeout = parseInt(options.connectionRetryTimeout, 10) || 30000;
 
   this.nodePath = options.nodePath || process.execPath;
-  this.path = options.path;
 
   this.args = options.args || [];
   this.chromeDriverArgs = options.chromeDriverArgs || [];
@@ -36,46 +32,31 @@ function Application(options = {}) {
 
 Application.prototype.start = function start() {
   const self = this;
-  return (
-    self
-      .exists()
-      // .then(async () => {
-      //   self.chromeDriver = initChromeDriver(
-      //     self.host,
-      //     self.port,
-      //     self.nodePath,
-      //     self.startTimeout,
-      //     self.workingDirectory,
-      //     self.chromeDriverLogPath,
-      //   );
-      //   return self.chromeDriver.start();
-      // })
-      .then(async () => {
-        // const { sessionId } = browser;
-        self.client = browser;
-      })
-      .then(async () => {
-        const apis = await createApi(self.client, [
-          'browserWindow',
-          'webContents',
-          'app',
-          'mainProcess',
-          'rendererProcess',
-        ]);
-        Object.keys(apis).forEach((apiName) => {
-          self[apiName] = apis[apiName];
-        });
-        self.electronApp = apis.app;
-      })
-      .then(() => {
-        self.addCommands();
-      })
-      .then(() => self.client.setTimeouts(self.waitTimeout, self.waitTimeout, self.waitTimeout))
-      .then(() => {
-        self.running = true;
-      })
-      .then(() => self)
-  );
+  return self
+    .then(async () => {
+      self.client = browser;
+    })
+    .then(async () => {
+      const apis = await createApi(self.client, [
+        'browserWindow',
+        'webContents',
+        'app',
+        'mainProcess',
+        'rendererProcess',
+      ]);
+      Object.keys(apis).forEach((apiName) => {
+        self[apiName] = apis[apiName];
+      });
+      self.electronApp = apis.app;
+    })
+    .then(() => {
+      self.addCommands();
+    })
+    .then(() => self.client.setTimeouts(self.waitTimeout, self.waitTimeout, self.waitTimeout))
+    .then(() => {
+      self.running = true;
+    })
+    .then(() => self);
 };
 
 Application.prototype.stop = async function stop() {
@@ -94,10 +75,6 @@ Application.prototype.stop = async function stop() {
 
   await delay(this.quitTimeout);
 
-  // if (this.chromeDriver) {
-  //   this.chromeDriver.stop();
-  // }
-
   this.running = false;
 
   return this;
@@ -110,29 +87,6 @@ Application.prototype.restart = async function restart() {
 
 Application.prototype.isRunning = function isRunning() {
   return this.running;
-};
-
-Application.prototype.exists = async function exists() {
-  const self = this;
-
-  // Binary path is ignored by ChromeDriver if debuggerAddress is set
-  if (self.debuggerAddress) {
-    return;
-  }
-
-  if (typeof self.path !== 'string') {
-    throw new Error('Application path must be a string');
-  }
-
-  try {
-    const stat = await fs.stat(this.path);
-    if (!stat.isFile()) {
-      throw new Error(`Application path specified is not a file: ${this.path}`);
-    }
-    return;
-  } catch (error) {
-    throw new Error(`Exists error: ${error.message}`);
-  }
 };
 
 Application.prototype.addCommands = function addCommands() {
