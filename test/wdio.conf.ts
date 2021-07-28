@@ -30,7 +30,7 @@ if (process.env.CI) {
   args.push('disable-infobars');
   args.push('disable-extensions');
   if (process.platform !== 'win32') {
-    // args.push('headless');
+    // args.push('headless'); - crashes on linux with xvfb
     args.push('no-sandbox');
     args.push('disable-gpu');
     args.push('disable-dev-shm-usage');
