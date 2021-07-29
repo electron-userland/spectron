@@ -39,11 +39,11 @@ if (process.env.CI) {
   }
 }
 
-if (process.platform === 'win32') {
+const isWin = process.platform === 'win32';
+if (isWin) {
   process.env.SPECTRON_NODE_PATH = process.execPath;
   process.env.SPECTRON_CHROMEDRIVER_PATH = require.resolve('electron-chromedriver/chromedriver');
 }
-const isWin = process.platform === 'win32';
 const chromedriverCustomPath = isWin
   ? join(__dirname, '..', 'packages', 'spectron', 'lib', 'chrome-driver.bat')
   : require.resolve('electron-chromedriver/chromedriver');
