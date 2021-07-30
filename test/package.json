@@ -3,14 +3,12 @@
   "name": "@goosewobbler/spectron-e2e",
   "version": "1.0.0",
   "main": "./app/dist/main.js",
-  "type": "module",
   "scripts": {
-    "build": "pnpm run --filter @goosewobbler/spectron-e2e build",
     "clean": "cross-env rm -rf ./node_modules",
     "test:coverage": "pnpx spectron ./wdio.conf.ts",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run build && pnpm run test:coverage"
+    "test": "pnpm run -r build && pnpm run test:coverage"
   },
   "devDependencies": {
     "@goosewobbler/spectron": "*",
