@@ -2,11 +2,11 @@
   "private": "true",
   "name": "@goosewobbler/spectron-e2e",
   "version": "1.0.0",
-  "main": "./dist/main.js",
+  "main": "./app/dist/main.js",
+  "type": "module",
   "scripts": {
-    "build": "pnpm run clean:dist && webpack && cp ./src/index.html ./dist && electron-builder",
-    "clean": "cross-env rm -rf ./node_modules && pnpm run clean:dist",
-    "clean:dist": "cross-env rm -rf ./dist && cross-env mkdir -p ./dist",
+    "build": "pnpm run --filter @goosewobbler/spectron-e2e-app build",
+    "clean": "cross-env rm -rf ./node_modules",
     "test:coverage": "pnpx spectron ./wdio.conf.ts",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
@@ -17,26 +17,10 @@
     "@testing-library/dom": "^8.1.0",
     "@testing-library/webdriverio": "^3.0.2",
     "@wdio/jasmine-framework": "^7.8.0",
-    "electron": "^13.1.7",
-    "electron-builder": "^22.11.7",
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5",
     "webpack": "^5.46.0",
     "webpack-cli": "^4.7.2"
-  },
-  "build": {
-    "asar": true,
-    "appId": "com.test.demo",
-    "copyright": "goosewobbler",
-    "productName": "test",
-    "files": [
-      "./dist/*"
-    ],
-    "linux": {
-      "executableName": "test",
-      "category": "Utility",
-      "target": [
-        "AppImage"
-      ]
-    }
   }
 }
