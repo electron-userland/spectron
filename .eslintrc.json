@@ -13,6 +13,11 @@
     "import/prefer-default-export": "off",
     "no-param-reassign": ["error", { "props": false }]
   },
+  "globals": {
+    "module": false,
+    "require": false,
+    "__dirname": false
+  },
   "overrides": [
     {
       "files": "*.d.ts",
