@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "./dist/main.js",
   "scripts": {
-    "build": "pnpm run clean:dist && webpack && cp ./src/index.html ./dist && electron-builder",
+    "build": "pnpm run clean:dist && webpack && cross-env cp ./src/index.html ./dist && electron-builder",
     "clean": "cross-env rm -rf ./node_modules && pnpm run clean:dist",
     "clean:dist": "cross-env rm -rf ./dist && cross-env mkdir -p ./dist"
   },
@@ -16,14 +16,14 @@
   },
   "build": {
     "asar": true,
-    "appId": "com.test.demo",
+    "appId": "com.spectron-e2e.demo",
     "copyright": "goosewobbler",
-    "productName": "test",
+    "productName": "spectron-e2e",
     "files": [
       "./dist/*"
     ],
     "linux": {
-      "executableName": "test",
+      "executableName": "spectron-e2e",
       "category": "Utility",
       "target": [
         "AppImage"
