@@ -2,25 +2,6 @@
 const Launcher = require('@wdio/cli').default;
 const { join } = require('path');
 
-function getAppPath(distPath, appName) {
-  const SupportedPlatform = {
-    darwin: 'darwin',
-    linux: 'linux',
-    win32: 'win32',
-  };
-
-  if (!Object.values(SupportedPlatform).includes(process.platform)) {
-    throw new Error('unsupported platform');
-  }
-  const pathMap = {
-    darwin: `mac/${appName}.app/Contents/MacOS/${appName}`,
-    linux: `linux-unpacked/${appName}`,
-    win32: `win-unpacked/${appName}.exe`,
-  };
-
-  return `${distPath}/${pathMap[process.platform]}`;
-}
-
 const run = async (...args) => {
   const chromeArgs = [];
 
@@ -49,8 +30,8 @@ const run = async (...args) => {
     ? join(__dirname, '..', 'bin', 'chrome-driver.bat')
     : require.resolve('electron-chromedriver/chromedriver');
 
-  // assume default electron-builder output dir for now
-  const appPath = getAppPath(join(process.cwd(), 'dist'), process.env.npm_package_build_productName);
+  const configFilePath = join(process.cwd(), 'spectron.conf.cjs');
+  const { config } = require(configFilePath);
 
   const wdio = new Launcher(args[2], {
     services: [
@@ -69,7 +50,7 @@ const run = async (...args) => {
       {
         'browserName': 'chrome',
         'goog:chromeOptions': {
-          binary: appPath,
+          binary: config.appPath,
           args: chromeArgs,
           windowTypes: ['app', 'webview'],
         },
