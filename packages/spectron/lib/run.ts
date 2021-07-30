@@ -1,8 +1,8 @@
 /* eslint no-process-exit: off */
-const Launcher = require('@wdio/cli').default;
-const { join } = require('path');
+import Launcher, { RunCommandArguments } from '@wdio/cli';
+import { join } from 'path';
 
-const run = async (...args) => {
+export const run = async (...args: unknown[]) => {
   const chromeArgs = [];
 
   if (process.env.CI) {
@@ -33,30 +33,33 @@ const run = async (...args) => {
   const configFilePath = join(process.cwd(), 'spectron.conf.cjs');
   const { config } = require(configFilePath);
 
-  const wdio = new Launcher(args[2], {
-    services: [
-      [
-        'chromedriver',
+  const wdio = new Launcher(
+    args[2] as string,
+    {
+      services: [
+        [
+          'chromedriver',
+          {
+            port: 9515,
+            logFileName: 'wdio-chromedriver.log', // default
+            // outputDir: 'driver-logs', // overwrites the config.outputDir
+            chromedriverCustomPath,
+            // args: ['--silent'],
+          },
+        ],
+      ],
+      capabilities: [
         {
-          port: 9515,
-          logFileName: 'wdio-chromedriver.log', // default
-          // outputDir: 'driver-logs', // overwrites the config.outputDir
-          chromedriverCustomPath,
-          // args: ['--silent'],
+          'browserName': 'chrome',
+          'goog:chromeOptions': {
+            binary: config.appPath,
+            args: chromeArgs,
+            windowTypes: ['app', 'webview'],
+          },
         },
       ],
-    ],
-    capabilities: [
-      {
-        'browserName': 'chrome',
-        'goog:chromeOptions': {
-          binary: config.appPath,
-          args: chromeArgs,
-          windowTypes: ['app', 'webview'],
-        },
-      },
-    ],
-  });
+    } as Partial<RunCommandArguments>,
+  );
 
   try {
     await wdio.run();
@@ -66,8 +69,4 @@ const run = async (...args) => {
   } catch (error) {
     console.error('Launcher failed to start the test', error.stacktrace);
   }
-};
-
-module.exports = {
-  run,
 };

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('..').run(...process.argv);
+require('../dist/index.js').run(...process.argv);

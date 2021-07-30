@@ -2,14 +2,16 @@
   "name": "@goosewobbler/spectron",
   "version": "17.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
-  "main": "index.js",
-  "types": "./lib/spectron.d.ts",
+  "main": "./dist/index.js",
+  "types": "./spectron.d.ts",
   "bin": {
     "spectron": "./bin/spectron.js"
   },
   "scripts": {
-    "clean": "cross-env rm -rf ./node_modules",
-    "build": "tsc -p './tsconfig.json'",
+    "clean": "cross-env rm -rf ./node_modules ./dist",
+    "build": "pnpm run build:typescript-references-hack && pnpm run build:copy && tsc -p './tsconfig.json'",
+    "build:copy": "cross-env mkdir -p ./dist/bin && cross-env cp ./bin/* ./dist/bin",
+    "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
     "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
     "test:coverage": "jest --coverage",
@@ -36,6 +38,7 @@
     "chromedriver": "^92.0.0",
     "electron": "^13.1.7",
     "electron-chromedriver": "^13.0.0",
+    "tsconfig-paths": "^3.10.1",
     "ts-node": "^10.1.0",
     "wdio-chromedriver-service": "^7.2.0",
     "webdriverio": "^7.9.0"
@@ -52,6 +55,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^5.1.0",
+    "fs-extra": "^10.0.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
     "jest-mock-extended": "^1.0.18",

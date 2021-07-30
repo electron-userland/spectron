@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
+    "module": "CommonJS",
+    "baseUrl": "./",
+    "outDir": "./dist",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
@@ -10,7 +12,6 @@
     "noImplicitReturns": true,
     "inlineSources": true,
     "sourceMap": true,
-    "importsNotUsedAsValues": "preserve",
     "allowSyntheticDefaultImports": true,
     "newLine": "lf",
     "noEmitOnError": true,
@@ -19,10 +20,19 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
-    "noEmit": true,
-    "types": ["node", "jest", "webdriverio/async"]
+    "noEmit": false,
+    "types": ["node", "jest", "webdriverio/async"],
+    "paths": {
+      "@common/*": ["../../common/*"]
+    }
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules"],
-  "typeRoots": ["./types", "./node_modules/@types"]
+  "references": [{ "path": "./../../common" }],
+  "include": ["./*.ts", "index.js"],
+  "exclude": ["node_modules", "dist"],
+  "typeRoots": ["../../common", "./node_modules/@types"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "require": ["tsconfig-paths/register"]
+  }
 }

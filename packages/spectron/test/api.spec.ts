@@ -1,44 +1,46 @@
 import { anyFunction, mock, MockProxy } from 'jest-mock-extended';
-import { createApi, SpectronClient, SpectronWindowObj } from '../lib/api';
+import { createApi, SpectronWindowObj } from '../lib/api';
+import { SpectronClient } from '../lib/application';
 
 let mockWebDriverClient: MockProxy<SpectronClient>;
 let mockApiPlaceholders: {};
 
 beforeEach(() => {
   mockApiPlaceholders = {
-    mockApi1: {
-      mockFn1: `spectron.mockApi1.mockFn1`,
-      mockFn2: `spectron.mockApi1.mockFn2`,
-      mockFn3: `spectron.mockApi1.mockFn3`,
+    browserWindow: {
+      mockFn1: `spectron.browserWindow.mockFn1`,
+      mockFn2: `spectron.browserWindow.mockFn2`,
+      mockFn3: `spectron.browserWindow.mockFn3`,
     },
-    mockApi2: {
-      mockFn1: `spectron.mockApi2.mockFn1`,
-      mockFn2: `spectron.mockApi2.mockFn2`,
-      mockFn3: `spectron.mockApi2.mockFn3`,
+    webContents: {
+      mockFn1: `spectron.webContents.mockFn1`,
+      mockFn2: `spectron.webContents.mockFn2`,
+      mockFn3: `spectron.webContents.mockFn3`,
     },
-    mockApi3: {
-      mockFn1: `spectron.mockApi3.mockFn1`,
-      mockFn2: `spectron.mockApi3.mockFn2`,
-      mockFn3: `spectron.mockApi3.mockFn3`,
+    app: {
+      mockFn1: `spectron.app.mockFn1`,
+      mockFn2: `spectron.app.mockFn2`,
+      mockFn3: `spectron.app.mockFn3`,
     },
   };
   mockWebDriverClient = mock<SpectronClient>();
-  mockWebDriverClient.addCommand.mockImplementation((commandName: string, func: unknown) => {
+  mockWebDriverClient.addCommand.mockImplementation((commandName: string, func: unknown): Promise<void> => {
     mockWebDriverClient[commandName] = (...args: unknown[]) => (func as Function).bind(mockWebDriverClient)(...args);
+    return Promise.resolve();
   });
   mockWebDriverClient.executeAsync.mockImplementation(() => Promise.resolve(mockApiPlaceholders));
   window.spectron = {
-    mockApi1: {
+    browserWindow: {
       getApiKeys: jest.fn().mockReturnValue(['mockFn1', 'mockFn2', 'mockFn3']),
-      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['mockApi1 invoke called with', args])),
+      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['browserWindow invoke called with', args])),
     },
-    mockApi2: {
+    webContents: {
       getApiKeys: jest.fn().mockReturnValue(['mockFn1', 'mockFn2', 'mockFn3']),
-      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['mockApi2 invoke called with', args])),
+      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['webContents invoke called with', args])),
     },
-    mockApi3: {
+    app: {
       getApiKeys: jest.fn().mockReturnValue(['mockFn1', 'mockFn2', 'mockFn3']),
-      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['mockApi3 invoke called with', args])),
+      invoke: jest.fn().mockImplementation((...args) => Promise.resolve(['app invoke called with', args])),
     },
   };
 });
@@ -51,19 +53,19 @@ async function mockWebDriverRunExecuteAsync(callIndex: number, ...args: unknown[
 }
 
 it('should return the expected interface', async () => {
-  const api = await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
+  const api = await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
   expect(api).toEqual({
-    mockApi1: {
+    browserWindow: {
       mockFn1: anyFunction(),
       mockFn2: anyFunction(),
       mockFn3: anyFunction(),
     },
-    mockApi2: {
+    webContents: {
       mockFn1: anyFunction(),
       mockFn2: anyFunction(),
       mockFn3: anyFunction(),
     },
-    mockApi3: {
+    app: {
       mockFn1: anyFunction(),
       mockFn2: anyFunction(),
       mockFn3: anyFunction(),
@@ -72,76 +74,76 @@ it('should return the expected interface', async () => {
 });
 
 it('should add the expected client commands', async () => {
-  await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
+  await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
   expect(mockWebDriverClient.addCommand.mock.calls).toEqual([
-    ['spectron.mockApi1.mockFn1', anyFunction()],
-    ['spectron.mockApi1.mockFn2', anyFunction()],
-    ['spectron.mockApi1.mockFn3', anyFunction()],
-    ['spectron.mockApi2.mockFn1', anyFunction()],
-    ['spectron.mockApi2.mockFn2', anyFunction()],
-    ['spectron.mockApi2.mockFn3', anyFunction()],
-    ['spectron.mockApi3.mockFn1', anyFunction()],
-    ['spectron.mockApi3.mockFn2', anyFunction()],
-    ['spectron.mockApi3.mockFn3', anyFunction()],
+    ['spectron.browserWindow.mockFn1', anyFunction()],
+    ['spectron.browserWindow.mockFn2', anyFunction()],
+    ['spectron.browserWindow.mockFn3', anyFunction()],
+    ['spectron.webContents.mockFn1', anyFunction()],
+    ['spectron.webContents.mockFn2', anyFunction()],
+    ['spectron.webContents.mockFn3', anyFunction()],
+    ['spectron.app.mockFn1', anyFunction()],
+    ['spectron.app.mockFn2', anyFunction()],
+    ['spectron.app.mockFn3', anyFunction()],
   ]);
 });
 
 it('should make the expected getApiKeys calls', async () => {
-  await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
-  await mockWebDriverRunExecuteAsync(0, ['mockApi1', 'mockApi2', 'mockApi3']);
-  expect((window.spectron as SpectronWindowObj).mockApi1.getApiKeys).toHaveBeenCalledTimes(1);
-  expect((window.spectron as SpectronWindowObj).mockApi2.getApiKeys).toHaveBeenCalledTimes(1);
-  expect((window.spectron as SpectronWindowObj).mockApi3.getApiKeys).toHaveBeenCalledTimes(1);
+  await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
+  await mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app']);
+  expect((window.spectron as SpectronWindowObj).browserWindow.getApiKeys).toHaveBeenCalledTimes(1);
+  expect((window.spectron as SpectronWindowObj).webContents.getApiKeys).toHaveBeenCalledTimes(1);
+  expect((window.spectron as SpectronWindowObj).app.getApiKeys).toHaveBeenCalledTimes(1);
 });
 
 it('should construct the api object with placeholders', async () => {
-  await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
-  const resultsCallback = await mockWebDriverRunExecuteAsync(0, ['mockApi1', 'mockApi2', 'mockApi3']);
+  await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
+  const resultsCallback = await mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app']);
   expect(resultsCallback.mock.calls[0]).toEqual([mockApiPlaceholders]);
 });
 
 it('should throw an error when when the Context Bridge is not available', async () => {
   window.spectron = undefined;
-  await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
-  await expect(mockWebDriverRunExecuteAsync(0, ['mockApi1', 'mockApi2', 'mockApi3'])).rejects.toThrowError(
+  await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
+  await expect(mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app'])).rejects.toThrowError(
     'ContextBridge not available for retrieval of api keys',
   );
 });
 
 describe('calling API functions', () => {
   beforeEach(async () => {
-    const api = await createApi(mockWebDriverClient, ['mockApi1', 'mockApi2', 'mockApi3']);
-    api.mockApi1.mockFn1('test');
-    api.mockApi3.mockFn2('moar test');
-    api.mockApi2.mockFn3('yet moar test');
+    const api = await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
+    api.browserWindow.mockFn1('test');
+    api.app.mockFn2('moar test');
+    api.webContents.mockFn3('yet moar test');
   });
 
   it('should call executeAsync with the expected params', () => {
     expect(mockWebDriverClient.executeAsync.mock.calls.slice(1)).toEqual([
-      [anyFunction(), 'mockFn1', 'mockApi1', ['test']],
-      [anyFunction(), 'mockFn2', 'mockApi3', ['moar test']],
-      [anyFunction(), 'mockFn3', 'mockApi2', ['yet moar test']],
+      [anyFunction(), 'mockFn1', 'browserWindow', ['test']],
+      [anyFunction(), 'mockFn2', 'app', ['moar test']],
+      [anyFunction(), 'mockFn3', 'webContents', ['yet moar test']],
     ]);
   });
 
   it('should throw an error when when the Context Bridge is not available', async () => {
     window.spectron = undefined;
-    await expect(mockWebDriverRunExecuteAsync(1, 'mockFn1', 'mockApi1', ['test'])).rejects.toThrowError(
-      'ContextBridge not available for invocation of mockApi1.mockFn1',
+    await expect(mockWebDriverRunExecuteAsync(1, 'mockFn1', 'browserWindow', ['test'])).rejects.toThrowError(
+      'ContextBridge not available for invocation of browserWindow.mockFn1',
     );
   });
 
   it('should resolve with the expected result when the Context Bridge is available', async () => {
-    const resultCallback1 = await mockWebDriverRunExecuteAsync(1, 'mockFn1', 'mockApi1', ['test']);
-    expect((window.spectron as SpectronWindowObj).mockApi1.invoke).toHaveBeenCalledWith('mockFn1', 'test');
-    expect(resultCallback1.mock.calls[0]).toEqual([['mockApi1 invoke called with', ['mockFn1', 'test']]]);
+    const resultCallback1 = await mockWebDriverRunExecuteAsync(1, 'mockFn1', 'browserWindow', ['test']);
+    expect((window.spectron as SpectronWindowObj).browserWindow.invoke).toHaveBeenCalledWith('mockFn1', 'test');
+    expect(resultCallback1.mock.calls[0]).toEqual([['browserWindow invoke called with', ['mockFn1', 'test']]]);
 
-    const resultCallback2 = await mockWebDriverRunExecuteAsync(1, 'mockFn2', 'mockApi3', ['moar test']);
-    expect((window.spectron as SpectronWindowObj).mockApi3.invoke).toHaveBeenCalledWith('mockFn2', 'moar test');
-    expect(resultCallback2.mock.calls[0]).toEqual([['mockApi3 invoke called with', ['mockFn2', 'moar test']]]);
+    const resultCallback2 = await mockWebDriverRunExecuteAsync(1, 'mockFn2', 'app', ['moar test']);
+    expect((window.spectron as SpectronWindowObj).app.invoke).toHaveBeenCalledWith('mockFn2', 'moar test');
+    expect(resultCallback2.mock.calls[0]).toEqual([['app invoke called with', ['mockFn2', 'moar test']]]);
 
-    const resultCallback3 = await mockWebDriverRunExecuteAsync(1, 'mockFn3', 'mockApi2', ['yet moar test']);
-    expect((window.spectron as SpectronWindowObj).mockApi2.invoke).toHaveBeenCalledWith('mockFn3', 'yet moar test');
-    expect(resultCallback3.mock.calls[0]).toEqual([['mockApi2 invoke called with', ['mockFn3', 'yet moar test']]]);
+    const resultCallback3 = await mockWebDriverRunExecuteAsync(1, 'mockFn3', 'webContents', ['yet moar test']);
+    expect((window.spectron as SpectronWindowObj).webContents.invoke).toHaveBeenCalledWith('mockFn3', 'yet moar test');
+    expect(resultCallback3.mock.calls[0]).toEqual([['webContents invoke called with', ['mockFn3', 'yet moar test']]]);
   });
 });

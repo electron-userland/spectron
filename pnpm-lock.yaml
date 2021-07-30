@@ -32,12 +32,14 @@ importers:
       eslint-plugin-node: ^11.1.0
       eslint-plugin-prettier: ^3.4.0
       eslint-plugin-promise: ^5.1.0
+      fs-extra: ^10.0.0
       husky: ^7.0.1
       jest: ^27.0.6
       jest-mock-extended: ^1.0.18
       prettier: ^2.3.2
       ts-jest: ^27.0.4
       ts-node: ^10.1.0
+      tsconfig-paths: ^3.10.1
       typescript: ^4.3.5
       wdio-chromedriver-service: ^7.2.0
       webdriverio: ^7.9.0
@@ -48,6 +50,7 @@ importers:
       electron: 13.1.7
       electron-chromedriver: 13.0.0
       ts-node: 10.1.0_typescript@4.3.5
+      tsconfig-paths: 3.10.1
       wdio-chromedriver-service: 7.2.0_bf6188e67b11d5efaa0ca10c3aa171fe
       webdriverio: 7.9.0
     devDependencies:
@@ -62,6 +65,7 @@ importers:
       eslint-plugin-node: 11.1.0_eslint@7.31.0
       eslint-plugin-prettier: 3.4.0_19f511d6aa08b367b6cb59e8f50291ca
       eslint-plugin-promise: 5.1.0_eslint@7.31.0
+      fs-extra: 10.0.0
       husky: 7.0.1
       jest: 27.0.6_ts-node@10.1.0
       jest-mock-extended: 1.0.18_jest@27.0.6+typescript@4.3.5
@@ -4759,7 +4763,6 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.5
-    dev: true
 
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
@@ -6172,7 +6175,6 @@ packages:
   /strip-bom/3.0.0:
     resolution: {integrity: sha1-IzTBjpx1n3vdVv3vfprj1YjmjtM=}
     engines: {node: '>=4'}
-    dev: true
 
   /strip-bom/4.0.0:
     resolution: {integrity: sha512-3xurFv5tEgii33Zi8Jtp55wEIILR9eh34FAW00PZf+JnSsTmV/ioewSgQl97JHvgjoRGwPShsWm+IdrxB35d0w==}
@@ -6484,7 +6486,6 @@ packages:
       json5: 2.2.0
       minimist: 1.2.5
       strip-bom: 3.0.0
-    dev: true
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
