@@ -1,5 +1,4 @@
 /// <reference path="./api.d.ts" />
-/* global window */
 
 // function transformObject(input, output, callback) {
 //   Object.keys(input).forEach((name) => {
