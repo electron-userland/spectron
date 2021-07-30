@@ -1,4 +1,5 @@
 const { join } = require('path');
+const fs = require('fs-extra');
 
 function getAppPath(distPath, appName) {
   const SupportedPlatform = {
@@ -19,9 +20,13 @@ function getAppPath(distPath, appName) {
   return `${distPath}/${pathMap[process.platform]}`;
 }
 
+const packageJson = JSON.parse(fs.readFileSync('./app/package.json'));
+const {
+  build: { productName },
+} = packageJson.compilerOptions;
+
 const config = {
-  // process.env.npm_package_build_productName
-  appPath: getAppPath(join(process.cwd(), 'app', 'dist'), 'test'),
+  appPath: getAppPath(join(process.cwd(), 'app', 'dist'), productName),
 };
 
 module.exports = { config };
