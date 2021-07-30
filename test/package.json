@@ -17,6 +17,7 @@
     "@goosewobbler/spectron": "*",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/webdriverio": "^3.0.2",
+    "@wdio/jasmine-framework": "^7.8.0",
     "electron": "^13.1.7",
     "electron-builder": "^22.11.7",
     "typescript": "^4.3.5",
