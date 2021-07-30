@@ -1,8 +1,8 @@
 /* eslint node/no-unpublished-require: off, no-console: off */
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-const fs = require('fs');
-require('@goosewobbler/spectron/main');
+import { app, BrowserWindow, ipcMain } from 'electron';
+import path from 'path';
+import fs from 'fs';
+import '@goosewobbler/spectron/main.js';
 
 const appPath = app.getAppPath();
 
