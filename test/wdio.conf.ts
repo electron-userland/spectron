@@ -1,53 +1,3 @@
-const { join } = require('path');
-const fs = require('fs-extra');
-
-function getAppPath(distPath: string, appName: string) {
-  enum SupportedPlatform {
-    darwin = 'darwin',
-    linux = 'linux',
-    win32 = 'win32',
-  }
-
-  if (!Object.values(SupportedPlatform).includes(process.platform as SupportedPlatform)) {
-    throw new Error('unsupported platform');
-  }
-  const pathMap = {
-    darwin: `mac/${appName}.app/Contents/MacOS/${appName}`,
-    linux: `linux-unpacked/${appName}`,
-    win32: `win-unpacked/${appName}.exe`,
-  };
-
-  return `${distPath}/${pathMap[process.platform as SupportedPlatform]}`;
-}
-
-const appPath = getAppPath(join(process.cwd(), 'dist'), 'test');
-const args = [];
-
-if (process.env.CI) {
-  args.push('window-size=1280,800');
-  args.push('blink-settings=imagesEnabled=false');
-  args.push('enable-automation');
-  args.push('disable-infobars');
-  args.push('disable-extensions');
-  if (process.platform !== 'win32') {
-    // args.push('headless'); - crashes on linux with xvfb
-    args.push('no-sandbox');
-    args.push('disable-gpu');
-    args.push('disable-dev-shm-usage');
-    args.push('disable-setuid-sandbox');
-    // args.push('remote-debugging-port=9222');
-  }
-}
-
-const isWin = process.platform === 'win32';
-if (isWin) {
-  process.env.SPECTRON_NODE_PATH = process.execPath;
-  process.env.SPECTRON_CHROMEDRIVER_PATH = require.resolve('electron-chromedriver/chromedriver');
-}
-const chromedriverCustomPath = isWin
-  ? join(__dirname, '..', 'packages', 'spectron', 'lib', 'chrome-driver.bat')
-  : require.resolve('electron-chromedriver/chromedriver');
-
 const config = {
   // hostname: '127.0.0.1',
   port: 9515,
@@ -58,28 +8,6 @@ const config = {
   runner: 'local',
   // outputDir: 'all-logs',
   specs: ['./*.spec.ts'],
-  services: [
-    [
-      'chromedriver',
-      {
-        port: 9515,
-        logFileName: 'wdio-chromedriver.log', // default
-        // outputDir: 'driver-logs', // overwrites the config.outputDir
-        chromedriverCustomPath,
-        // args: ['--silent'],
-      },
-    ],
-  ],
-  capabilities: [
-    {
-      'browserName': 'chrome',
-      'goog:chromeOptions': {
-        binary: appPath,
-        args,
-        windowTypes: ['app', 'webview'],
-      },
-    },
-  ],
   autoCompileOpts: {
     autoCompile: true,
     // see https://github.com/TypeStrong/ts-node#cli-and-programmatic-options
