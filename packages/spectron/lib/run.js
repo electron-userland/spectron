@@ -78,6 +78,9 @@ const run = async (...args) => {
 
   try {
     await wdio.run();
+    if (isWin) {
+      process.exit(0);
+    }
   } catch (error) {
     console.error('Launcher failed to start the test', error.stacktrace);
   }
