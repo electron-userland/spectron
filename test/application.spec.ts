@@ -1,41 +1,38 @@
 const { setupBrowser, WebdriverIOBoundFunctions } = require('@testing-library/webdriverio');
 const { queries } = require('@testing-library/dom');
-const { Application } = require('@goosewobbler/spectron');
+const { initSpectron } = require('@goosewobbler/spectron');
 
 describe('application loading', () => {
-  const app = new Application({
-    chromeDriverLogPath: join(process.cwd(), 'chromeDriver.log'),
-    webdriverLogPath: process.cwd(),
-    quitTimeout: 0,
-  });
-
   let screen: WebdriverIOBoundFunctions<typeof queries>;
+  let app;
 
   describe('App', () => {
+    beforeAll(async () => {
+      app = await initSpectron({
+        quitTimeout: 0,
+      });
+    });
+
     beforeEach(async () => {
-      await app.start();
-      await app.client.waitUntilWindowLoaded();
-      screen = setupBrowser(app.client);
+      await browser.waitUntilWindowLoaded();
+      screen = setupBrowser(browser);
     }, 30000);
 
     afterEach(async () => {
       if (app) {
-        await app.mainProcess.abort();
-        // await app.stop();
+        await app.quit();
       }
     }, 30000);
 
-    afterAll(() => {});
-
     it('launches the application', async () => {
-      const response = await app.client.getWindowHandles();
+      const response = await browser.getWindowHandles();
       expect(response.length).toEqual(1);
 
       const bounds = await app.browserWindow.getBounds();
       expect(bounds.width).toEqual(200);
       expect(bounds.height).toEqual(300);
-      await app.client.waitUntilTextExists('html', 'Hello');
-      const title = await app.client.getTitle();
+      await browser.waitUntilTextExists('html', 'Hello');
+      const title = await browser.getTitle();
       expect(title).toEqual('Test');
     });
   });
