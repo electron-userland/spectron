@@ -1,6 +1,6 @@
 import * as WebdriverIO from 'webdriverio';
 
-export interface SpectronClient extends WebdriverIO.BrowserObject {
+export interface SpectronClient extends WebdriverIO.Browser<'async'> {
   [key: string]: any;
   /**
    * Wait until the window is no longer loading.
@@ -27,16 +27,6 @@ export interface SpectronClient extends WebdriverIO.BrowserObject {
    * Get the selected text in the current window.
    */
   getSelectedText(): Promise<string>;
-  /**
-   * Gets the console log output from the render process.
-   * The logs are cleared after they are returned.
-   */
-  getRenderProcessLogs(): Promise<object[]>;
-  /**
-   * Gets the console log output from the main process.
-   * The logs are cleared after they are returned.
-   */
-  getMainProcessLogs(): Promise<string[]>;
 }
 
 export type ApiNames = string[];
@@ -53,7 +43,7 @@ export type ApiPlaceholdersObj =
 
 export type ApiObj = {
   [Key: string]: {
-    [Key: string]: (unknown) => Promise<unknown>;
+    [Key: string]: (...args: unknown[]) => Promise<unknown>;
   };
 };
 
