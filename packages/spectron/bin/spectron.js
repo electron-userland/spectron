@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../').run(...process.argv);
+require('..').run(...process.argv);
