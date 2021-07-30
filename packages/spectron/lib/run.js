@@ -1,3 +1,4 @@
+/* eslint no-process-exit: off */
 const Launcher = require('@wdio/cli').default;
 const { join } = require('path');
 
