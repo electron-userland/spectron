@@ -1,4 +1,4 @@
-const config = {
+export const config = {
   // hostname: '127.0.0.1',
   port: 9515,
   waitforTimeout: 5000,
@@ -14,6 +14,12 @@ const config = {
     // for all available options
     tsNodeOpts: {
       transpileOnly: true,
+      files: true,
+      moduleTypes: {
+        // WDIO doesn't currently support ESM
+        '*.conf.ts': 'cjs',
+        '*.spec.ts': 'cjs',
+      },
       project: './tsconfig.json',
     },
     // tsconfig-paths is only used if "tsConfigPathsOpts" are provided, if you
@@ -33,5 +39,3 @@ const config = {
     invertGrep: null,
   },
 };
-
-module.exports = { config };

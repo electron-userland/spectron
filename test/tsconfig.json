@@ -1,7 +1,15 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "moduleTypes": {
+      "wdio.conf.ts": "cjs"
+    }
+  },
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
+    "baseUrl": "./",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
@@ -22,6 +30,6 @@
     "noEmit": true,
     "types": ["node", "webdriverio/async", "wdio-chromedriver-service"]
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.js"],
   "exclude": ["node_modules"]
 }
