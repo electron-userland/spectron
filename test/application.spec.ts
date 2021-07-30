@@ -1,6 +1,6 @@
-import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
-import { queries } from '@testing-library/dom';
-import { initSpectron } from '@goosewobbler/spectron';
+const { setupBrowser, WebdriverIOBoundFunctions } = require('@testing-library/webdriverio');
+const { queries } = require('@testing-library/dom');
+const { initSpectron } = require('@goosewobbler/spectron');
 
 describe('application loading', () => {
   let screen: WebdriverIOBoundFunctions<typeof queries>;
