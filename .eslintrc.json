@@ -20,7 +20,7 @@
   },
   "overrides": [
     {
-      "files": "*.d.ts",
+      "files": "*.ts",
       "parser": "@typescript-eslint/parser",
       "plugins": ["@typescript-eslint"],
       "env": {
