@@ -23,7 +23,7 @@ function getAppPath(distPath, appName) {
 const packageJson = JSON.parse(fs.readFileSync('./app/package.json'));
 const {
   build: { productName },
-} = packageJson.compilerOptions;
+} = packageJson;
 
 const config = {
   appPath: getAppPath(join(process.cwd(), 'app', 'dist'), productName),
