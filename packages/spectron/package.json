@@ -7,6 +7,10 @@
   "bin": {
     "spectron": "./bin/spectron.js"
   },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/lib/*"
+  },
   "scripts": {
     "clean": "cross-env rm -rf ./node_modules ./dist",
     "build": "pnpm run build:typescript-references-hack && tsc",
