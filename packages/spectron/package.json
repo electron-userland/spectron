@@ -9,8 +9,7 @@
   },
   "scripts": {
     "clean": "cross-env rm -rf ./node_modules ./dist",
-    "build": "pnpm run build:typescript-references-hack && pnpm run build:copy && tsc",
-    "build:copy": "cross-env mkdir -p ./dist/bin && cross-env cp ./bin/* ./dist/bin",
+    "build": "pnpm run build:typescript-references-hack && tsc",
     "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
     "lint": "eslint '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'",
     "prettier:write": "prettier --write '**/*.[j|t]s'",
