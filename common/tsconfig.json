@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
     "outDir": "../packages/spectron/dist/common",
+    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "composite": true
+    "composite": true,
+    "declaration": true
   },
-  "include": ["./*.ts"]
+  "include": ["./*.ts"],
+  "exclude": ["node_modules"],
+  "ignore": ["../node_modules/**/*"]
 }

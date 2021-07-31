@@ -2,7 +2,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import fs from 'fs';
-import '@goosewobbler/spectron/main.js';
+import '@goosewobbler/spectron/main';
 
 const appPath = app.getAppPath();
 

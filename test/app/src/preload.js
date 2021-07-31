@@ -1,1 +1,1 @@
-import '@goosewobbler/spectron/preload.js';
+require('@goosewobbler/spectron/preload');

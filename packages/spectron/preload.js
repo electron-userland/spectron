@@ -1,1 +1,1 @@
-require('./dist/lib/preload');
+require('./dist/preload');

@@ -11,6 +11,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "inlineSources": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "newLine": "lf",
@@ -27,8 +28,8 @@
     }
   },
   "references": [{ "path": "./../../common" }],
-  "include": ["**/*.ts", "index.js"],
-  "exclude": ["node_modules", "dist"],
+  "files": ["index.ts"],
+  "ignore": ["node_modules", "dist"],
   "typeRoots": ["../../common", "./node_modules/@types"],
   "ts-node": {
     "transpileOnly": true,
