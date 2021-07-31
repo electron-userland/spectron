@@ -1,4 +1,3 @@
-/* eslint-disable import/no-default-export */
 const fs = require('fs-extra');
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
 
