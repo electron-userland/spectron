@@ -1,5 +1,4 @@
-import { SpectronClient } from './application';
-import { LooseObject } from '../../../common/types';
+import { LooseObject, SpectronClient } from '../../../common/types';
 
 type ApiPlaceholdersObj = {
   [Key: string]: {
