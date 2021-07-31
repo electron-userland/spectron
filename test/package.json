@@ -5,10 +5,7 @@
   "main": "./app/dist/main.js",
   "scripts": {
     "clean": "cross-env rm -rf ./node_modules",
-    "test:coverage": "pnpx spectron ./wdio.conf.ts",
-    "test:watch": "jest --watch",
-    "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run test:coverage",
+    "test": "pnpx spectron ./wdio.conf.ts",
     "lint": "eslint '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'"
   },
   "devDependencies": {
