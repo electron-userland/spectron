@@ -78,6 +78,7 @@ importers:
       '@goosewobbler/spectron': '*'
       '@testing-library/dom': ^8.1.0
       '@testing-library/webdriverio': ^3.0.2
+      '@types/jasmine': ^3.8.2
       '@wdio/jasmine-framework': ^7.8.0
       ts-node: ^10.1.0
       tsconfig-paths: ^3.10.1
@@ -88,6 +89,7 @@ importers:
       '@goosewobbler/spectron': link:../packages/spectron
       '@testing-library/dom': 8.1.0
       '@testing-library/webdriverio': 3.0.2
+      '@types/jasmine': 3.8.2
       '@wdio/jasmine-framework': 7.8.0
       ts-node: 10.1.0_typescript@4.3.5
       tsconfig-paths: 3.10.1
@@ -1009,6 +1011,10 @@ packages:
 
   /@types/jasmine/3.6.9:
     resolution: {integrity: sha512-B53NIwMj/AO0O+xfSWLYmKB0Mo6TYxfv2Mk8/c1T2w/e38t55iaPR6p7pHXTTtqfTmevPK3i8T1YweYFTZlxDw==}
+    dev: true
+
+  /@types/jasmine/3.8.2:
+    resolution: {integrity: sha512-u5h7dqzy2XpXTzhOzSNQUQpKGFvROF8ElNX9P/TJvsHnTg/JvsAseVsGWQAQQldqanYaM+5kwxW909BBFAUYsg==}
     dev: true
 
   /@types/jest/26.0.24:
