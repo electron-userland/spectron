@@ -14,6 +14,7 @@
     "@goosewobbler/spectron": "*",
     "@testing-library/dom": "^8.1.0",
     "@testing-library/webdriverio": "^3.0.2",
+    "@types/jasmine": "^3.8.2",
     "@wdio/jasmine-framework": "^7.8.0",
     "ts-node": "^10.1.0",
     "tsconfig-paths": "^3.10.1",
