@@ -21,7 +21,7 @@
     "allowJs": true,
     "checkJs": true,
     "noEmit": false,
-    "types": ["node", "jest", "webdriverio/async"],
+    "types": ["node", "jest", "webdriverio/async", "wdio-chromedriver-service"],
     "paths": {
       "@common/*": ["../../common/*"]
     }
