@@ -184,21 +184,74 @@ Create a new application with the following options:
 
 ### Node Integration
 
+In order to gain access to the `electron` and `webContents` members of the 
+`Application` object using the best practices for Electron security, you must
+disable `contextIsolation`, enable  `enableRemoteModule`, and preload your contextBridge
+differently.
+
+It is recommended that you use `NODE_ENV == test && test_command` to start your application.  
+Create your `BrowserWindow` like this:
+
+```
+var devTools = false
+var contextIsolation = true
+var enableRemoteModule = false
+var nodeIntegration = false
+if(process.env.NODE_ENV === 'test') {
+  devTools = false
+  contextIsolation = false
+  enableRemoteModule = true
+  nodeIntegration = true
+}
+win = new BrowserWindow({
+  width: 1600,
+  height: 800,
+  webPreferences: {
+    preload: require('path').join(__dirname, './preload.js'),
+    contextIsolation: contextIsolation,
+    enableRemoteModule: enableRemoteModule,
+    nodeIntegration: nodeIntegration
+  }
+})
+```
+Write your preload like this:
+```
+if (process.env.NODE_ENV === 'test') {testMode = true}
+const api = {
+  doThing: () => ipcRenderer.send('do-a-thing'),
+  ... safeApiMethods
+}
+if (!isTestMode) {
+  contextBridge.exposeInMainWorld('electron', api)
+} else {
+  function deepFreeze<T extends Record<string, any>>(o: T): Readonly<T> {
+    Object.freeze(o)
+    Object.getOwnPropertyNames(o).forEach(prop => {
+      if (o.hasOwnProperty(prop)
+        && o[prop] !== null
+        && (typeof o[prop] === 'object' || typeof o[prop] === 'function')
+        && !Object.isFrozen(o[prop])) {
+        deepFreeze(o[prop])
+      }
+    })
+    return o
+  }
+  deepFreeze(api)
+  window.electronRequire = require
+  window.electron = api
+}
+```
+Note that if you are writing typescript, and using webpack to build your project, 
+you may need to change `window.electronRequire = require` to 
+`window.electronRequire = eval('require');` to properly preload electron to the window.
+
 The Electron helpers provided by Spectron require accessing the core Electron
 APIs in the renderer processes of your application. So, either your Electron
 application has `nodeIntegration` set to `true` or you'll need to expose a
 `require` window global to Spectron so it can access the core Electron APIs.
 
-You can do this by adding a [`preload`][preload] script that does the following:
-
-```js
-if (process.env.NODE_ENV === 'test') {
-  window.electronRequire = require
-}
-```
-
-Then create the Spectron `Application` with the `requireName` option set to
-`'electronRequire'` and then runs your tests via `NODE_ENV=test npm test`.
+See [693]: https://github.com/electron-userland/spectron/issues/693 for a detailed discussion
+on this topic.
 
 **Note:** This is only required if your tests are accessing any Electron APIs.
 You don't need to do this if you are only accessing the helpers on the `client`
