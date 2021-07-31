@@ -26,6 +26,6 @@
     "smoke-test": "pnpm run --filter @goosewobbler/spectron-e2e test",
     "unit-test": "pnpm run --filter @goosewobbler/spectron test",
     "test": "pnpm run -r test",
-    "ci": "pnpm run build && pnpm run test"
+    "ci": "pnpm run build && pnpm run test && pnpm run lint"
   }
 }
