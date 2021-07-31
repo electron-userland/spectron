@@ -39,6 +39,7 @@ module.exports = {
       },
       rules: {
         'no-unused-vars': 'off',
+        'import/prefer-default-export': 'off',
         'node/no-unsupported-features/es-syntax': ['error', { ignores: ['modules'] }],
       },
       parserOptions: {
