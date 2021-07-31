@@ -1,10 +1,11 @@
-import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
+import { BrowserBase, setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
 import { queries } from '@testing-library/dom';
 import { initSpectron } from '@goosewobbler/spectron';
+import { SpectronApp } from '../packages/spectron/lib/application';
 
 describe('application loading', () => {
   let screen: WebdriverIOBoundFunctions<typeof queries>;
-  let app;
+  let app: SpectronApp;
 
   describe('App', () => {
     beforeAll(async () => {
@@ -15,7 +16,7 @@ describe('application loading', () => {
 
     beforeEach(async () => {
       await app.client.waitUntilWindowLoaded();
-      screen = setupBrowser(app.client);
+      screen = setupBrowser(app.client as unknown as BrowserBase);
     }, 30000);
 
     afterEach(async () => {
