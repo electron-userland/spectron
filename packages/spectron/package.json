@@ -69,5 +69,14 @@
   },
   "resolutions": {
     "@types/node": "^14.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "./main.js",
+    "./preload.js",
+    "./main.d.ts",
+    "./preload.d.ts",
+    "./spectron.d.ts"
+  ]
 }
