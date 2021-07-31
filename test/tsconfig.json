@@ -18,7 +18,6 @@
     "noImplicitReturns": true,
     "inlineSources": true,
     "sourceMap": true,
-    "importsNotUsedAsValues": "preserve",
     "allowSyntheticDefaultImports": true,
     "newLine": "lf",
     "noEmitOnError": true,
@@ -28,8 +27,9 @@
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
-    "types": ["node", "webdriverio/async", "wdio-chromedriver-service"]
+    "types": ["node", "jasmine"],
+    "typeRoots": ["../common", "./node_modules/@types"]
   },
-  "include": ["**/*.ts", "**/*.js"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }
