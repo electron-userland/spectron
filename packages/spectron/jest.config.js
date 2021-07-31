@@ -6,8 +6,6 @@ const tsConfig = JSON.parse(fs.readFileSync('./tsconfig.json'));
 const { paths } = tsConfig.compilerOptions;
 const moduleNameMapper = pathsToModuleNameMapper(paths, { prefix: '<rootDir>/' });
 
-console.log('moduleNameMapper', moduleNameMapper);
-
 module.exports = {
   preset: 'ts-jest',
   coverageReporters: ['html', 'lcov', 'text'],
