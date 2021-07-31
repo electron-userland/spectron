@@ -9,9 +9,9 @@ Easily test your [Electron](http://electronjs.org) apps using
 
 ## Differences between this fork and @electron-userland/spectron
 
-This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. I deleted a lot of code and some things might not work as expected. Spectron really needs a complete rewrite, this is a start.
+This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. I deleted a lot of code and some things might not work as expected. This is a rewrite with much greater WebDriverIO integration than the original - for instance, all handling of ChromeDriver is now delegated to the WDIO ChromeDriver service.
 
-Other options:
+Other, non-WebDriver based options for your Electron E2E testing:
 
 [Playwright](https://playwright.dev) (currently experimental support for Electron).
 [Puppeteer-in-electron](https://github.com/TrevorSundberg/puppeteer-in-electron)
@@ -20,81 +20,94 @@ This version of Spectron is designed to be used with `nodeIntegration: false`, `
 
 ## Installation & Quick Start
 
-Install using your favourite package manager:
+Install Spectron using your favourite package manager. You will also need a WebDriverIO framework dependency for whichever [framework](https://webdriver.io/docs/frameworks/) you want to use, for instance Jasmine:
 
 ```sh
-npm install --save-dev @goosewobbler/spectron
+npm install --save-dev @goosewobbler/spectron @wdio/jasmine-framework
 
 ---
 
-yarn add -D @goosewobbler/spectron
+yarn add -D @goosewobbler/spectron @wdio/jasmine-framework
 
 ---
 
-pnpm i -D @goosewobbler/spectron
+pnpm i -D @goosewobbler/spectron @wdio/jasmine-framework
 ```
 
 In your main process root (index) file, add the following import:
 
-```js
+```ts
 import '@goosewobbler/spectron/main';
 ```
 
 In your preload file, add the following import:
 
-```js
+```ts
 import '@goosewobbler/spectron/preload';
 ```
 
-Add a spec file - the following is an example using Jest and Testing Library, on a Mac:
+Add a spec file - the following is an example using Jasmine and Testing Library, on a Mac:
 
-```js
-import path from 'path';
-import { Application } from '@goosewobbler/spectron';
-import { setupBrowser } from '@testing-library/webdriverio';
+```ts
+import { BrowserBase, setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
+import { queries } from '@testing-library/dom';
+import { initSpectron } from '@goosewobbler/spectron';
+import { SpectronApp } from '../packages/spectron/lib/application';
 
-const app: Application = new Application({
-  path: path.join(
-    process.cwd(), // This works assuming you run npm test from project root
-    // The path to the binary depends on your platform and architecture
-    'dist/mac/lists.app/Contents/MacOS/lists',
-  ),
-});
+describe('application loading', () => {
+  let screen: WebdriverIOBoundFunctions<typeof queries>;
+  let app: SpectronApp;
 
-describe('App', () => {
-  beforeEach(async () => {
-    await app.start();
-    await app.client.waitUntilWindowLoaded();
-  });
+  describe('App', () => {
+    beforeAll(async () => {
+      app = await initSpectron({
+        quitTimeout: 1000,
+      });
+    });
 
-  afterEach(async () => {
-    if (app && app.isRunning()) {
-      await app.stop();
-    }
-  });
+    beforeEach(async () => {
+      await app.client.waitUntilWindowLoaded();
+      screen = setupBrowser(app.client as unknown as BrowserBase);
+    }, 30000);
 
-  it('should launch app', async () => {
-    const isVisible = await app.browserWindow.isVisible();
-    expect(isVisible).toBe(true);
-  });
+    afterEach(async () => {
+      if (app) {
+        await app.quit();
+      }
+    }, 30000);
 
-  it('should display a new list button', async () => {
-    const button = await screen.getByText('New List');
-    expect(button).toBeDefined();
-  });
+    it('launches the application', async () => {
+      const response = await app.client.getWindowHandles();
+      expect(response.length).toEqual(1);
 
-  describe('when the new list button is clicked', () => {
-    it('should create a new list input box', async () => {
-      const button = await screen.getByText('New List');
-      await button.click();
-      const input = await screen.getByLabelText('List Title');
-      expect(await input.getValue()).toEqual('New List');
+      const bounds = await app.browserWindow.getBounds();
+      expect(bounds.width).toEqual(200);
+      expect(bounds.height).toEqual(300);
+      await app.client.waitUntilTextExists('html', 'Hello');
+      const title = await app.client.getTitle();
+      expect(title).toEqual('Test');
     });
   });
 });
 ```
 
 Obviously this depends on your app binary so you will need to ensure it is built before the tests are executed.
+
+Next you will need a config file. Spectron uses the exact same format as the [WebDriverIO config file](https://webdriver.io/docs/configurationfile) for their TestRunner, the only difference is that you won't need to configure ChromeDriver in `services` or anything in the `capabilities` section as these are handled by Spectron. Config merging is handled by WDIO.
+
+Finally, you can execute your tests in a similar way to WebDriverIO (Spectron wraps the WDIO TestRunner):
+
+```sh
+npx spectron ./spectron.conf.ts
+
+---
+
+yarn spectron ./spectron.conf.ts
+
+---
+
+pnpx spectron ./spectron.conf.ts
+```
 
 ## Known Limitations / WIP
 
@@ -121,7 +134,7 @@ The `client` API is WebdriverIO's `browser` object. Documentation can be found
 
 To get the text of an element:
 
-```js
+```ts
 const errorText = await app.client.getText('#error-alert');
 ```
 
@@ -131,7 +144,7 @@ The `browserWindow` property provides you access to the current [BrowserWindow](
 
 To check if the current window is visible:
 
-```js
+```ts
 const visible = await app.client.isVisible();
 ```
 
@@ -142,7 +155,7 @@ for the current window.
 
 To check if the current window's webContents is loading:
 
-```js
+```ts
 const loading = await app.webContents.isLoading();
 ```
 
@@ -152,7 +165,7 @@ The `mainProcess` and `rendererProcess` properties you access to the [process](h
 
 To check args passed to the main process:
 
-```js
+```ts
 const argv = await app.mainProcess.argv();
 ```
 
@@ -162,7 +175,7 @@ The `app` property gives you access to the [app](http://electronjs.org/docs/late
 
 To get the version string of the loaded application:
 
-```js
+```ts
 const version = await app.electronApp.getVersion();
 ```
 
