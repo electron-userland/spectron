@@ -30,7 +30,7 @@ export const run = async (...args: unknown[]) => {
     ? join(__dirname, '..', 'bin', 'chrome-driver.bat')
     : require.resolve('electron-chromedriver/chromedriver');
 
-  const configFilePath = join(process.cwd(), 'spectron.conf.cjs');
+  const configFilePath = join(process.cwd(), 'spectron.conf.js');
   const { config } = require(configFilePath);
 
   const wdio = new Launcher(
