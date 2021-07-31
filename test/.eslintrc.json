@@ -21,6 +21,17 @@
   "overrides": [
     {
       "files": "*.ts",
+      "extends": [
+        "airbnb-base-typescript",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:import/errors",
+        "plugin:import/typescript",
+        "plugin:import/warnings",
+        "plugin:prettier/recommended",
+        "plugin:node/recommended"
+      ],
       "parser": "@typescript-eslint/parser",
       "plugins": ["@typescript-eslint"],
       "env": {
@@ -32,7 +43,8 @@
       },
       "parserOptions": {
         "ecmaVersion": 2020,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
       },
       "settings": {
         "node": {

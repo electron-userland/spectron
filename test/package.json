@@ -8,7 +8,8 @@
     "test:coverage": "pnpx spectron ./wdio.conf.ts",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run test:coverage"
+    "test": "pnpm run test:coverage",
+    "lint": "eslint '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'"
   },
   "devDependencies": {
     "@goosewobbler/spectron": "*",

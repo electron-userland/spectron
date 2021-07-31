@@ -27,7 +27,7 @@
     }
   },
   "references": [{ "path": "./../../common" }],
-  "include": ["./*.ts", "index.js"],
+  "include": ["**/*.ts", "index.js"],
   "exclude": ["node_modules", "dist"],
   "typeRoots": ["../../common", "./node_modules/@types"],
   "ts-node": {
