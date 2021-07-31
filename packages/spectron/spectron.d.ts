@@ -6,7 +6,7 @@
 
 import { BasicAppSettings, SpectronApp } from './lib/application';
 
-declare module '@goosewobbler/spectron' {
-  export function initSpectron(appSettings: BasicAppSettings): Promise<SpectronApp>;
-  export function run(): Promise<void>;
-}
+declare module '@goosewobbler/spectron' {}
+
+export function initSpectron(appSettings: BasicAppSettings): Promise<SpectronApp>;
+export function run(): Promise<void>;
