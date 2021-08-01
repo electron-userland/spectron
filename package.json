@@ -31,7 +31,7 @@
     "init": "npm install -g pnpm && pnpm i",
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm run --filter @goosewobbler/spectron build && pnpm run --filter @goosewobbler/spectron-e2e-app build",
-    "lint": "pnpm run -r lint",
+    "lint": "pnpm run -r lint && prettier --check '**/*.[j|t]s'",
     "clean": "pnpm run -r clean",
     "format": "prettier --ignore-path .gitignore --write .",
     "smoke-test": "pnpm run --filter @goosewobbler/spectron-e2e test",

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "cross-env rm -rf ./node_modules",
     "test": "pnpx spectron ./wdio.conf.ts",
-    "lint": "eslint --ignore-path ../.eslintignore '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'"
+    "lint": "eslint --ignore-path ../.eslintignore '**/*.[j|t]s'"
   },
   "devDependencies": {
     "@goosewobbler/spectron": "*",
