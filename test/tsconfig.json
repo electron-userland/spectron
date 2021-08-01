@@ -27,9 +27,13 @@
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
-    "types": ["node", "jasmine"],
+    "paths": {
+      "~/common/*": ["../common/*"]
+    },
+    "types": ["node", "jasmine", "webdriverio/async"],
     "typeRoots": ["../common", "./node_modules/@types"]
   },
+  "references": [{ "path": "./../common" }],
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }

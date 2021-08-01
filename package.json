@@ -4,7 +4,7 @@
     "packages/*",
     "test/*"
   ],
-  "description": "Make sure all your stores are on the same page",
+  "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "author": "Sam Maister",
   "repository": "https://github.com/goosewobbler/spectron",
   "bugs": "https://github.com/goosewobbler/spectron/issues",
@@ -21,6 +21,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^5.1.0",
+    "fs-extra": "^10.0.0",
     "husky": "^7.0.1",
     "prettier": "^2.3.2",
     "typescript": "^4.3.5",

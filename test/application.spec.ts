@@ -16,7 +16,7 @@ describe('application loading', () => {
 
     beforeEach(async () => {
       await app.client.waitUntilWindowLoaded();
-      screen = setupBrowser(app.client as unknown as BrowserBase);
+      screen = setupBrowser(app.client as BrowserBase);
     }, 30000);
 
     afterEach(async () => {
@@ -29,12 +29,13 @@ describe('application loading', () => {
       const response = await app.client.getWindowHandles();
       expect(response.length).toEqual(1);
 
-      const bounds = await app.browserWindow.getBounds();
+      const bounds = app.browserWindow.getBounds();
       expect(bounds.width).toEqual(200);
       expect(bounds.height).toEqual(300);
       await app.client.waitUntilTextExists('html', 'Hello');
       const title = await app.client.getTitle();
       expect(title).toEqual('Test');
+      expect(screen.getByText('word1')).toBeDefined();
     });
   });
 });

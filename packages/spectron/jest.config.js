@@ -1,3 +1,4 @@
+/* eslint  import/no-extraneous-dependencies: 'off', node/no-extraneous-require: off */
 const fs = require('fs-extra');
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
 
