@@ -36,7 +36,9 @@ jobs:
 
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.0.2
+          version: 6.11.5
           run_install: true
-      - name: Test
-        run: pnpm test
+      - name: Run headless test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: pnpm run ci

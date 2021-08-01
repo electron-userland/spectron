@@ -1,3 +1,10 @@
+const fs = require('fs-extra');
+const { pathsToModuleNameMapper } = require('ts-jest/utils');
+
+const tsConfig = JSON.parse(fs.readFileSync('./tsconfig.json'));
+const { paths } = tsConfig.compilerOptions;
+const moduleNameMapper = pathsToModuleNameMapper(paths, { prefix: '<rootDir>/' });
+
 module.exports = {
   preset: 'ts-jest',
   coverageReporters: ['html', 'lcov', 'text'],
@@ -7,7 +14,7 @@ module.exports = {
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/lib/*.js'],
+  collectCoverageFrom: ['<rootDir>/lib/*.ts'],
   coverageThreshold: {
     global: {
       branches: 0,
@@ -17,14 +24,19 @@ module.exports = {
     },
   },
   clearMocks: true,
-  modulePathIgnorePatterns: ['.node_modules_production'],
+  rootDir: '.',
+  roots: ['<rootDir>', '<rootDir>/../../common'],
+  modulePaths: ['<rootDir>', '<rootDir>/../../common'],
+  modulePathIgnorePatterns: ['dist', '.node_modules_production'],
   testMatch: ['<rootDir>/test/*.spec.ts'],
   testURL: 'https://github.com/goosewobbler/',
   testEnvironment: 'jsdom',
+  moduleNameMapper,
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.json',
-      packageJson: 'package.json',
+      isolatedModules: true,
+      tsConfig: './test/tsconfig.json',
+      packageJson: './package.json',
     },
   },
 };

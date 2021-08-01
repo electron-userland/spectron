@@ -1,23 +1,31 @@
 {
   "name": "@goosewobbler/spectron",
-  "version": "16.1.1",
+  "version": "17.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
-  "main": "index.js",
-  "types": "./lib/spectron.d.ts",
+  "main": "./dist/index.js",
+  "types": "./spectron.d.ts",
+  "bin": {
+    "spectron": "./bin/spectron.js"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/lib/*"
+  },
   "scripts": {
-    "clean": "cross-env rm -rf ./node_modules",
-    "build": "tsc -p './tsconfig.json'",
-    "lint": "eslint \"**/*.js\" \"**/*.ts\" && prettier --check \"**/*.js\" \"**/*.ts\"",
-    "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
-    "test:check-types": "tsc lib/spectron.d.ts main.d.ts preload.d.ts",
+    "clean": "cross-env rm -rf ./node_modules ./dist",
+    "clean:dist": "cross-env rm -rf ./dist",
+    "build": "pnpm run build:typescript-references-hack && tsc -b lib test",
+    "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
+    "lint": "eslint --ignore-path ../../.eslintignore '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'",
+    "prettier:write": "prettier --write '**/*.[j|t]s'",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run test:coverage && pnpm run test:check-types",
+    "test": "pnpm run test:coverage",
     "postinstall": "node lib/rpath-fix.js"
   },
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=14.17.1"
   },
   "repository": "https://github.com/goosewobbler/spectron",
   "keywords": [
@@ -29,34 +37,34 @@
   "author": "Sam Maister",
   "license": "MIT",
   "dependencies": {
-    "dev-null": "^0.1.1",
+    "@wdio/cli": "^7.9.0",
+    "@wdio/local-runner": "^7.9.0",
+    "chromedriver": "^92.0.0",
     "electron": "^13.1.7",
     "electron-chromedriver": "^13.0.0",
-    "fs-extra": "^10.0.0",
-    "got": "^11.8.2",
-    "split": "^1.0.1",
-    "webdriverio": "^6.12.1"
+    "tsconfig-paths": "^3.10.1",
+    "ts-node": "^10.1.0",
+    "wdio-chromedriver-service": "^7.2.0",
+    "webdriverio": "^7.9.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "eslint": "^7.31.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "husky": "^7.0.1",
-    "prettier": "^2.3.2",
-    "typescript": "^4.3.5",
     "@testing-library/dom": "^8.1.0",
+    "@types/jest": "^26.0.24",
+    "fs-extra": "^10.0.0",
     "jest": "^27.0.6",
     "jest-mock-extended": "^1.0.18",
     "ts-jest": "^27.0.4"
   },
   "resolutions": {
-    "@types/node": "^12.0.0"
-  }
+    "@types/node": "^14.0.0"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "./main.js",
+    "./preload.js",
+    "./main.d.ts",
+    "./preload.d.ts",
+    "./spectron.d.ts"
+  ]
 }

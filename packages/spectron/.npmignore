@@ -1,0 +1,7 @@
+coverage
+lib
+test
+jest.config.js
+*.spec.js
+tsconfig.tsbuildinfo
+.DS_Store

@@ -1,6 +1,8 @@
 # Spectron Configuration
 
-## Options
+Spectron now reads in configuration parameters via a config file, in a similar way to WebDriverIO. Some of the following options will need to be resurrected in the new world, others have no equivalent so will be deleted from this page.
+
+## Options - DEPRECATED
 
 You can create a new application with the following options:
 
