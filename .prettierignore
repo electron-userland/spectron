@@ -1,2 +1,2 @@
-coverage
-dist
+**/coverage/**/*
+**/dist/**/*
