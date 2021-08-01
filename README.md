@@ -13,7 +13,7 @@ This was forked to fulfil a simple requirement - bring Spectron in line with mod
 
 Other, non-WebDriver based options for your Electron E2E testing:
 
-[Playwright](https://playwright.dev) (currently experimental support for Electron).
+[Playwright](https://playwright.dev) (currently experimental support for Electron). \
 [Puppeteer-in-electron](https://github.com/TrevorSundberg/puppeteer-in-electron)
 
 This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps.

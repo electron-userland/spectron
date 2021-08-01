@@ -1,4 +1,3 @@
-import Electron from 'electron';
 import { Browser, WaitUntilOptions } from 'webdriverio';
 import { SpectronClient } from '~/common/types';
 import { ApiNames, createApi } from './api';
@@ -8,24 +7,24 @@ function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export interface SpectronWindow extends Electron.BrowserWindow {
-  [key: string]: unknown;
+export interface SpectronWindow {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
 }
 
-export interface SpectronWebContents extends Electron.WebContents {
-  [key: string]: unknown;
+export interface SpectronWebContents {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
 }
 
-export interface SpectronElectronApp extends Electron.App {
-  [key: string]: unknown;
+export interface SpectronElectronApp {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
 }
 
-export interface SpectronMainProcess extends NodeJS.Process {
-  [key: string]: unknown;
+export interface SpectronMainProcess {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
 }
 
-export interface SpectronRendererProcess extends NodeJS.Process {
-  [key: string]: unknown;
+export interface SpectronRendererProcess {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
 }
 
 export interface SpectronApp {
@@ -57,7 +56,7 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
     spectronObj.quit = async () => {
       // await spectronObj.electronApp.quit();
       if (spectronObj.mainProcess) {
-        spectronObj.mainProcess.abort();
+        await spectronObj.mainProcess.abort();
       }
 
       await delay(quitTimeout);
@@ -65,7 +64,7 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
 
     async function waitUntilWindowLoaded(this: Browser<'async'>, timeout: Partial<WaitUntilOptions>) {
       try {
-        await this.waitUntil(() => !spectronObj.webContents.isLoading(), timeout);
+        await this.waitUntil(async () => !(await spectronObj.webContents.isLoading()), timeout);
       } catch (error) {
         throw new Error(`waitUntilWindowLoaded error: ${(error as Error).message}`);
       }
