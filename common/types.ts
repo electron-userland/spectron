@@ -6,7 +6,6 @@ export interface LooseObject {
 }
 
 export interface SpectronClient extends Browser<'async'> {
-  [key: string]: unknown;
   /**
    * Wait until the window is no longer loading.
    * Takes an optional timeout in milliseconds that defaults to 5000.

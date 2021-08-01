@@ -99,7 +99,7 @@ async function addApis(webdriverClient: WebDriverClient, nameSpace: string, plac
         await webdriverClient.addCommand(commandName, executeApiCall);
 
         apiObj[funcName] = (...args: unknown[]) =>
-          (webdriverClient[commandName] as WebdriverClientFunc).apply(webdriverClient, args);
+          (webdriverClient[commandName as keyof WebDriverClient] as WebdriverClientFunc).apply(webdriverClient, args);
       }),
     );
   } catch (error) {
