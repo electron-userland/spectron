@@ -35,6 +35,7 @@ describe('application loading', () => {
       await app.client.waitUntilTextExists('html', 'Hello');
       const title = await app.client.getTitle();
       expect(title).toEqual('Test');
+      expect(screen.getByText('word1 word2')).toBeDefined();
     });
   });
 });
