@@ -1,6 +1,6 @@
-import webpack from 'webpack';
+const { ProgressPlugin } = require('webpack');
 
-const plugins = [new webpack.ProgressPlugin()];
+const plugins = [new ProgressPlugin()];
 const mode = 'development';
 
 module.exports = [

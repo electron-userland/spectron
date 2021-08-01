@@ -1,1 +1,1 @@
-import '@goosewobbler/spectron/preload';
+require('@goosewobbler/spectron/preload');

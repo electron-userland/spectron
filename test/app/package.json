@@ -3,7 +3,6 @@
   "name": "@goosewobbler/spectron-e2e-app",
   "version": "1.0.0",
   "main": "./dist/main.js",
-  "type": "module",
   "scripts": {
     "build": "pnpm run clean:dist && webpack && cross-env cp ./src/index.html ./dist && electron-builder",
     "clean": "cross-env rm -rf ./node_modules && pnpm run clean:dist",
