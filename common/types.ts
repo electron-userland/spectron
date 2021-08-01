@@ -1,17 +1,12 @@
+/* eslint import/no-extraneous-dependencies: off */
+import { Browser } from 'webdriverio';
+
 export interface LooseObject {
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
-declare namespace WebdriverIO {
-  interface BrowserObject {}
-  interface Element {}
-}
-
-export interface SpectronClient extends WebdriverIO.BrowserObject {
-  [key: string]: any;
-  $(): Promise<WebdriverIO.Element>;
-
-  addCommand(commandName: string, executeApiCall: Function): Promise<void>;
+export interface SpectronClient extends Browser<'async'> {
+  [key: string]: unknown;
   /**
    * Wait until the window is no longer loading.
    * Takes an optional timeout in milliseconds that defaults to 5000.

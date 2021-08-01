@@ -11,13 +11,10 @@ module.exports = {
       settings: {
         'import/resolver': {
           typescript: {
-            project: [`${__dirname}/tsconfig.json`, `${__dirname}/../../common/tsconfig.json`],
+            project: [`${__dirname}/tsconfig.json`],
             alwaysTryTypes: true,
           },
         },
-      },
-      rules: {
-        'node/no-unpublished-import': 'error',
       },
     },
   ],

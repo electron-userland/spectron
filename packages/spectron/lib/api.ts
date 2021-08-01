@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-export type ApiName = 'browserWindow' | 'webContents' | 'app' | 'mainProcess' | 'rendererProcess';
+type ApiName = 'browserWindow' | 'webContents' | 'app' | 'mainProcess' | 'rendererProcess';
 
 export type ApiNames = ApiName[];
 

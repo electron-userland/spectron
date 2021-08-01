@@ -1,7 +1,7 @@
 import Electron from 'electron';
 import { WaitUntilOptions } from 'webdriverio';
-import { LooseObject, SpectronClient } from '~/common/types';
-import { ApiName, ApiNames, createApi } from './api';
+import { SpectronClient } from '~/common/types';
+import { ApiNames, createApi } from './api';
 /* global browser */
 
 function delay(ms: number) {
@@ -9,40 +9,33 @@ function delay(ms: number) {
 }
 
 export interface SpectronWindow extends Electron.BrowserWindow {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SpectronWebContents extends Electron.WebContents {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SpectronElectronApp extends Electron.App {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SpectronMainProcess extends NodeJS.Process {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SpectronRendererProcess extends NodeJS.Process {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SpectronApp {
   client: SpectronClient;
-
   browserWindow: SpectronWindow;
-
   webContents: SpectronWebContents;
-
   app: SpectronElectronApp;
-
   electronApp: SpectronElectronApp;
-
   mainProcess: SpectronMainProcess;
-
   rendererProcess: SpectronRendererProcess;
-
   quit(): Promise<void>;
 }
 
@@ -51,18 +44,20 @@ export type BasicAppSettings = {
 };
 
 export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<SpectronApp> {
-  const spectron = await (async () => {
-    const spectronObj: LooseObject = {};
+  const spectron = await (async (): Promise<SpectronApp> => {
+    const spectronObj = {} as SpectronApp;
     const apiNames: ApiNames = ['browserWindow', 'webContents', 'app', 'mainProcess', 'rendererProcess'];
     const apis = await createApi(browser as unknown as SpectronClient, apiNames);
-    (Object.keys(apis) as ApiNames).forEach((apiName: ApiName) => {
-      spectronObj[apiName] = apis[apiName];
-    });
-    spectronObj.electronApp = apis.app as unknown as SpectronElectronApp;
+
+    spectronObj.browserWindow = apis.browserWindow as SpectronWindow;
+    spectronObj.webContents = apis.webContents as SpectronWebContents;
+    spectronObj.mainProcess = apis.mainProcess as SpectronMainProcess;
+    spectronObj.rendererProcess = apis.rendererProcess as SpectronRendererProcess;
+    spectronObj.electronApp = apis.app as SpectronElectronApp;
     spectronObj.quit = async () => {
       // await spectronObj.electronApp.quit();
       if (spectronObj.mainProcess) {
-        await spectronObj.mainProcess.abort();
+        spectronObj.mainProcess.abort();
       }
 
       await delay(quitTimeout);
@@ -70,10 +65,9 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
 
     async function waitUntilWindowLoaded(this: SpectronClient, timeout: Partial<WaitUntilOptions>) {
       try {
-        await this.waitUntil(async () => !(await spectronObj.webContents.isLoading()), timeout);
+        await this.waitUntil(() => !spectronObj.webContents.isLoading(), timeout);
       } catch (error) {
-        error.message = `waitUntilWindowLoaded error: ${error.message}`;
-        throw error;
+        throw new Error(`waitUntilWindowLoaded error: ${(error as Error).message}`);
       }
     }
 
@@ -107,8 +101,7 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
           return Array.isArray(selectorText) ? selectorText.some((s) => s.includes(text)) : selectorText.includes(text);
         }, timeout);
       } catch (error) {
-        error.message = `waitUntilTextExists error: ${error.message}`;
-        throw error;
+        throw new Error(`waitUntilTextExists error: ${(error as Error).message}`);
       }
     }
 
@@ -118,10 +111,10 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
     browser.addCommand('windowByIndex', windowByIndex);
     browser.addCommand('getSelectedText', getSelectedText);
 
-    spectronObj.client = browser;
+    spectronObj.client = browser as SpectronClient;
 
     return spectronObj;
   })();
 
-  return spectron as SpectronApp;
+  return spectron;
 }
