@@ -1,4 +1,4 @@
-const { ProgressPlugin } = require('webpack');
+import { ProgressPlugin } from 'webpack';
 
 const plugins = [new ProgressPlugin()];
 const mode = 'development';
