@@ -1,4 +1,4 @@
-/* eslint node/no-unpublished-require: off, no-console: off */
+/* eslint no-console: off */
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import fs from 'fs';

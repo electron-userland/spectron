@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "../packages/spectron/dist/common",
     "skipLibCheck": true,
     "resolveJsonModule": true,

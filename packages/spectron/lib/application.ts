@@ -1,6 +1,6 @@
 import Electron from 'electron';
 import { WaitUntilOptions } from 'webdriverio';
-import { LooseObject, SpectronClient } from '@common/types';
+import { LooseObject, SpectronClient } from '~/common/types';
 import { ApiName, ApiNames, createApi } from './api';
 /* global browser */
 

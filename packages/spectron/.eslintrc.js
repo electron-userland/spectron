@@ -9,12 +9,9 @@ module.exports = {
         project: './tsconfig.json',
       },
       settings: {
-        'import/parsers': {
-          '@typescript-eslint/parser': ['.ts'],
-        },
         'import/resolver': {
           typescript: {
-            project: [`${__dirname}/tsconfig.json`, `${__dirname}/../../../common/tsconfig.json`],
+            project: [`${__dirname}/tsconfig.json`, `${__dirname}/../../common/tsconfig.json`],
             alwaysTryTypes: true,
           },
         },

@@ -40,6 +40,7 @@
       "rules": {
         "no-unused-vars": "off",
         "import/prefer-default-export": "off",
+        "node/no-missing-import": "off", // duped by import
         "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }]
       },
       "parserOptions": {
@@ -50,6 +51,9 @@
       "settings": {
         "node": {
           "tryExtensions": [".js", ".json", ".node", ".ts"]
+        },
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts"]
         }
       }
     }

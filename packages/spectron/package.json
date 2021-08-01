@@ -16,7 +16,7 @@
     "clean:dist": "cross-env rm -rf ./dist",
     "build": "pnpm run build:typescript-references-hack && tsc -b lib test",
     "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
-    "lint": "eslint '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'",
+    "lint": "eslint --ignore-path ../../.eslintignore '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'",
     "prettier:write": "prettier --write '**/*.[j|t]s'",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
@@ -50,22 +50,10 @@
   "devDependencies": {
     "@testing-library/dom": "^8.1.0",
     "@types/jest": "^26.0.24",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "eslint": "^7.31.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-promise": "^5.1.0",
     "fs-extra": "^10.0.0",
-    "husky": "^7.0.1",
     "jest": "^27.0.6",
     "jest-mock-extended": "^1.0.18",
-    "prettier": "^2.3.2",
-    "ts-jest": "^27.0.4",
-    "typescript": "^4.3.5"
+    "ts-jest": "^27.0.4"
   },
   "resolutions": {
     "@types/node": "^14.0.0"
