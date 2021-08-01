@@ -1,8 +1,14 @@
-/* eslint no-process-exit: off */
+/* eslint no-process-exit: off, no-console: off */
 import Launcher, { RunCommandArguments } from '@wdio/cli';
 import { join } from 'path';
 
-export const run = async (...args: unknown[]) => {
+type SpectronConfig = {
+  config: {
+    appPath: string;
+  };
+};
+
+export const run = async (...args: unknown[]): Promise<void> => {
   const chromeArgs = [];
 
   if (process.env.CI) {
@@ -31,7 +37,8 @@ export const run = async (...args: unknown[]) => {
     : require.resolve('electron-chromedriver/chromedriver');
 
   const configFilePath = join(process.cwd(), 'spectron.conf.js');
-  const { config } = require(configFilePath);
+  // https://github.com/mysticatea/eslint-plugin-node/pull/256
+  const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
 
   const wdio = new Launcher(
     args[2] as string,
@@ -67,6 +74,6 @@ export const run = async (...args: unknown[]) => {
       process.exit(0);
     }
   } catch (error) {
-    console.error('Launcher failed to start the test', error.stacktrace);
+    console.error('Launcher failed to start the test', (error as Error).stack);
   }
 };
