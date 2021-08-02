@@ -1,41 +1,19 @@
-import { Browser, WaitUntilOptions } from 'webdriverio';
-import { SpectronClient } from '~/common/types';
-import { ApiNames, createApi } from './api';
 /* global browser */
+import { Browser, WaitUntilOptions } from 'webdriverio';
+import { initDom } from './dom';
+import { ApiNames, createApi } from './api';
+import {
+  SpectronApp,
+  SpectronClient,
+  SpectronElectronApp,
+  SpectronMainProcess,
+  SpectronRendererProcess,
+  SpectronWebContents,
+  SpectronWindow,
+} from '~/common/types';
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-export interface SpectronWindow {
-  [key: string]: (...args: unknown[]) => Promise<unknown>;
-}
-
-export interface SpectronWebContents {
-  [key: string]: (...args: unknown[]) => Promise<unknown>;
-}
-
-export interface SpectronElectronApp {
-  [key: string]: (...args: unknown[]) => Promise<unknown>;
-}
-
-export interface SpectronMainProcess {
-  [key: string]: (...args: unknown[]) => Promise<unknown>;
-}
-
-export interface SpectronRendererProcess {
-  [key: string]: (...args: unknown[]) => Promise<unknown>;
-}
-
-export interface SpectronApp {
-  client: SpectronClient;
-  browserWindow: SpectronWindow;
-  webContents: SpectronWebContents;
-  app: SpectronElectronApp;
-  electronApp: SpectronElectronApp;
-  mainProcess: SpectronMainProcess;
-  rendererProcess: SpectronRendererProcess;
-  quit(): Promise<void>;
 }
 
 export type BasicAppSettings = {
@@ -53,6 +31,7 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
     spectronObj.mainProcess = apis.mainProcess as SpectronMainProcess;
     spectronObj.rendererProcess = apis.rendererProcess as SpectronRendererProcess;
     spectronObj.electronApp = apis.app as SpectronElectronApp;
+    spectronObj.dom = initDom(spectronObj);
     spectronObj.quit = async () => {
       // await spectronObj.electronApp.quit();
       if (spectronObj.mainProcess) {

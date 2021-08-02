@@ -1,5 +1,5 @@
 /* eslint import/no-extraneous-dependencies: off */
-import { Browser } from 'webdriverio';
+import { Browser, Element } from 'webdriverio';
 
 export interface LooseObject {
   [key: string]: Record<string, unknown>;
@@ -31,4 +31,41 @@ export interface SpectronClient extends Browser<'async'> {
    * Get the selected text in the current window.
    */
   getSelectedText(): Promise<string>;
+}
+
+export interface SpectronWindow {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronWebContents {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronElectronApp {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronMainProcess {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronRendererProcess {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export type DomObject = {
+  isInTheDocument: (element: Element<'async'>) => Promise<boolean>;
+  isVisible: (element: Element<'async'>) => Promise<boolean>;
+};
+
+export interface SpectronApp {
+  client: SpectronClient;
+  browserWindow: SpectronWindow;
+  webContents: SpectronWebContents;
+  app: SpectronElectronApp;
+  electronApp: SpectronElectronApp;
+  mainProcess: SpectronMainProcess;
+  rendererProcess: SpectronRendererProcess;
+  dom: DomObject;
+  quit(): Promise<void>;
 }
