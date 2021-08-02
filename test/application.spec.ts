@@ -6,27 +6,43 @@ import { SpectronApp } from '~/common/types';
 describe('application loading', () => {
   let screen: WebdriverIOBoundFunctions<typeof queries>;
   let app: SpectronApp;
+  let restarting = false;
+  let quitting = false;
+
+  before(async () => {
+    console.log('beforeAllwut');
+    app = await initSpectron({
+      quitTimeout: 3000,
+    });
+  });
+
+  after(async () => {
+    console.log('afterall');
+    if (app && !quitting) {
+      console.log('quitting');
+      quitting = true;
+      await app.quit();
+    }
+  }, 30000);
 
   describe('App', () => {
-    beforeAll(async () => {
-      console.log('beforeAllwut');
-      app = await initSpectron({
-        quitTimeout: 3000,
-      });
-    });
-
     beforeEach(async () => {
       console.log('beforewut');
-      await app.client.waitUntilWindowLoaded();
+      restarting = false;
+      // await app.client.waitUntilWindowLoaded();
       console.log('window loaded');
       screen = setupBrowser(app.client as BrowserBase);
     }, 30000);
 
     afterEach(async () => {
       console.log('afterwut');
-      if (app) {
-        console.log('quitting');
-        await app.quit();
+      if (app && !restarting) {
+        console.log('restarting');
+        restarting = true;
+        await app.electronApp.relaunch();
+        await app.electronApp.whenReady();
+        await app.electronApp.exit(0);
+        await app.client.waitUntilWindowLoaded();
       }
     }, 30000);
 
@@ -46,7 +62,7 @@ describe('application loading', () => {
 
     it('should determine when an element is in the document', async () => {
       console.log('start of second test');
-      expect(await app.dom.isInTheDocument(await screen.getByTestId('disabled-checkbox'))).toEqual(true);
+      await expect(await app.dom.isInTheDocument(await screen.getByTestId('disabled-checkbox'))).toEqual(true);
     });
 
     // it('should determine when an element is not in the document', async () => {
