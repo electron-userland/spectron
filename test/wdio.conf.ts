@@ -6,7 +6,7 @@ export const config = {
   connectionRetryTimeout: 30000,
   logLevel: 'debug',
   runner: 'local',
-  // outputDir: 'all-logs',
+  outputDir: 'all-logs',
   specs: ['./*.spec.ts'],
   autoCompileOpts: {
     autoCompile: true,
