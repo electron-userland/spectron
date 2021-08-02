@@ -28,14 +28,5 @@ export const config = {
       baseUrl: './',
     },
   },
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    //
-    // Jasmine default timeout
-    defaultTimeoutInterval: 30000,
-    //
-    // Make use of Jasmine-specific grep functionality
-    grep: null,
-    invertGrep: null,
-  },
+  framework: 'mocha',
 };

@@ -30,7 +30,7 @@
     "paths": {
       "~/common/*": ["../common/*"]
     },
-    "types": ["node", "jasmine", "webdriverio/async"],
+    "types": ["node", "mocha", "webdriverio/async"],
     "typeRoots": ["../common", "./node_modules/@types"]
   },
   "references": [{ "path": "./../common" }],
