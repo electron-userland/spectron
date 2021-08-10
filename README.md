@@ -133,6 +133,13 @@ For more information on how to configure mocha, please visit [mocha](https://moc
 
 As stated in [issue #19](https://github.com/electron/spectron/issues/19), Spectron will not be able to start if your Electron app is launched using the `remote-debugging-port` command-line switch (i.e. `app.commandLine.appendSwitch('remote-debugging-port', <debugging-port-number>);`). Please make sure to include the necessary logic in your app's code to disable the switch during tests.
 
+As mentioned in [issue #202](https://github.com/electron-userland/spectron/issues/202#issuecomment-632223955),
+`app.start()` promise won't resolve if the electron application calls
+`setPath('userData', path)`. Webdriver places a port file into the `userData`
+directory and needs to know where to look for it. The workaround is to pass
+`chromeDriverArgs: ['user-data-dir=/custom/userData/path']` to the `Application`
+constructor.
+
 ## Application API
 
 Spectron exports an `Application` class that when configured, can start and
