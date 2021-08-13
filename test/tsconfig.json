@@ -3,7 +3,7 @@
     "transpileOnly": true,
     "files": true,
     "moduleTypes": {
-      "wdio.conf.ts": "cjs"
+      "wdio.mocha.conf.ts": "cjs"
     }
   },
   "compilerOptions": {
