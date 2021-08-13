@@ -9,15 +9,16 @@
   "repository": "https://github.com/goosewobbler/spectron",
   "bugs": "https://github.com/goosewobbler/spectron/issues",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
-    "@typescript-eslint/parser": "^4.28.4",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-base-typescript": "^1.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^5.1.0",
@@ -25,7 +26,7 @@
     "husky": "^7.0.1",
     "prettier": "^2.3.2",
     "typescript": "^4.3.5",
-    "webdriverio": "^7.9.0"
+    "webdriverio": "^7.9.1"
   },
   "scripts": {
     "init": "npm install -g pnpm && pnpm i",

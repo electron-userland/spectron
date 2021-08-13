@@ -7,7 +7,7 @@
     "build:app": "pnpm run --filter @goosewobbler/spectron-e2e-app build",
     "build:spectron": "pnpm run --filter @goosewobbler/spectron build",
     "clean": "cross-env rm -rf ./node_modules",
-    "test": "pnpx spectron ./wdio.conf.ts",
+    "test": "pnpx spectron ./wdio.mocha.conf.ts",
     "test:build": "pnpm run build:spectron && pnpm run build:app && pnpm run test",
     "lint": "eslint --ignore-path ../.eslintignore '**/*.[j|t]s'"
   },
@@ -16,13 +16,13 @@
     "@testing-library/dom": "^8.1.0",
     "@testing-library/webdriverio": "^3.0.2",
     "@types/mocha": "^9.0.0",
-    "@wdio/mocha-framework": "^7.9.0",
+    "@wdio/mocha-framework": "^7.9.1",
     "global-jsdom": "^8.1.0",
-    "jsdom": "^16.7.0",
-    "ts-node": "^10.1.0",
+    "jsdom": "^17.0.0",
+    "ts-node": "^10.2.0",
     "tsconfig-paths": "^3.10.1",
-    "webdriverio": "^7.9.0",
-    "webpack": "^5.46.0",
+    "webdriverio": "^7.9.1",
+    "webpack": "^5.50.0",
     "webpack-cli": "^4.7.2"
   }
 }
