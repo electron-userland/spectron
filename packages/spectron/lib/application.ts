@@ -1,6 +1,5 @@
 /* global browser */
 import { Browser, WaitUntilOptions } from 'webdriverio';
-import { initDom } from './dom';
 import { ApiNames, createApi } from './api';
 import {
   SpectronApp,
@@ -12,15 +11,7 @@ import {
   SpectronWindow,
 } from '~/common/types';
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-export type BasicAppSettings = {
-  quitTimeout: number;
-};
-
-export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<SpectronApp> {
+export async function initSpectron(): Promise<SpectronApp> {
   const spectron = await (async (): Promise<SpectronApp> => {
     const spectronObj = {} as SpectronApp;
     const apiNames: ApiNames = ['browserWindow', 'webContents', 'app', 'mainProcess', 'rendererProcess'];
@@ -31,15 +22,6 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
     spectronObj.mainProcess = apis.mainProcess as SpectronMainProcess;
     spectronObj.rendererProcess = apis.rendererProcess as SpectronRendererProcess;
     spectronObj.electronApp = apis.app as SpectronElectronApp;
-    spectronObj.dom = initDom(spectronObj);
-    spectronObj.quit = async () => {
-      // await spectronObj.electronApp.quit();
-      if (spectronObj.mainProcess) {
-        await spectronObj.mainProcess.abort();
-      }
-
-      await delay(quitTimeout);
-    };
 
     async function waitUntilWindowLoaded(this: Browser<'async'>, timeout: Partial<WaitUntilOptions>) {
       try {
