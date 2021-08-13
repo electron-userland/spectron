@@ -33,7 +33,7 @@
         "plugin:node/recommended"
       ],
       "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint"],
+      "plugins": ["@typescript-eslint", "import", "node", "prettier"],
       "env": {
         "node": true
       },

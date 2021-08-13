@@ -2,6 +2,20 @@ module.exports = {
   overrides: [
     {
       files: '*.ts',
+      extends: [
+        'airbnb-base-typescript',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:import/errors',
+        'plugin:import/typescript',
+        'plugin:import/warnings',
+        'plugin:prettier/recommended',
+        'plugin:node/recommended',
+        'plugin:jest/recommended',
+        'plugin:jest/style',
+      ],
+      plugins: ['@typescript-eslint', 'import', 'node', 'prettier', 'jest'],
       env: {
         jest: true,
       },
