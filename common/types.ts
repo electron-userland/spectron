@@ -61,5 +61,4 @@ export interface SpectronApp {
   electronApp: SpectronElectronApp;
   mainProcess: SpectronMainProcess;
   rendererProcess: SpectronRendererProcess;
-  quit(): Promise<void>;
 }
