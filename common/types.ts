@@ -1,5 +1,5 @@
 /* eslint import/no-extraneous-dependencies: off */
-import { Browser, Element } from 'webdriverio';
+import { Browser } from 'webdriverio';
 
 export interface LooseObject {
   [key: string]: Record<string, unknown>;
@@ -53,11 +53,6 @@ export interface SpectronRendererProcess {
   [key: string]: (...args: unknown[]) => Promise<unknown>;
 }
 
-export type DomObject = {
-  isInTheDocument: (element: Element<'async'>) => Promise<boolean>;
-  isVisible: (element: Element<'async'>) => Promise<boolean>;
-};
-
 export interface SpectronApp {
   client: SpectronClient;
   browserWindow: SpectronWindow;
@@ -66,6 +61,5 @@ export interface SpectronApp {
   electronApp: SpectronElectronApp;
   mainProcess: SpectronMainProcess;
   rendererProcess: SpectronRendererProcess;
-  dom: DomObject;
   quit(): Promise<void>;
 }

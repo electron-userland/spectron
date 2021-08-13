@@ -10,8 +10,13 @@
     </script>
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src * ; script-src 'self' 'unsafe-inline' ; style-src 'self' ;"
+      content="default-src * ; script-src 'self' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
     />
+    <style nonce="4QEemGb0xJptpIGFP3Nd">
+      .none {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     Hello
@@ -22,7 +27,7 @@
       Disabled checkbox
       <input id="disabled-checkbox" type="checkbox" data-testid="disabled-checkbox" disabled />
     </label>
-    <textarea rows="10" cols="80" data-testid="hidden-textarea" style="display: none"></textarea>
+    <textarea class="none" rows="10" cols="80" data-testid="hidden-textarea"></textarea>
     <div class="keypress-count"></div>
   </body>
 
