@@ -11,18 +11,6 @@ describe('application loading', () => {
   });
 
   describe('App', () => {
-    it('should launch the application', async () => {
-      const response = await app.client.getWindowHandles();
-      expect(response.length).toEqual(1);
-
-      const bounds = await app.browserWindow.getBounds();
-      expect(bounds.width).toEqual(200);
-      expect(bounds.height).toEqual(300);
-      await app.client.waitUntilTextExists('html', 'Hello');
-      const title = await app.client.getTitle();
-      expect(title).toEqual('Test');
-    });
-
     it('should determine when an element is in the document', async () => {
       expect(await screen.getByTestId('disabled-checkbox')).toExist();
     });

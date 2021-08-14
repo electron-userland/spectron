@@ -33,6 +33,14 @@ module.exports = {
           },
         },
       },
+      // rules re-declared here because the "extends" above nukes the inherited ones
+      rules: {
+        'no-unused-vars': 'off',
+        'import/prefer-default-export': 'off',
+        'node/no-missing-import': 'off', // duped by import
+        'node/no-unpublished-import': 'error',
+        'node/no-unsupported-features/es-syntax': ['error', { ignores: ['modules'] }],
+      },
     },
   ],
 };

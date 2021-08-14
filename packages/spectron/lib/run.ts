@@ -27,8 +27,11 @@ export const run = async (...args: unknown[]): Promise<void> => {
     }
   }
 
+  console.log('env yo', process.env);
+
   if (process.env.SPECTRON_APP_ARGS) {
-    chromeArgs.push(...JSON.parse(process.env.SPECTRON_APP_ARGS));
+    console.log('app args yo');
+    chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
   }
 
   const isWin = process.platform === 'win32';
