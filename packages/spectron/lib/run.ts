@@ -73,10 +73,8 @@ export const run = async (...args: unknown[]): Promise<void> => {
   );
 
   try {
-    await wdio.run();
-    if (isWin) {
-      process.exit(0);
-    }
+    const exitCode = await wdio.run();
+    process.exit(exitCode);
   } catch (error) {
     console.error('Launcher failed to start the test', (error as Error).stack);
   }
