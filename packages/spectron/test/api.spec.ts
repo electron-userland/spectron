@@ -1,9 +1,13 @@
 import { anyFunction, mock, MockProxy } from 'jest-mock-extended';
-import { SpectronClient } from '~/common/types';
+import { LooseObject, SpectronClient } from '~/common/types';
 import { createApi, SpectronWindowObj } from '../lib/api';
 
-let mockWebDriverClient: MockProxy<SpectronClient>;
-let mockApiPlaceholders: {};
+interface MockSpectronClient extends MockProxy<SpectronClient> {
+  [key: string]: unknown;
+}
+
+let mockWebDriverClient: MockSpectronClient;
+let mockApiPlaceholders: LooseObject;
 
 beforeEach(() => {
   mockApiPlaceholders = {
@@ -23,10 +27,10 @@ beforeEach(() => {
       mockFn3: `spectron.app.mockFn3`,
     },
   };
-  mockWebDriverClient = mock<SpectronClient>();
-  mockWebDriverClient.addCommand.mockImplementation((commandName: string, func: unknown): Promise<void> => {
-    mockWebDriverClient[commandName] = (...args: unknown[]) => (func as Function).bind(mockWebDriverClient)(...args);
-    return Promise.resolve();
+  mockWebDriverClient = mock<SpectronClient>() as MockSpectronClient;
+  mockWebDriverClient.addCommand.mockImplementation((commandName: string, func: unknown): void => {
+    mockWebDriverClient[commandName] = (...args: unknown[]) =>
+      (func as () => void).apply(mockWebDriverClient, args as []);
   });
   mockWebDriverClient.executeAsync.mockImplementation(() => Promise.resolve(mockApiPlaceholders));
   window.spectron = {
@@ -46,9 +50,12 @@ beforeEach(() => {
 });
 
 async function mockWebDriverRunExecuteAsync(callIndex: number, ...args: unknown[]) {
-  const funcsToExec = mockWebDriverClient.executeAsync.mock.calls.slice(callIndex).map((call: Function[]) => call[0]);
+  const funcsToExec = mockWebDriverClient.executeAsync.mock.calls
+    .slice(callIndex)
+    .map((call: (() => void)[]) => call[0]);
   const resultCallback = jest.fn();
-  await (funcsToExec[0] as Function)(...args, resultCallback);
+  args.push(resultCallback);
+  await (funcsToExec[0] as () => Promise<void>).apply(mockWebDriverClient, args as []);
   return resultCallback;
 }
 
@@ -105,7 +112,7 @@ it('should construct the api object with placeholders', async () => {
 it('should throw an error when when the Context Bridge is not available', async () => {
   window.spectron = undefined;
   await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
-  await expect(mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app'])).rejects.toThrowError(
+  await expect(mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app'])).rejects.toThrow(
     'ContextBridge not available for retrieval of api keys',
   );
 });
@@ -113,9 +120,9 @@ it('should throw an error when when the Context Bridge is not available', async 
 describe('calling API functions', () => {
   beforeEach(async () => {
     const api = await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
-    api.browserWindow.mockFn1('test');
-    api.app.mockFn2('moar test');
-    api.webContents.mockFn3('yet moar test');
+    await api.browserWindow.mockFn1('test');
+    await api.app.mockFn2('moar test');
+    await api.webContents.mockFn3('yet moar test');
   });
 
   it('should call executeAsync with the expected params', () => {
@@ -128,7 +135,7 @@ describe('calling API functions', () => {
 
   it('should throw an error when when the Context Bridge is not available', async () => {
     window.spectron = undefined;
-    await expect(mockWebDriverRunExecuteAsync(1, 'mockFn1', 'browserWindow', ['test'])).rejects.toThrowError(
+    await expect(mockWebDriverRunExecuteAsync(1, 'mockFn1', 'browserWindow', ['test'])).rejects.toThrow(
       'ContextBridge not available for invocation of browserWindow.mockFn1',
     );
   });

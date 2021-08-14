@@ -9,14 +9,14 @@ Easily test your [Electron](http://electronjs.org) apps using
 
 ## Differences between this fork and @electron-userland/spectron
 
-This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. I deleted a lot of code and some things might not work as expected. This is a rewrite with much greater WebDriverIO integration than the original - for instance, all handling of ChromeDriver is now delegated to the WDIO ChromeDriver service.
+This was forked to fulfil a simple requirement - bring Spectron in line with modern Electron development, by any means necessary. This is a rewrite with much greater WebDriverIO integration than the original - for instance, all handling of ChromeDriver is now delegated to the WDIO ChromeDriver service. This has lead to a change from the original Spectron behaviour - Spectron no longer restarts ChromeDriver for each test, which massively speeds up the test run but may mean that some suites experience problems with state leak between tests. The original behaviour might be reinstated in future with a `spectron-wdio-service`.
 
-Other, non-WebDriver based options for your Electron E2E testing:
+This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps. The E2E tests located in the `test` directory are intended to be a self-documenting example of real-world usage.
 
-[Playwright](https://playwright.dev) (currently experimental support for Electron).
+## non-WebDriver based options for your Electron E2E testing:
+
+[Playwright](https://playwright.dev) (currently experimental support for Electron). \
 [Puppeteer-in-electron](https://github.com/TrevorSundberg/puppeteer-in-electron)
-
-This version of Spectron is designed to be used with `nodeIntegration: false`, `enableRemoteModule: false`, and `contextIsolation: true`. These are recommended defaults for modern secure Electron apps.
 
 ## Installation & Quick Start
 

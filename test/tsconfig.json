@@ -3,7 +3,7 @@
     "transpileOnly": true,
     "files": true,
     "moduleTypes": {
-      "wdio.conf.ts": "cjs"
+      "wdio.mocha.conf.ts": "cjs"
     }
   },
   "compilerOptions": {
@@ -27,9 +27,13 @@
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
-    "types": ["node", "jasmine"],
+    "paths": {
+      "~/common/*": ["../common/*"]
+    },
+    "types": ["node", "mocha", "webdriverio/async", "expect-webdriverio"],
     "typeRoots": ["../common", "./node_modules/@types"]
   },
+  "references": [{ "path": "./../common" }],
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }

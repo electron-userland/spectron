@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Test</title>
     <script>
-      console.log('render log')
-      console.warn('render warn')
-      console.error('render error')
+      console.log('render log');
+      console.warn('render warn');
+      console.error('render error');
     </script>
-    <meta http-equiv="Content-Security-Policy" content="default-src * ; script-src 'self' 'unsafe-inline' ; style-src 'self' ;" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src * ; script-src 'self' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
+    />
+    <style nonce="4QEemGb0xJptpIGFP3Nd">
+      .none {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     Hello
     <div class="occurrences-1">word1 word2</div>
     <div class="occurrences-2">word3 word4</div>
     <div class="occurrences-2">word5 word6</div>
-    <textarea rows="10" cols="80"></textarea>
+    <label for="disabled-checkbox">
+      Disabled checkbox
+      <input id="disabled-checkbox" type="checkbox" data-testid="disabled-checkbox" disabled />
+    </label>
+    <textarea class="none" rows="10" cols="80" data-testid="hidden-textarea"></textarea>
     <div class="keypress-count"></div>
   </body>
 
   <script>
     document.body.addEventListener('keydown', function (event) {
-      document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode)
-    })
+      document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode);
+    });
   </script>
 </html>

@@ -1,98 +1,52 @@
-import Electron from 'electron';
-import { WaitUntilOptions } from 'webdriverio';
-import { LooseObject, SpectronClient } from '~/common/types';
-import { ApiName, ApiNames, createApi } from './api';
 /* global browser */
+import { Browser, WaitUntilOptions } from 'webdriverio';
+import { ApiNames, createApi } from './api';
+import {
+  SpectronApp,
+  SpectronClient,
+  SpectronElectronApp,
+  SpectronMainProcess,
+  SpectronRendererProcess,
+  SpectronWebContents,
+  SpectronWindow,
+} from '~/common/types';
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-export interface SpectronWindow extends Electron.BrowserWindow {
-  [key: string]: any;
-}
-
-export interface SpectronWebContents extends Electron.WebContents {
-  [key: string]: any;
-}
-
-export interface SpectronElectronApp extends Electron.App {
-  [key: string]: any;
-}
-
-export interface SpectronMainProcess extends NodeJS.Process {
-  [key: string]: any;
-}
-
-export interface SpectronRendererProcess extends NodeJS.Process {
-  [key: string]: any;
-}
-
-export interface SpectronApp {
-  client: SpectronClient;
-
-  browserWindow: SpectronWindow;
-
-  webContents: SpectronWebContents;
-
-  app: SpectronElectronApp;
-
-  electronApp: SpectronElectronApp;
-
-  mainProcess: SpectronMainProcess;
-
-  rendererProcess: SpectronRendererProcess;
-
-  quit(): Promise<void>;
-}
-
-export type BasicAppSettings = {
-  quitTimeout: number;
-};
-
-export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<SpectronApp> {
-  const spectron = await (async () => {
-    const spectronObj: LooseObject = {};
+export async function initSpectron(): Promise<SpectronApp> {
+  const spectron = await (async (): Promise<SpectronApp> => {
+    const spectronObj = {} as SpectronApp;
     const apiNames: ApiNames = ['browserWindow', 'webContents', 'app', 'mainProcess', 'rendererProcess'];
     const apis = await createApi(browser as unknown as SpectronClient, apiNames);
-    (Object.keys(apis) as ApiNames).forEach((apiName: ApiName) => {
-      spectronObj[apiName] = apis[apiName];
-    });
-    spectronObj.electronApp = apis.app as unknown as SpectronElectronApp;
-    spectronObj.quit = async () => {
-      // await spectronObj.electronApp.quit();
-      if (spectronObj.mainProcess) {
-        await spectronObj.mainProcess.abort();
-      }
 
-      await delay(quitTimeout);
-    };
+    spectronObj.browserWindow = apis.browserWindow as SpectronWindow;
+    spectronObj.webContents = apis.webContents as SpectronWebContents;
+    spectronObj.mainProcess = apis.mainProcess as SpectronMainProcess;
+    spectronObj.rendererProcess = apis.rendererProcess as SpectronRendererProcess;
+    spectronObj.electronApp = apis.app as SpectronElectronApp;
 
-    async function waitUntilWindowLoaded(this: SpectronClient, timeout: Partial<WaitUntilOptions>) {
+    async function waitUntilWindowLoaded(this: Browser<'async'>, timeout: Partial<WaitUntilOptions>) {
       try {
         await this.waitUntil(async () => !(await spectronObj.webContents.isLoading()), timeout);
       } catch (error) {
-        error.message = `waitUntilWindowLoaded error: ${error.message}`;
-        throw error;
+        throw new Error(`waitUntilWindowLoaded error: ${(error as Error).message}`);
       }
     }
 
-    async function getSelectedText(this: SpectronClient) {
+    async function getSelectedText(this: Browser<'async'>) {
       await this.execute(() => (window.getSelection() as Selection).toString());
     }
 
-    async function windowByIndex(this: SpectronClient, index: number) {
+    async function windowByIndex(this: Browser<'async'>, index: number) {
       const handles = await this.getWindowHandles();
       await this.switchToWindow(handles[index]);
     }
 
-    async function getWindowCount(this: SpectronClient) {
+    async function getWindowCount(this: Browser<'async'>) {
       const handles = await this.getWindowHandles();
       return handles.length;
     }
 
     async function waitUntilTextExists(
-      this: SpectronClient,
+      this: Browser<'async'>,
       selector: string,
       text: string,
       timeout: Partial<WaitUntilOptions>,
@@ -104,11 +58,12 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
             return false;
           }
           const selectorText = await elem.getText();
-          return Array.isArray(selectorText) ? selectorText.some((s) => s.includes(text)) : selectorText.includes(text);
+          return Array.isArray(selectorText)
+            ? selectorText.some((s: string[]) => s.includes(text))
+            : selectorText.includes(text);
         }, timeout);
       } catch (error) {
-        error.message = `waitUntilTextExists error: ${error.message}`;
-        throw error;
+        throw new Error(`waitUntilTextExists error: ${(error as Error).message}`);
       }
     }
 
@@ -118,10 +73,10 @@ export async function initSpectron({ quitTimeout }: BasicAppSettings): Promise<S
     browser.addCommand('windowByIndex', windowByIndex);
     browser.addCommand('getSelectedText', getSelectedText);
 
-    spectronObj.client = browser;
+    spectronObj.client = browser as SpectronClient;
 
     return spectronObj;
   })();
 
-  return spectron as SpectronApp;
+  return spectron;
 }

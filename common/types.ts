@@ -1,17 +1,11 @@
+/* eslint import/no-extraneous-dependencies: off */
+import { Browser } from 'webdriverio';
+
 export interface LooseObject {
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
-declare namespace WebdriverIO {
-  interface BrowserObject {}
-  interface Element {}
-}
-
-export interface SpectronClient extends WebdriverIO.BrowserObject {
-  [key: string]: any;
-  $(): Promise<WebdriverIO.Element>;
-
-  addCommand(commandName: string, executeApiCall: Function): Promise<void>;
+export interface SpectronClient extends Browser<'async'> {
   /**
    * Wait until the window is no longer loading.
    * Takes an optional timeout in milliseconds that defaults to 5000.
@@ -37,4 +31,34 @@ export interface SpectronClient extends WebdriverIO.BrowserObject {
    * Get the selected text in the current window.
    */
   getSelectedText(): Promise<string>;
+}
+
+export interface SpectronWindow {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronWebContents {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronElectronApp {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronMainProcess {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronRendererProcess {
+  [key: string]: (...args: unknown[]) => Promise<unknown>;
+}
+
+export interface SpectronApp {
+  client: SpectronClient;
+  browserWindow: SpectronWindow;
+  webContents: SpectronWebContents;
+  app: SpectronElectronApp;
+  electronApp: SpectronElectronApp;
+  mainProcess: SpectronMainProcess;
+  rendererProcess: SpectronRendererProcess;
 }

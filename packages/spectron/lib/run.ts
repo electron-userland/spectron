@@ -40,6 +40,10 @@ export const run = async (...args: unknown[]): Promise<void> => {
   // https://github.com/mysticatea/eslint-plugin-node/pull/256
   const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
 
+  if (process.env.SPECTRON_APP_ARGS) {
+    chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
+  }
+
   const wdio = new Launcher(
     args[2] as string,
     {
@@ -69,10 +73,8 @@ export const run = async (...args: unknown[]): Promise<void> => {
   );
 
   try {
-    await wdio.run();
-    if (isWin) {
-      process.exit(0);
-    }
+    const exitCode = await wdio.run();
+    process.exit(exitCode);
   } catch (error) {
     console.error('Launcher failed to start the test', (error as Error).stack);
   }

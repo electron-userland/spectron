@@ -1,6 +1,6 @@
 {
   "name": "@goosewobbler/spectron",
-  "version": "17.0.0",
+  "version": "17.0.0-alpha2",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "./dist/index.js",
   "types": "./spectron.d.ts",
@@ -16,13 +16,12 @@
     "clean:dist": "cross-env rm -rf ./dist",
     "build": "pnpm run build:typescript-references-hack && tsc -b lib test",
     "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
-    "lint": "eslint --ignore-path ../../.eslintignore '**/*.[j|t]s' && prettier --check '**/*.[j|t]s'",
-    "prettier:write": "prettier --write '**/*.[j|t]s'",
+    "lint": "eslint --ignore-path ../../.eslintignore \"**/*.{j,t}s\"",
+    "prettier:write": "prettier --write \"**/*.{j,t}s\"",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:watch-coverage": "jest --watch --coverage",
-    "test": "pnpm run test:coverage",
-    "postinstall": "node lib/rpath-fix.js"
+    "test": "pnpm run test:coverage"
   },
   "engines": {
     "node": ">=14.17.1"
@@ -37,22 +36,21 @@
   "author": "Sam Maister",
   "license": "MIT",
   "dependencies": {
-    "@wdio/cli": "^7.9.0",
-    "@wdio/local-runner": "^7.9.0",
-    "chromedriver": "^92.0.0",
-    "electron": "^13.1.7",
+    "@wdio/cli": "^7.9.1",
+    "@wdio/local-runner": "^7.9.1",
+    "chromedriver": "^92.0.1",
+    "electron": "^13.1.9",
     "electron-chromedriver": "^13.0.0",
+    "ts-node": "^10.2.0",
     "tsconfig-paths": "^3.10.1",
-    "ts-node": "^10.1.0",
     "wdio-chromedriver-service": "^7.2.0",
-    "webdriverio": "^7.9.0"
+    "webdriverio": "^7.9.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.1.0",
-    "@types/jest": "^26.0.24",
-    "fs-extra": "^10.0.0",
+    "@types/jest": "^27.0.1",
     "jest": "^27.0.6",
-    "jest-mock-extended": "^1.0.18",
+    "jest-mock-extended": "^2.0.2-beta2",
     "ts-jest": "^27.0.4"
   },
   "resolutions": {

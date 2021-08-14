@@ -1,4 +1,5 @@
-import { LooseObject, SpectronClient } from '../../../common/types';
+import { Browser } from 'webdriverio';
+import { LooseObject } from '../../../common/types';
 
 type ApiPlaceholdersObj = {
   [Key: string]: {
@@ -6,7 +7,7 @@ type ApiPlaceholdersObj = {
   };
 };
 
-type WebDriverClient = SpectronClient;
+type WebDriverClient = Browser<'async'>;
 
 export type SpectronWindowObj = {
   [Key: string]: {
@@ -21,7 +22,7 @@ declare global {
   }
 }
 
-export type ApiName = 'browserWindow' | 'webContents' | 'app' | 'mainProcess' | 'rendererProcess';
+type ApiName = 'browserWindow' | 'webContents' | 'app' | 'mainProcess' | 'rendererProcess';
 
 export type ApiNames = ApiName[];
 
@@ -77,7 +78,7 @@ type ApiObj = {
   [Key: string]: (...args: unknown[]) => Promise<unknown>;
 };
 
-async function addApis(webdriverClient: WebDriverClient, nameSpace: string, placeholders: ApiPlaceholdersObj) {
+function addApis(webdriverClient: WebDriverClient, nameSpace: string, placeholders: ApiPlaceholdersObj) {
   const apiObj: ApiObj = {};
 
   async function callApi(funcName: string, bridgePropName: string, args: unknown[], done: (result: unknown) => void) {
@@ -88,20 +89,18 @@ async function addApis(webdriverClient: WebDriverClient, nameSpace: string, plac
   }
 
   try {
-    await Promise.all(
-      Object.keys(placeholders[nameSpace]).map(async (funcName) => {
-        const commandName = placeholders[nameSpace][funcName];
+    Object.keys(placeholders[nameSpace]).forEach((funcName) => {
+      const commandName = placeholders[nameSpace][funcName];
 
-        function executeApiCall(this: WebDriverClient, ...args: unknown[]) {
-          return (this.executeAsync as WebdriverClientFunc)(callApi, funcName, nameSpace, args);
-        }
+      async function executeApiCall(this: WebDriverClient, ...args: unknown[]) {
+        return (this.executeAsync as WebdriverClientFunc)(callApi, funcName, nameSpace, args);
+      }
 
-        await webdriverClient.addCommand(commandName, executeApiCall);
+      webdriverClient.addCommand(commandName, executeApiCall);
 
-        apiObj[funcName] = (...args: unknown[]) =>
-          (webdriverClient[commandName] as WebdriverClientFunc).apply(webdriverClient, args);
-      }),
-    );
+      apiObj[funcName] = (...args: unknown[]) =>
+        (webdriverClient[commandName as keyof WebDriverClient] as WebdriverClientFunc).apply(webdriverClient, args);
+    });
   } catch (error) {
     throw new Error(`Error adding API functions to ${nameSpace}: ${(error as Error).message}`);
   }
@@ -127,11 +126,9 @@ export const createApi = async (webDriverClient: WebDriverClient, apiNames: ApiN
   const apiObj: LooseObject = {};
 
   try {
-    await Promise.all(
-      apiNames.map(async (apiName: ApiName) => {
-        apiObj[apiName] = await addApis(webDriverClient, apiName, placeholders);
-      }),
-    );
+    apiNames.forEach((apiName: ApiName) => {
+      apiObj[apiName] = addApis(webDriverClient, apiName, placeholders);
+    });
   } catch (error) {
     throw new Error(`Error replacing placeholders with API functions: ${(error as Error).message}`);
   }

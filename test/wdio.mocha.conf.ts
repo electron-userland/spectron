@@ -6,7 +6,7 @@ export const config = {
   connectionRetryTimeout: 30000,
   logLevel: 'debug',
   runner: 'local',
-  // outputDir: 'all-logs',
+  outputDir: 'all-logs',
   specs: ['./*.spec.ts'],
   autoCompileOpts: {
     autoCompile: true,
@@ -28,14 +28,5 @@ export const config = {
       baseUrl: './',
     },
   },
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    //
-    // Jasmine default timeout
-    defaultTimeoutInterval: 30000,
-    //
-    // Make use of Jasmine-specific grep functionality
-    grep: null,
-    invertGrep: null,
-  },
+  framework: 'mocha',
 };

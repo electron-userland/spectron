@@ -33,13 +33,14 @@
         "plugin:node/recommended"
       ],
       "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint"],
+      "plugins": ["@typescript-eslint", "import", "node", "prettier"],
       "env": {
         "node": true
       },
       "rules": {
         "no-unused-vars": "off",
         "import/prefer-default-export": "off",
+        "node/no-unpublished-import": "off", // enabled in packages
         "node/no-missing-import": "off", // duped by import
         "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }]
       },
