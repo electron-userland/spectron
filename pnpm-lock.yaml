@@ -64,7 +64,7 @@ importers:
       chromedriver: 92.0.1
       electron: 13.1.9
       electron-chromedriver: 13.0.0
-      ts-node: 10.2.0
+      ts-node: 10.2.0_typescript@4.3.5
       tsconfig-paths: 3.10.1
       wdio-chromedriver-service: 7.2.0_9a96f905ee6e247494cbb70b8e12fde8
       webdriverio: 7.9.1
@@ -72,8 +72,8 @@ importers:
       '@testing-library/dom': 8.1.0
       '@types/jest': 27.0.1
       jest: 27.0.6_ts-node@10.2.0
-      jest-mock-extended: 2.0.2-beta2_jest@27.0.6
-      ts-jest: 27.0.4_@types+jest@27.0.1+jest@27.0.6
+      jest-mock-extended: 2.0.2-beta2_jest@27.0.6+typescript@4.3.5
+      ts-jest: 27.0.4_92306e36c1a4cf876b1cd4839a977b9c
 
   test:
     specifiers:
@@ -97,7 +97,7 @@ importers:
       '@wdio/mocha-framework': 7.9.1
       global-jsdom: 8.1.0_jsdom@17.0.0
       jsdom: 17.0.0
-      ts-node: 10.2.0
+      ts-node: 10.2.0_typescript@4.3.5
       tsconfig-paths: 3.10.1
       webdriverio: 7.9.1
       webpack: 5.50.0_webpack-cli@4.7.2
@@ -1638,7 +1638,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       envinfo: 7.8.1
-      webpack-cli: 4.7.2_webpack@5.50.0
+      webpack-cli: 4.7.2_webpack@5.46.0
     dev: true
 
   /@webpack-cli/serve/1.5.1_webpack-cli@4.7.2:
@@ -1650,7 +1650,7 @@ packages:
       webpack-dev-server:
         optional: true
     dependencies:
-      webpack-cli: 4.7.2_webpack@5.50.0
+      webpack-cli: 4.7.2_webpack@5.46.0
     dev: true
 
   /@xtuc/ieee754/1.2.0:
@@ -4597,7 +4597,7 @@ packages:
       jest-validate: 27.0.6
       micromatch: 4.0.4
       pretty-format: 27.0.6
-      ts-node: 10.2.0
+      ts-node: 10.2.0_typescript@4.3.5
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -4747,14 +4747,15 @@ packages:
       stack-utils: 2.0.3
     dev: true
 
-  /jest-mock-extended/2.0.2-beta2_jest@27.0.6:
+  /jest-mock-extended/2.0.2-beta2_jest@27.0.6+typescript@4.3.5:
     resolution: {integrity: sha512-56zcpgRPs3YxQP0ejcaaNFxUinPyRxQCbuk7GGORZqEbAFuQVXWAAtru2tI1N4qcLBoDWEJ/hwUxwbEGY5hdyw==}
     peerDependencies:
       jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0
       typescript: ^3.0.0 || ^4.0.0
     dependencies:
       jest: 27.0.6_ts-node@10.2.0
-      ts-essentials: 7.0.3
+      ts-essentials: 7.0.3_typescript@4.3.5
+      typescript: 4.3.5
     dev: true
 
   /jest-mock/27.0.6:
@@ -6835,13 +6836,15 @@ packages:
       utf8-byte-length: 1.0.4
     dev: true
 
-  /ts-essentials/7.0.3:
+  /ts-essentials/7.0.3_typescript@4.3.5:
     resolution: {integrity: sha512-8+gr5+lqO3G84KdiTSMRLtuyJ+nTBVRKuCrK4lidMPdVeEp0uqC875uE5NMcaA7YYMN7XsNiFQuMvasF8HT/xQ==}
     peerDependencies:
       typescript: '>=3.7.0'
+    dependencies:
+      typescript: 4.3.5
     dev: true
 
-  /ts-jest/27.0.4_@types+jest@27.0.1+jest@27.0.6:
+  /ts-jest/27.0.4_92306e36c1a4cf876b1cd4839a977b9c:
     resolution: {integrity: sha512-c4E1ECy9Xz2WGfTMyHbSaArlIva7Wi2p43QOMmCqjSSjHP06KXv+aT+eSY+yZMuqsMi3k7pyGsGj2q5oSl5WfQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     hasBin: true
@@ -6870,10 +6873,11 @@ packages:
       make-error: 1.3.6
       mkdirp: 1.0.4
       semver: 7.3.5
+      typescript: 4.3.5
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-node/10.2.0:
+  /ts-node/10.2.0_typescript@4.3.5:
     resolution: {integrity: sha512-FstYHtQz6isj8rBtYMN4bZdnXN1vq4HCbqn9vdNQcInRqtB86PePJQIxE6es0PhxKWhj2PHuwbG40H+bxkZPmg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
@@ -6899,6 +6903,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
+      typescript: 4.3.5
       yn: 3.1.1
 
   /tsconfig-paths/3.10.1:
