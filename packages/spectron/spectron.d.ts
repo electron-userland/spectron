@@ -4,9 +4,9 @@
 
 /// <reference types="node" />
 
-import { BasicAppSettings, SpectronApp } from './lib/application';
+import { SpectronApp } from '~/common/types';
 
 declare module '@goosewobbler/spectron' {}
 
-export function initSpectron(appSettings: BasicAppSettings): Promise<SpectronApp>;
+export function initSpectron(): Promise<SpectronApp>;
 export function run(): Promise<void>;
