@@ -27,6 +27,10 @@ export const run = async (...args: unknown[]): Promise<void> => {
     }
   }
 
+  if (process.env.SPECTRON_APP_ARGS) {
+    chromeArgs.push(...JSON.parse(process.env.SPECTRON_APP_ARGS));
+  }
+
   const isWin = process.platform === 'win32';
   if (isWin) {
     process.env.SPECTRON_NODE_PATH = process.execPath;
