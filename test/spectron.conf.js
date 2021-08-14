@@ -20,6 +20,8 @@ function getAppPath(distPath, appName) {
   return `${distPath}/${pathMap[process.platform]}`;
 }
 
+process.env.SPECTRON_APP_ARGS = ['--foo', '--bar=baz'].toString();
+
 const packageJson = JSON.parse(fs.readFileSync('./app/package.json'));
 const {
   build: { productName },

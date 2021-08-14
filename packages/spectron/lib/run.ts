@@ -27,13 +27,6 @@ export const run = async (...args: unknown[]): Promise<void> => {
     }
   }
 
-  console.log('env yo', process.env);
-
-  if (process.env.SPECTRON_APP_ARGS) {
-    console.log('app args yo');
-    chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
-  }
-
   const isWin = process.platform === 'win32';
   if (isWin) {
     process.env.SPECTRON_NODE_PATH = process.execPath;
@@ -46,6 +39,10 @@ export const run = async (...args: unknown[]): Promise<void> => {
   const configFilePath = join(process.cwd(), 'spectron.conf.js');
   // https://github.com/mysticatea/eslint-plugin-node/pull/256
   const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
+
+  if (process.env.SPECTRON_APP_ARGS) {
+    chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
+  }
 
   const wdio = new Launcher(
     args[2] as string,

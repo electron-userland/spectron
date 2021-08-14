@@ -23,6 +23,7 @@ describe('application loading', () => {
     });
 
     it('should pass args through to the launched application', async () => {
+      // custom args are set in the spectron.conf.js file as they need to be set before WDIO starts
       const argv = await app.mainProcess.argv();
       expect(argv).toContain('--foo');
       expect(argv).toContain('--bar=baz');
