@@ -9,7 +9,7 @@
     "clean": "cross-env rm -rf ./node_modules",
     "test": "pnpx spectron ./wdio.mocha.conf.ts",
     "test:build": "pnpm run build:spectron && pnpm run build:app && pnpm run test",
-    "lint": "eslint --ignore-path ../.eslintignore '**/*.[j|t]s'"
+    "lint": "cross-env eslint --ignore-path ../.eslintignore '**/*.[j|t]s'"
   },
   "devDependencies": {
     "@goosewobbler/spectron": "*",

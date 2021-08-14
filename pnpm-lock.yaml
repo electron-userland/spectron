@@ -82,6 +82,7 @@ importers:
       '@testing-library/webdriverio': ^3.0.2
       '@types/mocha': ^9.0.0
       '@wdio/mocha-framework': ^7.9.1
+      expect-webdriverio: ^3.1.0
       global-jsdom: ^8.1.0
       jsdom: ^17.0.0
       ts-node: ^10.2.0
@@ -95,9 +96,10 @@ importers:
       '@testing-library/webdriverio': 3.0.2_webdriverio@7.9.1
       '@types/mocha': 9.0.0
       '@wdio/mocha-framework': 7.9.1
+      expect-webdriverio: 3.1.0
       global-jsdom: 8.1.0_jsdom@17.0.0
       jsdom: 17.0.0
-      ts-node: 10.2.0_typescript@4.3.5
+      ts-node: 10.2.0
       tsconfig-paths: 3.10.1
       webdriverio: 7.9.1
       webpack: 5.50.0_webpack-cli@4.7.2
@@ -1638,7 +1640,7 @@ packages:
       webpack-cli: 4.x.x
     dependencies:
       envinfo: 7.8.1
-      webpack-cli: 4.7.2_webpack@5.46.0
+      webpack-cli: 4.7.2_webpack@5.50.0
     dev: true
 
   /@webpack-cli/serve/1.5.1_webpack-cli@4.7.2:
@@ -1650,7 +1652,7 @@ packages:
       webpack-dev-server:
         optional: true
     dependencies:
-      webpack-cli: 4.7.2_webpack@5.46.0
+      webpack-cli: 4.7.2_webpack@5.50.0
     dev: true
 
   /@xtuc/ieee754/1.2.0:
@@ -6877,6 +6879,35 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
+  /ts-node/10.2.0:
+    resolution: {integrity: sha512-FstYHtQz6isj8rBtYMN4bZdnXN1vq4HCbqn9vdNQcInRqtB86PePJQIxE6es0PhxKWhj2PHuwbG40H+bxkZPmg==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.6.1
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      acorn: 8.4.1
+      acorn-walk: 8.1.1
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      yn: 3.1.1
+    dev: true
+
   /ts-node/10.2.0_typescript@4.3.5:
     resolution: {integrity: sha512-FstYHtQz6isj8rBtYMN4bZdnXN1vq4HCbqn9vdNQcInRqtB86PePJQIxE6es0PhxKWhj2PHuwbG40H+bxkZPmg==}
     engines: {node: '>=12.0.0'}
@@ -6905,6 +6936,7 @@ packages:
       make-error: 1.3.6
       typescript: 4.3.5
       yn: 3.1.1
+    dev: false
 
   /tsconfig-paths/3.10.1:
     resolution: {integrity: sha512-rETidPDgCpltxF7MjBZlAFPUHv5aHH2MymyPvh+vEyWAED4Eb/WeMbsnD/JDr4OKPOA1TssDHgIcpTN5Kh0p6Q==}
