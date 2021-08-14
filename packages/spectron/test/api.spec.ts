@@ -112,7 +112,7 @@ it('should construct the api object with placeholders', async () => {
 it('should throw an error when when the Context Bridge is not available', async () => {
   window.spectron = undefined;
   await createApi(mockWebDriverClient, ['browserWindow', 'webContents', 'app']);
-  await expect(mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app'])).rejects.toThrowError(
+  await expect(mockWebDriverRunExecuteAsync(0, ['browserWindow', 'webContents', 'app'])).rejects.toThrow(
     'ContextBridge not available for retrieval of api keys',
   );
 });
@@ -135,7 +135,7 @@ describe('calling API functions', () => {
 
   it('should throw an error when when the Context Bridge is not available', async () => {
     window.spectron = undefined;
-    await expect(mockWebDriverRunExecuteAsync(1, 'mockFn1', 'browserWindow', ['test'])).rejects.toThrowError(
+    await expect(mockWebDriverRunExecuteAsync(1, 'mockFn1', 'browserWindow', ['test'])).rejects.toThrow(
       'ContextBridge not available for invocation of browserWindow.mockFn1',
     );
   });
