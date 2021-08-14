@@ -17,6 +17,7 @@
     "@testing-library/webdriverio": "^3.0.2",
     "@types/mocha": "^9.0.0",
     "@wdio/mocha-framework": "^7.9.1",
+    "expect-webdriverio": "^3.1.0",
     "global-jsdom": "^8.1.0",
     "jsdom": "^17.0.0",
     "ts-node": "^10.2.0",
