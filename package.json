@@ -26,9 +26,9 @@
   "author": "Kevin Sawicki",
   "license": "MIT",
   "dependencies": {
-    "@electron/remote": "^1.1.0",
+    "@electron/remote": "^1.2.1",
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "^13.0.0",
+    "electron-chromedriver": "^14.0.0",
     "got": "^11.8.0",
     "split": "^1.0.1",
     "webdriverio": "^6.9.1"
@@ -40,7 +40,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.2.1",
-    "electron": "^13.0.1",
+    "electron": "^14.0.0",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
