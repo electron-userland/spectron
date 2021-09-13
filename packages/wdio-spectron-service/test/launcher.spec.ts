@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: "off" */
 import path from 'path';
 import fs from 'fs-extra';
-import { spawn } from 'child_process';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import ChromeDriverLauncher, { Capabilities, Config, Options } from '../src/launcher';
 
 type Stream = {
@@ -28,9 +28,16 @@ let capabilities: Capabilities;
 
 describe('ChromeDriverLauncher launcher', () => {
   beforeEach(() => {
-    config = {};
+    config = {
+      outputDir: '/',
+    };
     options = {};
-    capabilities = [{ browserName: 'chrome' }];
+    capabilities = [
+      {
+        'browserName': 'chrome',
+        'goog:chromeOptions': { binary: '/blah/chrome', args: ['arg1', 'arg2'], windowTypes: ['app', 'webview'] },
+      },
+    ];
   });
 
   afterEach(() => {
@@ -38,27 +45,27 @@ describe('ChromeDriverLauncher launcher', () => {
   });
 
   describe('onPrepare', () => {
-    test('should set correct starting options', async () => {
+    it('should set correct starting options', async () => {
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
 
       await Launcher.onPrepare();
 
-      expect(spawn.mock.calls[0][0]).toEqual('/some/local/chromedriver/path');
-      expect(spawn.mock.calls[0][1]).toEqual(['--port=9515', '--url-base=/']);
+      const mockCalls = (spawn as jest.Mock).mock.calls;
+      expect(mockCalls[0]).toEqual(['/some/local/chromedriver/path', ['--port=9515', '--url-base=/']]);
     });
 
     it('should fallback to global chromedriver', async () => {
-      fs.existsSync.mockReturnValueOnce(false);
+      (fs.existsSync as jest.Mock).mockReturnValueOnce(false);
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
 
       await Launcher.onPrepare();
 
-      expect(spawn.mock.calls[0][0]).toEqual('chromedriver');
+      expect((spawn as jest.Mock).mock.calls[0]).toEqual(['chromedriver', ['--port=9515', '--url-base=/']]);
     });
 
-    test('should set (and overwrite config.outputDir) outputDir when passed in the options', async () => {
+    it('should set (and overwrite config.outputDir) outputDir when passed in the options', async () => {
       options.outputDir = 'options-outputdir';
       config.outputDir = 'config-outputdir';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
@@ -69,7 +76,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.outputDir).toEqual('options-outputdir');
     });
 
-    test('should set correct config properties', async () => {
+    it('should set correct config properties', async () => {
       config.outputDir = 'dummy';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -79,7 +86,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.outputDir).toEqual('dummy');
     });
 
-    test('should set correct port and path', async () => {
+    it('should set correct port and path', async () => {
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
 
@@ -88,7 +95,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.args).toEqual(['--port=9515', '--url-base=/']);
     });
 
-    test('should set correct args', async () => {
+    it('should set correct args', async () => {
       options.args = ['--silent'];
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -98,7 +105,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.args).toEqual(['--silent', '--port=9515', '--url-base=/']);
     });
 
-    test('should throw if the argument "--port" is passed', async () => {
+    it('should throw if the argument "--port" is passed', async () => {
       options.args = ['--port=9616'];
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -106,7 +113,7 @@ describe('ChromeDriverLauncher launcher', () => {
       await expect(Launcher.onPrepare()).rejects.toThrow(new Error('Argument "--port" already exists'));
     });
 
-    test('should throw if the argument "--url-base" is passed', async () => {
+    it('should throw if the argument "--url-base" is passed', async () => {
       options.args = ['--url-base=/dummy'];
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -114,34 +121,18 @@ describe('ChromeDriverLauncher launcher', () => {
       await expect(Launcher.onPrepare()).rejects.toThrow(new Error('Argument "--url-base" already exists'));
     });
 
-    test('should set correct config properties when empty', async () => {
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare({});
-
-      expect(Launcher.args).toBeUndefined();
-    });
-
-    test('should call ChromeDriver start', async () => {
+    it('should not output the log file', async () => {
+      options.outputDir = undefined;
+      config.outputDir = '';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
 
       await Launcher.onPrepare();
 
-      expect(spawn.mock.calls[0][1]).toEqual(['--port=9515', '--url-base=/']);
-    });
-
-    test('should not output the log file', async () => {
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare({});
-
       expect(Launcher._redirectLogStream).not.toHaveBeenCalled();
     });
 
-    test('should output the log file', async () => {
+    it('should output the log file when an output directory is specified', async () => {
       options.outputDir = 'dummy';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -153,18 +144,18 @@ describe('ChromeDriverLauncher launcher', () => {
   });
 
   describe('onComplete', () => {
-    test('should call ChromeDriver.stop', async () => {
+    it('should call ChromeDriver.stop', async () => {
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
 
-      await Launcher.onPrepare({});
+      await Launcher.onPrepare();
 
       Launcher.onComplete();
 
-      expect(Launcher.process.kill).toHaveBeenCalled();
+      expect((Launcher.process as ChildProcessWithoutNullStreams).kill).toHaveBeenCalled();
     });
 
-    test('should not call process.kill', () => {
+    it('should not call process.kill', () => {
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher.onComplete();
 
@@ -173,20 +164,24 @@ describe('ChromeDriverLauncher launcher', () => {
   });
 
   describe('_redirectLogStream', () => {
-    test('should write output to file', async () => {
+    it('should write output to file', async () => {
       config.outputDir = 'dummy';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
 
       await Launcher.onPrepare();
 
-      expect(fs.createWriteStream.mock.calls[0][0]).toBe(path.join(process.cwd(), 'dummy', 'wdio-chromedriver.log'));
-      expect(Launcher.process.stdout.pipe).toHaveBeenCalled();
-      expect(Launcher.process.stderr.pipe).toHaveBeenCalled();
+      expect((fs.createWriteStream as jest.Mock).mock.calls[0]).toEqual([
+        path.join(process.cwd(), 'dummy', 'wdio-chromedriver.log'),
+        { flags: 'w' },
+      ]);
+      const launcherProcess = Launcher.process as ChildProcessWithoutNullStreams;
+      expect(launcherProcess.stdout.pipe).toHaveBeenCalled();
+      expect(launcherProcess.stderr.pipe).toHaveBeenCalled();
     });
   });
 
-  describe('custom chromedriver Path', () => {
-    test('should select custom chromedriver path "chromedriver.exe"', async () => {
+  describe('custom chromedriver path', () => {
+    it('should select custom chromedriver path "chromedriver.exe"', async () => {
       options.chromedriverCustomPath = 'chromedriver.exe';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -194,7 +189,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.chromedriverCustomPath).toEqual(path.resolve(options.chromedriverCustomPath));
     });
 
-    test('should select custom chromedriver path "c:\\chromedriver.exe"', async () => {
+    it('should select custom chromedriver path "c:\\chromedriver.exe"', async () => {
       options.chromedriverCustomPath = 'c:\\chromedriver.exe';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -202,7 +197,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.chromedriverCustomPath).toEqual(path.resolve(options.chromedriverCustomPath));
     });
 
-    test('should select custom chromedriver path "./chromedriver.exe"', async () => {
+    it('should select custom chromedriver path "./chromedriver.exe"', async () => {
       options.chromedriverCustomPath = './chromedriver.exe';
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -210,12 +205,12 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.chromedriverCustomPath).toEqual(path.resolve(options.chromedriverCustomPath));
     });
 
-    test('should select default chromedriver path if no custom path provided"', async () => {
+    it('should select default chromedriver path if no custom path provided"', async () => {
       options.chromedriverCustomPath = undefined;
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
       await Launcher.onPrepare();
-      expect(Launcher.chromedriverCustomPath).not.toBeUndefined();
+      expect(Launcher.chromedriverCustomPath).toBeDefined();
     });
   });
 });

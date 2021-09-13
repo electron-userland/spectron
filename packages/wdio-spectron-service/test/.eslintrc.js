@@ -44,6 +44,8 @@ module.exports = {
         'node/no-extraneous-import': 'off',
         'node/no-extraneous-require': 'off',
         'node/no-unpublished-require': 'off',
+        '@typescript-eslint/unbound-method': 'off',
+        'jest/unbound-method': 'error',
       },
     },
   ],

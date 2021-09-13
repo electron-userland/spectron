@@ -5,7 +5,7 @@ import path from 'path';
 import split2 from 'split2';
 import { path as chromedriverPath } from 'chromedriver';
 import logger from '@wdio/logger';
-import { waitUntilUsed } from 'tcp-port-used';
+import tcpPortUsed from 'tcp-port-used';
 import EventEmitter from 'events';
 import getFilePath from './getFilePath';
 
@@ -28,14 +28,14 @@ export type ChromeOptions = {
 };
 
 export type Options = {
-  'port': number;
-  'path': string;
-  'protocol': string;
-  'hostname': string;
-  'outputDir': string;
-  'logFileName': string;
+  'port'?: number;
+  'path'?: string;
+  'protocol'?: string;
+  'hostname'?: string;
+  'outputDir'?: string;
+  'logFileName'?: string;
   'chromedriverCustomPath'?: string;
-  'args': string[];
+  'args'?: string[];
   'browserName'?: 'chrome';
   'goog:chromeOptions'?: ChromeOptions;
 };
@@ -93,36 +93,34 @@ export default class ChromeDriverLauncher {
       }
     });
 
-    args.push(`--port=${this.options.port}`);
-    args.push(`--url-base=${this.options.path}`);
+    args.push(`--port=${this.options.port as number}`);
+    args.push(`--url-base=${this.options.path as string}`);
 
     let command = this.chromedriverCustomPath;
     log.info(`Start Chromedriver (${command}) with args ${args.join(' ')}`);
     if (!fs.existsSync(command)) {
       log.warn('Could not find chromedriver in default path: ', command);
       log.warn('Falling back to use global chromedriver bin');
-      command = process && process.platform === 'win32' ? 'chromedriver.exe' : 'chromedriver';
+      command = process?.platform === 'win32' ? 'chromedriver.exe' : 'chromedriver';
     }
     this.process = spawn(command, args);
 
-    if (typeof this.outputDir === 'string') {
+    if (this.outputDir && typeof this.outputDir === 'string') {
       this._redirectLogStream();
-    } else if (this.process?.stdout && this.process?.stderr) {
+    } else {
       const split = split2();
       (this.process.stdout.pipe(split) as EventEmitter).on('data', (...logArgs) => log.info(...logArgs));
       (this.process.stderr.pipe(split) as EventEmitter).on('data', (...logArgs) => log.warn(...logArgs));
     }
 
-    await waitUntilUsed(this.options.port, POLL_INTERVAL, POLL_TIMEOUT);
+    await tcpPortUsed.waitUntilUsed(this.options.port as number, POLL_INTERVAL, POLL_TIMEOUT);
     process.on('exit', this.onComplete.bind(this));
     process.on('SIGINT', this.onComplete.bind(this));
     process.on('uncaughtException', this.onComplete.bind(this));
   }
 
   onComplete(): void {
-    if (this.process) {
-      this.process.kill();
-    }
+    this.process?.kill();
   }
 
   _redirectLogStream(): void {
@@ -133,9 +131,7 @@ export default class ChromeDriverLauncher {
 
     const logStream = fs.createWriteStream(logFile, { flags: 'w' });
 
-    if (this.process) {
-      this.process.stdout.pipe(logStream);
-      this.process.stderr.pipe(logStream);
-    }
+    this.process?.stdout.pipe(logStream);
+    this.process?.stderr.pipe(logStream);
   }
 }
