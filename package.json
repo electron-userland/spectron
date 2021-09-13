@@ -39,7 +39,7 @@
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm run --filter @goosewobbler/spectron build && pnpm run --filter @goosewobbler/spectron-e2e-app build",
     "lint": "pnpm run -r lint && prettier --check \"**/*.{j,t}s\"",
-    "clean": "pnpm run -r clean && cross-env rm pnpm-lock.yaml",
+    "clean": "pnpm run -r clean && cross-env rm -f pnpm-lock.yaml",
     "format": "prettier --ignore-path .gitignore --write .",
     "smoke-test": "pnpm run --filter @goosewobbler/spectron-e2e test",
     "unit-test": "pnpm run --filter @goosewobbler/spectron test",
