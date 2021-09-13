@@ -47,7 +47,8 @@
     "webdriverio": "^7.12.4"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.5.0"
+    "@testing-library/dom": "^8.5.0",
+    "jest-mock-extended": "^2.0.2-beta2"
   },
   "resolutions": {
     "@types/node": "^14.0.0"
