@@ -1,10 +1,16 @@
+/* eslint no-underscore-dangle: "off" */
 import path from 'path';
 import fs from 'fs-extra';
 import { spawn } from 'child_process';
-import ChromeDriverLauncher from '../src/launcher';
+import ChromeDriverLauncher, { Capabilities, Config, Options } from '../src/launcher';
+
+type Stream = {
+  pipe?: jest.Mock;
+  on?: jest.Mock;
+};
 
 jest.mock('child_process', () => {
-  const stream = {};
+  const stream: Stream = {};
   stream.pipe = jest.fn().mockReturnValue(stream);
   stream.on = jest.fn().mockReturnValue(stream);
   return {
@@ -16,33 +22,15 @@ jest.mock('child_process', () => {
   };
 });
 
-let config;
-let options;
-let capabilities;
-let multiremoteCaps;
+let config: Config;
+let options: Options;
+let capabilities: Capabilities;
 
 describe('ChromeDriverLauncher launcher', () => {
   beforeEach(() => {
     config = {};
     options = {};
-    capabilities = [{ browserName: 'chrome' }, { browserName: 'firefox' }];
-    multiremoteCaps = {
-      myCustomChromeBrowser: {
-        capabilities: {
-          browserName: 'chrome',
-        },
-      },
-      myCustomFirefoxBrowser: {
-        capabilities: {
-          browserName: 'firefox',
-        },
-      },
-      myCustomAppium: {
-        capabilities: {
-          platformName: 'android',
-        },
-      },
-    };
+    capabilities = [{ browserName: 'chrome' }];
   });
 
   afterEach(() => {
@@ -79,164 +67,6 @@ describe('ChromeDriverLauncher launcher', () => {
       await Launcher.onPrepare();
 
       expect(Launcher.outputDir).toEqual('options-outputdir');
-    });
-
-    test('should set path when passed in the options', async () => {
-      options.path = 'options-path';
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual([
-        {
-          browserName: 'chrome',
-          protocol: 'http',
-          hostname: 'localhost',
-          port: 9515,
-          path: 'options-path',
-        },
-        {
-          browserName: 'firefox',
-        },
-      ]);
-    });
-
-    test('should set port when passed in the options', async () => {
-      options.port = 7676;
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual([
-        {
-          browserName: 'chrome',
-          protocol: 'http',
-          hostname: 'localhost',
-          port: 7676,
-          path: '/',
-        },
-        {
-          browserName: 'firefox',
-        },
-      ]);
-    });
-
-    test('should set protocol when passed in the options', async () => {
-      options.protocol = 'https';
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual([
-        {
-          browserName: 'chrome',
-          protocol: 'https',
-          hostname: 'localhost',
-          port: 9515,
-          path: '/',
-        },
-        {
-          browserName: 'firefox',
-        },
-      ]);
-    });
-
-    test('should set hostname when passed in the options', async () => {
-      options.hostname = 'dummy';
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual([
-        {
-          browserName: 'chrome',
-          protocol: 'http',
-          hostname: 'dummy',
-          port: 9515,
-          path: '/',
-        },
-        {
-          browserName: 'firefox',
-        },
-      ]);
-    });
-
-    test('should set capabilities', async () => {
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual([
-        {
-          browserName: 'chrome',
-          protocol: 'http',
-          hostname: 'localhost',
-          port: 9515,
-          path: '/',
-        },
-        {
-          browserName: 'firefox',
-        },
-      ]);
-    });
-
-    test('should set capabilities when using multiremote', async () => {
-      const Launcher = new ChromeDriverLauncher(options, multiremoteCaps, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual({
-        myCustomChromeBrowser: {
-          protocol: 'http',
-          hostname: 'localhost',
-          port: 9515,
-          path: '/',
-          capabilities: {
-            browserName: 'chrome',
-          },
-        },
-        myCustomFirefoxBrowser: {
-          capabilities: {
-            browserName: 'firefox',
-          },
-        },
-        myCustomAppium: {
-          capabilities: {
-            platformName: 'android',
-          },
-        },
-      });
-    });
-
-    test('should set capabilities when the browserName is not lowercase', async () => {
-      capabilities.map((cap) => {
-        if (cap.browserName === 'chrome') {
-          cap.browserName = 'Chrome';
-        }
-      });
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      Launcher._redirectLogStream = jest.fn();
-
-      await Launcher.onPrepare();
-
-      expect(Launcher.capabilities).toEqual([
-        {
-          browserName: 'Chrome',
-          protocol: 'http',
-          hostname: 'localhost',
-          port: 9515,
-          path: '/',
-        },
-        {
-          browserName: 'firefox',
-        },
-      ]);
     });
 
     test('should set correct config properties', async () => {
@@ -290,7 +120,7 @@ describe('ChromeDriverLauncher launcher', () => {
 
       await Launcher.onPrepare({});
 
-      expect(Launcher.args).toBeUndefined;
+      expect(Launcher.args).toBeUndefined();
     });
 
     test('should call ChromeDriver start', async () => {
@@ -308,7 +138,7 @@ describe('ChromeDriverLauncher launcher', () => {
 
       await Launcher.onPrepare({});
 
-      expect(Launcher._redirectLogStream).not.toBeCalled();
+      expect(Launcher._redirectLogStream).not.toHaveBeenCalled();
     });
 
     test('should output the log file', async () => {
@@ -318,7 +148,7 @@ describe('ChromeDriverLauncher launcher', () => {
 
       await Launcher.onPrepare();
 
-      expect(Launcher._redirectLogStream).toBeCalled();
+      expect(Launcher._redirectLogStream).toHaveBeenCalled();
     });
   });
 
@@ -331,7 +161,7 @@ describe('ChromeDriverLauncher launcher', () => {
 
       Launcher.onComplete();
 
-      expect(Launcher.process.kill).toBeCalled();
+      expect(Launcher.process.kill).toHaveBeenCalled();
     });
 
     test('should not call process.kill', () => {
@@ -350,8 +180,8 @@ describe('ChromeDriverLauncher launcher', () => {
       await Launcher.onPrepare();
 
       expect(fs.createWriteStream.mock.calls[0][0]).toBe(path.join(process.cwd(), 'dummy', 'wdio-chromedriver.log'));
-      expect(Launcher.process.stdout.pipe).toBeCalled();
-      expect(Launcher.process.stderr.pipe).toBeCalled();
+      expect(Launcher.process.stdout.pipe).toHaveBeenCalled();
+      expect(Launcher.process.stderr.pipe).toHaveBeenCalled();
     });
   });
 
@@ -380,12 +210,12 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(Launcher.chromedriverCustomPath).toEqual(path.resolve(options.chromedriverCustomPath));
     });
 
-    test('should select default chromedriver path if no custome path provided"', async () => {
+    test('should select default chromedriver path if no custom path provided"', async () => {
       options.chromedriverCustomPath = undefined;
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
       await Launcher.onPrepare();
-      expect(Launcher.chromedriverCustomPath).not.toBeUndefined;
+      expect(Launcher.chromedriverCustomPath).not.toBeUndefined();
     });
   });
 });

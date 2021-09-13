@@ -21,33 +21,33 @@ const DEFAULT_CONNECTION = {
   path: '/',
 };
 
-type ChromeOptions = {
+export type ChromeOptions = {
   binary: string;
   args: string[];
   windowTypes: ['app', 'webview'];
 };
 
-type Options = {
+export type Options = {
   'port': number;
   'path': string;
   'protocol': string;
   'hostname': string;
   'outputDir': string;
   'logFileName': string;
-  'chromedriverCustomPath': string;
+  'chromedriverCustomPath'?: string;
   'args': string[];
   'browserName'?: 'chrome';
   'goog:chromeOptions'?: ChromeOptions;
 };
 
-type Capabilities = [
+export type Capabilities = [
   {
     'browserName': 'chrome';
     'goog:chromeOptions': ChromeOptions;
   },
 ];
 
-type Config = {
+export type Config = {
   outputDir: string;
 };
 
@@ -72,15 +72,15 @@ export default class ChromeDriverLauncher {
 
   private options;
 
-  private outputDir;
+  public outputDir;
 
   private logFileName;
 
-  private args;
+  public args;
 
-  private chromedriverCustomPath;
+  public chromedriverCustomPath;
 
-  private process?: ChildProcessWithoutNullStreams;
+  public process?: ChildProcessWithoutNullStreams;
 
   async onPrepare(): Promise<void> {
     const args = this.args as string[];
