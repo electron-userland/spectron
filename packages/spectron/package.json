@@ -14,8 +14,7 @@
   "scripts": {
     "clean": "cross-env rm -rf ./node_modules ./dist",
     "clean:dist": "cross-env rm -rf ./dist",
-    "build": "pnpm run build:typescript-references-hack && pnpm run build:copy-md-files && tsc -b lib test",
-    "build:copy-md-files": "cross-env cp ../../*.md ./dist",
+    "build": "pnpm run build:typescript-references-hack && tsc -b lib test",
     "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
     "lint": "eslint --ignore-path ../../.eslintignore \"**/*.{j,t}s\"",
     "prettier:write": "prettier --write \"**/*.{j,t}s\"",
@@ -44,7 +43,7 @@
     "electron-chromedriver": "^13.0.0",
     "ts-node": "^10.2.0",
     "tsconfig-paths": "^3.10.1",
-    "wdio-chromedriver-service": "^7.2.0",
+    "wdio-spectron-service": "*",
     "webdriverio": "^7.9.1"
   },
   "devDependencies": {

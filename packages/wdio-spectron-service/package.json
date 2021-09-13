@@ -1,0 +1,61 @@
+{
+  "name": "wdio-spectron-service",
+  "version": "1.0.0",
+  "description": "WebdriverIO service to start & stop ChromeDriver for Spectron",
+  "author": "Sam Maister <sam.maister@pm.me>",
+  "homepage": "https://github.com/goosewobbler/spectron",
+  "license": "MIT",
+  "main": "./build",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "clean": "cross-env rm -rf ./node_modules ./dist",
+    "clean:dist": "cross-env rm -rf ./dist",
+    "build": "pnpm run build:typescript-references-hack && tsc -b lib test",
+    "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
+    "lint": "eslint --ignore-path ../../.eslintignore \"**/*.{j,t}s\"",
+    "prettier:write": "prettier --write \"**/*.{j,t}s\"",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:watch-coverage": "jest --watch --coverage",
+    "test": "pnpm run test:coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webdriverio-community/wdio-chromedriver-service.git"
+  },
+  "keywords": [
+    "webdriverio",
+    "wdio",
+    "wdio-service",
+    "spectron",
+    "chromedriver",
+    "tests"
+  ],
+  "bugs": {
+    "url": "https://github.com/webdriverio-community/wdio-chromedriver-service/issues"
+  },
+  "peerDependencies": {
+    "chromedriver": "*",
+    "@wdio/cli": "^7.12.4"
+  },
+  "dependencies": {
+    "@wdio/logger": "^7.7.0",
+    "chromedriver": "^93.0.1",
+    "fs-extra": "^9.1.0",
+    "split2": "^3.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-plugin-import": "^2.22.1",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.0.6",
+    "jest-mock-extended": "^2.0.2-beta2",
+    "ts-jest": "^27.0.4"
+  },
+  "contributors": [
+    "Mattias Ekstrand <mattias.ekstrand@gmail.com>",
+    "Erwin Heitzman <erwin.heitzman@gmail.com>"
+  ]
+}
