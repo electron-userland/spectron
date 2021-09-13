@@ -15,7 +15,7 @@ module.exports = {
   },
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/lib/*.ts'],
+  collectCoverageFrom: ['<rootDir>/src/*.ts'],
   coverageThreshold: {
     global: {
       branches: 0,
