@@ -40,6 +40,10 @@ module.exports = {
         'node/no-missing-import': 'off', // duped by import
         'node/no-unpublished-import': 'error',
         'node/no-unsupported-features/es-syntax': ['error', { ignores: ['modules'] }],
+        'import/no-extraneous-dependencies': 'off',
+        'node/no-extraneous-import': 'off',
+        'node/no-extraneous-require': 'off',
+        'node/no-unpublished-require': 'off',
       },
     },
   ],
