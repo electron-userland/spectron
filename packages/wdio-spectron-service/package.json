@@ -42,17 +42,10 @@
   },
   "dependencies": {
     "@wdio/logger": "^7.7.0",
-    "chromedriver": "^93.0.1",
-    "fs-extra": "^9.1.0",
     "split2": "^3.2.2"
   },
   "devDependencies": {
-    "eslint": "^7.20.0",
-    "eslint-plugin-import": "^2.22.1",
-    "@types/jest": "^27.0.1",
-    "jest": "^27.0.6",
-    "jest-mock-extended": "^2.0.2-beta2",
-    "ts-jest": "^27.0.4"
+    "chromedriver": "^93.0.1"
   },
   "contributors": [
     "Mattias Ekstrand <mattias.ekstrand@gmail.com>",

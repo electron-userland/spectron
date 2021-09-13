@@ -36,22 +36,18 @@
   "author": "Sam Maister",
   "license": "MIT",
   "dependencies": {
-    "@wdio/cli": "^7.9.1",
-    "@wdio/local-runner": "^7.9.1",
-    "chromedriver": "^92.0.1",
-    "electron": "^13.1.9",
-    "electron-chromedriver": "^13.0.0",
-    "ts-node": "^10.2.0",
-    "tsconfig-paths": "^3.10.1",
+    "@wdio/cli": "^7.12.4",
+    "@wdio/local-runner": "^7.12.4",
+    "chromedriver": "^93.0.1",
+    "electron": "^14.0.0",
+    "electron-chromedriver": "^14.0.0",
+    "ts-node": "^10.2.1",
+    "tsconfig-paths": "^3.11.0",
     "wdio-spectron-service": "*",
-    "webdriverio": "^7.9.1"
+    "webdriverio": "^7.12.4"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.1.0",
-    "@types/jest": "^27.0.1",
-    "jest": "^27.0.6",
-    "jest-mock-extended": "^2.0.2-beta2",
-    "ts-jest": "^27.0.4"
+    "@testing-library/dom": "^8.5.0"
   },
   "resolutions": {
     "@types/node": "^14.0.0"
