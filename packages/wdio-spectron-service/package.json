@@ -30,14 +30,17 @@
     "tests"
   ],
   "peerDependencies": {
-    "chromedriver": "*",
-    "@wdio/cli": "^7.12.4"
+    "@wdio/cli": "^7.12.4",
+    "chromedriver": "*"
   },
   "dependencies": {
     "@wdio/logger": "^7.7.0",
-    "split2": "^3.2.2"
+    "split2": "^3.2.2",
+    "tcp-port-used": "^1.0.2"
   },
   "devDependencies": {
+    "@types/split2": "^3.2.1",
+    "@types/tcp-port-used": "^1.0.0",
     "chromedriver": "^93.0.1"
   },
   "contributors": [

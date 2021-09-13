@@ -9,6 +9,7 @@
   "repository": "https://github.com/goosewobbler/spectron",
   "bugs": "https://github.com/goosewobbler/spectron/issues",
   "devDependencies": {
+    "@types/chromedriver": "^81.0.0",
     "@types/fs-extra": "^9.0.12",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.9.1",
