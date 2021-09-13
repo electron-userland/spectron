@@ -2,8 +2,8 @@ import path from 'path';
 import getFilePath from '../src/getFilePath';
 
 describe('getFilePath', () => {
-  let basePath = null;
-  let defaultFilename = null;
+  let basePath = '';
+  let defaultFilename = '';
 
   beforeAll(() => {
     basePath = process.cwd();
