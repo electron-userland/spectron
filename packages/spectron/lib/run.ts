@@ -49,7 +49,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
     {
       services: [
         [
-          'chromedriver',
+          'spectron',
           {
             port: 9515,
             logFileName: 'wdio-chromedriver.log', // default

@@ -5,7 +5,7 @@
   "author": "Sam Maister <sam.maister@pm.me>",
   "homepage": "https://github.com/goosewobbler/spectron",
   "license": "MIT",
-  "main": "./build",
+  "main": "./dist",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -21,10 +21,6 @@
     "test:watch-coverage": "jest --watch --coverage",
     "test": "pnpm run test:coverage"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/webdriverio-community/wdio-chromedriver-service.git"
-  },
   "keywords": [
     "webdriverio",
     "wdio",
@@ -33,9 +29,6 @@
     "chromedriver",
     "tests"
   ],
-  "bugs": {
-    "url": "https://github.com/webdriverio-community/wdio-chromedriver-service/issues"
-  },
   "peerDependencies": {
     "chromedriver": "*",
     "@wdio/cli": "^7.12.4"

@@ -6,7 +6,7 @@ import { path as chromedriverPath } from 'chromedriver';
 import logger from '@wdio/logger';
 import tcpPortUsed from 'tcp-port-used';
 
-import getFilePath from './utils/getFilePath';
+import getFilePath from './getFilePath';
 
 const log = logger('chromedriver');
 
