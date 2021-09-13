@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "cross-env rm -rf ./node_modules ./dist",
     "clean:dist": "cross-env rm -rf ./dist",
-    "build": "pnpm run build:typescript-references-hack && tsc -b lib test",
+    "build": "pnpm run build:typescript-references-hack && tsc -b src test",
     "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
     "lint": "eslint --ignore-path ../../.eslintignore \"**/*.{j,t}s\"",
     "prettier:write": "prettier --write \"**/*.{j,t}s\"",
