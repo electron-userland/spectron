@@ -1,1 +1,1 @@
-export const path = '/some/local/chromedriver/path'
+export const path = '/some/local/chromedriver/path';

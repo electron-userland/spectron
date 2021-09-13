@@ -1,4 +1,4 @@
-import ChromeDriverLauncher from './launcher';
+import SpectronLauncher from './launcher';
 
-export default class ChromeService {}
-export const launcher = ChromeDriverLauncher;
+export default class SpectronService {}
+export const launcher = SpectronLauncher;

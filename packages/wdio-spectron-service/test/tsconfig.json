@@ -8,5 +8,5 @@
       "~/common/*": ["../../../common/*"]
     }
   },
-  "include": ["./*.ts"]
+  "include": ["./*.ts", "./__mocks__/*.ts"]
 }

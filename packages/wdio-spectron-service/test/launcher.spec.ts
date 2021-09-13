@@ -55,7 +55,7 @@ describe('ChromeDriverLauncher launcher', () => {
       expect(mockCalls[0]).toEqual(['/some/local/chromedriver/path', ['--port=9515', '--url-base=/']]);
     });
 
-    it('should fallback to global chromedriver', async () => {
+    it('should fall back to global chromedriver', async () => {
       (fs.existsSync as jest.Mock).mockReturnValueOnce(false);
       const Launcher = new ChromeDriverLauncher(options, capabilities, config);
       Launcher._redirectLogStream = jest.fn();
@@ -63,6 +63,32 @@ describe('ChromeDriverLauncher launcher', () => {
       await Launcher.onPrepare();
 
       expect((spawn as jest.Mock).mock.calls[0]).toEqual(['chromedriver', ['--port=9515', '--url-base=/']]);
+    });
+
+    describe('when the platform is win32', () => {
+      const originalPlatform = process.platform;
+
+      beforeEach(() => {
+        Object.defineProperty(process, 'platform', {
+          value: 'win32',
+        });
+      });
+
+      it('should fall back to global chromedriver', async () => {
+        (fs.existsSync as jest.Mock).mockReturnValueOnce(false);
+        const Launcher = new ChromeDriverLauncher(options, capabilities, config);
+        Launcher._redirectLogStream = jest.fn();
+
+        await Launcher.onPrepare();
+
+        expect((spawn as jest.Mock).mock.calls[0]).toEqual(['chromedriver.exe', ['--port=9515', '--url-base=/']]);
+      });
+
+      afterEach(() => {
+        Object.defineProperty(process, 'platform', {
+          value: originalPlatform,
+        });
+      });
     });
 
     it('should set (and overwrite config.outputDir) outputDir when passed in the options', async () => {

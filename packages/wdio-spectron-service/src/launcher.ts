@@ -67,7 +67,7 @@ export default class ChromeDriverLauncher {
     this.args = options.args || [];
     this.chromedriverCustomPath = options.chromedriverCustomPath
       ? path.resolve(options.chromedriverCustomPath)
-      : (chromedriverPath as string);
+      : chromedriverPath;
   }
 
   private options;
@@ -83,7 +83,7 @@ export default class ChromeDriverLauncher {
   public process?: ChildProcessWithoutNullStreams;
 
   async onPrepare(): Promise<void> {
-    const args = this.args as string[];
+    const { args } = this;
     args.forEach((argument: string) => {
       if (argument.includes('--port')) {
         throw new Error('Argument "--port" already exists');
