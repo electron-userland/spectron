@@ -9,7 +9,7 @@
     "build:wdio-spectron-service": "pnpm run --filter wdio-spectron-service build",
     "clean": "cross-env rm -rf ./node_modules",
     "test": "pnpx spectron ./wdio.mocha.conf.ts",
-    "test:build": "pnpm run build:wdio-spectron-service && pnpm run build:spectron && pnpm run build:app && pnpm run test",
+    "test:local": "pnpm run build:wdio-spectron-service && pnpm run build:spectron && pnpm run build:app && pnpm run test",
     "lint": "eslint --ignore-path ../.eslintignore \"**/*.{j,t}s\""
   },
   "devDependencies": {
