@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: off */
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import fs from 'fs-extra';
 import path from 'path';
@@ -82,7 +81,7 @@ export default class ChromeDriverLauncher {
 
   public process?: ChildProcessWithoutNullStreams;
 
-  async onPrepare(): Promise<void> {
+  async onWorkerStart(): Promise<void> {
     const { args } = this;
     args.forEach((argument: string) => {
       if (argument.includes('--port')) {
@@ -96,6 +95,24 @@ export default class ChromeDriverLauncher {
     args.push(`--port=${this.options.port as number}`);
     args.push(`--url-base=${this.options.path as string}`);
 
+    await this.startProcess();
+
+    process.on('exit', this.killProcess.bind(this));
+    process.on('SIGINT', this.killProcess.bind(this));
+    process.on('uncaughtException', this.killProcess.bind(this));
+  }
+
+  async after(): Promise<void> {
+    this.killProcess();
+    await this.startProcess();
+  }
+
+  killProcess(): void {
+    this.process?.kill();
+  }
+
+  async startProcess(): Promise<void> {
+    const { args } = this;
     let command = this.chromedriverCustomPath;
     log.info(`Start Chromedriver (${command}) with args ${args.join(' ')}`);
     if (!fs.existsSync(command)) {
@@ -106,7 +123,7 @@ export default class ChromeDriverLauncher {
     this.process = spawn(command, args);
 
     if (this.outputDir && typeof this.outputDir === 'string') {
-      this._redirectLogStream();
+      this.redirectLogStream();
     } else {
       const split = split2();
       (this.process.stdout.pipe(split) as EventEmitter).on('data', (...logArgs) => log.info(...logArgs));
@@ -114,16 +131,9 @@ export default class ChromeDriverLauncher {
     }
 
     await tcpPortUsed.waitUntilUsed(this.options.port as number, POLL_INTERVAL, POLL_TIMEOUT);
-    process.on('exit', this.onComplete.bind(this));
-    process.on('SIGINT', this.onComplete.bind(this));
-    process.on('uncaughtException', this.onComplete.bind(this));
   }
 
-  onComplete(): void {
-    this.process?.kill();
-  }
-
-  _redirectLogStream(): void {
+  redirectLogStream(): void {
     const logFile = getFilePath(this.outputDir, this.logFileName);
 
     // ensure file & directory exists
