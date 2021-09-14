@@ -180,13 +180,6 @@ describe('ChromeDriverLauncher launcher', () => {
 
       expect((Launcher.process as ChildProcessWithoutNullStreams).kill).toHaveBeenCalled();
     });
-
-    it('should not call process.kill', async () => {
-      const Launcher = new ChromeDriverLauncher(options, capabilities, config);
-      await Launcher.after();
-
-      expect(Launcher.process).toBeFalsy();
-    });
   });
 
   describe('redirectLogStream', () => {
