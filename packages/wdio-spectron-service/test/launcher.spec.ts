@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: "off" */
 import path from 'path';
 import fs from 'fs-extra';
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
