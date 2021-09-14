@@ -1,7 +1,7 @@
 {
   "name": "wdio-spectron-service",
   "version": "1.0.0",
-  "description": "WebdriverIO service to start & stop ChromeDriver for Spectron",
+  "description": "WebdriverIO service to manage ChromeDriver for Spectron",
   "author": "Sam Maister <sam.maister@pm.me>",
   "homepage": "https://github.com/goosewobbler/spectron",
   "license": "MIT",
