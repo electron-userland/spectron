@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-require('@electron/remote/main').initialize();
+const remoteMain = require('@electron/remote/main');
 const fs = require('fs');
 const path = require('path');
+
+remoteMain.initialize();
 
 let mainWindow = null;
 app.allowRendererProcessReuse = true;
@@ -20,11 +22,11 @@ app.on('ready', function () {
     width: 200,
     height: 100,
     webPreferences: {
-      enableRemoteModule: true,
       nodeIntegration: true,
       contextIsolation: false
     }
   });
+  remoteMain.enable(mainWindow.webContents);
   mainWindow.loadFile('index.html');
   mainWindow.on('closed', function () {
     mainWindow = null;
