@@ -65,7 +65,7 @@ cd test
 Then simply include the following in your first `spec.js`.
 
 ```js
-const Application = require('spectron').Application
+const { Application } = require('spectron')
 const assert = require('assert')
 const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
 const path = require('path')
@@ -73,7 +73,7 @@ const path = require('path')
 describe('Application launch', function () {
   this.timeout(10000)
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.app = new Application({
       // Your electron path can be any binary
       // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
@@ -95,21 +95,20 @@ describe('Application launch', function () {
       // and the package.json located 1 level above.
       args: [path.join(__dirname, '..')]
     })
-    return this.app.start()
+    await this.app.start()
   })
 
-  afterEach(function () {
+  afterEach(async function () {
     if (this.app && this.app.isRunning()) {
-      return this.app.stop()
+      await this.app.stop()
     }
   })
 
-  it('shows an initial window', function () {
-    return this.app.client.getWindowCount().then(function (count) {
-      assert.equal(count, 1)
-      // Please note that getWindowCount() will return 2 if `dev tools` are opened.
-      // assert.equal(count, 2)
-    })
+  it('shows an initial window', async function () {
+    const count = await this.app.client.getWindowCount()
+    assert.equal(count, 1)
+    // Please note that getWindowCount() will return 2 if `dev tools` are opened.
+    // assert.equal(count, 2)
   })
 })
 ```
@@ -221,11 +220,9 @@ All the commands return a `Promise`.
 So if you wanted to get the text of an element you would do:
 
 ```js
-app.client.$('#error-alert').then(function (element) {
-  element.getText().then(function (errorText) {
-    console.log('The #error-alert text content is ' + errorText)
-  })
-})
+const element = await app.client.$('#error-alert')
+const errorText = await element.getText()
+console.log('The #error-alert text content is ' + errorText)
 ```
 
 #### electron
@@ -256,9 +253,8 @@ So if you wanted to check if the current window is visible in your tests you
 would do:
 
 ```js
-app.browserWindow.isVisible().then(function (visible) {
-  console.log('window is visible? ' + visible)
-})
+const visible = await app.browserWindow.isVisible()
+console.log('window is visible? ' + visible)
 ```
 
 It is named `browserWindow` instead of `window` so that it doesn't collide
@@ -271,9 +267,8 @@ returns a `Promise` that resolves to a `Buffer` that is the image data of
 screenshot.
 
 ```js
-app.browserWindow.capturePage().then(function (imageBuffer) {
-  fs.writeFile('page.png', imageBuffer)
-})
+const imageBuffer = await app.browserWindow.capturePage()
+fs.writeFile('page.png', imageBuffer)
 ```
 
 #### webContents
@@ -299,12 +294,12 @@ returns a `Promise` that will raise any errors and resolve to `undefined` when
 complete.
 
 ```js
-app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete')
-  .then(function () {
-    console.log('page saved')
-  }).catch(function (error) {
-    console.error('saving page failed', error.message)
-  })
+try {
+  await app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete')
+  console.log('page saved')
+catch (error) {
+  console.error('saving page failed', error.message)
+}
 ```
 
 ##### executeJavaScript
@@ -313,10 +308,8 @@ returns a `Promise` that will resolve with the result of the last statement of t
 script.
 
 ```js
-app.webContents.executeJavaScript('1 + 2')
-  .then(function (result) {
-    console.log(result) // prints 3
-  })
+const result = await app.webContents.executeJavaScript('1 + 2')
+console.log(result) // prints 3
 ```
 
 #### mainProcess
@@ -330,9 +323,8 @@ So if you wanted to get the `argv` for the main process in your tests you would
 do:
 
 ```js
-app.mainProcess.argv().then(function (argv) {
-  console.log('main process args: ' + argv)
-})
+const argv = await app.mainProcess.argv()
+console.log('main process args: ' + argv)
 ```
 
 Properties on the `process` are exposed as functions that return promises so
@@ -350,9 +342,8 @@ So if you wanted to get the environment variables for the renderer process in
 your tests you would do:
 
 ```js
-app.rendererProcess.env().then(function (env) {
-  console.log('renderer process env variables: ' + env)
-})
+const env = await app.rendererProcess.env()
+console.log('renderer process env variables: ' + env)
 ```
 
 ### Methods
@@ -394,10 +385,9 @@ after they are returned.
 Returns a `Promise` that resolves to an array of string log messages
 
 ```js
-app.client.getMainProcessLogs().then(function (logs) {
-  logs.forEach(function (log) {
-    console.log(log)
-  })
+const logs = await app.client.getMainProcessLogs()
+logs.forEach(function (log) {
+  console.log(log)
 })
 ```
 
@@ -409,12 +399,11 @@ after they are returned.
 Returns a `Promise` that resolves to an array of log objects.
 
 ```js
-app.client.getRenderProcessLogs().then(function (logs) {
-  logs.forEach(function (log) {
-    console.log(log.message)
-    console.log(log.source)
-    console.log(log.level)
-  })
+const logs = await app.client.getRenderProcessLogs()
+logs.forEach(function (log) {
+  console.log(log.message)
+  console.log(log.source)
+  console.log(log.level)
 })
 ```
 
@@ -423,9 +412,8 @@ app.client.getRenderProcessLogs().then(function (logs) {
 Get the selected text in the current window.
 
 ```js
-app.client.getSelectedText().then(function (selectedText) {
-  console.log(selectedText)
-})
+const selectedText = await app.client.getSelectedText()
+console.log(selectedText)
 ```
 
 #### client.getWindowCount()
@@ -434,9 +422,8 @@ Gets the number of open windows.
 `<webview>` tags are also counted as separate windows.
 
 ```js
-app.client.getWindowCount().then(function (count) {
-  console.log(count)
-})
+const count = await app.client.getWindowCount()
+console.log(count)
 ```
 
 #### client.waitUntilTextExists(selector, text, [timeout])
@@ -508,11 +495,10 @@ Returns an `audit` Object with the following properties:
   * `url` - A String URL providing more details about the failed rule
 
 ```js
-app.client.auditAccessibility().then(function (audit) {
-  if (audit.failed) {
-    console.error(audit.message)
-  }
-})
+const audit = await app.client.auditAccessibility()
+if (audit.failed) {
+  console.error(audit.message)
+}
 ```
 
 See https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules
@@ -523,24 +509,20 @@ page and the `<webview>`'s page then you will need to do the following:
 
 ```js
 // Focus main page and audit it
-app.client.windowByIndex(0).then(function() {
-  app.client.auditAccessibility().then(function (audit) {
-    if (audit.failed) {
-      console.error('Main page failed audit')
-      console.error(audit.message)
-    }
+await app.client.windowByIndex(0)
+const audit = await app.client.auditAccessibility()
+if (audit.failed) {
+  console.error('Main page failed audit')
+  console.error(audit.message)
+}
 
-    //Focus <webview> tag and audit it
-    app.client.windowByIndex(1).then(function() {
-      app.client.auditAccessibility().then(function (audit) {
-        if (audit.failed) {
-          console.error('<webview> page failed audit')
-          console.error(audit.message)
-        }
-      })
-    })
-  })
-})
+//Focus <webview> tag and audit it
+await app.client.windowByIndex(1)
+const audit = await app.client.auditAccessibility()
+if (audit.failed) {
+  console.error('<webview> page failed audit')
+  console.error(audit.message)
+}
 ```
 
 ## Continuous Integration
