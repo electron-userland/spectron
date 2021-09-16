@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require('electron');
-require('@electron/remote/main').initialize();
+const remoteMain = require('@electron/remote/main');
 const path = require('path');
+
+remoteMain.initialize();
 
 let mainWindow = null;
 
@@ -13,10 +15,10 @@ app.on('ready', function () {
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
+  remoteMain.enable(mainWindow.webContents);
   mainWindow.loadFile('index.html');
   mainWindow.on('closed', function () {
     mainWindow = null;
