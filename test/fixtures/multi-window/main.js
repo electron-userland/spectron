@@ -30,7 +30,6 @@ app.on('ready', function () {
     height: 50,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
