@@ -23,6 +23,7 @@
     "noEmitOnError": true,
     "lib": ["DOM", "ES2020"],
     "noImplicitAny": true,
+    "noUnusedParameters": false,
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,

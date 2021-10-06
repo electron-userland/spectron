@@ -1,18 +1,30 @@
-import { BrowserBase, setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
+import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
 import { queries } from '@testing-library/dom';
 import { initSpectron } from '@goosewobbler/spectron';
+import { SpectronApp } from '~/common/types';
 
 describe('application loading', () => {
   let screen: WebdriverIOBoundFunctions<typeof queries>;
+  let app: SpectronApp;
 
   before(async () => {
-    const app = await initSpectron();
-    screen = setupBrowser(app.client as BrowserBase);
+    app = await initSpectron();
+    screen = setupBrowser(app.client);
   });
 
   describe('App', () => {
+    afterEach(() => {
+      console.log('afterEach');
+      // await app.mainProcess.exit(0);
+    });
+
     it('should determine when an element is in the document', async () => {
-      expect(await screen.getByTestId('disabled-checkbox')).toExist();
+      await app.client.keys(['y', 'o']);
+      expect(await (await screen.getByTestId('keypress-count')).getText()).toEqual('YO');
+    });
+
+    it('should reset state for each test', async () => {
+      expect(await (await screen.getByTestId('keypress-count')).getText()).toEqual('');
     });
   });
 

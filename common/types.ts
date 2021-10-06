@@ -7,6 +7,10 @@ export interface LooseObject {
 
 export interface SpectronClient extends Browser<'async'> {
   /**
+   * Exit the electron application
+   */
+  exitElectronApp(): Promise<void>;
+  /**
    * Wait until the window is no longer loading.
    * Takes an optional timeout in milliseconds that defaults to 5000.
    */

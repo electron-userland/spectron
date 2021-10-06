@@ -10,7 +10,7 @@
     </script>
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src * ; script-src 'self' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
+      content="default-src * ; script-src 'self' 'nonce-4QEemGb0xJptpIGFP3Nd' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
     />
     <style nonce="4QEemGb0xJptpIGFP3Nd">
       .none {
@@ -28,12 +28,13 @@
       <input id="disabled-checkbox" type="checkbox" data-testid="disabled-checkbox" disabled />
     </label>
     <textarea class="none" rows="10" cols="80" data-testid="hidden-textarea"></textarea>
-    <div class="keypress-count"></div>
+    <div class="keypress-count" data-testid="keypress-count"></div>
   </body>
 
-  <script>
+  <script nonce="4QEemGb0xJptpIGFP3Nd">
     document.body.addEventListener('keydown', function (event) {
-      document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode);
+      console.log('received keydown', event.keyCode);
+      document.querySelector('.keypress-count').innerText += String.fromCharCode(event.keyCode);
     });
   </script>
 </html>

@@ -72,6 +72,10 @@ export async function initSpectron(): Promise<SpectronApp> {
     browser.addCommand('getWindowCount', getWindowCount);
     browser.addCommand('windowByIndex', windowByIndex);
     browser.addCommand('getSelectedText', getSelectedText);
+    browser.addCommand('exitElectronApp', async () => {
+      console.log('quitting yo');
+      await spectronObj.electronApp.quit();
+    });
 
     spectronObj.client = browser as SpectronClient;
 

@@ -7,6 +7,7 @@ import logger from '@wdio/logger';
 import tcpPortUsed from 'tcp-port-used';
 import EventEmitter from 'events';
 import getFilePath from './getFilePath';
+import { SpectronClient } from '~/common/types';
 
 const log = logger('chromedriver');
 
@@ -19,6 +20,10 @@ const DEFAULT_CONNECTION = {
   port: 9515,
   path: '/',
 };
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export type ChromeOptions = {
   binary: string;
@@ -39,12 +44,10 @@ export type Options = {
   'goog:chromeOptions'?: ChromeOptions;
 };
 
-export type Capabilities = [
-  {
-    'browserName': 'chrome';
-    'goog:chromeOptions': ChromeOptions;
-  },
-];
+export type Capabilities = {
+  'browserName': 'chrome';
+  'goog:chromeOptions': ChromeOptions;
+};
 
 export type Config = {
   outputDir: string;
@@ -58,7 +61,7 @@ export default class ChromeDriverLauncher {
       'port': options.port || DEFAULT_CONNECTION.port,
       'path': options.path || DEFAULT_CONNECTION.path,
       'browserName': 'chrome',
-      'goog:chromeOptions': capabilities[0]['goog:chromeOptions'],
+      'goog:chromeOptions': capabilities['goog:chromeOptions'],
     } as Options;
 
     this.outputDir = options.outputDir || config.outputDir;
@@ -71,26 +74,30 @@ export default class ChromeDriverLauncher {
 
   private options;
 
-  public outputDir;
-
   private logFileName;
 
+  public browser?: SpectronClient;
+
   public args;
+
+  public outputDir;
 
   public chromedriverCustomPath;
 
   public process?: ChildProcessWithoutNullStreams;
 
-  async onWorkerStart(): Promise<void> {
+  async before(_capabilities: Capabilities, _specs: string[], browser: SpectronClient): Promise<void> {
     const { args } = this;
-    args.forEach((argument: string) => {
-      if (argument.includes('--port')) {
-        throw new Error('Argument "--port" already exists');
-      }
-      if (argument.includes('--url-base')) {
-        throw new Error('Argument "--url-base" already exists');
-      }
-    });
+    // args.forEach((argument: string) => {
+    //   if (argument.includes('--port')) {
+    //     throw new Error('Argument "--port" already exists');
+    //   }
+    //   if (argument.includes('--url-base')) {
+    //     throw new Error('Argument "--url-base" already exists');
+    //   }
+    // });
+    this.browser = browser;
+    log.error('zOMG onWorkerStart');
 
     args.push(`--port=${this.options.port as number}`);
     args.push(`--url-base=${this.options.path as string}`);
@@ -102,9 +109,15 @@ export default class ChromeDriverLauncher {
     process.on('uncaughtException', this.killProcess.bind(this));
   }
 
-  async after(): Promise<void> {
+  async afterHook(_test: string, context: string): Promise<void> {
+    // if (context === 'afterEach') {
+    // quit app
+    log.error('zOMG after', context);
+    await this.browser?.exitElectronApp();
+    await delay(1000);
     this.killProcess();
     await this.startProcess();
+    // }
   }
 
   killProcess(): void {
@@ -112,6 +125,7 @@ export default class ChromeDriverLauncher {
   }
 
   async startProcess(): Promise<void> {
+    log.error('zOMG startProcess');
     const { args } = this;
     let command = this.chromedriverCustomPath;
     log.info(`Start Chromedriver (${command}) with args ${args.join(' ')}`);

@@ -1,4 +1,4 @@
-import SpectronLauncher from './launcher';
+import SpectronWorkerService from './service';
 
-export default class SpectronService {}
-export const launcher = SpectronLauncher;
+export default SpectronWorkerService;
+// export const launcher = SpectronLauncherService
