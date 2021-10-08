@@ -4,7 +4,7 @@
 [![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
 Easily test your [Electron](http://electron.atom.io) apps using
-[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
+[ChromeDriver](https://sites.google.com/chromium.org/driver) and
 [WebdriverIO](http://webdriver.io).
 
 ## Version Map
@@ -157,7 +157,7 @@ Create a new application with the following options:
   array.
 * `args` - Array of arguments to pass to the Electron application.
 * `chromeDriverArgs` - Array of arguments to pass to ChromeDriver.
-  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on the Chrome arguments.
+  See [here](https://sites.google.com/chromium.org/driver/capabilities) for details on the Chrome arguments.
 * `cwd`- String path to the working directory to use for the launched
   application. Defaults to `process.cwd()`.
 * `env` - Object of additional environment variables to set in the launched
