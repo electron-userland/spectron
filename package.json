@@ -9,8 +9,8 @@
   "repository": "https://github.com/goosewobbler/spectron",
   "bugs": "https://github.com/goosewobbler/spectron/issues",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
+    "@typescript-eslint/eslint-plugin": "rc-v5",
+    "@typescript-eslint/parser": "rc-v5",
     "cross-env": "^7.0.3",
     "eslint": "^8.0.0",
     "eslint-config-airbnb-base": "^14.2.1",
