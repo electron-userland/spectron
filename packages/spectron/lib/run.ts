@@ -5,8 +5,31 @@ import { join } from 'path';
 type SpectronConfig = {
   config: {
     appPath: string;
+    appName: string;
   };
 };
+
+function getBinaryPath(distPath: string, appName: string) {
+  const SupportedPlatform = {
+    darwin: 'darwin',
+    linux: 'linux',
+    win32: 'win32',
+  };
+
+  if (!Object.values(SupportedPlatform).includes(process.platform)) {
+    throw new Error(`Unsupported platform: ${process.platform}`);
+  }
+
+  const pathMap = {
+    darwin: `mac/${appName}.app/Contents/MacOS/${appName}`,
+    linux: `linux-unpacked/${appName}`,
+    win32: `win-unpacked/${appName}.exe`,
+  };
+
+  const electronPath = pathMap[process.platform as keyof typeof SupportedPlatform];
+
+  return `${distPath}/${electronPath}`;
+}
 
 export const run = async (...args: unknown[]): Promise<void> => {
   const chromeArgs = [];
@@ -37,8 +60,13 @@ export const run = async (...args: unknown[]): Promise<void> => {
     : require.resolve('electron-chromedriver/chromedriver');
 
   const configFilePath = join(process.cwd(), 'spectron.conf.js');
+
   // https://github.com/mysticatea/eslint-plugin-node/pull/256
   const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
+
+  if (!config) {
+    throw new Error(`Unable to read config file: ${configFilePath}`);
+  }
 
   if (process.env.SPECTRON_APP_ARGS) {
     chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
@@ -63,7 +91,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
         {
           'browserName': 'chrome',
           'goog:chromeOptions': {
-            binary: config.appPath,
+            binary: getBinaryPath(config.appPath, config.appName),
             args: chromeArgs,
             windowTypes: ['app', 'webview'],
           },
