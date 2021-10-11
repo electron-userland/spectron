@@ -7,7 +7,7 @@
     "build:app": "pnpm run --filter @goosewobbler/spectron-e2e-app build",
     "build:spectron": "pnpm run --filter @goosewobbler/spectron build",
     "clean": "cross-env rm -rf ./node_modules",
-    "test": "pnpx spectron ./wdio.mocha.conf.ts",
+    "test": "pnpx spectron ./spectron.conf.ts",
     "test:build": "pnpm run build:spectron && pnpm run build:app && pnpm run test",
     "lint": "eslint --ignore-path ../.eslintignore \"**/*.{j,t}s\""
   },
