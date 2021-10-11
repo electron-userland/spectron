@@ -4,8 +4,10 @@ import { join } from 'path';
 
 type SpectronConfig = {
   config: {
-    appPath: string;
-    appName: string;
+    spectronOpts: {
+      appPath: string;
+      appName: string;
+    };
   };
 };
 
@@ -63,6 +65,9 @@ export const run = async (...args: unknown[]): Promise<void> => {
 
   // https://github.com/mysticatea/eslint-plugin-node/pull/256
   const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
+  const {
+    spectronOpts: { appPath, appName },
+  } = config;
 
   if (!config) {
     throw new Error(`Unable to read config file: ${configFilePath}`);
@@ -91,7 +96,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
         {
           'browserName': 'chrome',
           'goog:chromeOptions': {
-            binary: getBinaryPath(config.appPath, config.appName),
+            binary: getBinaryPath(appPath, appName),
             args: chromeArgs,
             windowTypes: ['app', 'webview'],
           },
