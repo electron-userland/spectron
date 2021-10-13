@@ -33,6 +33,33 @@ function getBinaryPath(distPath: string, appName: string) {
   return `${distPath}/${electronPath}`;
 }
 
+function buildLauncherConfig(chromedriverCustomPath: string, appPath: string, appName: string, chromeArgs: string[]) {
+  return {
+    services: [
+      [
+        'chromedriver',
+        {
+          port: 9515,
+          logFileName: 'wdio-chromedriver.log', // default
+          // outputDir: 'driver-logs', // overwrites the config.outputDir
+          chromedriverCustomPath,
+          // args: ['--silent'],
+        },
+      ],
+    ],
+    capabilities: [
+      {
+        'browserName': 'chrome',
+        'goog:chromeOptions': {
+          binary: getBinaryPath(appPath, appName),
+          args: chromeArgs,
+          windowTypes: ['app', 'webview'],
+        },
+      },
+    ],
+  };
+}
+
 export const run = async (...args: unknown[]): Promise<void> => {
   const chromeArgs = [];
 
@@ -77,33 +104,8 @@ export const run = async (...args: unknown[]): Promise<void> => {
     chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
   }
 
-  const wdio = new Launcher(
-    args[2] as string,
-    {
-      services: [
-        [
-          'chromedriver',
-          {
-            port: 9515,
-            logFileName: 'wdio-chromedriver.log', // default
-            // outputDir: 'driver-logs', // overwrites the config.outputDir
-            chromedriverCustomPath,
-            // args: ['--silent'],
-          },
-        ],
-      ],
-      capabilities: [
-        {
-          'browserName': 'chrome',
-          'goog:chromeOptions': {
-            binary: getBinaryPath(appPath, appName),
-            args: chromeArgs,
-            windowTypes: ['app', 'webview'],
-          },
-        },
-      ],
-    } as Partial<RunCommandArguments>,
-  );
+  const launcherConfig = buildLauncherConfig(chromedriverCustomPath, appPath, appName, chromeArgs);
+  const wdio = new Launcher(args[2] as string, launcherConfig as Partial<RunCommandArguments>);
 
   try {
     const exitCode = await wdio.run();
