@@ -5,7 +5,6 @@ describe('application loading', () => {
   let app: SpectronApp;
 
   before(async () => {
-    process.env.SPECTRON_APP_ARGS = ['--foo', '--bar=baz'].toString();
     app = await initSpectron();
   });
 

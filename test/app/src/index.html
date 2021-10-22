@@ -10,7 +10,7 @@
     </script>
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src * ; script-src 'self' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
+      content="default-src * ; script-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
     />
     <style nonce="4QEemGb0xJptpIGFP3Nd">
       .none {
@@ -23,6 +23,8 @@
     <div class="occurrences-1">word1 word2</div>
     <div class="occurrences-2">word3 word4</div>
     <div class="occurrences-2">word5 word6</div>
+    <button type="button" class="make-bigger">make larger</button>
+    <button type="button" class="make-smaller">make smaller</button>
     <label for="disabled-checkbox">
       Disabled checkbox
       <input id="disabled-checkbox" type="checkbox" data-testid="disabled-checkbox" disabled />
@@ -31,9 +33,17 @@
     <div class="keypress-count"></div>
   </body>
 
-  <script>
-    document.body.addEventListener('keydown', function (event) {
-      document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode);
+  <script nonce="4QEemGb0xJptpIGFP3Nd">
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.addEventListener('keydown', (event) => {
+        document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode);
+      });
+      document.querySelector('.make-bigger').addEventListener('click', () => {
+        window.api.invoke('increase-window-size');
+      });
+      document.querySelector('.make-smaller').addEventListener('click', () => {
+        window.api.invoke('decrease-window-size');
+      });
     });
   </script>
 </html>

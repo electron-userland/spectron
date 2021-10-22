@@ -38,6 +38,16 @@ app.on('ready', () => {
   mainWindow.on('ready-to-show', () => {
     // mainWindow.webContents.openDevTools();
   });
+
+  ipcMain.handle('increase-window-size', () => {
+    const bounds = mainWindow.getBounds();
+    mainWindow.setBounds({ ...bounds, height: bounds.height + 10, width: bounds.width + 10 });
+  });
+
+  ipcMain.handle('decrease-window-size', () => {
+    const bounds = mainWindow.getBounds();
+    mainWindow.setBounds({ ...bounds, height: bounds.height - 10, width: bounds.width - 10 });
+  });
 });
 
 app.on('will-quit', () => {

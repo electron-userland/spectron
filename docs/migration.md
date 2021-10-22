@@ -4,17 +4,19 @@ Spectron has changed a lot from the original, here we discuss these changes in m
 
 ### Legacy Electron apps
 
-This version of Spectron is designed to be used without `nodeIntegration` and `enableRemoteModule`, and with `contextIsolation` enabled. These are recommended settings for modern secure Electron apps. If you have a legacy application which needs to use any of these then you should use the old version of Spectron to test it.
+This version of Spectron is designed to be used without `nodeIntegration` and `enableRemoteModule`, and with `contextIsolation` enabled. These are recommended settings for modern secure Electron apps.
 
 `nodeIntegration: true` [was removed](https://www.electronjs.org/docs/latest/breaking-changes#default-changed-nodeintegration-and-webviewtag-default-to-false-contextisolation-defaults-to-true) as a default in Electron 5.0.0.
 
-The `remote` module [was removed](https://www.electronjs.org/docs/latest/breaking-changes#removed-remote-module) in Electron 14.0.0. There is a replacement in [`@electron/remote`](https://github.com/electron/remote) but modernising legacy applications is preferable.
+The `remote` module [was removed](https://www.electronjs.org/docs/latest/breaking-changes#removed-remote-module) in Electron 14.0.0. There is a replacement in [`@electron/remote`](https://github.com/electron/remote), though modernising legacy applications is preferable.
 
 `contextIsolation: false` [was removed](https://www.electronjs.org/docs/latest/breaking-changes#default-changed-contextisolation-defaults-to-true) as a default in Electron 12.0.0.
 
+If you have a legacy application which needs to use any of these deprecated options then you should use the old version of Spectron to test it.
+
 #### Further reading:
 
-https://nornagon.medium.com/electrons-remote-module-considered-harmful-70d69500f31
+Excellent deep dive article on why `remote` is bad can be found [here](https://nornagon.medium.com/electrons-remote-module-considered-harmful-70d69500f31). \
 https://www.electronjs.org/docs/latest/tutorial/security
 
 ### Chromedriver restart behaviour
@@ -26,8 +28,8 @@ The original behaviour might be reinstated in future through creation of a Spect
 #### Further reading:
 
 Discussion around CD process management can be found [here](https://github.com/goosewobbler/spectron/pull/10).\
-WDIO [chromedriver service documentation](https://webdriver.io/docs/wdio-chromedriver-service/)\
-WDIO [custom services documentation](https://webdriver.io/docs/customservices)
+https://webdriver.io/docs/wdio-chromedriver-service \
+https://webdriver.io/docs/customservices
 
 ### Accessibility
 
@@ -44,7 +46,7 @@ const loading = await app.browserView.isLoading();
 
 ### Configuration
 
-These are the old configuration values (passed into the Spectron constructor) and their equivalents in the new Spectron. There are some equivalents missing from the new version, these will be added in time - some possible replacements are detailed here. More details on configuration can be found [here](configuration.md).
+These are the old configuration values (passed into the Spectron constructor) and their equivalents in the new Spectron. There are some equivalents missing from the new version, these will be added in time - some possible replacements are detailed. More details on configuration can be found [here](configuration.md).
 
 - `path` - Replaced by `appPath` and `appName` in the `spectronOpts` section of the config file.
 - `args` - This was an array of arguments to pass to the Electron application. It has been replaced with an environment variable which needs to be set in the config file so that it is available to WDIO before it starts. See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on Chromium arguments.
@@ -57,8 +59,8 @@ These are the old configuration values (passed into the Spectron constructor) an
 - `nodePath` - This was a path to a `node` executable to launch Chromedriver with. The CD service has [an option](https://webdriver.io/docs/wdio-chromedriver-service/#chromedrivercustompath) which might fulfil this. No replacement as yet.
 - `connectionRetryCount` - This was a number of retry attempts to make when connecting to Chromedriver. WDIO has an [equivalent](https://webdriver.io/docs/options/#connectionretrycount) which _may_ apply to CD.
 - `connectionRetryTimeout` - This was a timeout to wait for connections to Chromedriver to be made. WDIO has an [equivalent](https://webdriver.io/docs/options/#connectionretrytimeout) which _may_ apply to CD.
-- `quitTimeout` - This was a timeout to delay the application quitting. WDIO doesn't allow to configure this, possible but unlikely to introduce it as a delay somewhere in a `wdio-spectron-service`. No replacement as yet.
-- `startTimeout` - This was a timeout to delay the start of Chromedriver. There is no Chromedriver service option for this, though it could potentially be reimplemented as either a delay to the WDIO launcher run, or as part of a `wdio-spectron-service`. No replacement as yet.
+- `quitTimeout` - This was a timeout value to wait for the application quitting. We are now dependent on WDIO WDIO doesn't allow to configure this. Dropped.
+- `startTimeout` - This was a timeout value to wait for the start of Chromedriver. There is no Chromedriver service option for this, though it could potentially be reimplemented as part of a `wdio-spectron-service`. No replacement as yet.
 - `waitTimeout` - This was the timeout value for calls like `waitUntilTextExists` and `waitUntilWindowLoaded` to complete - this value is now passed in on the call itself. The default is still `5000ms`.
 - `debuggerAddress` - This was passed through to Chromium config in [`capabilities`](https://github.com/electron-userland/spectron/blob/798cf1401cb7ec0596558ebdc8b4c0e8427a25f7/lib/application.js#L207). No replacement as yet.
 - `chromeDriverLogPath` - Chromedriver logs are now output with the other WDIO logs (see `outputDir`) in the `wdio-chromedriver.log` file. No replacement as yet, though the Chromedriver service has two options we can use to resurrect this customisation option - [`outputDir`](https://webdriver.io/docs/wdio-chromedriver-service/#outputdir) and [`logFileName`](https://webdriver.io/docs/wdio-chromedriver-service/#logfilename).
