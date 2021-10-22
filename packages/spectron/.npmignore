@@ -4,7 +4,6 @@
 # exemptions for files and directories we want
 !dist/**/*
 !bin/**/*
-!docs/**/*
 !main.js
 !preload.js
 !main.d.ts
