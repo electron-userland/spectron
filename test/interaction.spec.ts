@@ -35,13 +35,13 @@ describe('application loading', () => {
     it('decreases the window height and width by 10 pixels', async () => {
       await app.client.waitUntilWindowLoaded();
       let bounds = (await app.browserWindow.getBounds()) as { width: number; height: number };
-      expect(bounds.width).toEqual(200);
-      expect(bounds.height).toEqual(300);
+      expect(bounds.width).toEqual(210);
+      expect(bounds.height).toEqual(310);
       const elem = await app.client.$('.make-smaller');
       await elem.click();
       bounds = (await app.browserWindow.getBounds()) as { width: number; height: number };
-      expect(bounds.width).toEqual(190);
-      expect(bounds.height).toEqual(290);
+      expect(bounds.width).toEqual(200);
+      expect(bounds.height).toEqual(300);
     });
   });
 });
