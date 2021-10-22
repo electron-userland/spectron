@@ -4,17 +4,19 @@ Spectron has changed a lot from the original, here we discuss these changes in m
 
 ### Legacy Electron apps
 
-This version of Spectron is designed to be used without `nodeIntegration` and `enableRemoteModule`, and with `contextIsolation` enabled. These are recommended settings for modern secure Electron apps. If you have a legacy application which needs to use any of these then you should use the old version of Spectron to test it.
+This version of Spectron is designed to be used without `nodeIntegration` and `enableRemoteModule`, and with `contextIsolation` enabled. These are recommended settings for modern secure Electron apps.
 
 `nodeIntegration: true` [was removed](https://www.electronjs.org/docs/latest/breaking-changes#default-changed-nodeintegration-and-webviewtag-default-to-false-contextisolation-defaults-to-true) as a default in Electron 5.0.0.
 
-The `remote` module [was removed](https://www.electronjs.org/docs/latest/breaking-changes#removed-remote-module) in Electron 14.0.0. There is a replacement in [`@electron/remote`](https://github.com/electron/remote) but modernising legacy applications is preferable.
+The `remote` module [was removed](https://www.electronjs.org/docs/latest/breaking-changes#removed-remote-module) in Electron 14.0.0. There is a replacement in [`@electron/remote`](https://github.com/electron/remote), though modernising legacy applications is preferable.
 
 `contextIsolation: false` [was removed](https://www.electronjs.org/docs/latest/breaking-changes#default-changed-contextisolation-defaults-to-true) as a default in Electron 12.0.0.
 
+If you have a legacy application which needs to use any of these deprecated options then you should use the old version of Spectron to test it.
+
 #### Further reading:
 
-https://nornagon.medium.com/electrons-remote-module-considered-harmful-70d69500f31
+Excellent deep dive article on why `remote` is bad can be found [here](https://nornagon.medium.com/electrons-remote-module-considered-harmful-70d69500f31). \
 https://www.electronjs.org/docs/latest/tutorial/security
 
 ### Chromedriver restart behaviour
@@ -26,8 +28,8 @@ The original behaviour might be reinstated in future through creation of a Spect
 #### Further reading:
 
 Discussion around CD process management can be found [here](https://github.com/goosewobbler/spectron/pull/10).\
-WDIO [chromedriver service documentation](https://webdriver.io/docs/wdio-chromedriver-service/)\
-WDIO [custom services documentation](https://webdriver.io/docs/customservices)
+https://webdriver.io/docs/wdio-chromedriver-service \
+https://webdriver.io/docs/customservices
 
 ### Accessibility
 
@@ -44,7 +46,7 @@ const loading = await app.browserView.isLoading();
 
 ### Configuration
 
-These are the old configuration values (passed into the Spectron constructor) and their equivalents in the new Spectron. There are some equivalents missing from the new version, these will be added in time - some possible replacements are detailed here. More details on configuration can be found [here](configuration.md).
+These are the old configuration values (passed into the Spectron constructor) and their equivalents in the new Spectron. There are some equivalents missing from the new version, these will be added in time - some possible replacements are detailed. More details on configuration can be found [here](configuration.md).
 
 - `path` - Replaced by `appPath` and `appName` in the `spectronOpts` section of the config file.
 - `args` - This was an array of arguments to pass to the Electron application. It has been replaced with an environment variable which needs to be set in the config file so that it is available to WDIO before it starts. See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on Chromium arguments.
