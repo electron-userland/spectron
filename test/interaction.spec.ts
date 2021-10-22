@@ -7,7 +7,7 @@ describe('application loading', () => {
   let app: SpectronApp;
 
   before(async () => {
-    const app = await initSpectron();
+    app = await initSpectron();
     screen = setupBrowser(app.client);
   });
 
