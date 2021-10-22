@@ -16,7 +16,7 @@
     "clean:dist": "cross-env rm -rf ./dist",
     "build": "pnpm run build:typescript-references-hack && tsc -b lib test && pnpm run build:copy-docs",
     "build:typescript-references-hack": "cross-env mkdir -p ./dist/common && cross-env cp ../../common/types.ts ./dist/common/types.d.ts",
-    "build:copy-docs": "cross-env cp ../../README.md ./ && cp ../../LICENSE ./",
+    "build:copy-docs": "cross-env cp ../../README.md ./ && cp ../../LICENSE ./ && cp -R ../../docs ./",
     "lint": "eslint --ignore-path ../../.eslintignore \"**/*.{j,t}s\"",
     "prettier:write": "prettier --write \"**/*.{j,t}s\"",
     "test:coverage": "jest --coverage",
