@@ -1,7 +1,14 @@
-coverage
-lib
-test
-jest.config.js
-*.spec.js
-tsconfig.tsbuildinfo
-.DS_Store
+# ignore everything
+*
+
+# exemptions for files and directories we want
+!dist/**/*
+!bin/**/*
+!main.js
+!preload.js
+!main.d.ts
+!preload.d.ts
+!spectron.d.ts
+
+# ignore files inside exempted directories that we don't want
+*.tsbuildinfo

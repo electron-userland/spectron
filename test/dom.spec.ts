@@ -1,4 +1,4 @@
-import { BrowserBase, setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
+import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
 import { queries } from '@testing-library/dom';
 import { initSpectron } from '@goosewobbler/spectron';
 
@@ -7,10 +7,10 @@ describe('application loading', () => {
 
   before(async () => {
     const app = await initSpectron();
-    screen = setupBrowser(app.client as BrowserBase);
+    screen = setupBrowser(app.client);
   });
 
-  // Cover a few WebDriverIO expect matchers -  https://webdriver.io/docs/api/expect-webdriverio
+  // Cover a few WebdriverIO expect matchers -  https://webdriver.io/docs/api/expect-webdriverio
 
   describe('DOM', () => {
     it('should determine when an element is in the document', async () => {
