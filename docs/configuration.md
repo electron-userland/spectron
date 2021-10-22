@@ -1,44 +1,25 @@
 # Spectron Configuration
 
-Spectron now reads in configuration parameters via a config file, in a similar way to WebDriverIO. Some of the following options will need to be resurrected in the new world, others have no equivalent so will be deleted from this page.
+Spectron reads in configuration parameters via a config file, in a similar way to WebdriverIO.
 
-## Options - DEPRECATED
+## `spectron.conf.js`
 
-You can create a new application with the following options:
+The configuration file can be placed anywhere but for most applications you will probably want to put it in the root directory of your Electron project. Any WDIO configuration value is valid, although these ones are used by Spectron so will be overwritten if you specify them.
 
-- `path` - **Required.** String path to the Electron application executable to
-  launch.
-  **Note:** If you want to invoke `electron` directly with your app's main
-  script then you should specify `path` as `electron` via `electron-prebuilt`
-  and specify your app's main script path as the first argument in the `args`
-  array.
-- `args` - Array of arguments to pass to the Electron application.
-- `chromeDriverArgs` - Array of arguments to pass to ChromeDriver.
-  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on the Chrome arguments.
-- `cwd`- String path to the working directory to use for the launched
-  application. Defaults to `process.cwd()`.
-- `env` - Object of additional environment variables to set in the launched
-  application.
-- `host` - String host name of the launched `chromedriver` process.
-  Defaults to `'localhost'`.
-- `port` - Number port of the launched `chromedriver` process.
-  Defaults to `9515`.
-- `nodePath` - String path to a `node` executable to launch ChromeDriver with.
-  Defaults to `process.execPath`.
-- `connectionRetryCount` - Number of retry attempts to make when connecting
-  to ChromeDriver. Defaults to `10` attempts.
-- `connectionRetryTimeout` - Number in milliseconds to wait for connections
-  to ChromeDriver to be made. Defaults to `30000` milliseconds.
-- `quitTimeout` - Number in milliseconds to wait for application quitting.
-  Defaults to `1000` milliseconds.
-- `startTimeout` - Number in milliseconds to wait for ChromeDriver to start.
-  Defaults to `5000` milliseconds.
-- `waitTimeout` - Number in milliseconds to wait for calls like
-  `waitUntilTextExists` and `waitUntilWindowLoaded` to complete.
-  Defaults to `5000` milliseconds.
-- `debuggerAddress` - String address of a Chrome debugger server to connect to.
-- `chromeDriverLogPath` - String path to file to store ChromeDriver logs in.
-  Setting this option enables `--verbose` logging when starting ChromeDriver.
-- `webdriverLogPath` - String path to a directory where Webdriver will write
-  logs to. Setting this option enables `verbose` logging from Webdriver.
-- `webdriverOptions` - Object of additional options for Webdriver
+The Spectron-specific configuration options are namespaced under `spectronOpts`.
+
+### spectronOpts
+
+#### `appPath`: string (required, no default)
+
+The path to your built app.
+
+#### `appName`: string (required, no default)
+
+The name of your built app. It is combined with the `appPath` value to generate a path to your Electron binary.
+
+It needs to be the same as the install directory used by `electron-builder`, which is derived from your `package.json` configuration - either `name` or `productName`. You can find more information regarding this in the `electron-builder` [documentation](https://www.electron.build/configuration/configuration#configuration).
+
+## Migrating configuration from older versions of Spectron
+
+Please see the [migration guide](migration.md#configuration).
