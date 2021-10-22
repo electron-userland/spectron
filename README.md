@@ -124,9 +124,11 @@ The architecture of Spectron is documented [here](docs/architecture.md).
 
 ## Known Limitations / WIP
 
+Chromedriver is not currently restarted in between tests; this is a consequence of using the `wdio-chromedriver-service`. Separate worker processes are spawned by WDIO for each spec file, but within a given spec file, test state is likely to bleed into subsequent tests. See the [migration doc](docs/migration.md#chromedriverrestartbehaviour) for more details.
+
 Not all Electron APIs are currently supported.
 
-The old functionality of the Electron `remote` API (now found [here](https://github.com/electron/remote)) is not yet fully replicated.
+Some old functionality provided by the Electron `remote` API (now found [here](https://github.com/electron/remote)) is not yet fully replicated.
 
 Some Electron API functions may not work due to serialisation errors; this is a consequence of the new way of accessing electron methods from renderer processes, this is by design and can be worked around.
 
