@@ -20,13 +20,14 @@ describe('application loading', () => {
   describe('when the make larger button is clicked', function () {
     it('increases the window height and width by 10 pixels', async function () {
       await app.client.waitUntilWindowLoaded();
-      // await app.browserWindow.getBounds().should.eventually.have.property('width', 800);
-      // await app.browserWindow.getBounds().should.eventually.have.property('height', 400);
+      let bounds = (await app.browserWindow.getBounds()) as { width: number; height: number };
+      expect(bounds.width).toEqual(200);
+      expect(bounds.height).toEqual(300);
       const elem = await app.client.$('.make-bigger');
       await elem.click();
-      const { width, height } = (await app.browserWindow.getBounds()) as { width: number; height: number };
-      expect(width).toEqual(810);
-      expect(height).toEqual(410);
+      bounds = (await app.browserWindow.getBounds()) as { width: number; height: number };
+      expect(bounds.width).toEqual(210);
+      expect(bounds.height).toEqual(310);
     });
   });
 
