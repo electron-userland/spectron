@@ -1,6 +1,6 @@
 {
   "name": "@goosewobbler/spectron",
-  "version": "17.0.0-alpha3.5",
+  "version": "17.0.0-alpha3.6",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "./dist/index.js",
   "types": "./spectron.d.ts",
