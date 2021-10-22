@@ -22,7 +22,7 @@ describe('application loading', () => {
       await app.client.waitUntilWindowLoaded();
       // await app.browserWindow.getBounds().should.eventually.have.property('width', 800);
       // await app.browserWindow.getBounds().should.eventually.have.property('height', 400);
-      const elem = await app.client.$('.btn-make-bigger');
+      const elem = await app.client.$('.make-bigger');
       await elem.click();
       const { width, height } = (await app.browserWindow.getBounds()) as { width: number; height: number };
       expect(width).toEqual(810);
