@@ -17,8 +17,8 @@ describe('application loading', () => {
     });
   });
 
-  describe('when the make larger button is clicked', function () {
-    it('increases the window height and width by 10 pixels', async function () {
+  describe('when the make larger button is clicked', () => {
+    it('increases the window height and width by 10 pixels', async () => {
       await app.client.waitUntilWindowLoaded();
       let bounds = (await app.browserWindow.getBounds()) as { width: number; height: number };
       expect(bounds.width).toEqual(200);
@@ -31,8 +31,8 @@ describe('application loading', () => {
     });
   });
 
-  describe('when the make smaller button is clicked', function () {
-    it('decreases the window height and width by 10 pixels', async function () {
+  describe('when the make smaller button is clicked', () => {
+    it('decreases the window height and width by 10 pixels', async () => {
       await app.client.waitUntilWindowLoaded();
       let bounds = (await app.browserWindow.getBounds()) as { width: number; height: number };
       expect(bounds.width).toEqual(200);
