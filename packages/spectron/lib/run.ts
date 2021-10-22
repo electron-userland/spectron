@@ -33,8 +33,22 @@ function getBinaryPath(distPath: string, appName: string) {
   return `${distPath}/${electronPath}`;
 }
 
-function buildLauncherConfig(chromedriverCustomPath: string, appPath: string, appName: string, chromeArgs: string[]) {
+function stripSpectronOpts(config: SpectronConfig['config']) {
+  const filteredEntries = Object.entries(config).filter((configEntry: unknown[]) => configEntry[0] !== 'spectronOpts');
+
+  return Object.fromEntries(filteredEntries);
+}
+
+function buildLauncherConfig(
+  config: SpectronConfig['config'],
+  chromedriverCustomPath: string,
+  appPath: string,
+  appName: string,
+  chromeArgs: string[],
+) {
+  const filteredConfig = stripSpectronOpts(config);
   return {
+    ...filteredConfig,
     services: [
       [
         'chromedriver',
@@ -104,7 +118,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
     chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
   }
 
-  const launcherConfig = buildLauncherConfig(chromedriverCustomPath, appPath, appName, chromeArgs);
+  const launcherConfig = buildLauncherConfig(config, chromedriverCustomPath, appPath, appName, chromeArgs);
   const wdio = new Launcher(args[2] as string, launcherConfig as Partial<RunCommandArguments>);
 
   try {
