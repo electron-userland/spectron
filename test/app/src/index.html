@@ -10,7 +10,7 @@
     </script>
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src * ; script-src 'self' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
+      content="default-src * ; script-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ; style-src * 'nonce-4QEemGb0xJptpIGFP3Nd' ;"
     />
     <style nonce="4QEemGb0xJptpIGFP3Nd">
       .none {
@@ -33,7 +33,7 @@
     <div class="keypress-count"></div>
   </body>
 
-  <script>
+  <script nonce="4QEemGb0xJptpIGFP3Nd">
     document.addEventListener('DOMContentLoaded', () => {
       document.body.addEventListener('keydown', (event) => {
         document.querySelector('.keypress-count').innerText = String.fromCharCode(event.keyCode);
