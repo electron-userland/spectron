@@ -42,7 +42,7 @@
     "chromedriver": "^94.0.0",
     "electron": "^15.3.0",
     "electron-chromedriver": "^15.0.0",
-    "ts-node": "^10.3.1",
+    "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
     "wdio-spectron-service": "*",
     "webdriverio": "^7.16.0"
