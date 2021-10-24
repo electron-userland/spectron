@@ -24,8 +24,11 @@
     "jsdom": "^18.0.0",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
-    "webdriverio": "^7.16.0",
+    "webdriverio": "^7.16.2",
     "webpack": "^5.59.1",
     "webpack-cli": "^4.9.1"
+  },
+  "engines": {
+    "node": ">=14.17.1"
   }
 }

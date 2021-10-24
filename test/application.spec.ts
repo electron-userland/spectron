@@ -5,7 +5,6 @@ describe('application loading', () => {
   let app: SpectronApp;
 
   before(async () => {
-    process.env.SPECTRON_APP_ARGS = ['--foo', '--bar=baz'].toString();
     app = await initSpectron();
   });
 
@@ -14,9 +13,9 @@ describe('application loading', () => {
       const response = await app.client.getWindowHandles();
       expect(response.length).toEqual(1);
 
-      const bounds = await app.browserWindow.getBounds();
-      expect(bounds.width).toEqual(200);
-      expect(bounds.height).toEqual(300);
+      const { width, height } = (await app.browserWindow.getBounds()) as { width: number; height: number };
+      expect(width).toEqual(200);
+      expect(height).toEqual(300);
       await app.client.waitUntilTextExists('html', 'Hello');
       const title = await app.client.getTitle();
       expect(title).toEqual('Test');

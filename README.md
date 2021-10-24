@@ -3,9 +3,7 @@
 [![CI](https://github.com/goosewobbler/spectron/workflows/CI/badge.svg)](https://github.com/goosewobbler/spectron/actions)
 [![dependencies](https://img.shields.io/david/goosewobbler/spectron.svg)](https://david-dm.org/goosewobbler/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/@goosewobbler/spectron.svg)](https://www.npmjs.com/package/@goosewobbler/spectron) [![downloads](https://img.shields.io/npm/dm/@goosewobbler/spectron.svg)](https://www.npmjs.com/package/@goosewobbler/spectron)
 
-Easily test your [Electron](http://electronjs.org) apps using
-[ChromeDriver](https://sites.google.com/chromium.org/driver/) and
-[WebdriverIO](http://webdriver.io).
+Easily test your [Electron](http://electronjs.org) apps using [WebdriverIO](http://webdriver.io) and [Chromedriver](https://sites.google.com/chromium.org/driver/).
 
 ## Rationale
 
@@ -65,7 +63,7 @@ describe('App', () => {
 
 Running tests with Spectron depends on your app binary so you will need to ensure it is built before the tests are executed.
 
-Next you will need some configuration. Spectron uses the exact same format as the [WebdriverIO configuration file](https://webdriver.io/docs/configurationfile) for their TestRunner, the only difference is that you won't need to configure ChromeDriver in `services` or anything in the `capabilities` section as these are handled by Spectron. Here is a sample configuration:
+Next you will need some configuration. Spectron uses the exact same format as the [WebdriverIO configuration file](https://webdriver.io/docs/configurationfile) for their TestRunner, the only difference is that you won't need to configure Chromedriver in `services` or anything in the `capabilities` section as these are handled by Spectron. Here is a sample configuration:
 
 ```js
 const { join } = require('path');
@@ -118,25 +116,25 @@ pnpx spectron ./spectron.conf.js
 
 ## API
 
-API details can be found [here](docs/api.md)
+API details can be found [here](docs/api.md).
 
 ## Architecture
 
-The architecture of Spectron is documented [here](docs/architecture.md)
+The architecture of Spectron is documented [here](docs/architecture.md).
 
 ## Known Limitations / WIP
 
+Chromedriver is not currently restarted in between tests; this is a consequence of using the `wdio-chromedriver-service`. Separate worker processes are spawned by WDIO for each spec file, but within a given spec file, test state is likely to bleed into subsequent tests. See the [migration doc](docs/migration.md#chromedriverrestartbehaviour) for more details.
+
 Not all Electron APIs are currently supported.
 
-The old functionality of the Electron `remote` API (now found [here](https://github.com/electron/remote)) is not yet fully replicated.
+Some old functionality provided by the Electron `remote` API (now found [here](https://github.com/electron/remote)) is not yet fully replicated.
 
-Some API functions may not work due to serialisation errors; this is a consequence of the new way of accessing electron methods from renderer processes and is by design.
+Some Electron API functions may not work due to serialisation errors; this is a consequence of the new way of accessing electron methods from renderer processes, this is by design and can be worked around.
 
 ## Development
 
-Logging all tasks here:
-
-https://github.com/goosewobbler/spectron/projects/1
+Logging all tasks for development [here](https://github.com/goosewobbler/spectron/projects/1).
 
 ## Configuration
 
