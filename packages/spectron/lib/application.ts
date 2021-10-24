@@ -25,7 +25,7 @@ export async function initSpectron(): Promise<SpectronApp> {
 
     async function waitUntilWindowLoaded(this: Browser<'async'>, timeout: Partial<WaitUntilOptions>) {
       try {
-        await this.waitUntil(async () => !(await spectronObj.webContents.isLoading()), timeout);
+        await this.waitUntil(async () => !(await spectronObj.webContents.isLoading()), timeout || 5000);
       } catch (error) {
         throw new Error(`waitUntilWindowLoaded error: ${(error as Error).message}`);
       }
@@ -61,7 +61,7 @@ export async function initSpectron(): Promise<SpectronApp> {
           return Array.isArray(selectorText)
             ? selectorText.some((s: string[]) => s.includes(text))
             : selectorText.includes(text);
-        }, timeout);
+        }, timeout || 5000);
       } catch (error) {
         throw new Error(`waitUntilTextExists error: ${(error as Error).message}`);
       }

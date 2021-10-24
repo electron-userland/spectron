@@ -1,7 +1,6 @@
 import { setupBrowser, WebdriverIOBoundFunctions } from '@testing-library/webdriverio';
 import { queries } from '@testing-library/dom';
-import { initSpectron } from '@goosewobbler/spectron';
-import { SpectronApp } from '~/common/types';
+import { initSpectron, SpectronApp } from '@goosewobbler/spectron';
 
 describe('application loading', () => {
   let screen: WebdriverIOBoundFunctions<typeof queries>;
@@ -28,18 +27,18 @@ describe('application loading', () => {
     });
   });
 
-  //   describe('when the make larger button is clicked', function () {
-  //     it('increases the window height and width by 10 pixels', async function () {
-  //       await app.client.waitUntilWindowLoaded();
-  //       await app.browserWindow.getBounds().should.eventually.have.property('width', 800);
-  //       await app.browserWindow.getBounds().should.eventually.have.property('height', 400);
-  //       const elem = await app.client.$('.btn-make-bigger');
-  //       await elem.click();
-  //       const bounds = await app.browserWindow.getBounds();
-  //       bounds.should.have.property('width', 810);
-  //       bounds.should.have.property('height', 410);
-  //     });
-  //   });
+  describe('when the make larger button is clicked', function () {
+    it('increases the window height and width by 10 pixels', async function () {
+      await app.client.waitUntilWindowLoaded();
+      // await app.browserWindow.getBounds().should.eventually.have.property('width', 800);
+      // await app.browserWindow.getBounds().should.eventually.have.property('height', 400);
+      const elem = await app.client.$('.btn-make-bigger');
+      await elem.click();
+      const { width, height } = (await app.browserWindow.getBounds()) as { width: number; height: number };
+      expect(width).toEqual(810);
+      expect(height).toEqual(410);
+    });
+  });
 
   //   describe('when the make smaller button is clicked', function () {
   //     it('decreases the window height and width by 10 pixels', async function () {

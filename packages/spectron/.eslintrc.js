@@ -1,4 +1,8 @@
 module.exports = {
+  rules: {
+    'node/no-unpublished-bin': 'off', // false positive
+    'node/no-unpublished-require': 'off', // false positive
+  },
   overrides: [
     {
       files: '*.ts',

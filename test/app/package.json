@@ -9,10 +9,10 @@
     "clean:dist": "cross-env rm -rf ./dist && cross-env mkdir -p ./dist"
   },
   "devDependencies": {
-    "electron": "^14.0.1",
-    "electron-builder": "^22.11.7",
-    "webpack": "^5.52.1",
-    "webpack-cli": "^4.8.0"
+    "electron": "^15.3.0",
+    "electron-builder": "^22.13.1",
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1"
   },
   "build": {
     "asar": true,

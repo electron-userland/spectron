@@ -4,9 +4,10 @@
 
 /// <reference types="node" />
 
-import { SpectronApp } from '~/common/types';
+import { SpectronApp } from './dist/common/types';
 
 declare module '@goosewobbler/spectron' {}
 
 export function initSpectron(): Promise<SpectronApp>;
 export function run(): Promise<void>;
+export { SpectronApp };

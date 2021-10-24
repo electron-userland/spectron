@@ -10,7 +10,7 @@ describe('application loading', () => {
     screen = setupBrowser(app.client);
   });
 
-  // Cover a few WebDriverIO expect matchers -  https://webdriver.io/docs/api/expect-webdriverio
+  // Cover a few WebdriverIO expect matchers -  https://webdriver.io/docs/api/expect-webdriverio
 
   describe('DOM', () => {
     it('should determine when an element is in the document', async () => {
