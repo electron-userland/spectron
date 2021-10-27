@@ -1,5 +1,6 @@
 /* eslint no-process-exit: off, no-console: off */
 import Launcher, { RunCommandArguments } from '@wdio/cli';
+import SpectronWorkerService from 'wdio-spectron-service';
 import { join } from 'path';
 
 type SpectronConfig = {
@@ -51,10 +52,9 @@ function buildLauncherConfig(
     ...filteredConfig,
     services: [
       [
-        'chromedriver',
+        SpectronWorkerService,
         {
-          port: 9515,
-          logFileName: 'wdio-chromedriver.log', // default
+          port: filteredConfig.port,
           // outputDir: 'driver-logs', // overwrites the config.outputDir
           chromedriverCustomPath,
           // args: ['--silent'],
@@ -76,6 +76,7 @@ function buildLauncherConfig(
 
 export const run = async (...args: unknown[]): Promise<void> => {
   const chromeArgs = [];
+  const isWin = process.platform === 'win32';
 
   if (process.env.CI) {
     chromeArgs.push('window-size=1280,800');
@@ -83,7 +84,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
     chromeArgs.push('enable-automation');
     chromeArgs.push('disable-infobars');
     chromeArgs.push('disable-extensions');
-    if (process.platform !== 'win32') {
+    if (!isWin) {
       // chromeArgs.push('headless'); - crashes on linux with xvfb
       chromeArgs.push('no-sandbox');
       chromeArgs.push('disable-gpu');
@@ -93,7 +94,6 @@ export const run = async (...args: unknown[]): Promise<void> => {
     }
   }
 
-  const isWin = process.platform === 'win32';
   if (isWin) {
     process.env.SPECTRON_NODE_PATH = process.execPath;
     process.env.SPECTRON_CHROMEDRIVER_PATH = require.resolve('electron-chromedriver/chromedriver');
