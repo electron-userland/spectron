@@ -57,7 +57,6 @@ function buildLauncherConfig(
         {
           port: filteredConfig.port,
           logFileName,
-          // outputDir: 'driver-logs', // overwrites the config.outputDir
           chromedriverCustomPath,
           // args: ['--silent'],
         },

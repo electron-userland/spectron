@@ -76,7 +76,7 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
       'goog:chromeOptions': capabilities['goog:chromeOptions'],
     } as Options;
 
-    this.outputDir = options.outputDir || config.outputDir;
+    this.outputDir = config.outputDir;
     this.chromedriverCustomPath = options.chromedriverCustomPath
       ? path.resolve(options.chromedriverCustomPath)
       : chromedriverPath;
