@@ -8,6 +8,7 @@ type SpectronConfig = {
     spectronOpts: {
       appPath: string;
       appName: string;
+      logFileName: string;
     };
   };
 };
@@ -43,10 +44,10 @@ function stripSpectronOpts(config: SpectronConfig['config']) {
 function buildLauncherConfig(
   config: SpectronConfig['config'],
   chromedriverCustomPath: string,
-  appPath: string,
-  appName: string,
+  spectronOpts: SpectronConfig['config']['spectronOpts'],
   chromeArgs: string[],
 ) {
+  const { appPath, appName, logFileName = 'wdio-chromedriver.log' } = spectronOpts;
   const filteredConfig = stripSpectronOpts(config);
   return {
     ...filteredConfig,
@@ -55,6 +56,7 @@ function buildLauncherConfig(
         SpectronWorkerService,
         {
           port: filteredConfig.port,
+          logFileName,
           // outputDir: 'driver-logs', // overwrites the config.outputDir
           chromedriverCustomPath,
           // args: ['--silent'],
@@ -106,9 +108,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
 
   // https://github.com/mysticatea/eslint-plugin-node/pull/256
   const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
-  const {
-    spectronOpts: { appPath, appName },
-  } = config;
+  const { spectronOpts } = config;
 
   if (!config) {
     throw new Error(`Unable to read config file: ${configFilePath}`);
@@ -118,7 +118,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
     chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
   }
 
-  const launcherConfig = buildLauncherConfig(config, chromedriverCustomPath, appPath, appName, chromeArgs);
+  const launcherConfig = buildLauncherConfig(config, chromedriverCustomPath, spectronOpts, chromeArgs);
   const wdio = new Launcher(args[2] as string, launcherConfig as Partial<RunCommandArguments>);
 
   try {
