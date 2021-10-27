@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/split2": "^3.2.1",
     "@types/tcp-port-used": "^1.0.0",
-    "chromedriver": "^94.0.0"
+    "chromedriver": "^95.0.0"
   },
   "contributors": [
     "Mattias Ekstrand <mattias.ekstrand@gmail.com>",
