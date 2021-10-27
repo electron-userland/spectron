@@ -6,17 +6,17 @@ import { path as chromedriverPath } from 'chromedriver';
 import logger from '@wdio/logger';
 import tcpPortUsed from 'tcp-port-used';
 import EventEmitter from 'events';
+import { Capabilities, Options, Services, Frameworks } from '@wdio/types';
 import getFilePath from './getFilePath';
 import { SpectronClient } from '~/common/types';
 
-const log = logger('chromedriver');
+const log = logger('spectron');
 
-const DEFAULT_LOG_FILENAME = 'wdio-chromedriver.log';
 const POLL_INTERVAL = 100;
 const POLL_TIMEOUT = 10000;
 const DEFAULT_CONNECTION = {
   protocol: 'http',
-  hostname: 'localhost',
+  hostname: '127.0.0.1',
   port: 9515,
   path: '/',
 };
@@ -53,8 +53,20 @@ export type Config = {
   outputDir: string;
 };
 
-export default class ChromeDriverLauncher {
-  constructor(options: Options, capabilities: Capabilities, config: Config) {
+function redirectLogStream(workerIndex: number, outputDir: string, process: ChildProcessWithoutNullStreams): void {
+  const logFile = getFilePath(outputDir, `wdio-chromedriver.${workerIndex}.log`);
+
+  // ensure file & directory exists
+  fs.ensureFileSync(logFile);
+
+  const logStream = fs.createWriteStream(logFile, { flags: 'w' });
+
+  process?.stdout.pipe(logStream);
+  process?.stderr.pipe(logStream);
+}
+
+export default class SpectronWorkerService implements Services.ServiceInstance {
+  constructor(options: Options, capabilities: Capabilities, config: Omit<Options.Testrunner, 'capabilities'>) {
     this.options = {
       'protocol': options.protocol || DEFAULT_CONNECTION.protocol,
       'hostname': options.hostname || DEFAULT_CONNECTION.hostname,
@@ -65,29 +77,30 @@ export default class ChromeDriverLauncher {
     } as Options;
 
     this.outputDir = options.outputDir || config.outputDir;
-    this.logFileName = options.logFileName || DEFAULT_LOG_FILENAME;
-    this.args = options.args || [];
     this.chromedriverCustomPath = options.chromedriverCustomPath
       ? path.resolve(options.chromedriverCustomPath)
       : chromedriverPath;
+    console.log('constructor end', this.options);
   }
 
-  private options;
-
-  private logFileName;
+  public options;
 
   public browser?: SpectronClient;
-
-  public args;
 
   public outputDir;
 
   public chromedriverCustomPath;
 
-  public process?: ChildProcessWithoutNullStreams;
+  public process: ChildProcessWithoutNullStreams | undefined;
 
-  async before(_capabilities: Capabilities, _specs: string[], browser: SpectronClient): Promise<void> {
-    const { args } = this;
+  onWorkerStart(
+    cid: string,
+    capabilities: Capabilities,
+    specs: string[],
+    args: Options.Testrunner,
+    execArgv: string[],
+  ): void {
+    const workerIndex = parseInt(cid.split('-')[1]);
     // args.forEach((argument: string) => {
     //   if (argument.includes('--port')) {
     //     throw new Error('Argument "--port" already exists');
@@ -96,66 +109,85 @@ export default class ChromeDriverLauncher {
     //     throw new Error('Argument "--url-base" already exists');
     //   }
     // });
-    this.browser = browser;
-    log.error('zOMG onWorkerStart');
 
-    args.push(`--port=${this.options.port as number}`);
-    args.push(`--url-base=${this.options.path as string}`);
+    const workerPort = (this.options.port as number) + workerIndex;
+    const workerArgs = [`--port=${workerPort}`, `--url-base=${this.options.path as string}`];
 
-    await this.startProcess();
+    console.log('zOMG onworkerStart', workerArgs, cid);
+    // args.push(`--port=${this.options.port as number}`);
+    // args.push(`--url-base=${this.options.path as string}`);
 
-    process.on('exit', this.killProcess.bind(this));
-    process.on('SIGINT', this.killProcess.bind(this));
-    process.on('uncaughtException', this.killProcess.bind(this));
+    if (!this.process) {
+      void (async () => {
+        await this.startProcess(workerIndex, workerPort, workerArgs);
+      })();
+      const exitHandler = () => {
+        void (async () => {
+          await this.killProcess.call(this);
+        })();
+      };
+      process.on('exit', exitHandler);
+      process.on('SIGINT', exitHandler);
+      process.on('uncaughtException', exitHandler);
+    }
   }
 
-  async afterHook(_test: string, context: string): Promise<void> {
+  async before(_capabilities: Capabilities, _specs: string[], browser: SpectronClient): Promise<void> {
+    console.log('before yo');
+    this.browser = browser;
+  }
+
+  afterTest(test: Frameworks.Test, context: never, results: Frameworks.TestResult): void {
     // if (context === 'afterEach') {
     // quit app
-    log.error('zOMG after', context);
-    await this.browser?.exitElectronApp();
-    await delay(1000);
-    this.killProcess();
-    await this.startProcess();
+    console.log('zOMG afterHook', test, context, results);
+    void (async () => {
+      await this.browser?.exitElectronApp();
+      await delay(1000);
+      // this.killProcess();
+      // await this.startProcess();
+    })();
     // }
   }
 
-  killProcess(): void {
-    this.process?.kill();
+  async killProcess(): Promise<void> {
+    console.log('killing process');
+    if (this.process) {
+      // this.process?.forEach((process, index) => {
+      console.log('killing process on port', this.options.port);
+      // spawn('kill', [(this.process.pid as number)?.toString()]);
+      // this.process?.kill('SIGKILL');
+      process.kill(-(this.process.pid as number));
+      // await killPortProcess(this.options.port as number);
+      // this.process = undefined;
+      // });
+    }
+
+    // this.process?.forEach((process) => process?.kill('SIGKILL'));
+    // process.exit(0);
   }
 
-  async startProcess(): Promise<void> {
+  async startProcess(workerIndex: number, port: number, workerArgs: string[]): Promise<void> {
     log.error('zOMG startProcess');
-    const { args } = this;
     let command = this.chromedriverCustomPath;
-    log.info(`Start Chromedriver (${command}) with args ${args.join(' ')}`);
+    log.info(`Start Chromedriver (${command}) with args ${workerArgs.join(' ')}`);
     if (!fs.existsSync(command)) {
       log.warn('Could not find chromedriver in default path: ', command);
       log.warn('Falling back to use global chromedriver bin');
       command = process?.platform === 'win32' ? 'chromedriver.exe' : 'chromedriver';
     }
-    this.process = spawn(command, args);
+    const chromedriverProcess = spawn(command, workerArgs, { detached: true });
+    console.log('spawned', chromedriverProcess.pid);
+    this.process = chromedriverProcess;
 
     if (this.outputDir && typeof this.outputDir === 'string') {
-      this.redirectLogStream();
+      redirectLogStream(workerIndex, this.outputDir, chromedriverProcess);
     } else {
       const split = split2();
-      (this.process.stdout.pipe(split) as EventEmitter).on('data', (...logArgs) => log.info(...logArgs));
-      (this.process.stderr.pipe(split) as EventEmitter).on('data', (...logArgs) => log.warn(...logArgs));
+      (chromedriverProcess.stdout.pipe(split) as EventEmitter).on('data', (...logArgs) => log.info(...logArgs));
+      (chromedriverProcess.stderr.pipe(split) as EventEmitter).on('data', (...logArgs) => log.warn(...logArgs));
     }
 
-    await tcpPortUsed.waitUntilUsed(this.options.port as number, POLL_INTERVAL, POLL_TIMEOUT);
-  }
-
-  redirectLogStream(): void {
-    const logFile = getFilePath(this.outputDir, this.logFileName);
-
-    // ensure file & directory exists
-    fs.ensureFileSync(logFile);
-
-    const logStream = fs.createWriteStream(logFile, { flags: 'w' });
-
-    this.process?.stdout.pipe(logStream);
-    this.process?.stderr.pipe(logStream);
+    await tcpPortUsed.waitUntilUsed(port, POLL_INTERVAL, POLL_TIMEOUT);
   }
 }
