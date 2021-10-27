@@ -53,8 +53,8 @@ export type Config = {
   outputDir: string;
 };
 
-function redirectLogStream(workerIndex: number, outputDir: string, process: ChildProcessWithoutNullStreams): void {
-  const logFile = getFilePath(outputDir, `wdio-chromedriver.${workerIndex}.log`);
+function redirectLogStream(outputDir: string, process: ChildProcessWithoutNullStreams): void {
+  const logFile = getFilePath(outputDir, 'wdio-chromedriver.log');
 
   // ensure file & directory exists
   fs.ensureFileSync(logFile);
@@ -100,26 +100,10 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     args: Options.Testrunner,
     execArgv: string[],
   ): void {
-    const workerIndex = parseInt(cid.split('-')[1]);
-    // args.forEach((argument: string) => {
-    //   if (argument.includes('--port')) {
-    //     throw new Error('Argument "--port" already exists');
-    //   }
-    //   if (argument.includes('--url-base')) {
-    //     throw new Error('Argument "--url-base" already exists');
-    //   }
-    // });
-
-    const workerPort = (this.options.port as number) + workerIndex;
-    const workerArgs = [`--port=${workerPort}`, `--url-base=${this.options.path as string}`];
-
-    console.log('zOMG onworkerStart', workerArgs, cid);
-    // args.push(`--port=${this.options.port as number}`);
-    // args.push(`--url-base=${this.options.path as string}`);
-
+    console.log('zOMG onworkerStart', cid);
     if (!this.process) {
       void (async () => {
-        await this.startProcess(workerIndex, workerPort, workerArgs);
+        await this.startProcess();
       })();
       const exitHandler = () => {
         void (async () => {
@@ -137,51 +121,43 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     this.browser = browser;
   }
 
-  afterTest(test: Frameworks.Test, context: never, results: Frameworks.TestResult): void {
+  async afterTest(test: Frameworks.Test, context: never, results: Frameworks.TestResult): Promise<void> {
     // if (context === 'afterEach') {
     // quit app
-    console.log('zOMG afterHook', test, context, results);
-    void (async () => {
-      await this.browser?.exitElectronApp();
-      await delay(1000);
-      // this.killProcess();
-      // await this.startProcess();
-    })();
+    console.log('zOMG afterTest', test, context, results);
+    // void (async () => {
+    await this.browser?.exitElectronApp();
+    await delay(1000);
+    await this.killProcess();
+    await this.startProcess();
+    // })();
     // }
   }
 
   async killProcess(): Promise<void> {
-    console.log('killing process');
     if (this.process) {
-      // this.process?.forEach((process, index) => {
-      console.log('killing process on port', this.options.port);
-      // spawn('kill', [(this.process.pid as number)?.toString()]);
-      // this.process?.kill('SIGKILL');
-      process.kill(-(this.process.pid as number));
-      // await killPortProcess(this.options.port as number);
-      // this.process = undefined;
-      // });
+      console.log('killing process on port', this.process.pid);
+      await process.kill(-(this.process.pid as number));
     }
-
-    // this.process?.forEach((process) => process?.kill('SIGKILL'));
-    // process.exit(0);
   }
 
-  async startProcess(workerIndex: number, port: number, workerArgs: string[]): Promise<void> {
-    log.error('zOMG startProcess');
+  async startProcess(): Promise<void> {
+    console.log('zOMG startProcess');
+    const port = this.options.port as number;
+    const args = [`--port=${port}`, `--url-base=${this.options.path as string}`];
     let command = this.chromedriverCustomPath;
-    log.info(`Start Chromedriver (${command}) with args ${workerArgs.join(' ')}`);
+    log.info(`Start Chromedriver (${command}) with args ${args.join(' ')}`);
     if (!fs.existsSync(command)) {
       log.warn('Could not find chromedriver in default path: ', command);
       log.warn('Falling back to use global chromedriver bin');
       command = process?.platform === 'win32' ? 'chromedriver.exe' : 'chromedriver';
     }
-    const chromedriverProcess = spawn(command, workerArgs, { detached: true });
-    console.log('spawned', chromedriverProcess.pid);
+    const chromedriverProcess = spawn(command, args, { detached: true });
+    console.log('spawned CD process', chromedriverProcess.pid);
     this.process = chromedriverProcess;
 
     if (this.outputDir && typeof this.outputDir === 'string') {
-      redirectLogStream(workerIndex, this.outputDir, chromedriverProcess);
+      redirectLogStream(this.outputDir, chromedriverProcess);
     } else {
       const split = split2();
       (chromedriverProcess.stdout.pipe(split) as EventEmitter).on('data', (...logArgs) => log.info(...logArgs));
