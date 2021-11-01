@@ -99,7 +99,7 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
 
   onWorkerStart(
     cid: string,
-    capabilities: Capabilities.RemoteCapability,
+    capabilities: Capabilities.DesiredCapabilities,
     specs: string[],
     args: Options.Testrunner,
     execArgv: string[],
@@ -138,11 +138,16 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     // }
   }
 
-  async after(result: any, capabilities: any, specs: any): Promise<void> {
+  async after(result: number, capabilities: Capabilities.RemoteCapability, specs: string[]): Promise<void> {
     console.log('after');
   }
 
-  async onComplete(exitCode: any, config: any, capabilities: any, results: any): Promise<void> {
+  async onComplete(
+    exitCode: number,
+    config: Omit<Options.Testrunner, 'capabilities'>,
+    capabilities: Capabilities.RemoteCapabilities,
+    results: any,
+  ): Promise<void> {
     console.log('complete');
   }
 
