@@ -9,5 +9,5 @@ import { SpectronApp } from './dist/common/types';
 declare module '@goosewobbler/spectron' {}
 
 export function initSpectron(): Promise<SpectronApp>;
-export function run(): Promise<void>;
+export function run(): WebdriverIO.Config;
 export { SpectronApp };

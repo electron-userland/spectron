@@ -1,5 +1,6 @@
 const { join } = require('path');
 const fs = require('fs-extra');
+const { run } = require('@goosewobbler/spectron');
 
 process.env.SPECTRON_APP_ARGS = ['--foo', '--bar=baz'].toString();
 
@@ -52,4 +53,4 @@ const config = {
   },
 };
 
-module.exports = { config };
+module.exports = { config: run(config) };

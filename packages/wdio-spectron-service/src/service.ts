@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import split2 from 'split2';
 import { path as chromedriverPath } from 'chromedriver';
+import { remote } from 'webdriverio';
 import logger from '@wdio/logger';
 import tcpPortUsed from 'tcp-port-used';
 import EventEmitter from 'events';
@@ -71,23 +72,22 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     caps: Capabilities.Capabilities,
     config: Omit<Options.Testrunner, 'capabilities'>,
   ) {
-    this.options = {
-      'protocol': options.protocol || DEFAULT_CONNECTION.protocol,
-      'hostname': options.hostname || DEFAULT_CONNECTION.hostname,
-      'port': options.port || DEFAULT_CONNECTION.port,
-      'path': options.path || DEFAULT_CONNECTION.path,
-      'browserName': 'chrome',
-      'goog:chromeOptions': caps['goog:chromeOptions'],
-    } as Options;
+    this.wdOpts = {
+      protocol: options.protocol || DEFAULT_CONNECTION.protocol,
+      hostname: options.hostname || DEFAULT_CONNECTION.hostname,
+      port: options.port || DEFAULT_CONNECTION.port,
+      path: options.path || DEFAULT_CONNECTION.path,
+      capabilities: caps,
+    };
 
     this.outputDir = config.outputDir;
     this.chromedriverCustomPath = options.chromedriverCustomPath
       ? path.resolve(options.chromedriverCustomPath)
       : chromedriverPath;
-    console.log('constructor end', this.options);
+    console.log('constructor end', this.wdOpts);
   }
 
-  public options;
+  public wdOpts;
 
   public browser?: SpectronClient;
 
@@ -128,12 +128,13 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
   async afterTest(test: Frameworks.Test, context: never, results: Frameworks.TestResult): Promise<void> {
     // if (context === 'afterEach') {
     // quit app
-    console.log('zOMG afterTest', test, context, results);
+    // console.log('zOMG afterTest', test, context, results);
     // void (async () => {
     await this.browser?.exitElectronApp();
     await delay(1000);
     await this.killProcess();
     await this.startProcess();
+    await remote(this.wdOpts);
     // })();
     // }
   }
@@ -154,14 +155,16 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
   async killProcess(): Promise<void> {
     if (this.process) {
       console.log('killing process on port', this.process.pid);
-      await process.kill(-(this.process.pid as number));
+      await this.process.kill();
+      this.process = undefined;
+      // await process.kill(-(this.process.pid as number));
     }
   }
 
   async startProcess(): Promise<void> {
     console.log('zOMG startProcess');
-    const port = this.options.port as number;
-    const args = [`--port=${port}`, `--url-base=${this.options.path as string}`];
+    const port = this.wdOpts.port as number;
+    const args = [`--port=${port}`, `--url-base=${this.wdOpts.path as string}`];
     let command = this.chromedriverCustomPath;
     log.info(`Start Chromedriver (${command}) with args ${args.join(' ')}`);
     if (!fs.existsSync(command)) {

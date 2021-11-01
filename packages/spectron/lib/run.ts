@@ -1,6 +1,7 @@
 /* eslint no-process-exit: off, no-console: off */
-import Launcher, { RunCommandArguments } from '@wdio/cli';
+// import Launcher, { RunCommandArguments } from '@wdio/cli';
 import SpectronWorkerService from 'wdio-spectron-service';
+import { Services } from '@wdio/types';
 import { join } from 'path';
 
 type SpectronConfig = {
@@ -46,14 +47,14 @@ function buildLauncherConfig(
   chromedriverCustomPath: string,
   spectronOpts: SpectronConfig['config']['spectronOpts'],
   chromeArgs: string[],
-) {
+): WebdriverIO.Config {
   const { appPath, appName, logFileName = 'wdio-chromedriver.log' } = spectronOpts;
   const filteredConfig = stripSpectronOpts(config);
   return {
     ...filteredConfig,
     services: [
       [
-        SpectronWorkerService,
+        SpectronWorkerService as Services.ServiceClass,
         {
           port: filteredConfig.port,
           logFileName,
@@ -75,7 +76,7 @@ function buildLauncherConfig(
   };
 }
 
-export const run = async (...args: unknown[]): Promise<void> => {
+export const run = (config: SpectronConfig['config']): WebdriverIO.Config => {
   const chromeArgs = [];
   const isWin = process.platform === 'win32';
 
@@ -106,7 +107,7 @@ export const run = async (...args: unknown[]): Promise<void> => {
   const configFilePath = join(process.cwd(), 'spectron.conf.js');
 
   // https://github.com/mysticatea/eslint-plugin-node/pull/256
-  const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
+  // const { config }: SpectronConfig = await import(configFilePath); // eslint-disable-line
   const { spectronOpts } = config;
 
   if (!config) {
@@ -117,13 +118,13 @@ export const run = async (...args: unknown[]): Promise<void> => {
     chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
   }
 
-  const launcherConfig = buildLauncherConfig(config, chromedriverCustomPath, spectronOpts, chromeArgs);
-  const wdio = new Launcher(args[2] as string, launcherConfig as Partial<RunCommandArguments>);
+  return buildLauncherConfig(config, chromedriverCustomPath, spectronOpts, chromeArgs);
+  // const wdio = new Launcher(args[2] as string, launcherConfig as Partial<RunCommandArguments>);
 
-  try {
-    const exitCode = await wdio.run();
-    process.exit(exitCode);
-  } catch (error) {
-    console.error('Launcher failed to start the test', (error as Error).stack);
-  }
+  // try {
+  //   const exitCode = await wdio.run();
+  //   process.exit(exitCode);
+  // } catch (error) {
+  //   console.error('Launcher failed to start the test', (error as Error).stack);
+  // }
 };
