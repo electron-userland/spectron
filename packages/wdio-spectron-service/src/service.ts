@@ -44,10 +44,10 @@ export type Options = {
   'goog:chromeOptions'?: ChromeOptions;
 };
 
-export type Capabilities = {
-  'browserName': 'chrome';
-  'goog:chromeOptions': ChromeOptions;
-};
+// export type Capabilities = {
+//   'browserName': 'chrome';
+//   'goog:chromeOptions': ChromeOptions;
+// };
 
 export type Config = {
   outputDir: string;
@@ -66,14 +66,18 @@ function redirectLogStream(outputDir: string, process: ChildProcessWithoutNullSt
 }
 
 export default class SpectronWorkerService implements Services.ServiceInstance {
-  constructor(options: Options, capabilities: Capabilities, config: Omit<Options.Testrunner, 'capabilities'>) {
+  constructor(
+    options: Services.ServiceOption,
+    caps: Capabilities.Capabilities,
+    config: Omit<Options.Testrunner, 'capabilities'>,
+  ) {
     this.options = {
       'protocol': options.protocol || DEFAULT_CONNECTION.protocol,
       'hostname': options.hostname || DEFAULT_CONNECTION.hostname,
       'port': options.port || DEFAULT_CONNECTION.port,
       'path': options.path || DEFAULT_CONNECTION.path,
       'browserName': 'chrome',
-      'goog:chromeOptions': capabilities['goog:chromeOptions'],
+      'goog:chromeOptions': caps['goog:chromeOptions'],
     } as Options;
 
     this.outputDir = config.outputDir;
@@ -95,7 +99,7 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
 
   onWorkerStart(
     cid: string,
-    capabilities: Capabilities,
+    capabilities: Capabilities.RemoteCapability,
     specs: string[],
     args: Options.Testrunner,
     execArgv: string[],
@@ -116,7 +120,7 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     }
   }
 
-  async before(_capabilities: Capabilities, _specs: string[], browser: SpectronClient): Promise<void> {
+  before(_capabilities: Capabilities.RemoteCapability, _specs: string[], browser: SpectronClient): void {
     console.log('before yo');
     this.browser = browser;
   }
@@ -132,6 +136,14 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     await this.startProcess();
     // })();
     // }
+  }
+
+  async after(result: any, capabilities: any, specs: any): Promise<void> {
+    console.log('after');
+  }
+
+  async onComplete(exitCode: any, config: any, capabilities: any, results: any): Promise<void> {
+    console.log('complete');
   }
 
   async killProcess(): Promise<void> {
