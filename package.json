@@ -26,6 +26,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-wdio": "^7.4.2",
     "fs-extra": "^10.0.0",
     "husky": "^7.0.4",
     "prettier": "^2.4.1",

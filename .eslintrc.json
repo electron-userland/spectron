@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb-base", "prettier", "plugin:node/recommended"],
-  "plugins": ["import", "node", "prettier", "promise"],
+  "extends": ["airbnb-base", "prettier", "plugin:node/recommended", "plugin:wdio/recommended"],
+  "plugins": ["import", "node", "prettier", "promise", "wdio"],
   "env": {
     "browser": true,
     "es2020": true,
