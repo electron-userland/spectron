@@ -48,9 +48,6 @@ const config = {
     ui: 'bdd',
     timeout: 30000,
   },
-  afterTest: () => {
-    console.log('config afterTest');
-  },
 };
 
 module.exports = { config: run(config) };
