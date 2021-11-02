@@ -3,7 +3,7 @@
 [![CI](https://github.com/electron-userland/spectron/workflows/CI/badge.svg)](https://github.com/electron-userland/spectron/actions) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 [![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
-### 🚨 On February 1, 2022, Spectron will be officially deprecated by the Electron team. Please read about more about [our planneed deprecation here](https://github.com/electron-userland/spectron/issues/1045).
+### 🚨 On February 1, 2022, Spectron will be officially deprecated by the Electron team. Please read about more about [our planned deprecation here](https://github.com/electron-userland/spectron/issues/1045).
 
 Easily test your [Electron](http://electron.atom.io) apps using
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
