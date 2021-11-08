@@ -195,7 +195,7 @@ declare module 'spectron' {
     args?: string[];
     /**
      * Array of arguments to pass to ChromeDriver.
-     * See here (https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details
+     * See here (https://sites.google.com/chromium.org/driver/capabilities) for details
      * on the Chrome arguments.
      */
     chromeDriverArgs?: string[];
