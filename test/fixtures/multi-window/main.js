@@ -16,6 +16,7 @@ app.on('ready', function () {
       contextIsolation: false
     }
   });
+  require('@electron/remote/main').enable(topWindow.webContents);
   topWindow.loadFile('index-top.html');
   topWindow.on('closed', function () {
     topWindow = null;
@@ -32,6 +33,7 @@ app.on('ready', function () {
       contextIsolation: false
     }
   });
+  require('@electron/remote/main').enable(bottomWindow.webContents);
   bottomWindow.loadFile('index-bottom.html');
   bottomWindow.on('closed', function () {
     bottomWindow = null;

@@ -63,13 +63,7 @@ declare module 'spectron' {
     }[];
   }
 
-  export interface SpectronClient extends WebdriverIO.BrowserObject {
-    /**
-     * Focus a window using its title or URL.
-     * <webview> tags can also be focused as a separate window.
-     */
-    switchWindow(urlOrTitleToMatch: string): Promise<void>;
-
+  export interface SpectronClient extends WebdriverIO.Browser<'async'> {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
@@ -261,7 +255,7 @@ declare module 'spectron' {
      * Each Electron module is exposed as a property on the electron property so you can
      * think of it as an alias for require('electron') from within your app.
      */
-    electron: Electron.RemoteMainInterface;
+    electron: typeof Electron;
     /**
      * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
      * It provides you access to the current BrowserWindow and contains all the APIs.

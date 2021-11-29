@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "types": ["node", "webdriverio/async"]
+  },
+  "files": [
+      "lib/spectron.d.ts"
+  ]
+}
