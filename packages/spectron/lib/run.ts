@@ -1,6 +1,6 @@
 /* eslint no-process-exit: off, no-console: off */
 // import Launcher, { RunCommandArguments } from '@wdio/cli';
-import SpectronWorkerService from 'wdio-spectron-service';
+import SpectronWorkerService from 'wdio-electron-service';
 import { Services } from '@wdio/types';
 import { join } from 'path';
 

@@ -120,9 +120,15 @@ export default class SpectronWorkerService implements Services.ServiceInstance {
     }
   }
 
-  before(_capabilities: Capabilities.RemoteCapability, _specs: string[], browser: SpectronClient): void {
-    console.log('before yo');
-    this.browser = browser;
+  beforeSession(
+    config: Omit<Options.Testrunner, 'capabilities'>,
+    capabilities: Capabilities.RemoteCapability,
+    specs: string[],
+    cid: string,
+  ): void {
+    console.log('beforesession yo');
+    // set capabilities
+    // this.browser = browser;
   }
 
   async afterTest(test: Frameworks.Test, context: never, results: Frameworks.TestResult): Promise<void> {

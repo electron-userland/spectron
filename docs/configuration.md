@@ -20,6 +20,8 @@ The name of your built app. It is combined with the `appPath` value to generate 
 
 It needs to be the same as the install directory used by `electron-builder`, which is derived from your `package.json` configuration - either `name` or `productName`. You can find more information regarding this in the `electron-builder` [documentation](https://www.electron.build/configuration/configuration#configuration).
 
+#### `logFileName`
+
 ## Migrating configuration from older versions of Spectron
 
 Please see the [migration guide](migration.md#configuration).

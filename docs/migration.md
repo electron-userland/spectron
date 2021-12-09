@@ -23,7 +23,7 @@ https://www.electronjs.org/docs/latest/tutorial/security
 
 All handling of Chromedriver (CD) is now delegated to the `wdio-chromedriver-service`, which is a WebdriverIO (WDIO) "launcher service". This means that Spectron no longer restarts Chromedriver for each test, which massively speeds up test runs but may mean that some suites experience problems with state leak between tests.
 
-The original behaviour might be reinstated in future through creation of a Spectron "worker service" (e.g. `wdio-spectron-service`) to manage the CD process between tests.
+The original behaviour might be reinstated in future through creation of a Spectron "worker service" (e.g. `wdio-electron-service`) to manage the CD process between tests.
 
 #### Further reading:
 
@@ -52,7 +52,7 @@ These are the old configuration values (passed into the Spectron constructor) an
 - `args` - This was an array of arguments to pass to the Electron application. It has been replaced with an environment variable which needs to be set in the config file so that it is available to WDIO before it starts. See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on Chromium arguments.
   e.g. `process.env.SPECTRON_APP_ARGS = ['--foo', '--bar=baz'].toString();`
 - `chromeDriverArgs` - This was an array of arguments to pass to ChromeDriver. The Chromedriver service [documentation](https://webdriver.io/docs/wdio-chromedriver-service/#configuration) shows an `args` option in their configuration example, though this is not detailed in the "options" section of that page. There is also the WDIO option [`execArgv`](https://webdriver.io/docs/options/#execargv) which applies node arguments to WDIO child processes. No replacement as yet.
-- `cwd`- This was the path to the working directory to use for the launched application. It was [passed through](https://github.com/electron-userland/spectron/blob/798cf1401cb7ec0596558ebdc8b4c0e8427a25f7/lib/chrome-driver.js#L41) to the Chromedriver child process. There is no CD service equivalent for this option, though it might be resurrected with a `wdio-spectron-service`. No replacement as yet.
+- `cwd`- This was the path to the working directory to use for the launched application. It was [passed through](https://github.com/electron-userland/spectron/blob/798cf1401cb7ec0596558ebdc8b4c0e8427a25f7/lib/chrome-driver.js#L41) to the Chromedriver child process. There is no CD service equivalent for this option, though it might be resurrected with a `wdio-electron-service`. No replacement as yet.
 - `env` - This was an object of additional environment variables to set in the launched application. These values were [passed to Chromium](https://github.com/electron-userland/spectron/blob/798cf1401cb7ec0596558ebdc8b4c0e8427a25f7/lib/application.js#L178) in `capabilities` as `spectron-env-foo=bar`. No replacement as yet.
 - `host` - This was the host name of the launched Chromedriver process. The CD service has [an option](https://webdriver.io/docs/wdio-chromedriver-service/#hostname) for this. No replacement as yet.
 - `port` - This can be set in the config file using the WDIO `port` [option](https://webdriver.io/docs/options/#port).
@@ -60,7 +60,7 @@ These are the old configuration values (passed into the Spectron constructor) an
 - `connectionRetryCount` - This was a number of retry attempts to make when connecting to Chromedriver. WDIO has an [equivalent](https://webdriver.io/docs/options/#connectionretrycount) which _may_ apply to CD.
 - `connectionRetryTimeout` - This was a timeout to wait for connections to Chromedriver to be made. WDIO has an [equivalent](https://webdriver.io/docs/options/#connectionretrytimeout) which _may_ apply to CD.
 - `quitTimeout` - This was a timeout value to wait for the application quitting. We are now dependent on WDIO WDIO doesn't allow to configure this. Dropped.
-- `startTimeout` - This was a timeout value to wait for the start of Chromedriver. There is no Chromedriver service option for this, though it could potentially be reimplemented as part of a `wdio-spectron-service`. No replacement as yet.
+- `startTimeout` - This was a timeout value to wait for the start of Chromedriver. There is no Chromedriver service option for this, though it could potentially be reimplemented as part of a `wdio-electron-service`. No replacement as yet.
 - `waitTimeout` - This was the timeout value for calls like `waitUntilTextExists` and `waitUntilWindowLoaded` to complete - this value is now passed in on the call itself. The default is still `5000ms`.
 - `debuggerAddress` - This was passed through to Chromium config in [`capabilities`](https://github.com/electron-userland/spectron/blob/798cf1401cb7ec0596558ebdc8b4c0e8427a25f7/lib/application.js#L207). No replacement as yet.
 - `chromeDriverLogPath` - Chromedriver logs are now output with the other WDIO logs (see `outputDir`) in the `wdio-chromedriver.log` file. No replacement as yet, though the Chromedriver service has two options we can use to resurrect this customisation option - [`outputDir`](https://webdriver.io/docs/wdio-chromedriver-service/#outputdir) and [`logFileName`](https://webdriver.io/docs/wdio-chromedriver-service/#logfilename).

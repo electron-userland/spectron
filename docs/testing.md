@@ -21,9 +21,9 @@ The accessibility functionality has been [removed](migration.md#accessibility) i
 - 'start() rejects with an error if ChromeDriver does not start within the specified timeout' - testing `startTimeout` config value. Should be replicated _if_ the config value is reimplemented.
 - 'stop() quits the application' - testing teardown through a logfile - WDIO handles teardown now, not required.
 - 'stop() rejects with an error if the application is not running' - WDIO handles teardown now, not required.
-- 'restart() restarts the application' - testing CD restart - Not required with new WDIO / CD service. Will be replicated in `wdio-spectron-service` if required.
-- 'restart() rejects with an error if the application is not running' - testing CD restart fail case - Not required with new WDIO / CD service. Will be replicated in `wdio-spectron-service` if required.
+- 'restart() restarts the application' - testing CD restart - Not required with new WDIO / CD service. Will be replicated in `wdio-electron-service` if required.
+- 'restart() rejects with an error if the application is not running' - testing CD restart fail case - Not required with new WDIO / CD service. Will be replicated in `wdio-electron-service` if required.
 - 'getSettings() returns an object with all the configured options' - testing a likely pointless function - functionality removed, should be replicated if reinstated.
 - 'getRenderProcessLogs gets the render process console logs and clears them' - testing log retrieval - `getRenderProcessLogs` is just a wrapper for Chromium [`getLogs`](https://webdriver.io/docs/api/chromium/#getlogs) on WDIO browser object. Will replicate test if the wrapper is put back.
-- 'getMainProcessLogs gets the main process console logs and clears them' - testing CD logs - this is now handled by CD service, will replicate in `wdio-spectron-service` if that route is taken.
+- 'getMainProcessLogs gets the main process console logs and clears them' - testing CD logs - this is now handled by CD service, will replicate in `wdio-electron-service` if that route is taken.
 - 'getMainProcessLogs does not include any deprecation warnings' - likely added to test the hacky approach to re

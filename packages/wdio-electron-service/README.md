@@ -17,12 +17,12 @@ capabilities: [
 
 ## Installation
 
-The easiest way is to keep `wdio-spectron-service` as a devDependency in your `package.json`.
+The easiest way is to keep `wdio-electron-service` as a devDependency in your `package.json`.
 
 ```json
 {
   "devDependencies": {
-    "wdio-spectron-service": "^6.0.0"
+    "wdio-electron-service": "^6.0.0"
   }
 }
 ```
