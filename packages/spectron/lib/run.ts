@@ -1,6 +1,6 @@
 /* eslint no-process-exit: off, no-console: off */
 // import Launcher, { RunCommandArguments } from '@wdio/cli';
-import SpectronWorkerService from 'wdio-electron-service';
+import ElectronWorkerService from 'wdio-electron-service';
 import { Services } from '@wdio/types';
 import { join } from 'path';
 
@@ -14,28 +14,6 @@ type SpectronConfig = {
   };
 };
 
-function getBinaryPath(distPath: string, appName: string) {
-  const SupportedPlatform = {
-    darwin: 'darwin',
-    linux: 'linux',
-    win32: 'win32',
-  };
-
-  if (!Object.values(SupportedPlatform).includes(process.platform)) {
-    throw new Error(`Unsupported platform: ${process.platform}`);
-  }
-
-  const pathMap = {
-    darwin: `mac/${appName}.app/Contents/MacOS/${appName}`,
-    linux: `linux-unpacked/${appName}`,
-    win32: `win-unpacked/${appName}.exe`,
-  };
-
-  const electronPath = pathMap[process.platform as keyof typeof SupportedPlatform];
-
-  return `${distPath}/${electronPath}`;
-}
-
 function stripSpectronOpts(config: SpectronConfig['config']) {
   const filteredEntries = Object.entries(config).filter((configEntry: unknown[]) => configEntry[0] !== 'spectronOpts');
 
@@ -46,7 +24,6 @@ function buildLauncherConfig(
   config: SpectronConfig['config'],
   chromedriverCustomPath: string,
   spectronOpts: SpectronConfig['config']['spectronOpts'],
-  chromeArgs: string[],
 ): WebdriverIO.Config {
   const { appPath, appName, logFileName = 'wdio-chromedriver.log' } = spectronOpts;
   const filteredConfig = stripSpectronOpts(config);
@@ -54,7 +31,16 @@ function buildLauncherConfig(
     ...filteredConfig,
     services: [
       [
-        SpectronWorkerService as Services.ServiceClass,
+        ElectronWorkerService as Services.ServiceClass,
+        {
+          appPath,
+          appName,
+          logFileName,
+          // args: ['--silent'],
+        },
+      ],
+      [
+        'chromedriver',
         {
           port: filteredConfig.port,
           logFileName,
@@ -63,38 +49,12 @@ function buildLauncherConfig(
         },
       ],
     ],
-    capabilities: [
-      {
-        'browserName': 'chrome',
-        'goog:chromeOptions': {
-          binary: getBinaryPath(appPath, appName),
-          args: chromeArgs,
-          windowTypes: ['app', 'webview'],
-        },
-      },
-    ],
+    capabilities: [{}],
   };
 }
 
 export const run = (config: SpectronConfig['config']): WebdriverIO.Config => {
-  const chromeArgs = [];
   const isWin = process.platform === 'win32';
-
-  if (process.env.CI) {
-    chromeArgs.push('window-size=1280,800');
-    chromeArgs.push('blink-settings=imagesEnabled=false');
-    chromeArgs.push('enable-automation');
-    chromeArgs.push('disable-infobars');
-    chromeArgs.push('disable-extensions');
-    if (!isWin) {
-      // chromeArgs.push('headless'); - crashes on linux with xvfb
-      chromeArgs.push('no-sandbox');
-      chromeArgs.push('disable-gpu');
-      chromeArgs.push('disable-dev-shm-usage');
-      chromeArgs.push('disable-setuid-sandbox');
-      // chromeArgs.push('remote-debugging-port=9222');
-    }
-  }
 
   if (isWin) {
     process.env.SPECTRON_NODE_PATH = process.execPath;
@@ -114,17 +74,5 @@ export const run = (config: SpectronConfig['config']): WebdriverIO.Config => {
     throw new Error(`Unable to read config file: ${configFilePath}`);
   }
 
-  if (process.env.SPECTRON_APP_ARGS) {
-    chromeArgs.push(...process.env.SPECTRON_APP_ARGS.split(','));
-  }
-
-  return buildLauncherConfig(config, chromedriverCustomPath, spectronOpts, chromeArgs);
-  // const wdio = new Launcher(args[2] as string, launcherConfig as Partial<RunCommandArguments>);
-
-  // try {
-  //   const exitCode = await wdio.run();
-  //   process.exit(exitCode);
-  // } catch (error) {
-  //   console.error('Launcher failed to start the test', (error as Error).stack);
-  // }
+  return buildLauncherConfig(config, chromedriverCustomPath, spectronOpts);
 };
