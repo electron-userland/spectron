@@ -150,15 +150,18 @@ export default class ElectronWorkerService implements Services.ServiceInstance {
       windowTypes: ['app', 'webview'],
     };
 
-    // set capabilities
-    // this.browser = browser;
+    // this.browser = browser as SpectronClient;
   }
 
   async afterTest(test: Frameworks.Test, context: never, results: Frameworks.TestResult): Promise<void> {
-    await this.browser?.exitElectronApp();
+    await (browser as SpectronClient)?.exitElectronApp();
     await delay(1000);
     await remote(this.wdOpts);
   }
+
+  // async beforeTest(test: Frameworks.Test, context: never): Promise<void> {
+  //   await remote(this.wdOpts);
+  // }
 
   async after(result: number, capabilities: Capabilities.RemoteCapability, specs: string[]): Promise<void> {
     console.log('after');
