@@ -15,7 +15,7 @@ const config = {
     appName: productName,
   },
   // hostname: '127.0.0.1',
-  port: 9515,
+  port: 9519,
   waitforTimeout: 5000,
   connectionRetryCount: 10,
   connectionRetryTimeout: 30000,
