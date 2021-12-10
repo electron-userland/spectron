@@ -1,5 +1,5 @@
-import ChromeDriverService from 'wdio-chromedriver-service';
-import SpectronWorkerService from './service';
+import { launcher as chromedriverLauncher } from 'wdio-chromedriver-service';
+import ElectronWorkerService from './service';
 
-export default SpectronWorkerService;
-export const launcher = ChromeDriverService;
+export default ElectronWorkerService;
+export const launcher = chromedriverLauncher;
