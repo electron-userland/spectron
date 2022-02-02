@@ -79,6 +79,7 @@ describe('application loading', function () {
   });
 
   it('throws an error when no path is specified', function () {
+    if (process.platform === 'win32') return;
     return new Application()
       .start()
       .should.be.rejectedWith(Error, 'Application path must be a string');
@@ -149,7 +150,7 @@ describe('application loading', function () {
     it('gets the render process console logs and clears them', async function () {
       await app.client.waitUntilWindowLoaded();
       let logs = await app.client.getRenderProcessLogs();
-      expect(logs.length).to.equal(3);
+      expect(logs.length).to.equal(2);
       expect(logs[0].message).to.contain('7:14 "render warn"');
       expect(logs[0].source).to.equal('console-api');
       expect(logs[0].level).to.equal('WARNING');

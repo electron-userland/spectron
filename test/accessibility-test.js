@@ -74,6 +74,7 @@ describe('app.client.auditAccessibility()', function () {
       expect(audit.results[0].code).to.equal('AX_ARIA_01');
       expect(audit.results[0].elements).to.deep.equal(['DIV']);
       expect(audit.results[0].severity).to.equal('Severe');
+      await app.client.windowByIndex(0);
     });
 
     it('ignores warnings when ignoreWarnings is specified', async function () {

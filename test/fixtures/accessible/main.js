@@ -14,6 +14,7 @@ app.on('ready', function () {
       contextIsolation: false
     }
   });
+  require('@electron/remote/main').enable(mainWindow.webContents);
   mainWindow.loadFile('index.html');
   mainWindow.on('closed', function () {
     mainWindow = null;

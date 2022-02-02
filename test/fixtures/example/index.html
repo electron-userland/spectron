@@ -53,15 +53,15 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.btn-make-bigger').addEventListener('click', function () {
-          var remote = require('electron').remote
-          var currentWindow = remote.getCurrentWindow()
+          var getCurrentWindow = require('@electron/remote').getCurrentWindow
+          var currentWindow = getCurrentWindow()
           var size = currentWindow.getSize()
           currentWindow.setSize(size[0] + 10, size[1] + 10)
         })
 
         document.querySelector('.btn-make-smaller').addEventListener('click', function () {
-          var remote = require('electron').remote
-          var currentWindow = remote.getCurrentWindow()
+          var getCurrentWindow = require('@electron/remote').getCurrentWindow
+          var currentWindow = getCurrentWindow()
           var size = currentWindow.getSize()
           currentWindow.setSize(size[0] - 10, size[1] - 10)
         })

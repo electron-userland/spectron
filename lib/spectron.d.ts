@@ -63,13 +63,7 @@ declare module 'spectron' {
     }[];
   }
 
-  export interface SpectronClient extends WebdriverIO.BrowserObject {
-    /**
-     * Focus a window using its title or URL.
-     * <webview> tags can also be focused as a separate window.
-     */
-    switchWindow(urlOrTitleToMatch: string): Promise<void>;
-
+  export interface SpectronClient extends WebdriverIO.Browser<'async'> {
     /**
      * Wait until the window is no longer loading.
      * Takes an optional timeout in milliseconds that defaults to 5000.
@@ -118,15 +112,19 @@ declare module 'spectron' {
     ): Promise<AccessibilityAuditResult>;
   }
 
-  export interface SpectronWindow extends Electron.BrowserWindow {
-    capturePage(): Promise<Electron.NativeImage>;
-  }
+  export type SpectronWindow = {
+    [P in keyof Electron.BrowserWindow]: Electron.BrowserWindow[P] extends (
+      ...args: infer A
+    ) => infer R
+      ? (...args: A) => Promise<R>
+      : undefined;
+  };
 
   export interface SpectronWebContents extends Electron.WebContents {
     savePage(
       fullPath: string,
       saveType: 'HTMLOnly' | 'HTMLComplete' | 'MHTML',
-      callback?: (eror: Error) => void
+      callback?: (error: Error) => void
     ): boolean;
     savePage(
       fullPath: string,
@@ -191,7 +189,7 @@ declare module 'spectron' {
     args?: string[];
     /**
      * Array of arguments to pass to ChromeDriver.
-     * See here (https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details
+     * See here (https://sites.google.com/chromium.org/driver/capabilities) for details
      * on the Chrome arguments.
      */
     chromeDriverArgs?: string[];
@@ -257,7 +255,7 @@ declare module 'spectron' {
      * Each Electron module is exposed as a property on the electron property so you can
      * think of it as an alias for require('electron') from within your app.
      */
-    electron: Electron.RemoteMainInterface;
+    electron: typeof Electron;
     /**
      * The browserWindow property is an alias for require('electron').remote.getCurrentWindow().
      * It provides you access to the current BrowserWindow and contains all the APIs.

@@ -3,8 +3,10 @@
 [![CI](https://github.com/electron-userland/spectron/workflows/CI/badge.svg)](https://github.com/electron-userland/spectron/actions) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 [![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
 
+### 🚨 On February 1, 2022, Spectron will be officially deprecated by the Electron team. Please read about more about [our planned deprecation here](https://github.com/electron-userland/spectron/issues/1045).
+
 Easily test your [Electron](http://electron.atom.io) apps using
-[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
+[ChromeDriver](https://sites.google.com/chromium.org/driver) and
 [WebdriverIO](http://webdriver.io).
 
 ## Version Map
@@ -34,6 +36,8 @@ For given versions of Electron you must depend on a very specific version range 
 | `^11.0.0` | `^13.0.0`|
 | `^12.0.0` | `^14.0.0`|
 | `^13.0.0` | `^15.0.0`|
+| `^14.0.0` | `^16.0.0`|
+| `^15.0.0` | `^17.0.0`|
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
@@ -133,6 +137,13 @@ For more information on how to configure mocha, please visit [mocha](https://moc
 
 As stated in [issue #19](https://github.com/electron/spectron/issues/19), Spectron will not be able to start if your Electron app is launched using the `remote-debugging-port` command-line switch (i.e. `app.commandLine.appendSwitch('remote-debugging-port', <debugging-port-number>);`). Please make sure to include the necessary logic in your app's code to disable the switch during tests.
 
+As mentioned in [issue #202](https://github.com/electron-userland/spectron/issues/202#issuecomment-632223955),
+`app.start()` promise won't resolve if the electron application calls
+`setPath('userData', path)`. Webdriver places a port file into the `userData`
+directory and needs to know where to look for it. The workaround is to pass
+`chromeDriverArgs: ['user-data-dir=/custom/userData/path']` to the `Application`
+constructor.
+
 ## Application API
 
 Spectron exports an `Application` class that when configured, can start and
@@ -150,7 +161,7 @@ Create a new application with the following options:
   array.
 * `args` - Array of arguments to pass to the Electron application.
 * `chromeDriverArgs` - Array of arguments to pass to ChromeDriver.
-  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on the Chrome arguments.
+  See [here](https://sites.google.com/chromium.org/driver/capabilities) for details on the Chrome arguments.
 * `cwd`- String path to the working directory to use for the launched
   application. Defaults to `process.cwd()`.
 * `env` - Object of additional environment variables to set in the launched
@@ -208,7 +219,7 @@ property which do not require Node integration.
 
 #### client
 
-Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
+Spectron uses [WebdriverIO](https://webdriver.io) and exposes the managed
 `client` property on the created `Application` instances.
 
 The `client` API is WebdriverIO's `browser` object. Documentation can be found
@@ -221,8 +232,10 @@ All the commands return a `Promise`.
 So if you wanted to get the text of an element you would do:
 
 ```js
-app.client.getText('#error-alert').then(function (errorText) {
-  console.log('The #error-alert text content is ' + errorText)
+app.client.$('#error-alert').then(function (element) {
+  element.getText().then(function (errorText) {
+    console.log('The #error-alert text content is ' + errorText)
+  })
 })
 ```
 
@@ -239,9 +252,8 @@ API in your tests you would do:
 
 ```js
 app.electron.clipboard.writeText('pasta')
-   .electron.clipboard.readText().then(function (clipboardText) {
-     console.log('The clipboard text is ' + clipboardText)
-   })
+const clipboardText = app.electron.clipboard.readText()
+console.log('The clipboard text is ' + clipboardText)
 ```
 
 #### browserWindow
@@ -651,7 +663,7 @@ test.afterEach(t => {
   return t.context.app.stop();
 });
 
-test(t => {
+test('opens a window', t => {
   return t.context.app.client.waitUntilWindowLoaded()
     .getWindowCount().then(count => {
       t.is(count, 1);
@@ -688,7 +700,7 @@ test.afterEach.always(async t => {
   await t.context.app.stop();
 });
 
-test(async t => {
+test('example', async t => {
   const app = t.context.app;
   await app.client.waitUntilWindowLoaded();
 

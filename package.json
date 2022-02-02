@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "15.0.0",
+  "version": "17.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
@@ -9,7 +9,7 @@
     "prettier:write": "prettier --write \"**/*.js\" \"**/*.ts\"",
     "prepare": "check-for-leaks",
     "prepush": "check-for-leaks",
-    "pretest": "tsc lib/spectron.d.ts",
+    "pretest": "tsc",
     "test": "npm run lint && xvfb-maybe --server-args=\"-screen 0 1024x768x24\" -- mocha",
     "postinstall": "node lib/rpath-fix.js"
   },
@@ -26,12 +26,12 @@
   "author": "Kevin Sawicki",
   "license": "MIT",
   "dependencies": {
-    "@electron/remote": "^1.1.0",
+    "@electron/remote": "2.0.1",
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "^13.0.0",
+    "electron-chromedriver": "15.0.0",
     "got": "^11.8.0",
     "split": "^1.0.1",
-    "webdriverio": "^6.9.1"
+    "webdriverio": "7.16.13"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.8.2",
@@ -40,18 +40,19 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.2.1",
-    "electron": "^13.0.1",
+    "electron": "^15.3.6",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "husky": "^4.3.0",
-    "mocha": "^8.2.1",
+    "mocha": "^9.0.2",
     "prettier": "^2.2.0",
     "standard": "^16.0.3",
     "temp": "^0.9.4",
-    "typescript": "^4.1.2",
+    "ts-node": "^10.3.0",
+    "typescript": "^4.4.4",
     "xvfb-maybe": "^0.2.1"
   },
   "resolutions": {
