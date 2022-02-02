@@ -1,6 +1,6 @@
 {
   "name": "spectron",
-  "version": "17.0.0",
+  "version": "18.0.0",
   "description": "Easily test your Electron apps using ChromeDriver and WebdriverIO.",
   "main": "index.js",
   "types": "./lib/spectron.d.ts",
@@ -26,9 +26,9 @@
   "author": "Kevin Sawicki",
   "license": "MIT",
   "dependencies": {
-    "@electron/remote": "2.0.1",
+    "@electron/remote": "2.0.4",
     "dev-null": "^0.1.1",
-    "electron-chromedriver": "15.0.0",
+    "electron-chromedriver": "16.0.0",
     "got": "^11.8.0",
     "split": "^1.0.1",
     "webdriverio": "7.16.13"
@@ -40,7 +40,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-roughly": "^1.0.0",
     "check-for-leaks": "^1.2.1",
-    "electron": "^15.3.6",
+    "electron": "^16.0.8",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
