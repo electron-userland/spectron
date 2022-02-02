@@ -79,6 +79,7 @@ describe('application loading', function () {
   });
 
   it('throws an error when no path is specified', function () {
+    if (process.platform === 'win32') return;
     return new Application()
       .start()
       .should.be.rejectedWith(Error, 'Application path must be a string');
