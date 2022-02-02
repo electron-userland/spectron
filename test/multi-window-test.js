@@ -27,6 +27,7 @@ describe('multiple windows', function () {
 
   it('should switch focus thanks to windowByIndex', async function () {
     // TODO
+    if (process.platform !== 'darwin') return;
     const windowCount = await app.client.getWindowCount();
     windowCount.should.equal(2);
 
