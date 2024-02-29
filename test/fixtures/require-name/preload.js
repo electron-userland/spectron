@@ -1,1 +1,1 @@
-window.electronRequire = require
+window.electronRequire = require;

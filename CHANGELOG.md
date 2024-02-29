@@ -1,6 +1,45 @@
+# 5.0.0
+
+  * Supports Electron `3.x.y` releases.
+
+# 4.0.0
+
+  * Supports Electron `2.0.x` releases.
+
+# 3.8.0
+
+  * Supports Electron `1.8.x` releases.
+
+# 3.7.3
+
+  * Updated README with better examples and fixed typos.
+  * Use launcher.bat instead of launcher.exe for Windows
+  * Added `webdriverOptions` to allow specifying additional webdriver options.
+
+# 3.7.2
+
+  * Added `webdriverLogPath` to the Spectron typescript definition.
+  * Fixed typescript definition reference to the Electron API.
+
+# 3.7.1
+
+  * Added a `chromeDriverArgs` option to the `Application` constructor that
+    can be used to pass arguments directly to `chromedriver`.
+
 # 3.7.0
 
   * Supports Electron `1.7.x` releases.
+
+# 3.6.5
+
+  * Updated typescript definition for WebDriver logging support.
+  * Enhanced waitUntilTextExists() to find substrings in case the selector
+    matches multiple elements.
+
+# 3.6.4
+
+  * Added a `chromeDriverArgs` option to the `Application` constructor that
+    can be used to pass arguments directly to `chromedriver`.
 
 # 3.6.3
 

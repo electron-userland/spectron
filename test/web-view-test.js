@@ -1,35 +1,43 @@
-var helpers = require('./global-setup')
-var path = require('path')
+const helpers = require('./global-setup');
+const path = require('path');
+const { expect } = require('chai');
 
-var describe = global.describe
-var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
 describe('<webview> tags', function () {
-  helpers.setupTimeout(this)
+  helpers.setupTimeout(this);
 
-  var app = null
+  let app = null;
 
   beforeEach(function () {
-    return helpers.startApplication({
-      args: [path.join(__dirname, 'fixtures', 'web-view')]
-    }).then(function (startedApp) { app = startedApp })
-  })
+    return helpers
+      .startApplication({
+        args: [path.join(__dirname, 'fixtures', 'web-view')]
+      })
+      .then(function (startedApp) {
+        app = startedApp;
+      });
+  });
 
   afterEach(function () {
-    return helpers.stopApplication(app)
-  })
+    return helpers.stopApplication(app);
+  });
 
-  it('allows the web view to be accessed', function () {
-    return app.client.waitUntilWindowLoaded()
-      .waitUntil(function () {
-        return this.getWindowCount().then(function (count) {
-          return count === 2
-        })
-      })
-      .windowByIndex(1)
-      .getText('body').should.eventually.equal('web view')
-      .getTitle().should.eventually.equal('Web View')
-  })
-})
+  it('allows the web view to be accessed', async function () {
+    // waiting for windowHandles ensures waitUntilWindowLoaded doesn't access a nil webContents.
+    // TODO: this issue should be fixed by waitUntilWindowLoaded instead of this workaround.
+    await app.client.getWindowHandles();
+    await app.client.waitUntilWindowLoaded();
+    const count = await app.client.getWindowCount();
+    expect(count).to.equal(2);
+    await app.client.windowByIndex(1);
+    const elem = await app.client.$('body');
+    const text = await elem.getText();
+    expect(text).to.equal('web view');
+    await app.webContents.getTitle().should.eventually.equal('Web View');
+    await app.client.windowByIndex(0);
+  });
+});

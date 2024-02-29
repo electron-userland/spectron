@@ -13,6 +13,12 @@
   <body>
     <div>unreadable</div>
     <input>
-    <webview src="web-view.html" nodeintegration>
+    <webview
+      src="web-view.html"
+      enableremotemodule="true"
+      nodeintegration
+      webpreferences="contextIsolation=false"
+    >
+    </webview>
   </body>
 </html>

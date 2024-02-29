@@ -1,63 +1,149 @@
 # <img src="https://cloud.githubusercontent.com/assets/378023/15063284/cf544f2c-1383-11e6-9336-e13bd64b1694.png" width="60px" align="center" alt="Spectron icon"> Spectron
 
-[![Linux Build Status](https://travis-ci.org/electron/spectron.svg?branch=master)](https://travis-ci.org/electron/spectron)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/iv8xd919q6b44pap/branch/master?svg=true)](https://ci.appveyor.com/project/kevinsawicki/spectron/branch/master)
-<br>
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
-[![devDependencies:?](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron)
-<br>
-[![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
-[![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/packages/spectron)
-[![dependencies:?](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/packages/spectron)
+[![CI](https://github.com/electron-userland/spectron/workflows/CI/badge.svg)](https://github.com/electron-userland/spectron/actions) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
+[![dependencies](https://img.shields.io/david/electron/spectron.svg)](https://david-dm.org/electron/spectron) [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT) [![npm:](https://img.shields.io/npm/v/spectron.svg)](https://www.npmjs.com/package/spectron) [![downloads](https://img.shields.io/npm/dm/spectron.svg)](https://www.npmjs.com/package/spectron)
+
+### 🚨 Spectron is officially deprecated as of February 1, 2022.
 
 Easily test your [Electron](http://electron.atom.io) apps using
-[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver) and
+[ChromeDriver](https://sites.google.com/chromium.org/driver) and
 [WebdriverIO](http://webdriver.io).
 
-This minor version of this library tracks the minor version of the Electron
-versions released. So if you are using Electron `1.0.x` you would want to use
-a `spectron` dependency of `~3.0.0` in your `package.json` file.
+## Version Map
+
+For given versions of Electron you must depend on a very specific version range of Spectron.  Below is a version mapping table between Spectron version and Electron version.
+
+| Electron Version | Spectron Version |
+|------------------|------------------|
+| `~1.0.0` | `~3.0.0` |
+| `~1.1.0` | `~3.1.0` |
+| `~1.2.0` | `~3.2.0` |
+| `~1.3.0` | `~3.3.0` |
+| `~1.4.0` | `~3.4.0` |
+| `~1.5.0` | `~3.5.0` |
+| `~1.6.0` | `~3.6.0` |
+| `~1.7.0` | `~3.7.0` |
+| `~1.8.0` | `~3.8.0` |
+| `^2.0.0` | `^4.0.0` |
+| `^3.0.0` | `^5.0.0` |
+| `^4.0.0` | `^6.0.0` |
+| `^5.0.0` | `^7.0.0` |
+| `^6.0.0` | `^8.0.0` |
+| `^7.0.0` | `^9.0.0` |
+| `^8.0.0` | `^10.0.0`|
+| `^9.0.0` | `^11.0.0`|
+| `^10.0.0` | `^12.0.0`|
+| `^11.0.0` | `^13.0.0`|
+| `^12.0.0` | `^14.0.0`|
+| `^13.0.0` | `^15.0.0`|
+| `^14.0.0` | `^16.0.0`|
+| `^15.0.0` | `^17.0.0`|
+| `^16.0.0` | `^18.0.0`|
+| `^17.0.0` | `^19.0.0`|
 
 Learn more from [this presentation](https://speakerdeck.com/kevinsawicki/testing-your-electron-apps-with-chromedriver).
 
 :rotating_light: Upgrading from `1.x` to `2.x`/`3.x`? Read the [changelog](https://github.com/electron/spectron/blob/master/CHANGELOG.md).
 
-## Using
+## Installation
 
 ```sh
 npm install --save-dev spectron
 ```
 
+## Usage
+
 Spectron works with any testing framework but the following example uses
 [mocha](https://mochajs.org):
 
-```js
-var Application = require('spectron').Application
-var assert = require('assert')
+To get up and running from your command line:
+```sh
+# Install mocha locally as a dev dependency.
+npm i mocha -D
 
-describe('application launch', function () {
+# From the project root, create a folder called test, in that directory, create a file called 'spec.js'
+touch test/spec.js
+
+# Change directory to test
+cd test
+```
+
+Then simply include the following in your first `spec.js`.
+
+```js
+const { Application } = require('spectron')
+const assert = require('assert')
+const electronPath = require('electron') // Require Electron from the binaries included in node_modules.
+const path = require('path')
+
+describe('Application launch', function () {
   this.timeout(10000)
 
-  beforeEach(function () {
+  beforeEach(async function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      // Your electron path can be any binary
+      // i.e for OSX an example path could be '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      // But for the sake of the example we fetch it from our node_modules.
+      path: electronPath,
+
+      // Assuming you have the following directory structure
+
+      //  |__ my project
+      //     |__ ...
+      //     |__ main.js
+      //     |__ package.json
+      //     |__ index.html
+      //     |__ ...
+      //     |__ test
+      //        |__ spec.js  <- You are here! ~ Well you should be.
+
+      // The following line tells spectron to look and use the main.js file
+      // and the package.json located 1 level above.
+      args: [path.join(__dirname, '..')]
     })
-    return this.app.start()
+    await this.app.start()
   })
 
-  afterEach(function () {
+  afterEach(async function () {
     if (this.app && this.app.isRunning()) {
-      return this.app.stop()
+      await this.app.stop()
     }
   })
 
-  it('shows an initial window', function () {
-    return this.app.client.getWindowCount().then(function (count) {
-      assert.equal(count, 1)
-    })
+  it('shows an initial window', async function () {
+    const count = await this.app.client.getWindowCount()
+    assert.equal(count, 1)
+    // Please note that getWindowCount() will return 2 if `dev tools` are opened.
+    // assert.equal(count, 2)
   })
 })
 ```
+
+Create an npm task in your package.json file
+```sh
+"scripts": {
+  "test": "mocha"
+}
+```
+
+And from the root of your project, in your command-line simply run:
+```sh
+npm test
+```
+
+By default, mocha searches for a folder with the name `test` ( which we created before ).
+For more information on how to configure mocha, please visit [mocha](https://mochajs.org).
+
+#### Limitations
+
+As stated in [issue #19](https://github.com/electron/spectron/issues/19), Spectron will not be able to start if your Electron app is launched using the `remote-debugging-port` command-line switch (i.e. `app.commandLine.appendSwitch('remote-debugging-port', <debugging-port-number>);`). Please make sure to include the necessary logic in your app's code to disable the switch during tests.
+
+As mentioned in [issue #202](https://github.com/electron-userland/spectron/issues/202#issuecomment-632223955),
+`app.start()` promise won't resolve if the electron application calls
+`setPath('userData', path)`. Webdriver places a port file into the `userData`
+directory and needs to know where to look for it. The workaround is to pass
+`chromeDriverArgs: ['user-data-dir=/custom/userData/path']` to the `Application`
+constructor.
 
 ## Application API
 
@@ -76,7 +162,7 @@ Create a new application with the following options:
   array.
 * `args` - Array of arguments to pass to the Electron application.
 * `chromeDriverArgs` - Array of arguments to pass to ChromeDriver.
-  See [here](https://sites.google.com/a/chromium.org/chromedriver/capabilities) for details on the Chrome arguments.
+  See [here](https://sites.google.com/chromium.org/driver/capabilities) for details on the Chrome arguments.
 * `cwd`- String path to the working directory to use for the launched
   application. Defaults to `process.cwd()`.
 * `env` - Object of additional environment variables to set in the launched
@@ -106,12 +192,13 @@ Create a new application with the following options:
   Setting this option enables `--verbose` logging when starting ChromeDriver.
 * `webdriverLogPath` - String path to a directory where Webdriver will write
   logs to. Setting this option enables `verbose` logging from Webdriver.
+* `webdriverOptions` - Object of additional options for Webdriver
 
 ### Node Integration
 
 The Electron helpers provided by Spectron require accessing the core Electron
-APIs in the renderer processes of your application. So if your Electron
-application has `nodeIntegration` set to `false` then you'll need to expose a
+APIs in the renderer processes of your application. So, either your Electron
+application has `nodeIntegration` set to `true` or you'll need to expose a
 `require` window global to Spectron so it can access the core Electron APIs.
 
 You can do this by adding a [`preload`][preload] script that does the following:
@@ -125,7 +212,7 @@ if (process.env.NODE_ENV === 'test') {
 Then create the Spectron `Application` with the `requireName` option set to
 `'electronRequire'` and then runs your tests via `NODE_ENV=test npm test`.
 
-**Note:** This is only required if you tests are accessing any Electron APIs.
+**Note:** This is only required if your tests are accessing any Electron APIs.
 You don't need to do this if you are only accessing the helpers on the `client`
 property which do not require Node integration.
 
@@ -133,11 +220,11 @@ property which do not require Node integration.
 
 #### client
 
-Spectron uses [WebdriverIO](http://webdriver.io) and exposes the managed
+Spectron uses [WebdriverIO](https://webdriver.io) and exposes the managed
 `client` property on the created `Application` instances.
 
-The full `client` API provided by WebdriverIO can be found
-[here](http://webdriver.io/api.html).
+The `client` API is WebdriverIO's `browser` object. Documentation can be found
+[here](https://webdriver.io/docs/browserobject/).
 
 Several additional commands are provided specific to Electron.
 
@@ -146,9 +233,9 @@ All the commands return a `Promise`.
 So if you wanted to get the text of an element you would do:
 
 ```js
-app.client.getText('#error-alert').then(function (errorText) {
-  console.log('The #error-alert text content is ' + errorText)
-})
+const element = await app.client.$('#error-alert')
+const errorText = await element.getText()
+console.log('The #error-alert text content is ' + errorText)
 ```
 
 #### electron
@@ -164,9 +251,8 @@ API in your tests you would do:
 
 ```js
 app.electron.clipboard.writeText('pasta')
-   .electron.clipboard.readText().then(function (clipboardText) {
-     console.log('The clipboard text is ' + clipboardText)
-   })
+const clipboardText = app.electron.clipboard.readText()
+console.log('The clipboard text is ' + clipboardText)
 ```
 
 #### browserWindow
@@ -180,9 +266,8 @@ So if you wanted to check if the current window is visible in your tests you
 would do:
 
 ```js
-app.browserWindow.isVisible().then(function (visible) {
-  console.log('window is visible? ' + visible)
-})
+const visible = await app.browserWindow.isVisible()
+console.log('window is visible? ' + visible)
 ```
 
 It is named `browserWindow` instead of `window` so that it doesn't collide
@@ -195,9 +280,8 @@ returns a `Promise` that resolves to a `Buffer` that is the image data of
 screenshot.
 
 ```js
-app.browserWindow.capturePage().then(function (imageBuffer) {
-  fs.writeFile('page.png', imageBuffer)
-})
+const imageBuffer = await app.browserWindow.capturePage()
+fs.writeFile('page.png', imageBuffer)
 ```
 
 #### webContents
@@ -223,12 +307,22 @@ returns a `Promise` that will raise any errors and resolve to `undefined` when
 complete.
 
 ```js
-app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete')
-  .then(function () {
-    console.log('page saved')
-  }).catch(function (error) {
-    console.error('saving page failed', error.message)
-  })
+try {
+  await app.webContents.savePage('/Users/kevin/page.html', 'HTMLComplete')
+  console.log('page saved')
+catch (error) {
+  console.error('saving page failed', error.message)
+}
+```
+
+##### executeJavaScript
+The async `executeJavaScript` API is supported but instead of taking a callback it
+returns a `Promise` that will resolve with the result of the last statement of the
+script.
+
+```js
+const result = await app.webContents.executeJavaScript('1 + 2')
+console.log(result) // prints 3
 ```
 
 #### mainProcess
@@ -242,9 +336,8 @@ So if you wanted to get the `argv` for the main process in your tests you would
 do:
 
 ```js
-app.mainProcess.argv().then(function (argv) {
-  console.log('main process args: ' + argv)
-})
+const argv = await app.mainProcess.argv()
+console.log('main process args: ' + argv)
 ```
 
 Properties on the `process` are exposed as functions that return promises so
@@ -262,9 +355,8 @@ So if you wanted to get the environment variables for the renderer process in
 your tests you would do:
 
 ```js
-app.rendererProcess.env().then(function (env) {
-  console.log('renderer process env variables: ' + env)
-})
+const env = await app.rendererProcess.env()
+console.log('renderer process env variables: ' + env)
 ```
 
 ### Methods
@@ -306,10 +398,9 @@ after they are returned.
 Returns a `Promise` that resolves to an array of string log messages
 
 ```js
-app.client.getMainProcessLogs().then(function (logs) {
-  logs.forEach(function (log) {
-    console.log(log)
-  })
+const logs = await app.client.getMainProcessLogs()
+logs.forEach(function (log) {
+  console.log(log)
 })
 ```
 
@@ -321,12 +412,11 @@ after they are returned.
 Returns a `Promise` that resolves to an array of log objects.
 
 ```js
-app.client.getRenderProcessLogs().then(function (logs) {
-  logs.forEach(function (log) {
-    console.log(log.message)
-    console.log(log.source)
-    console.log(log.level)
-  })
+const logs = await app.client.getRenderProcessLogs()
+logs.forEach(function (log) {
+  console.log(log.message)
+  console.log(log.source)
+  console.log(log.level)
 })
 ```
 
@@ -335,9 +425,8 @@ app.client.getRenderProcessLogs().then(function (logs) {
 Get the selected text in the current window.
 
 ```js
-app.client.getSelectedText().then(function (selectedText) {
-  console.log(selectedText)
-})
+const selectedText = await app.client.getSelectedText()
+console.log(selectedText)
 ```
 
 #### client.getWindowCount()
@@ -346,9 +435,8 @@ Gets the number of open windows.
 `<webview>` tags are also counted as separate windows.
 
 ```js
-app.client.getWindowCount().then(function (count) {
-  console.log(count)
-})
+const count = await app.client.getWindowCount()
+console.log(count)
 ```
 
 #### client.waitUntilTextExists(selector, text, [timeout])
@@ -376,6 +464,18 @@ Focus a window using its index from the `windowHandles()` array.
 
 ```js
 app.client.windowByIndex(1)
+```
+
+#### client.switchWindow(urlOrTitleToMatch)
+
+Focus a window using its URL or title.
+
+```js
+// switch via url match
+app.client.switchWindow('google.com')
+
+// switch via title match
+app.client.switchWindow('Next-gen WebDriver test framework')
 ```
 
 ### Accessibility Testing
@@ -408,11 +508,10 @@ Returns an `audit` Object with the following properties:
   * `url` - A String URL providing more details about the failed rule
 
 ```js
-app.client.auditAccessibility().then(function (audit) {
-  if (audit.failed) {
-    console.error(audit.message)
-  }
-})
+const audit = await app.client.auditAccessibility()
+if (audit.failed) {
+  console.error(audit.message)
+}
 ```
 
 See https://github.com/GoogleChrome/accessibility-developer-tools/wiki/Audit-Rules
@@ -423,24 +522,20 @@ page and the `<webview>`'s page then you will need to do the following:
 
 ```js
 // Focus main page and audit it
-app.client.windowByIndex(0).then(function() {
-  app.client.auditAccessibility().then(function (audit) {
-    if (audit.failed) {
-      console.error('Main page failed audit')
-      console.error(audit.message)
-    }
+await app.client.windowByIndex(0)
+const audit = await app.client.auditAccessibility()
+if (audit.failed) {
+  console.error('Main page failed audit')
+  console.error(audit.message)
+}
 
-    //Focus <webview> tag and audit it
-    app.client.windowByIndex(1).then(function() {
-      app.client.auditAccessibility().then(function (audit) {
-        if (audit.failed) {
-          console.error('<webview> page failed audit')
-          console.error(audit.message)
-        }
-      })
-    })
-  })
-})
+//Focus <webview> tag and audit it
+await app.client.windowByIndex(1)
+const audit = await app.client.auditAccessibility()
+if (audit.failed) {
+  console.error('<webview> page failed audit')
+  console.error(audit.message)
+}
 ```
 
 ## Continuous Integration
@@ -489,18 +584,22 @@ npm install --save-dev chai-as-promised
 ```
 
 ```js
-var Application = require('spectron').Application
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var path = require('path')
+const Application = require('spectron').Application
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const electronPath = require('electron')
+const path = require('path')
 
 chai.should()
 chai.use(chaiAsPromised)
 
-describe('application launch', function () {
+describe('Application launch', function () {
+  this.timeout(10000);
+
   beforeEach(function () {
     this.app = new Application({
-      path: '/Applications/MyApp.app/Contents/MacOS/MyApp'
+      path: electronPath,
+      args: [path.join(__dirname, '..')]
     })
     return this.app.start()
   })
@@ -517,9 +616,8 @@ describe('application launch', function () {
 
   it('opens a window', function () {
     return this.app.client.waitUntilWindowLoaded()
-      .getWindowCount().should.eventually.equal(1)
+      .getWindowCount().should.eventually.have.at.least(1)
       .browserWindow.isMinimized().should.eventually.be.false
-      .browserWindow.isDevToolsOpened().should.eventually.be.false
       .browserWindow.isVisible().should.eventually.be.true
       .browserWindow.isFocused().should.eventually.be.true
       .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
@@ -549,7 +647,7 @@ test.afterEach(t => {
   return t.context.app.stop();
 });
 
-test(t => {
+test('opens a window', t => {
   return t.context.app.client.waitUntilWindowLoaded()
     .getWindowCount().then(count => {
       t.is(count, 1);
@@ -586,7 +684,7 @@ test.afterEach.always(async t => {
   await t.context.app.stop();
 });
 
-test(async t => {
+test('example', async t => {
   const app = t.context.app;
   await app.client.waitUntilWindowLoaded();
 

@@ -1,8 +1,8 @@
-var app = require('electron').app
-var BrowserWindow = require('electron').BrowserWindow
-var path = require('path')
+const { app, BrowserWindow } = require('electron');
+require('@electron/remote/main').initialize();
+const path = require('path');
 
-var mainWindow = null
+let mainWindow = null;
 
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
@@ -12,9 +12,14 @@ app.on('ready', function () {
     height: 100,
     webPreferences: {
       nodeIntegration: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      enableRemoteModule: true,
+      contextIsolation: false
     }
-  })
-  mainWindow.loadURL('file://' + __dirname + '/index.html')
-  mainWindow.on('closed', function () { mainWindow = null })
-})
+  });
+  require('@electron/remote/main').enable(mainWindow.webContents);
+  mainWindow.loadFile('index.html');
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
+});

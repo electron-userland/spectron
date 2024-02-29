@@ -1,38 +1,49 @@
-var helpers = require('./global-setup')
-var path = require('path')
+const helpers = require('./global-setup');
+const path = require('path');
+const { expect } = require('chai');
 
-var describe = global.describe
-var it = global.it
-var beforeEach = global.beforeEach
-var afterEach = global.afterEach
+const describe = global.describe;
+const it = global.it;
+const beforeEach = global.beforeEach;
+const afterEach = global.afterEach;
 
 describe('requireName option to Application', function () {
-  helpers.setupTimeout(this)
+  helpers.setupTimeout(this);
 
-  var app = null
+  let app = null;
 
   beforeEach(function () {
-    return helpers.startApplication({
-      args: [path.join(__dirname, 'fixtures', 'require-name')],
-      requireName: 'electronRequire'
-    }).then(function (startedApp) { app = startedApp })
-  })
+    return helpers
+      .startApplication({
+        args: [path.join(__dirname, 'fixtures', 'require-name')],
+        requireName: 'electronRequire'
+      })
+      .then(function (startedApp) {
+        app = startedApp;
+      });
+  });
 
   afterEach(function () {
-    return helpers.stopApplication(app)
-  })
+    return helpers.stopApplication(app);
+  });
 
-  it('uses the custom require name to load the electron module', function () {
-    return app.client.waitUntilWindowLoaded()
-      .browserWindow.getBounds().should.eventually.deep.equal({
+  it('uses the custom require name to load the electron module', async function () {
+    await app.client.waitUntilWindowLoaded();
+    await app.browserWindow
+      .getBounds()
+      .should.eventually.roughly(5)
+      .deep.equal({
         x: 25,
         y: 35,
         width: 200,
         height: 100
-      })
-      .webContents.getTitle().should.eventually.equal('require name')
-      .electron.remote.process.execArgv().should.eventually.be.empty
-      .getText('body').should.eventually.equal('custom require name')
-      .getTitle().should.eventually.equal('require name')
-  })
-})
+      });
+    await app.webContents.getTitle().should.eventually.equal('require name');
+    const emptyArgs = await app.electron.remote.process.execArgv();
+    const elem = await app.client.$('body');
+    const text = await elem.getText();
+    expect(text).to.equal('custom require name');
+    await app.webContents.getTitle().should.eventually.equal('require name');
+    return expect(emptyArgs).to.be.empty;
+  });
+});

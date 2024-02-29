@@ -1,14 +1,22 @@
-var app = require('electron').app
-var BrowserWindow = require('electron').BrowserWindow
+const { app, BrowserWindow } = require('electron');
+require('@electron/remote/main').initialize();
 
-var mainWindow = null
+let mainWindow = null;
 
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     center: true,
     width: 800,
-    height: 600
-  })
-  mainWindow.loadURL('file://' + __dirname + '/index.html')
-  mainWindow.on('closed', function () { mainWindow = null })
-})
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      contextIsolation: false
+    }
+  });
+  require('@electron/remote/main').enable(mainWindow.webContents);
+  mainWindow.loadFile('index.html');
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
+});

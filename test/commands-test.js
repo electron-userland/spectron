@@ -1,209 +1,261 @@
-var fs = require('fs')
-var helpers = require('./global-setup')
-var path = require('path')
-var temp = require('temp').track()
+const fs = require('fs');
+const helpers = require('./global-setup');
+const path = require('path');
+const { expect } = require('chai');
+const temp = require('temp').track();
 
-var describe = global.describe
-var it = global.it
-var before = global.before
-var after = global.after
+const describe = global.describe;
+const it = global.it;
+const before = global.before;
+const after = global.after;
 
 describe('window commands', function () {
-  helpers.setupTimeout(this)
+  helpers.setupTimeout(this);
 
-  var app = null
+  let app = null;
 
   before(function () {
-    return helpers.startApplication({
-      args: [path.join(__dirname, 'fixtures', 'app')]
-    }).then(function (startedApp) { app = startedApp })
-  })
+    return helpers
+      .startApplication({
+        args: [path.join(__dirname, 'fixtures', 'app')]
+      })
+      .then(function (startedApp) {
+        app = startedApp;
+      });
+  });
 
   after(function () {
-    return helpers.stopApplication(app)
-  })
+    return helpers.stopApplication(app);
+  });
 
   describe('getWindowCount', function () {
     it('retrieves the window count', function () {
-      return app.client.getWindowCount().should.eventually.equal(1)
-    })
-  })
+      return app.client.getWindowCount().should.eventually.equal(1);
+    });
+  });
 
   describe('waitUntilTextExists', function () {
-    it('resolves if the element contains the given text', function () {
-      return app.client.waitUntilTextExists('html', 'Hello').should.be.fulfilled
-    })
+    it('resolves if the element (single occurrence) contains the given text - full text', async function () {
+      await app.client.waitUntilTextExists('.occurrences-1', 'word1 word2');
+    });
 
-    it('rejects if the element is missing', function () {
-      return app.client.waitUntilTextExists('#not-in-page', 'Hello', 50).should.be.rejectedWith(Error, 'waitUntilTextExists Promise was rejected')
-    })
+    it('resolves if the element (single occurrence) contains the given text - partial text', async function () {
+      await app.client.waitUntilTextExists('.occurrences-1', 'word1');
+    });
 
-    it('rejects if the element never contains the text', function () {
-      return app.client.waitUntilTextExists('html', 'not on page', 50).should.be.rejectedWith(Error, 'waitUntilTextExists Promise was rejected')
-    })
-  })
+    it('resolves if the element (multiple occurrences) contains the given text - full text', async function () {
+      await app.client.waitUntilTextExists('.occurrences-2', 'word3 word4');
+    });
+
+    it('resolves if the element (multiple occurrences) contains the given text - partial text', async function () {
+      await app.client.waitUntilTextExists('.occurrences-2', 'word3');
+    });
+
+    it('rejects if the element is missing', async function () {
+      await expect(
+        app.client.waitUntilTextExists('#not-in-page', 'Hello', 50)
+      ).to.be.rejectedWith(Error);
+    });
+
+    it('rejects if the element never contains the text', async function () {
+      await expect(
+        app.client.waitUntilTextExists('html', 'not on page', 50)
+      ).to.be.rejectedWith(Error);
+    });
+  });
 
   describe('browserWindow.getBounds()', function () {
     it('gets the window bounds', function () {
-      return app.browserWindow.getBounds().should.eventually.deep.equal({
-        x: 25,
-        y: 35,
-        width: 200,
-        height: 100
-      })
-    })
-  })
+      return app.browserWindow
+        .getBounds()
+        .should.eventually.roughly(5)
+        .deep.equal({
+          x: 25,
+          y: 35,
+          width: 200,
+          height: 100
+        });
+    });
+  });
 
   describe('browserWindow.setBounds()', function () {
-    it('sets the window bounds', function () {
-      return app.browserWindow.setBounds({
+    it('sets the window bounds', async function () {
+      await app.browserWindow.setBounds({
         x: 100,
         y: 200,
-        width: 50,
-        height: 75
-      })
-      .browserWindow.getBounds().should.eventually.deep.equal({
-        x: 100,
-        y: 200,
-        width: 50,
-        height: 75
-      })
-    })
-  })
+        width: 150, // Windows minimum is ~100px
+        height: 130
+      });
+      await app.browserWindow
+        .getBounds()
+        .should.eventually.roughly(5)
+        .deep.equal({
+          x: 100,
+          y: 200,
+          width: 150,
+          height: 130
+        });
+    });
+  });
 
   describe('browserWindow.isFocused()', function () {
-    it('returns true when the current window is focused', function () {
-      return app.browserWindow.isFocused().should.eventually.be.true
-    })
-  })
+    it('returns true when the current window is focused', async function () {
+      await app.browserWindow.show();
+      const focused = await app.browserWindow.isFocused();
+      return expect(focused).to.be.true;
+    });
+  });
 
   describe('browserWindow.isVisible()', function () {
-    it('returns true when the window is visible, false otherwise', function () {
-      return app.browserWindow.hide()
-        .browserWindow.isVisible().should.eventually.be.false
-        .browserWindow.show()
-        .browserWindow.isVisible().should.eventually.be.true
-    })
-  })
+    it('returns true when the window is visible, false otherwise', async function () {
+      await app.browserWindow.hide();
+      const isInvisible = await app.browserWindow.isVisible();
+      await app.browserWindow.show();
+      const isVisible = await app.browserWindow.isVisible();
+      return expect(isVisible).to.be.true && expect(isInvisible).to.be.false;
+    });
+  });
 
   describe('browserWindow.isDevToolsOpened()', function () {
     it('returns false when the dev tools are closed', function () {
-      return app.browserWindow.isDevToolsOpened().should.eventually.be.false
-    })
-  })
+      return app.browserWindow.isDevToolsOpened().should.eventually.be.false;
+    });
+  });
 
   describe('browserWindow.isFullScreen()', function () {
     it('returns false when the window is not in full screen mode', function () {
-      return app.client.browserWindow.isFullScreen().should.eventually.be.false
-    })
-  })
+      return app.client.browserWindow.isFullScreen().should.eventually.be.false;
+    });
+  });
 
   describe('waitUntilWindowLoaded()', function () {
-    it('waits until the current window is loaded', function () {
-      return app.client.waitUntilWindowLoaded()
-        .webContents.isLoading().should.eventually.be.false
-    })
-  })
+    it('waits until the current window is loaded', async function () {
+      await app.client.waitUntilWindowLoaded();
+      return app.webContents.isLoading().should.eventually.be.false;
+    });
+  });
 
   describe('browserWindow.isMaximized()', function () {
-    it('returns true when the window is maximized, false otherwise', function () {
-      return app.browserWindow.isMaximized().should.eventually.be.false
-        .browserWindow.maximize().waitUntil(function () {
-          // FIXME window maximized state is never true on CI
-          if (process.env.CI) return Promise.resolve(true)
-
-          return this.browserWindow.isMaximized()
-        }, 5000).then(function () { })
-    })
-  })
+    it('returns true when the window is maximized, false otherwise', async function () {
+      const notMaximized = await app.browserWindow.isMaximized();
+      expect(notMaximized).to.equal(false);
+      await app.browserWindow.maximize();
+      let maximized = await app.browserWindow.isMaximized();
+      if (process.env.CI) {
+        // FIXME window maximized state is never true on CI
+        maximized = true;
+      }
+      expect(maximized).to.equal(true);
+    });
+  });
 
   describe('browserWindow.isMinimized()', function () {
-    it('returns true when the window is minimized, false otherwise', function () {
-      return app.browserWindow.isMinimized().should.eventually.be.false
-        .browserWindow.minimize().waitUntil(function () {
-          // FIXME window minimized state is never true on CI
-          if (process.env.CI) return Promise.resolve(true)
+    it('returns true when the window is minimized, false otherwise', async function () {
+      expect(await app.browserWindow.isMinimized()).to.equal(false);
 
-          return this.browserWindow.isMinimized()
-        }, 5000).then(function () { })
-    })
-  })
+      await app.browserWindow.minimize();
+      if (!process.env.CI) {
+        await app.client.waitUntil(() => app.browserWindow.isMinimized(), {
+          timeout: 2000
+        });
+      }
+    });
+  });
 
   describe('webContents.selectAll()', function () {
-    it('selects all the text on the page', function () {
-      return app.client.getSelectedText().should.eventually.equal('')
-        .webContents.selectAll()
-        .getSelectedText().should.eventually.contain('Hello')
-    })
-  })
+    it('selects all the text on the page', async function () {
+      await app.client.waitUntilTextExists('html', 'Hello');
+      let text = await app.client.getSelectedText();
+      expect(text).to.equal('');
+      app.client.webContents.selectAll();
+      text = await app.client.getSelectedText();
+      expect(text).to.contain('Hello');
+    });
+  });
 
   describe('webContents.paste()', function () {
-    it('pastes the text into the focused element', function () {
-      return app.client
-        .getText('textarea').should.eventually.equal('')
-        .electron.clipboard.writeText('pasta')
-        .electron.clipboard.readText().should.eventually.equal('pasta')
-        .click('textarea')
-        .webContents.paste()
-        .waitForValue('textarea', 5000)
-        .getValue('textarea').should.eventually.equal('pasta')
-    })
-  })
+    it('pastes the text into the focused element', async function () {
+      const elem = await app.client.$('textarea');
+      const text = await elem.getText();
+      expect(text).to.equal('');
+      app.electron.clipboard.writeText('pasta');
+      await app.electron.clipboard.readText().should.eventually.equal('pasta');
+      await elem.click();
+      await app.webContents.paste();
+      const value = await elem.getValue();
+      return expect(value).to.equal('pasta');
+    });
+  });
 
   describe('browserWindow.isDocumentEdited()', function () {
-    it('returns true when the document is edited', function () {
-      if (process.platform !== 'darwin') return
+    it('returns true when the document is edited', async function () {
+      if (process.platform !== 'darwin') return;
 
-      return app.browserWindow.isDocumentEdited().should.eventually.be.false
-        .browserWindow.setDocumentEdited(true)
-        .browserWindow.isDocumentEdited().should.eventually.be.true
-    })
-  })
+      const notEdited = await app.browserWindow.isDocumentEdited();
+      expect(notEdited).to.equal(false);
+      app.browserWindow.setDocumentEdited(true);
+      return app.browserWindow.isDocumentEdited().should.eventually.be.true;
+    });
+  });
 
   describe('browserWindow.getRepresentedFilename()', function () {
-    it('returns the represented filename', function () {
-      if (process.platform !== 'darwin') return
+    it('returns the represented filename', async function () {
+      if (process.platform !== 'darwin') return;
 
-      return app.browserWindow.getRepresentedFilename().should.eventually.equal('')
-        .browserWindow.setRepresentedFilename('/foo.js')
-        .browserWindow.getRepresentedFilename().should.eventually.equal('/foo.js')
-    })
-  })
+      let filename = await app.browserWindow.getRepresentedFilename();
+      expect(filename).to.equal('');
+      await app.browserWindow.setRepresentedFilename('/foo.js');
+      filename = await app.browserWindow.getRepresentedFilename();
+      return expect(filename).to.equal('/foo.js');
+    });
+  });
 
   describe('electron.remote.app.getPath()', function () {
-    it('returns the path for the given name', function () {
-      var tempDir = fs.realpathSync(temp.dir)
-      return app.electron.remote.app.setPath('music', tempDir)
-        .electron.remote.app.getPath('music').should.eventually.equal(tempDir)
-    })
-  })
+    it('returns the path for the given name', async function () {
+      const tempDir = fs.realpathSync(temp.dir);
+      await app.electron.remote.app.setPath('music', tempDir);
+      return app.electron.remote.app
+        .getPath('music')
+        .should.eventually.equal(tempDir);
+    });
+  });
 
-  it('exposes properties on constructor APIs', function () {
-    return app.electron.remote.MenuItem.types().should.eventually.include('normal')
-  })
+  it('exposes properties on constructor APIs', async function () {
+    await app.electron.remote.MenuItem.types().should.eventually.include(
+      'normal'
+    );
+  });
 
   describe('globalShortcut.isRegistered()', function () {
     it('returns false if the shortcut is not registered', function () {
-      return app.electron.remote.globalShortcut.isRegistered('CommandOrControl+X').should.eventually.be.false
-    })
-  })
+      return app.electron.remote.globalShortcut.isRegistered(
+        'CommandOrControl+X'
+      ).should.eventually.be.false;
+    });
+  });
 
   describe('rendererProcess.versions', function () {
     it('includes the Electron version', function () {
-      return app.rendererProcess.versions().should.eventually.have.property('electron').and.not.be.empty
-    })
-  })
+      return app.rendererProcess
+        .versions()
+        .should.eventually.have.property('electron').and.not.be.empty;
+    });
+  });
 
   describe('electron.screen.getPrimaryDisplay()', function () {
     it('returns information about the primary display', function () {
-      return app.electron.screen.getPrimaryDisplay().should.eventually.have.property('workArea').and.not.be.empty
-    })
-  })
+      return app.electron.remote.screen
+        .getPrimaryDisplay()
+        .should.eventually.have.property('workArea').and.not.be.empty;
+    });
+  });
 
   describe('electron.webFrame.getZoomFactor()', function () {
-    it('returns information about the primary display', function () {
-      return app.electron.webFrame.setZoomFactor(4)
-        .electron.webFrame.getZoomFactor().should.eventually.be.closeTo(4, 0.1)
-    })
-  })
-})
+    it('returns information about the primary display', async function () {
+      await app.electron.webFrame.setZoomFactor(4);
+      return app.electron.webFrame
+        .getZoomFactor()
+        .should.eventually.be.closeTo(4, 0.1);
+    });
+  });
+});

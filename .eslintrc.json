@@ -1,0 +1,39 @@
+{
+  "extends": "standard",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "no-var": "error",
+    "no-unused-vars": 0,
+    "no-global-assign": 0,
+    "guard-for-in": 2,
+    "space-before-function-paren": 0,
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": false
+    }],
+    "prefer-const": ["error", {
+      "destructuring": "all"
+    }],
+    "standard/no-callback-literal": "off",
+    "node/no-deprecated-api": 0
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "overrides": [
+    {
+      "files": "*.d.ts",
+      "rules": {
+          "no-useless-constructor": "off",
+          "no-undef": "off"
+        }
+    }
+  ]
+}
